@@ -13,14 +13,18 @@
 Working in a development-based environment has managers managing resource allocation and utilization quite often, a task often made even more difficult with the work from home environment recent years have created. This could range from assigning resources to make the most of their available skills to identifying skills currently lacking in the business based on projects being attained. This interactive web application sets out to streamline these processes by effectively managing recources, streamlining the management process to increase team efficiency and project development time.
 
 <hr>
+
 ## Team Demo's
 
 <hr>
+
 ## Functional Requirements (SRS) documents
 
 <hr>
+
 ## GitHub Project Board
 https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/projects
 
 <hr>
+
 ## Members
