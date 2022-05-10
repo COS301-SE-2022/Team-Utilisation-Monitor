@@ -26,7 +26,7 @@ Working in a development-based environment has managers managing resource alloca
 https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/projects
 
 ## Wireframe in progress
-https://xd.adobe.com/view/5f607640-cd1f-4752-8d9c-f622dde0f99a-0a33/?fullscreen
+https://xd.adobe.com/view/5f607640-cd1f-4752-8d9c-f622dde0f99a-0a33/
 
 <hr>
 
