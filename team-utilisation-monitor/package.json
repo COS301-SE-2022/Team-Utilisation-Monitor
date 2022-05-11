@@ -6,6 +6,10 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "start:db": "docker compose up -d",
+    "prisma:generate": "yarn prisma generate",
+    "prisma:migrate:dev": "yarn prisma migrate dev",
+    "prisma:seed": "ts-node prisma\\seed.ts",
     "postinstall": "ngcc --properties es2015 browser module main"
   },
   "private": true,
@@ -51,6 +55,7 @@
     "@typescript-eslint/eslint-plugin": "~5.18.0",
     "@typescript-eslint/parser": "~5.18.0",
     "cypress": "^9.1.0",
+    "docker": "^1.0.0",
     "eslint": "~8.12.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
