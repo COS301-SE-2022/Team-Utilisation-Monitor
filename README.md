@@ -29,7 +29,7 @@ https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/projects
 -Standard 1
 https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 
--Stannndard 2
+-Standard 2
 https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 
 <hr>
