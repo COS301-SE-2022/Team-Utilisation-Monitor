@@ -8,7 +8,7 @@ import { EditPopupComponent } from './edit-popup/edit-popup.component';
     CommonModule,
 
     RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+      {path: '', pathMatch: 'full', component: EditPopupComponent}
     ]),
   ],
   declarations: [

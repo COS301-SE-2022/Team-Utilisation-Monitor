@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,6 +11,7 @@ export class EditPopupComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Example feature")
   }
 
 }
