@@ -1,8 +1,12 @@
 ![Banner Image](https://user-images.githubusercontent.com/94779890/166801515-c389fa13-d875-47e8-8568-c3b5c72f0270.jpg)
 
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://www.linkedin.com/in/cornelcoetzee/)
+  <!-- PROJECT SHIELDS -->
+<div align="center">
+ 
+[![codecov](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor/branch/main/graph/badge.svg?token=QOWDFJMH6S)](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor)
 
-# ICreate Software - Team Utilization Monitor
+</div>
+# ICreateSoftware - Team Utilization Monitor
 <hr>
 
 <p>
