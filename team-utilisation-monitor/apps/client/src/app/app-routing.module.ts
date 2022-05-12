@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
 
-
-
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
-})
+const routes: Routes = [
+  {
+    path: 'example',
+    loadChildren: () => import('@team-utilisation-monitor/client/example/feature').then(x => x.ClientExampleFeatureModule)
+  }
+]
+  @NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+    providers: [],
+  })
 export class AppRoutingModule { }
