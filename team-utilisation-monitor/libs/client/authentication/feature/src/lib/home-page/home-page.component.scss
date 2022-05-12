@@ -58,9 +58,10 @@ body {
 }
 
 .LoginBtn {
+    margin-top: 15px;
 	height: 40px;
 	border: 0px;
-	width:45%;
+	width: 180%;
 	font-size: 18px;
 	color: black;
 }
@@ -72,18 +73,36 @@ body {
 
 .topNav {
 	background-color: #333;
-	height: 80px;
+	height: 200px;
+    display: flex;
 }
 
-.topNav h1{
-	display: block;
-	float: center;
+.UserInformation{
 	color: white;
-	text-align: center;
-	padding: 20px 40px;
-	text-decoration: none;
-    font-size: 40px;
+    font-size: 25px;
+    text-align: left;
 }
+
+.emptyDiv{
+    height: auto;
+    width:59%;
+}
+
+.profilePicture {
+    height: 150px;
+    width: 150px;
+    margin: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+  }
+
+.userPicture {
+    height: 100px;
+    width: 100px;
+    margin: 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+  }
 
 h2{
     margin-top: 0px;
@@ -96,7 +115,7 @@ h3{
 }
 
 .ContType1 {
-	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 25%);
+	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 60%);
 }
 
 .ContType2 {
