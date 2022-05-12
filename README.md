@@ -19,7 +19,7 @@ Working in a development-based environment has managers managing resource alloca
 <hr>
 
 ## Functional Requirements (SRS) documents
-
+[SRS Document Version 1](https://docs.google.com/document/d/1iIDIxh2SteoTPrbgzRHlI_bdMbUWrS1bmyl5u7AeN0g/edit?usp=sharing)
 <hr>
 
 ## GitHub Project Board
