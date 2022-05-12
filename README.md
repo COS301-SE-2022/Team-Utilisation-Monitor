@@ -4,6 +4,8 @@
 <div align="center">
  
 [![codecov](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor/branch/main/graph/badge.svg?token=QOWDFJMH6S)](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor)
+[![Commits][commits-shield]](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/issues)
+
 
 </div>
 # ICreateSoftware - Team Utilization Monitor
