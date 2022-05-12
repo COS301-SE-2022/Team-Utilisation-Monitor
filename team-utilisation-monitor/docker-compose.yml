@@ -8,18 +8,18 @@ services:
     env_file: .env
     environment:
       POSTGRES_USER: icreatesoftware
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: data_base_1
+      POSTGRES_PASSWORD: icreatesoftware
+      POSTGRES_DB: icreatesoftware
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - postgres-data:/var/lib/postgresql/data/pgdata
     ports:
       - 5432:5432
     networks:
-      - graduates-private
+      - icreatesoftware-private
 
 volumes:
   postgres-data:
 
 networks:
-  graduates-private:
+  icreatesoftware-private:
