@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/client/authentication/feature/src",
+  "prefix": "team-utilisation-monitor",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/authentication/feature"],
+      "options": {
+        "jestConfig": "libs/client/authentication/feature/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/authentication/feature/**/*.ts",
+          "libs/client/authentication/feature/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
