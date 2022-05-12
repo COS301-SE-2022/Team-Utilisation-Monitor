@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "client": "apps/client",
+    "client-authentication-feature": "libs/client/authentication/feature",
     "client-e2e": "apps/client-e2e",
     "client-example-feature": "libs/client/example/feature"
   }

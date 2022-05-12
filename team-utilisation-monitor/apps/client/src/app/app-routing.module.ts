@@ -9,14 +9,17 @@ const routes: Routes = [
         (x) => x.ClientExampleFeatureModule
       ),
   },
-/*
+
   {
-    path: 'Login',
+    path: '',
     loadChildren: () =>
-      import('@team-utilisation-monitor/client/Authentication/feature').then(
+      import('@team-utilisation-monitor/client/authentication/feature').then(
         (x) => x.ClientAuthenticationFeatureModule
       ),
-  },*/
+  },
+
+  
+
 ]
   @NgModule({
     imports: [RouterModule.forRoot(routes)],
