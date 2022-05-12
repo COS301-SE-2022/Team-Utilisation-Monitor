@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { SignupAsComponent } from './signup-as/signup-as.component';
 
 @NgModule({
   imports: [
@@ -10,12 +11,14 @@ import { SignupComponent } from './signup/signup.component';
 
     RouterModule.forChild([
        {path: 'login_page', pathMatch: 'full', component:LoginComponent},
-       {path: 'signup_page', pathMatch: 'full', component:SignupComponent}
+       {path: 'signup_page', pathMatch: 'full', component:SignupComponent},
+       {path: 'signup_as_page', pathMatch: 'full', component:SignupAsComponent}
     ]),
   ],
   declarations: [
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    SignupAsComponent
   ],
 })
 export class ClientAuthenticationFeatureModule {}
