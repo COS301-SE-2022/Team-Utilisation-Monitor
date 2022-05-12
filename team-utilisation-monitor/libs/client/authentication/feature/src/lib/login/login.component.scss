@@ -1,7 +1,7 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
-    background-color: rgb(20, 20, 20);
+    background-color: #333;
 }
 
 .bodyStyle {
@@ -24,7 +24,6 @@ body {
 .LoginContainer {
 	flex:1;
 	height:300px;
-    width: 150px;
 	margin: 10px 20px 10px 20px;
 	border-right:6px solid rgb(243, 242, 242);
     border-bottom:6px solid rgb(243, 242, 242);
@@ -39,6 +38,12 @@ body {
 	border-right:6px solid rgb(243, 242, 242);
     border-bottom:6px solid rgb(243, 242, 242);
 	border-radius: 15px;
+}
+
+.InfoContainer p{
+	padding: 10px 20px;
+	color: white;
+	font-size: 18px;
 }
 
 .LoginField {
@@ -57,7 +62,12 @@ body {
 	border: 0px;
 	width:45%;
 	font-size: 18px;
-	color: blue;
+	color: black;
+}
+
+.LoginBtn:hover {
+	background-color: #ccc;
+	cursor: pointer;
 }
 
 .topNav {
@@ -73,8 +83,6 @@ body {
 	padding: 20px 40px;
 	text-decoration: none;
     font-size: 40px;
-	border-right:2px solid rgb(40, 40, 40);
-	border-left:2px solid rgb(40, 40, 40);
 }
 
 h2{
@@ -88,7 +96,7 @@ h3{
 }
 
 .ContType1 {
-	background: linear-gradient(135deg, blue, rgb(40, 40, 40) 20%);
+	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 25%);
 }
 
 .ContType2 {
