@@ -20,6 +20,15 @@
       ],
       "@team-utilisation-monitor/client/example/feature": [
         "libs/client/example/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/client/signup-as-company/feature": [
+        "libs/client/signup-as-company/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/client/signup-as-individual/feature": [
+        "libs/client/signup-as-individual/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/client/signup-as-team/feature": [
+        "libs/client/signup-as-team/feature/src/index.ts"
       ]
     }
   },

@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/client/signup-as-individual/feature/src",
+  "prefix": "team-utilisation-monitor",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/signup-as-individual/feature"],
+      "options": {
+        "jestConfig": "libs/client/signup-as-individual/feature/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/signup-as-individual/feature/**/*.ts",
+          "libs/client/signup-as-individual/feature/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
