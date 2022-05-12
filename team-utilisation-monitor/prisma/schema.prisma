@@ -9,3 +9,92 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Person{
+  id Int @id @default(autoincrement())
+  name String 
+  surname String
+  email String @unique
+  password String @default("password")
+  role Role? @default(USER)
+  suspended Boolean @default(false)
+  
+  
+  position Position? 
+
+  company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
+  company_id Int? 
+
+  project Project? @relation(name: "workOn",fields: [project_id],references: [id])
+  project_id Int?
+
+  skills Skills[]
+  
+  
+  @@map("person")
+
+}
+
+model Company{
+  id Int @id @default(autoincrement())
+  company_name String
+  admin_id Int?
+
+  employees Person[] @relation("worksFor")
+
+  projects Project[] @relation("ownsA")
+
+  @@map("company")
+}
+
+model Position{
+  id Int @id @default(autoincrement())
+  title String 
+
+  person Person? @relation(fields: [person_id],references: [id])
+  person_id Int?
+
+  @@map("position")
+}
+
+//a project can be worked on mutliple users
+//or a project can have many peoples.
+
+model Project{
+  id Int @id @default(autoincrement())
+  project_name String
+
+  owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id])
+  owner_id Int? //the company that owns the preoject
+
+  workers Person[] @relation("workOn")
+  
+
+  @@map("project")
+}
+
+//the same skills can be owned by multiple people
+
+model Skills{
+
+  id Int @id @default(autoincrement())
+  skill_type String
+
+  person Person @relation(fields: [person_id],references: [id])
+  person_id Int
+
+  @@map("skills")
+}
+
+
+enum Role{
+  ADMIN
+  USER
+}
+
+//flow model: A company has to be created; Then a project created, then employees 
+//who work on it
+
+
+
+
