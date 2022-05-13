@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SignupAsComponent } from './signup-as/signup-as.component';
+import {SignupAsCompanyComponent } from './signup-as-company/signup-as-company.component';
+
 import { HomePageComponent } from './home-page/home-page.component';
 
 const routes: Routes = [
@@ -24,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'signup_as_company_page',
-    component: SignupComponent
+    component: SignupAsCompanyComponent
   },
   {
     path: 'signup_as_team_page',
