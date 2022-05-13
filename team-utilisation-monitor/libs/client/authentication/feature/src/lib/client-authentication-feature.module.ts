@@ -8,20 +8,15 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { SignupAsCompanyComponent } from './signup-as-company/signup-as-company.component';
 import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-individual.component';
 import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component';
+import { AuthenticationRoutingModule } from './auth-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
 
     RouterModule.forChild([
-       {path: 'login_page', pathMatch: 'full', component:LoginComponent},
-       {path: 'signup_page', pathMatch: 'full', component:SignupComponent},
-       {path: 'signup_as_page', pathMatch: 'full', component:SignupAsComponent},
-       {path: 'home_page', pathMatch: 'full', component:HomePageComponent},
-       {path: 'signup_as_company_page', pathMatch: 'full', component:SignupAsCompanyComponent},
-       {path: 'signup_as_company_individual_page', pathMatch: 'full', component:SignupAsIndividualComponent},
-       {path: 'signup_as_company_team_page', pathMatch: 'full', component:SignupAsTeamComponent}
-    ]),
+       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
+    */]),
   ],
   declarations: [
     LoginComponent,
@@ -32,5 +27,6 @@ import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component
     SignupAsIndividualComponent,
     SignupAsTeamComponent
   ],
+  exports:[AuthenticationRoutingModule]
 })
 export class ClientAuthenticationFeatureModule {}
