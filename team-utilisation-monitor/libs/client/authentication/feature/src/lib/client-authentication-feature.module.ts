@@ -5,17 +5,15 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SignupAsComponent } from './signup-as/signup-as.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { AuthenticationRoutingModule } from './auth-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
 
     RouterModule.forChild([
-       {path: 'login_page', pathMatch: 'full', component:LoginComponent},
-       {path: 'signup_page', pathMatch: 'full', component:SignupComponent},
-       {path: 'signup_as_page', pathMatch: 'full', component:SignupAsComponent},
-       {path: 'home_page', pathMatch: 'full', component:HomePageComponent}
-    ]),
+       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
+    */]),
   ],
   declarations: [
     LoginComponent,
@@ -23,5 +21,6 @@ import { HomePageComponent } from './home-page/home-page.component';
     SignupAsComponent,
     HomePageComponent
   ],
+  exports:[AuthenticationRoutingModule]
 })
 export class ClientAuthenticationFeatureModule {}
