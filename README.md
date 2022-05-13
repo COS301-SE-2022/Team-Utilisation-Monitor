@@ -52,6 +52,7 @@ https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 
 ### Mamphasa Agape - u18105883
 Bsc Computer Science
+<br/>
 Interests: Geopolitics, Business and finance, Media and journalism, Politics
 
 Github: https://github.com/theaman249
@@ -69,6 +70,8 @@ Github: https://github.com/theaman249
 
 ### Cornel Coetzee - u20586737
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/L3m0nRoCk
 <br>
@@ -84,6 +87,8 @@ Github Link: https://github.com/L3m0nRoCk
 
 ### Faresa Thangeni - u18312374
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/thangeniFT
 <br>
@@ -99,6 +104,8 @@ Github Link: https://github.com/thangeniFT
 
 ### Gift Monwa - u18196366
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/GiftMonwa
 <br>
@@ -114,6 +121,8 @@ Github Link: https://github.com/GiftMonwa
 
 ### Rourke Amiss - u18098721
 Bsc Computer Science
+<br/>
+Interests: Artifical Intelligence, Python Development
 
 Github: https://github.com/Rourke9001
 <br>
