@@ -5,23 +5,33 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SignupAsComponent } from './signup-as/signup-as.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { SignupAsCompanyComponent } from './signup-as-company/signup-as-company.component';
+import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-individual.component';
+import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component';
+import { AuthenticationRoutingModule } from './auth-routing.module';
+import { AuthenticationService } from './Authentication.service';
 
 @NgModule({
   imports: [
     CommonModule,
 
     RouterModule.forChild([
-       {path: 'login_page', pathMatch: 'full', component:LoginComponent},
-       {path: 'signup_page', pathMatch: 'full', component:SignupComponent},
-       {path: 'signup_as_page', pathMatch: 'full', component:SignupAsComponent},
-       {path: 'home_page', pathMatch: 'full', component:HomePageComponent}
-    ]),
+       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
+    */]),
   ],
   declarations: [
     LoginComponent,
     SignupComponent,
     SignupAsComponent,
-    HomePageComponent
+    HomePageComponent,
+    SignupAsCompanyComponent,
+    SignupAsIndividualComponent,
+    SignupAsTeamComponent
   ],
+  exports:[AuthenticationRoutingModule]
 })
-export class ClientAuthenticationFeatureModule {}
+export class ClientAuthenticationFeatureModule {
+  //private service:AuthenticationService){
+    //console.log(service.addCompany());
+    //console.log(service.getUserName());
+}

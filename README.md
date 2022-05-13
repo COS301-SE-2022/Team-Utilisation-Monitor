@@ -3,7 +3,13 @@
   <!-- PROJECT SHIELDS -->
 <div align="center">
  
-[![codecov](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor/branch/main/graph/badge.svg?token=QOWDFJMH6S)](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor)
+![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
+![Security Headers](https://img.shields.io/security-headers?color=%23258ea6&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2FCOS301-SE-2022/Team-Utilisation-Monitor)
+![GitHub language count](https://img.shields.io/github/languages/count/COS301-SE-2022/Team-Utilisation-Monitor?color=%23b96ac9&style=for-the-badge)
+![GitHub contributors](https://img.shields.io/github/contributors/COS301-SE-2022/Team-Utilisation-Monitor?color=%23ff9000&style=for-the-badge)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitor?color=%23d80032&style=for-the-badge)
+
+
 
 </div>
 # ICreateSoftware - Team Utilization Monitor
@@ -23,7 +29,7 @@ Working in a development-based environment has managers managing resource alloca
 <hr>
 
 ## Functional Requirements (SRS) documents
-[SRS Document Version 1](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
+[SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
 <hr>
 
 ## GitHub Project Board
@@ -46,6 +52,7 @@ https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 
 ### Mamphasa Agape - u18105883
 Bsc Computer Science
+<br/>
 Interests: Geopolitics, Business and finance, Media and journalism, Politics
 
 Github: https://github.com/theaman249
@@ -63,6 +70,8 @@ Github: https://github.com/theaman249
 
 ### Cornel Coetzee - u20586737
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/L3m0nRoCk
 <br>
@@ -78,6 +87,8 @@ Github Link: https://github.com/L3m0nRoCk
 
 ### Faresa Thangeni - u18312374
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/thangeniFT
 <br>
@@ -93,6 +104,8 @@ Github Link: https://github.com/thangeniFT
 
 ### Gift Monwa - u18196366
 Bsc Computer Science
+<br/>
+Interests: Software Development
 
 Github Link: https://github.com/GiftMonwa
 <br>
@@ -108,6 +121,8 @@ Github Link: https://github.com/GiftMonwa
 
 ### Rourke Amiss - u18098721
 Bsc Computer Science
+<br/>
+Interests: Artifical Intelligence, Python Development
 
 Github: https://github.com/Rourke9001
 <br>
