@@ -31,8 +31,7 @@ import { AuthenticationService } from './Authentication.service';
   exports:[AuthenticationRoutingModule]
 })
 export class ClientAuthenticationFeatureModule {
-  constructor(private service:AuthenticationService){
-    console.log(service.addCompany());
-    console.log(service.getUserName());
-  }
+  //private service:AuthenticationService){
+    //console.log(service.addCompany());
+    //console.log(service.getUserName());
 }
