@@ -9,6 +9,7 @@ import { SignupAsCompanyComponent } from './signup-as-company/signup-as-company.
 import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-individual.component';
 import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component';
 import { AuthenticationRoutingModule } from './auth-routing.module';
+import { AuthenticationService } from './Authentication.service';
 
 @NgModule({
   imports: [
@@ -29,4 +30,9 @@ import { AuthenticationRoutingModule } from './auth-routing.module';
   ],
   exports:[AuthenticationRoutingModule]
 })
-export class ClientAuthenticationFeatureModule {}
+export class ClientAuthenticationFeatureModule {
+  constructor(private service:AuthenticationService){
+    console.log(service.addCompany());
+    console.log(service.getUserName());
+  }
+}
