@@ -4,7 +4,12 @@
 <div align="center">
  
 [![codecov](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor/branch/main/graph/badge.svg?token=QOWDFJMH6S)](https://codecov.io/gh/COS301-SE-2022/Team-Utilisation-Monitor)
-[![Commits][commits-shield]](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/issues)
+![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
+![Security Headers](https://img.shields.io/security-headers?color=%23258ea6&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2FCOS301-SE-2022/Team-Utilisation-Monitor)
+![GitHub language count](https://img.shields.io/github/languages/count/COS301-SE-2022/Team-Utilisation-Monitor?color=%23b96ac9&style=for-the-badge)
+![GitHub contributors](https://img.shields.io/github/contributors/COS301-SE-2022/Team-Utilisation-Monitor?color=%23ff9000&style=for-the-badge)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitor?color=%23d80032&style=for-the-badge)
+
 
 
 </div>
