@@ -19,7 +19,6 @@ model Person{
   role Role? @default(USER)
   suspended Boolean @default(false)
   
-  
   position Position? 
 
   company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
@@ -28,11 +27,29 @@ model Person{
   project Project? @relation(name: "workOn",fields: [project_id],references: [id])
   project_id Int?
 
+  team Team? @relation(name: "partOf",fields: [team_id],references: [id])
+  team_id Int?
+
   skills Skills[]
   
   
   @@map("person")
 
+}
+
+model Team{
+
+  id Int @id @default(autoincrement())
+  team_name String @default("New Team")
+
+  members Person[] @relation("partOf")
+
+  company Company? @relation(name: "memberOf",fields: [company_id],references: [id])
+  company_id Int?
+
+  project Project?
+
+  @@map("team")
 }
 
 model Company{
@@ -43,6 +60,8 @@ model Company{
   employees Person[] @relation("worksFor")
 
   projects Project[] @relation("ownsA")
+
+  teams Team[] @relation("memberOf") 
 
   @@map("company")
 }
@@ -68,6 +87,9 @@ model Project{
   owner_id Int? //the company that owns the preoject
 
   workers Person[] @relation("workOn")
+
+  team Team? @relation(fields: [team_id],references: [id])
+  team_id Int?
   
 
   @@map("project")
