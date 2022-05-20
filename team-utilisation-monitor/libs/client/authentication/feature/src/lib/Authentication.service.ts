@@ -21,8 +21,10 @@ export class AuthenticationService {
   {
     this.client.get("https://localhost:3333/api/loginDetails")
     .subscribe(data=>{
-      alert(JSON.stringify(data));
+      //alert(JSON.stringify(data));
       this.perm=data;
     });
+
+    return this.perm;
   }
 }
