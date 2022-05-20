@@ -6,42 +6,73 @@ const prisma=new PrismaClient()
 async function main()
 {
 
+  const person_1=await prisma.company.create({
 
-  const thesoftcompany= await prisma.company.create({
     data:{
-      company_name:'the Soft Company',
-      admin_id:1,
-
-      projects:{
+      company_name:'Patronas',
+      admin_id:4,
+      
+      teams:{
         create:[{
-          project_name:'project E90',
+          team_name:'synthetic Team',
 
-          workers:{
-            create:[
-              {
-                name:'Agape',
-                surname:'mamphasa',
-                email:'theaman249@gmail.com',
-                role:'ADMIN',
+          project:{
+            create:
+            {
+              project_name:'project merc',
+              workers:{
+                create:[{
+                  name:'Orifha',
+                  surname:'Mbedzi',
+                  email:'om@gmail.com',
+                  password:'code',
 
-                position:{
-                  create:{
-                    title:'ceo'
+                  position:{
+                      create:{
+                      title:'senior software developer'
+                    }
                   }
                 },
+                
+                {
+                  name:'Theo',
+                  surname:'Faresa',
+                  email:'thangeni@gmail.com',
+                  password:'food',
+      
+                position:{
+                  create:{
+                    title:'junior software developer'
+                  }
+                }},
 
-                skills:{
-                  create:[
-                    {skill_type:'java'},{skill_type:'leadership'}
-                  ]
+                {
+                  name:'Cornel',
+                  surname:'Rourke',
+                  email:'CR@gmail.com',
+                  password:'braaa',
+      
+                  position:{
+                  create:{
+                    title:'junior software developer'
+                  }
                 }
-              }
-            ]
+                }
+              
+              ]}
+            }
           }
-        }]
+        
+        }
+      ]}
+
+  
+
       }
-    }
-  })
+
+
+    })
+  
 
   
     
