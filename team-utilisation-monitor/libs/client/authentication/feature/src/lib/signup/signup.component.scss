@@ -77,12 +77,19 @@ body {
 
 .topNav h1{
 	display: block;
-	float: center;
-	color: white;
+  color: white;
 	text-align: center;
 	padding: 20px 40px;
 	text-decoration: none;
     font-size: 40px;
+}
+
+.topNav h1{
+}
+
+//noinspection CssInvalidPropertyValue
+.topNav h1{
+  float: center;
 }
 
 h2{
@@ -101,4 +108,8 @@ h3{
 
 .ContType2 {
 	background: linear-gradient(135deg, purple, rgb(48, 54, 61) 60%);
+}
+
+.btn btn-primary{
+
 }
