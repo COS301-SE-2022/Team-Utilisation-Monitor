@@ -1,72 +1,28 @@
-<!DOCTYPE html>
-<html>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-  <head>
-    <title>Signup</title>
-  </head>
+  <label for="first-name">First Name: </label>
+  <input id="first-name" type="text" formControlName="firstName">
 
-  <body>
+  <label for="last-name">Last Name: </label>
+  <input id="last-name" type="text" formControlName="lastName">
 
-    <!-- TO BE IMPLEMENTED IN THE HEADER FILE LATER-->
-    <div class="bodyStyle">
-      <nav class="topNav">
-          <h1>Team Utilization Monitor</h1>
-      </nav>
+  <div formGroupName="address">
+    <h2>Address</h2>
 
-        <div class="LoginContainer">
-        
+    <label for="street">Street: </label>
+    <input id="street" type="text" formControlName="street">
 
-        <form>
-          <div>
-              <h1>Signup</h1>
-          </div>
-      
-          <div class="form-group">
-            <label for="Email1">Email address</label>
-            <input type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Email">
-          </div><br>
-      
-          <div class="form-group">
-            <label for="Password1">Password</label>
-            <input type="password" class="form-control" id="Password1" placeholder="Password">
-          </div><br>
-      
-          <div class="form-group">
-              <label for="company">Invite link</label>
-              <input type="text" class="form-control" id="companny"placeholder="invite link">
-            </div><br>
-          
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" placeholder="Username">
-            </div><br>
-      
-          <button type="submit" class="btn btn-primary">Sign up</button>
-        </form>
-        </div><br>
+    <label for="city">City: </label>
+    <input id="city" type="text" formControlName="city">
 
-        <div class="MainContainer ContType2">
-          <div class="InfoContainer">
-              <h2>About the Project</h2>
-              <hr width="90%" size="2px">
+    <label for="state">State: </label>
+    <input id="state" type="text" formControlName="state">
 
-              <p>
-                Working in a development-based environment has managers managing resource allocation and 
-                utilization quite often, a task often made even more difficult with the work from home 
-                environment recent years have created. This could range from assigning resources to make
-                 the most of their available skills to identifying skills currently lacking in the business
-                 based on projects being attained. This interactive web application sets out to streamline
-                 these processes by effectively managing recources, streamlining the management process to 
-                 increase team efficiency and project development time.
-            </p>
+    <label for="zip">Zip Code: </label>
+    <input id="zip" type="text" formControlName="zip">
+  </div>
 
-          </div>
-        </div>
-        
-      </div>
+  <p>Complete the form to enable button.</p>
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 
-  </body>
-
-</html>
-
-
+</form>

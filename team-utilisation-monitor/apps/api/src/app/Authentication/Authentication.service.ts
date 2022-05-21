@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { UserModel } from "./User.model";
 
+
 @Injectable()
 export class AuthenticationService{
   users:UserModel[];

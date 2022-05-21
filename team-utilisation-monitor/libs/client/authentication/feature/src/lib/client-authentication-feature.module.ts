@@ -10,11 +10,14 @@ import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-in
 import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component';
 import { AuthenticationRoutingModule } from './auth-routing.module';
 import { AuthenticationService } from './Authentication.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
-
+    ReactiveFormsModule,
+    FlexLayoutModule,
     RouterModule.forChild([
        /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
     */]),

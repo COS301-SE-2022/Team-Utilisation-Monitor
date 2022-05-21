@@ -17,6 +17,11 @@ export class AuthenticationService {
     console.log(this.client.post("https://localhost:3333/api/sign_up",{'username':'Theo Thangeni','exampleInputPassword1':'HAYHSHAG','exampleInputEmail1':'masa@gmail.com'}))
   }
 
+  addUser(data:any)
+  {
+    console.log("user");
+  }
+
   getUserName()
   {
     this.client.get("https://localhost:3333/api/loginDetails")

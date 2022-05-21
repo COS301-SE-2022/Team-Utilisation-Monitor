@@ -6,6 +6,7 @@ import { SignupAsComponent } from './signup-as/signup-as.component';
 import {SignupAsCompanyComponent } from './signup-as-company/signup-as-company.component';
 
 import { HomePageComponent } from './home-page/home-page.component';
+import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-individual.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'signup_as_individual_page',
-    component: SignupComponent
+    component: SignupAsIndividualComponent
   },
   {
     path: '**',
