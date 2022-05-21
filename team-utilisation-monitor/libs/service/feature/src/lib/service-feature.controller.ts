@@ -3,12 +3,12 @@ import { ServiceFeatureService } from './service-feature.service';
 
 @Controller('service-feature')
 export class ServiceFeatureController {
-  constructor(private serviceFeatureService: ServiceFeatureService) {}
 
+  constructor(private service: ServiceFeatureService) {}
 
   @Get()
-  hello()
+  getAllPersons()
   {
-    return 'Services is working!'
+    this.service.getAllUserPerson();
   }
 }
