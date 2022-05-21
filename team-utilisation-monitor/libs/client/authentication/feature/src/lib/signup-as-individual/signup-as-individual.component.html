@@ -1,4 +1,4 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
   <label for="first-name">First Name: </label>
   <input id="first-name" type="text" formControlName="firstName">
@@ -20,9 +20,10 @@
 
     <label for="zip">Zip Code: </label>
     <input id="zip" type="text" formControlName="zip">
+
   </div>
 
   <p>Complete the form to enable button.</p>
-  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+  <button mat-button-raised type="submit" [disabled]="!profileForm.valid">Submit</button>
 
 </form>
