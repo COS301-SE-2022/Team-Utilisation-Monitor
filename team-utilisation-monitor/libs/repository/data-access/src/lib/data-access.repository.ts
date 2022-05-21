@@ -1,4 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
+
 @Injectable()
-export class DataAccessRepository {}
+export class DataAccessRepository {
+
+    
+
+}

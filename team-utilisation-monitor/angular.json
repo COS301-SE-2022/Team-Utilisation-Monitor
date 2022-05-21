@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-feature": "libs/api/feature",
+    "api-shared-data-access": "libs/api/shared/data-access",
     "client": "apps/client",
     "client-authentication-feature": "libs/client/authentication/feature",
     "client-e2e": "apps/client-e2e",
