@@ -15,6 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@team-utilisation-monitor/api/feature": [
+        "libs/api/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/api/shared/data-access": [
+        "libs/api/shared/data-access/src/index.ts"
+      ],
       "@team-utilisation-monitor/client/authentication/feature": [
         "libs/client/authentication/feature/src/index.ts"
       ],
