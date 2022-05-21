@@ -12,6 +12,7 @@
     "client-signup-as-individual-feature": "libs/client/signup-as-individual/feature",
     "client-signup-as-team-feature": "libs/client/signup-as-team/feature",
     "repository-data-access": "libs/repository/data-access",
-    "service-feature": "libs/service/feature"
+    "service-feature": "libs/service/feature",
+    "shared-services-prisma-services": "libs/shared/services/prisma-services"
   }
 }
