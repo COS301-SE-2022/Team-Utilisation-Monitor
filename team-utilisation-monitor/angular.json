@@ -8,6 +8,8 @@
     "client-example-feature": "libs/client/example/feature",
     "client-signup-as-company-feature": "libs/client/signup-as-company/feature",
     "client-signup-as-individual-feature": "libs/client/signup-as-individual/feature",
-    "client-signup-as-team-feature": "libs/client/signup-as-team/feature"
+    "client-signup-as-team-feature": "libs/client/signup-as-team/feature",
+    "repository-data-access": "libs/repository/data-access",
+    "service-feature": "libs/service/feature"
   }
 }
