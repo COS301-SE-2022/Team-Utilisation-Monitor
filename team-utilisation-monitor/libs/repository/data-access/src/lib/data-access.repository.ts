@@ -8,7 +8,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,company:string,position:string,project:string,team:string)
+    async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string)
     {
         const user_person=new UserPerson();
         
@@ -16,12 +16,14 @@ export class DataAccessRepository {
         user_person.name=name;
         user_person.surname=surname;
         user_person.email=email;
-        user_person.email=email;
+        user_person.role=role;
         user_person.password=password;
         user_person.suspended=suspended;
+        user_person.position=position;
         user_person.company_name=company;
         user_person.project_name=project;
         user_person.team_name=team;
+
 
         return user_person;
 
@@ -35,24 +37,28 @@ export class DataAccessRepository {
             include:{
                 position:true,
                 company:true,
+                project:true,
                 team:true
             }
         });
 
-        console.log(people);
-    /*    
+        const people_arr=[];
+
+        
         if(people)
         {
-            const people_arr=[];
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject())
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].password,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project[1],people[i].team.team_name));
             }
         }
         else
             console.log("Object people returned null");
-            */
+
+
+        console.log(people_arr);
+            
 
     }
     
