@@ -13,7 +13,7 @@ import { ServiceFeatureService } from './service-feature.service';
     ServiceFeatureService, 
     ...QueryHandlers,
     DataAccessRepository,
-    PrismaService,QueryBus],
+    PrismaService],
   exports: [ServiceFeatureService],
 })
 export class ServiceFeatureModule {}

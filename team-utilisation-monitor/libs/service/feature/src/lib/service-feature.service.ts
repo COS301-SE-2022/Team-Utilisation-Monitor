@@ -20,9 +20,15 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetOnePersonQuery(email));
     }
 
-    async login(email:string, password:string)
+    async login(email:string, password:string):Promise<UserPerson>
     {
         return this.queryBus.execute(new Login(email,password));
+    }
+
+    async signup(userPerson:UserPerson)
+    {
+
+        return "sign-up";
     }
 
     
