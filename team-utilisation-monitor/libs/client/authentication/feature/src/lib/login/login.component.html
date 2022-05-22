@@ -7,48 +7,60 @@
 
 	<body>
         <div class="bodyStyle">
-            <mat-toolbar color="primary">
+            <mat-toolbar color="primary" id="topNav">
                 <span>Team Utilization Monitor</span>
                 <span class="example-spacer"></span>
                 <mat-slide-toggle>Theme!</mat-slide-toggle>
             </mat-toolbar>
 
-            <mat-grid-list cols="2" rowHeight="2:1">
-                <mat-grid-tile>
-                    <mat-card class="Card_Type1">
+            <div class="cardStyle">
+                <mat-card class="Card_Type1">
                     <mat-card-title>Login</mat-card-title>
-                        <mat-card-content>
-                            <mat-divider></mat-divider>
-                            <br>
-                            <div class="example-container">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Enter your email</mat-label>
-                                    <input matInput placeholder="pat@example.com" required>
-                                </mat-form-field>
-                            </div>
+                    <mat-card-content>
+                        <mat-divider></mat-divider>
+                        <br>
+                        <div class="example-container">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Enter your email</mat-label>
+                                <input matInput placeholder="pat@example.com" required>
+                            </mat-form-field>
+                        </div>
 
-                            <div class="example-container">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Enter your Password</mat-label>
-                                    <input matInput required>
-                                </mat-form-field>
-                            </div>
+                        <div class="example-container">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Enter your Password</mat-label>
+                                <input matInput required>
+                            </mat-form-field>
+                        </div>
 
-                            <button routerLink="home_page" mat-raised-button color="primary">Login</button>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card class="Card_Type1">
-                        <mat-card-title>Sign Up</mat-card-title>
-                        <mat-card-content>
-                            <mat-divider></mat-divider>
-                            <br>
-                            <button routerLink="signup_as_page" mat-raised-button color="primary">Sign Up</button>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-            </mat-grid-list>
+                        <button routerLink="home_page" mat-raised-button color="primary">Login</button>
+                    </mat-card-content>
+                </mat-card>
+
+                <mat-card class="Card_Type1">
+                    <mat-card-title>Don't have an account?</mat-card-title>
+                    <mat-card-content>
+                        <button routerLink="signup_page" mat-raised-button color="primary">Sign Up</button>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            
+
+
+            <mat-toolbar color="primary" class="footer">
+                <mat-toolbar-row>
+                    Working in a development-based environment has managers managing resource allocation and
+                    utilization quite often, a task often made even more difficult with the work from home
+                    environment recent years have created.This could range from assigning resources to make
+                    the most of their available skills to identifying 
+                </mat-toolbar-row>
+                <mat-toolbar-row>
+                    skills currently lacking in the business
+                    based on projects being attained.This interactive web application sets out to streamline
+                    these processes by effectively managing recources, streamlining the management process to
+                    increase team efficiency and project development time.
+                </mat-toolbar-row>
+            </mat-toolbar>
         </div>
 	</body>
 </html>
