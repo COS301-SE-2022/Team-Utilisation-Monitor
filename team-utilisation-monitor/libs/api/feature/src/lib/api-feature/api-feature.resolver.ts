@@ -12,7 +12,7 @@ export class ApiFeatureResolver {
 
   @Query(() => UserPerson)
   async login(email:string,password:string){
-      const resp=this.service.login(email,password);
+      const resp=this.service.login(email, password);
       return resp;
   }
   
@@ -28,8 +28,17 @@ export class ApiFeatureResolver {
   }
 
   @Mutation((returns) => UserPerson)
-  async deleteUser(@Args('userNum', { type: () => String }) id: string) {
+  async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }
 
+
+  //Mock Object:
+  async getMock() {
+    const mockUser = new UserPerson();
+    mockUser.id = 123;
+    mockUser.name = "Rourke"
+    mockUser.email = "icreatesoftware@gmail.com"
+    return mockUser;
+  }
 }
