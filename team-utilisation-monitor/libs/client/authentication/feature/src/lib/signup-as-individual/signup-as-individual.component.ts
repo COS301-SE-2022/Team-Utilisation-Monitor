@@ -9,25 +9,36 @@ import { AuthenticationService } from '../Authentication.service';
 })
 export class SignupAsIndividualComponent implements OnInit {
 
-  //constructor(private service:AuthenticationService ) {}
+
 
   profileForm = new FormGroup({
     firstName: new FormControl('',[Validators.required]),
     lastName: new FormControl('',[Validators.required]),
     email:new FormControl('',[Validators.required,Validators.email]),
     company:new FormControl('',[Validators.required]),
-    passwordGroup: new FormGroup({
-      password: new FormControl('',[Validators.required,Validators.minLength(10)]),
-      confirmPassword: new FormControl('',[Validators.required,Validators.minLength(10)]),
+    password: new FormControl('',[Validators.required,Validators.minLength(10)]),
+    confirmPassword: new FormControl('',[Validators.required,Validators.minLength(10)]),
 
-    })
   });
 
-  Companies =["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
+  Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
+
+  constructor(private service:AuthenticationService ) {}
 
   onSubmit()
   {
-    console.log(JSON.stringify(this.profileForm.value));
+    if(this.profileForm.get('password')?.value==this.profileForm.get('confirmPassword')?.value)  //Password matches
+    {
+      //Continue with the submission
+      console.log(JSON.stringify(this.profileForm.value));
+      this.service.addUser(this.profileForm.value);
+    }
+    else
+    {
+      //Console an error message
+      console.log("Passwords not matching")
+    }
+
   }
 
   ngOnInit(): void {
