@@ -10,10 +10,11 @@ import { SignupAsIndividualComponent } from './signup-as-individual/signup-as-in
 import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component';
 import { AuthenticationRoutingModule } from './auth-routing.module';
 import { AuthenticationService } from './Authentication.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule,MatToolbarModule,
 
     RouterModule.forChild([
        /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
