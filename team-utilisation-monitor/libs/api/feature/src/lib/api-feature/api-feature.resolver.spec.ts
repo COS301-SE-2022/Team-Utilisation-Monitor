@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import { ApiFeatureResolver } from './api-feature.resolver';
 
 describe('ApiFeatureResolver', () => {
@@ -16,3 +17,8 @@ describe('ApiFeatureResolver', () => {
     expect(resolver).toBeDefined();
   });
 });
+
+const mockObject = new UserPerson()
+mockObject.id
+mockObject.name
+mockObject.email

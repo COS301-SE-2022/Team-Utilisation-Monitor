@@ -19,6 +19,7 @@ import { AuthenticationService } from './Authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCommonModule, MatOptionModule } from '@angular/material/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { MatCommonModule, MatOptionModule } from '@angular/material/core';
     MatOptionModule,
     MatInputModule,
     MatSelectModule,
+    MatToolbarModule,
     RouterModule.forChild([
        /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
     */]),

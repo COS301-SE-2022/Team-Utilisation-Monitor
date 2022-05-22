@@ -33,7 +33,7 @@ export class DataAccessRepository {
      * Returns an array of all persons on the dataBase
      */
 
-    async getAllPersons()
+    async getAllPersons():Promise<UserPerson[]>
     {
         //absolutely brilliat. The include tag includes other details i.e other dchema data
         //that might be nesglected
@@ -59,7 +59,6 @@ export class DataAccessRepository {
         }
         else
             console.log("Object people returned null");
-
 
         return people_arr; 
             
