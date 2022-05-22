@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CqrsModule } from '@nestjs/cqrs';
+import { CqrsModule, QueryBus } from '@nestjs/cqrs';
 import { DataAccessRepository } from '@team-utilisation-monitor/repository/data-access';
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services';
 import { QueryHandlers } from './queries/handlers';
@@ -13,7 +13,7 @@ import { ServiceFeatureService } from './service-feature.service';
     ServiceFeatureService, 
     ...QueryHandlers,
     DataAccessRepository,
-    PrismaService],
+    PrismaService,QueryBus],
   exports: [ServiceFeatureService],
 })
 export class ServiceFeatureModule {}
