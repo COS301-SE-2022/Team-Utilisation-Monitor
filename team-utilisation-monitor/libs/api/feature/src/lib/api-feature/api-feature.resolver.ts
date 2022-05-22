@@ -22,6 +22,13 @@ export class ApiFeatureResolver {
     return 'Hello World!';
   }
 
+  @Query(()=>[UserPerson])
+  async getAllPeople(){
+    const resp=this.service.getAllUserPerson();
+    console.log(resp);
+    return resp;
+  }
+
   @Query(() => String)
   pingUser() {
     return 'on';

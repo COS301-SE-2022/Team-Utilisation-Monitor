@@ -25,5 +25,10 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new Login(email,password));
     }
 
+    async signup(userPerson:UserPerson)
+    {
+        return "sign-up";
+    }
+
     
 }
