@@ -11,20 +11,21 @@ export class ApiFeatureResolver {
   constructor(private readonly service: ServiceFeatureService ) {}
 
   @Query(() => UserPerson)
-  async login(email:string,password:string){
-      const resp=this.service.login(email, password);
+  async login(@Args("email") email:string, @Args("password") password:string){
+      const resp=await this.service.login(email, password);
+      console.log(resp);
       return resp;
   }
   
 
   @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
+  sayHello(@Args("name") name:string){
+    return 'Hello '+name;
   }
 
   @Query(()=>[UserPerson])
   async getAllPeople(){
-    const resp=this.service.getAllUserPerson();
+    const resp=await this.service.getAllUserPerson();
     console.log(resp);
     return resp;
   }
