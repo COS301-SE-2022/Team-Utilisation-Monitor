@@ -1,8 +1,17 @@
 .Card_Type1{
-	height: 95%;
-	width: 95%;
-	margin: 15px;
-	margin-top: 55px;
+	height: auto;
+	width: 400px;
+	margin: 10px;
+}
+
+#topNav{
+	margin-bottom: 60px;
+}
+
+.cardStyle{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 
 .example-spacer {
@@ -15,4 +24,13 @@
 
 .bodyStyle {
     background-color:rgb(243, 242, 242);
+	height: 600px;
 }
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	height: 80px;
+	width: 100%;
+	font-size: 13px;
+	}
