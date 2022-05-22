@@ -41,6 +41,9 @@
       ],
       "@team-utilisation-monitor/service/feature": [
         "libs/service/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/shared/services/prisma-services": [
+        "libs/shared/services/prisma-services/src/index.ts"
       ]
     }
   },
