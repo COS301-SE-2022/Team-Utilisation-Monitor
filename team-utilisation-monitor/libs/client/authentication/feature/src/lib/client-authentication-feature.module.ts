@@ -1,6 +1,9 @@
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -15,6 +18,7 @@ import { AuthenticationRoutingModule } from './auth-routing.module';
 import { AuthenticationService } from './Authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatCommonModule, MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -24,6 +28,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatButtonModule,
     MatButtonModule,
     MatMenuModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatCommonModule,
+    MatOptionModule,
+    MatInputModule,
+    MatSelectModule,
     RouterModule.forChild([
        /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
     */]),
