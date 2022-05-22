@@ -16,8 +16,15 @@ export class ApiFeatureResolver {
         return resp;
     }
 
+    @Query(()=>[UserPerson])
+    async getAllPeople(){
+      const resp=this.service.getAllUserPerson();
+      console.log(resp);
+      return resp;
+    }
+
     @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
-  }
+    sayHello(): string {
+      return 'Hello World!';
+    }
 }
