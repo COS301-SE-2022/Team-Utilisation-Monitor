@@ -1,3 +1,3 @@
 export class GetOnePersonQuery{
-    id:string;
+    constructor(public email:string){}
 }

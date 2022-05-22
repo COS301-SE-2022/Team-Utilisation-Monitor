@@ -29,6 +29,10 @@ export class DataAccessRepository {
 
     }
 
+    /***
+     * Returns an array of all persons on the dataBase
+     */
+
     async getAllPersons()
     {
         //absolutely brilliat. The include tag includes other details i.e other dchema data
@@ -50,16 +54,42 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].password,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project[1],people[i].team.team_name));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].password,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name));
             }
         }
         else
             console.log("Object people returned null");
 
 
-        console.log(people_arr);
+        return people_arr; 
             
 
+    }
+
+    /***
+     * Returns one user via their email address.
+     */
+
+    async getOnePersonVEmail(arg_email:string)
+    {
+        const person=await this.prisma.person.findUnique({
+            where:{
+                email:arg_email,
+            },
+            include:{
+                position:true,
+                company:true,
+                project:true,
+                team:true
+            }
+        })
+
+        if(person)
+        {
+            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,person.company.company_name,person.position.title,person.project.project_name,person.team.team_name)
+        }
+        else
+            return "getOnePersonVEmail() returned null"
     }
     
 }
