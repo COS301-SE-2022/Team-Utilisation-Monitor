@@ -11,10 +11,28 @@ import { SignupAsTeamComponent } from './signup-as-team/signup-as-team.component
 import { AuthenticationRoutingModule } from './auth-routing.module';
 import { AuthenticationService } from './Authentication.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 @NgModule({
   imports: [
-    CommonModule,MatToolbarModule,
+    CommonModule,
+    MatToolbarModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDividerModule,
 
     RouterModule.forChild([
        /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
