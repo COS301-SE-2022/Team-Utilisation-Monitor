@@ -10,14 +10,16 @@ export class AuthenticationService {
 
   constructor(private client:HttpClient){}
 
-  addCompany(company:any)
+  addCompany(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    this.client.post<any>("https://localhost:3333/api",company)
+    const Query='query{signUpPerson(name:"'+firstName+'",surname:"'+lastname+'",company:"'+company+'",email:"'+email+'",password:"'+password+'"){}}';
+    this.client.post<any>("https://localhost:3333/graphql",company)
   }
 
-  addUser(data:any)
+  addUser(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    this.client.post<any>("https://localhost:3333/api", data);
+    const Query='query{signUpPerson(name:"'+firstName+'",surname:"'+lastname+'",company:"'+company+'",email:"'+email+'",password:"'+password+'"){}}';
+    this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({query:Query}));
   }
 
 }

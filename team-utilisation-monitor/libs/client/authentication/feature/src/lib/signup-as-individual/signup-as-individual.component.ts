@@ -16,8 +16,8 @@ export class SignupAsIndividualComponent implements OnInit {
     lastName: new FormControl('',[Validators.required]),
     email:new FormControl('',[Validators.required,Validators.email]),
     company:new FormControl('',[Validators.required]),
-    password: new FormControl('',[Validators.required,Validators.minLength(10)]),
-    confirmPassword: new FormControl('',[Validators.required,Validators.minLength(10)]),
+    password: new FormControl('',[Validators.required,Validators.minLength(8),Validators.pattern("")]),
+    confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8)]),
 
   });
 
@@ -30,8 +30,13 @@ export class SignupAsIndividualComponent implements OnInit {
     if(this.profileForm.get('password')?.value==this.profileForm.get('confirmPassword')?.value)  //Password matches
     {
       //Continue with the submission
-      console.log(JSON.stringify(this.profileForm.value));
-      this.service.addUser(this.profileForm.value);
+      //console.log(JSON.stringify(this.profileForm.value));
+      const firstname=this.profileForm.get('firstName')?.value;
+      const lastname=this.profileForm.get('lastName')?.value;
+      const password=this.profileForm.get('password')?.value;
+      const email=this.profileForm.get('email')?.value;
+      const company=this.profileForm.get('company')?.value;
+      this.service.addUser(firstname,lastname,company,email,password);
     }
     else
     {

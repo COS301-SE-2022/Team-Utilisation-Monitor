@@ -1,15 +1,16 @@
 <form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
-  <label for="first-name">First Name: </label>
+  <label for="first-name">Full Name: </label>
   <input id="first-name" type="text" formControlName="firstName">
+
+  <label for="last-name">Last Name: </label>
+  <input id="last-name" type="text" formControlName="lastName">
 
   <label for="company=name">Company: </label>
   <select  id="company-name" formControlName="company" placeholder="">
     <option *ngFor="let companyName of Companies" [value]="companyName">{{companyName}}</option>
   </select>
 
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName">
 
   <label for="email">Email Address: </label>
   <input id="email" type="email" formControlName="email">
@@ -25,6 +26,5 @@
 
   <p>Complete the form to enable button.</p>
   <button mat-button-raised type="submit" [disabled]="!profileForm.valid">Submit</button>
-
 
 </form>
