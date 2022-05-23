@@ -1,123 +1,62 @@
 body {
-	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
-    background-color: #333;
 }
 
-.bodyStyle {
-	margin: auto;
-	padding-bottom: 1px;
-	width: 90%;
-	justify-content: center;
-    background-color:rgb(243, 242, 242);
+.example-spacer {
+	flex: 1 1 auto;
+  }
+
+mat-sidenav-container{
+	height: 100vh;
 }
 
-.MainContainer {
-	width: 93%;
-	margin: 25px 25px;
-    display: flex;
-	height: auto;
-	border-radius: 10px;
-	padding: 20px;
+mat-sidenav{
+	width: 20%;
 }
 
-.LoginContainer {
-	flex:1;
-	height:300px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
+button{
+	margin-left: 3px;
 }
 
-.InfoContainer {
-	flex:1;
-	height:250px;
-    width: 150px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
-}
-
-.InfoContainer p{
-	padding: 10px 20px;
-	color: white;
-	font-size: 18px;
-}
-
-.LoginField {
-	padding-left: 10px;
-    padding-bottom: 20px;
-    margin: 15px;
-	font-size: 20px;
-	height: 30px;
-	width:65%;
-	border: 0px;
-	color: black;
-}
-
-.LoginBtn {
-    margin-top: 15px;
-	height: 40px;
-	border: 0px;
-	width: 180%;
-	font-size: 18px;
-	color: black;
-}
-
-.LoginBtn:hover {
-	background-color: #ccc;
-	cursor: pointer;
-}
-
-.topNav {
-	background-color: #333;
+mat-card{
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.5);
+	display: flex;
+	flex-direction: row;
+	position: relative;
 	height: 200px;
-    display: flex;
+	margin: 20px;
 }
 
-.UserInformation{
-	color: white;
-    font-size: 25px;
-    text-align: left;
+mat-card-header{
+	display: flex;
+	flex-direction: column;
+	width: 200px;
 }
 
-.emptyDiv{
-    height: auto;
-    width:59%;
+img{
+	height: 150px;
+	width: 150px;
 }
 
-.profilePicture {
-    height: 150px;
-    width: 150px;
-    margin: 25px;
-    background-color: #bbb;
-    border-radius: 50%;
-  }
-
-.userPicture {
-    height: 100px;
-    width: 100px;
-    margin: 5px;
-    background-color: #bbb;
-    border-radius: 50%;
-  }
-
-h2{
-    margin-top: 0px;
-    color: white;
+mat-card-content{
+	padding-left: 50px;
+	width: 65%;
 }
 
-h3{
-    margin-top: 0px;
-    color: white;
+mat-progress-bar{
+	height: 20px;
+	width: 100%;
 }
 
-.ContType1 {
-	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 60%);
+p{
+	margin: 0;
+	margin-top: 10px;
+	width: 100%;
+	font-size: medium;
 }
 
-.ContType2 {
-	background: linear-gradient(135deg, purple, rgb(48, 54, 61) 60%);
+mat-sidenav-content{
+	background-color: #999;
 }
