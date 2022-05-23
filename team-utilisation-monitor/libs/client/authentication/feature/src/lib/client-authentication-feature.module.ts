@@ -19,13 +19,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { ExampleComponent } from './example/example.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     MatToolbarModule,
     MatSlideToggleModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
     MatGridListModule,
@@ -35,8 +37,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDividerModule,
 
     RouterModule.forChild([
-       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
-    */]),
+      /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
+       */
+    ]),
   ],
   declarations: [
     LoginComponent,
@@ -45,12 +48,14 @@ import { MatDividerModule } from '@angular/material/divider';
     HomePageComponent,
     SignupAsCompanyComponent,
     SignupAsIndividualComponent,
-    SignupAsTeamComponent
+    SignupAsTeamComponent,
+    ExampleComponent,
   ],
-  exports:[AuthenticationRoutingModule]
+  exports: [AuthenticationRoutingModule],
 })
 export class ClientAuthenticationFeatureModule {
   //private service:AuthenticationService){
-    //console.log(service.addCompany());
-    //console.log(service.getUserName());
+  //console.log(service.addCompany());
+  //console.log(service.getUserName());
+  //
 }
