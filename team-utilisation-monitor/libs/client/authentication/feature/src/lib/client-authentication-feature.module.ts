@@ -26,6 +26,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { ExampleComponent } from './example/example.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -52,6 +54,8 @@ import { ExampleComponent } from './example/example.component';
     MatInputModule,
     MatIconModule,
     MatDividerModule,
+    MatSidenavModule,
+    MatProgressBarModule,
 
     RouterModule.forChild([
       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
