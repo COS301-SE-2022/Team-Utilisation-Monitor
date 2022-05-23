@@ -1,104 +1,36 @@
-body {
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0px;
-    background-color: #333;
+.Card_Type1{
+	height: auto;
+	width: 400px;
+	margin: 10px;
 }
+
+#topNav{
+	margin-bottom: 60px;
+}
+
+.cardStyle{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.example-spacer {
+	flex: 1 1 auto;
+  }
+
+.example-container .mat-form-field + .mat-form-field {
+	margin-left: 8px;
+  }
 
 .bodyStyle {
-	margin: auto;
-	padding-bottom: 1px;
-	width: 90%;
-	justify-content: center;
     background-color:rgb(243, 242, 242);
+	height: 600px;
 }
 
-.MainContainer {
-	width: 93%;
-	margin: 25px 25px;
-    display: flex;
-	height: auto;
-	border-radius: 10px;
-	padding: 20px;
-}
-
-.LoginContainer {
-	flex:1;
-	height:300px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
-}
-
-.InfoContainer {
-	flex:1;
-	height:250px;
-    width: 150px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
-}
-
-.InfoContainer p{
-	padding: 10px 20px;
-	color: white;
-	font-size: 18px;
-}
-
-.LoginField {
-	padding-left: 10px;
-    padding-bottom: 20px;
-    margin: 15px;
-	font-size: 20px;
-	height: 30px;
-	width:65%;
-	border: 0px;
-	color: black;
-}
-
-.LoginBtn {
-	height: 40px;
-	border: 0px;
-	width:45%;
-	font-size: 18px;
-	color: black;
-}
-
-.LoginBtn:hover {
-	background-color: #ccc;
-	cursor: pointer;
-}
-
-.topNav {
-	background-color: #333;
+.footer {
+	position: fixed;
+	bottom: 0;
 	height: 80px;
-}
-
-.topNav h1{
-	display: block;
-	float: center;
-	color: white;
-	text-align: center;
-	padding: 20px 40px;
-	text-decoration: none;
-    font-size: 40px;
-}
-
-h2{
-    margin-top: 0px;
-    color: white;
-}
-
-h3{
-    margin-top: 0px;
-    color: white;
-}
-
-.ContType1 {
-	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 25%);
-}
-
-.ContType2 {
-	background: linear-gradient(135deg, purple, rgb(48, 54, 61) 60%);
-}
+	width: 100%;
+	font-size: 13px;
+	}

@@ -20,6 +20,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCommonModule, MatOptionModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatGridListModule } from '@angular/material/grid-list';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { ExampleComponent } from './example/example.component';
 
 @NgModule({
   imports: [
@@ -36,9 +42,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatInputModule,
     MatSelectModule,
     MatToolbarModule,
+    MatToolbarModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatDividerModule,
+
     RouterModule.forChild([
-       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
-    */]),
+      /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
+       */
+    ]),
   ],
   declarations: [
     LoginComponent,
@@ -47,13 +65,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     HomePageComponent,
     SignupAsCompanyComponent,
     SignupAsIndividualComponent,
-    SignupAsTeamComponent
+    SignupAsTeamComponent,
+    ExampleComponent,
   ],
-  exports:[AuthenticationRoutingModule]
+  exports: [AuthenticationRoutingModule],
 })
 export class ClientAuthenticationFeatureModule {
   //constructor(private service:AuthenticationService){
     //console.log(service.addCompany());
-    //console.log(service.getUserName());
-  //}
+
+  //private service:AuthenticationService){
+  //console.log(service.addCompany());
+  //
 }

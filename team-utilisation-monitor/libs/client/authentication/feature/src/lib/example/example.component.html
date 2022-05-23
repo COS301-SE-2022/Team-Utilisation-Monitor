@@ -1,0 +1,11 @@
+<h1>Sample Form</h1>
+
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm.value)">
+    <label for="email">E-mail</label>
+    <input id="email" type="text" formControlName="email"><br><br>
+
+    <label for="password">Password</label>
+    <input id="password" type="text" formControlName="password"><br>
+
+    <button [disabled]="!profileForm.valid" type="submit">submit</button>
+</form>
