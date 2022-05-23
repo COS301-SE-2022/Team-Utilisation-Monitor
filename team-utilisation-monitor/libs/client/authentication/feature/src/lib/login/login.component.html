@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Today</title>
+		<title>Team Utilization Monitor</title>
 	</head>
 
 	<body>
@@ -15,32 +15,36 @@
 
             <div class="cardStyle">
                 <mat-card class="Card_Type1">
-                    <mat-card-title>Login</mat-card-title>
+                    <mat-card-title>Account Sign In</mat-card-title>
                     <mat-card-content>
+                        <br>
                         <mat-divider></mat-divider>
                         <br>
-                        <div class="example-container">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Enter your email</mat-label>
-                                <input matInput placeholder="pat@example.com" required>
-                            </mat-form-field>
-                        </div>
+                        <form>
+                            <div class="example-container">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter your email</mat-label>
+                                    <input id="login_Username" matInput placeholder="pat@example.com" required>
+                                </mat-form-field>
+                            </div>
 
-                        <div class="example-container">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Enter your Password</mat-label>
-                                <input matInput required>
-                            </mat-form-field>
-                        </div>
+                            <div class="example-container">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Enter your Password</mat-label>
+                                    <input id="login_Password" matInput required>
+                                </mat-form-field>
+                            </div>
 
-                        <button routerLink="home_page" mat-raised-button color="primary">Login</button>
+                            <button type="submit" routerLink="home_page" mat-raised-button color="primary">Sign In</button>
+                        </form>
                     </mat-card-content>
                 </mat-card>
 
                 <mat-card class="Card_Type1">
                     <mat-card-title>Don't have an account?</mat-card-title>
                     <mat-card-content>
-                        <button routerLink="signup_page" mat-raised-button color="primary">Sign Up</button>
+                        <br>
+                        <button routerLink="signup_page" mat-raised-button color="accent">Create Account</button>
                     </mat-card-content>
                 </mat-card>
             </div>

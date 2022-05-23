@@ -18,13 +18,24 @@
 	flex: 1 1 auto;
   }
 
-.example-container .mat-form-field + .mat-form-field {
-	margin-left: 8px;
+.mat-form-field {
+	font-size:medium;
+	width:350px;
   }
 
 .bodyStyle {
-    background-color:rgb(243, 242, 242);
-	height: 600px;
+    background-image: url("https://workerrelief.org/wp-content/uploads/2020/05/Contact_Desktop.jpg");
+	height: 800px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	position: relative;
+}
+
+button{
+	width: 350px;
+	height:50px;
+	font-size:medium;
 }
 
 .footer {

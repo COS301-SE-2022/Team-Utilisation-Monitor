@@ -21,6 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { ExampleComponent } from './example/example.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   imports: [
@@ -35,6 +37,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatIconModule,
     MatDividerModule,
+    MatSidenavModule,
+    MatProgressBarModule,
 
     RouterModule.forChild([
       /*{path: 'login_page', pathMatch: 'full', component:LoginComponent},
