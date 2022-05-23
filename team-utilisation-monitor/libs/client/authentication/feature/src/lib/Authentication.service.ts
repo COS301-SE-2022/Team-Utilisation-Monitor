@@ -1,28 +1,42 @@
 import { Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable} from 'rxjs';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  perm:any;
-  id="";     //The cookie value
-  array:any;
-  array2:any;
+
   constructor(private client:HttpClient){}
 
-  addCompany()
+  addCompany(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    console.log(this.client.post("https://localhost:3333/api/sign_up",{'username':'Theo Thangeni','exampleInputPassword1':'HAYHSHAG','exampleInputEmail1':'masa@gmail.com'}))
+    const Query='query{signUpPerson(name:"'+firstName+'",surname:"'+lastname+'",company:"'+company+'",email:"'+email+'",password:"'+password+'"){}}';
+    this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}))
   }
 
-  getUserName()
+  addUser(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    this.client.get("https://localhost:3333/api/loginDetails")
-    .subscribe(data=>{
-      alert(JSON.stringify(data));
-      this.perm=data;
-    });
+    const Query='query{signUpPerson(name:"'+firstName+'",surname:"'+lastname+'",company:"'+company+'",email:"'+email+'",password:"'+password+'"){}}';
+    this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}));
   }
+
+
+  login(email:string,password:string):Observable<any>
+  {
+    const query='query{login(email:"'+email+'",password:"'+password+'"){name}}';
+
+    const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+    return obj;
+
+}
+
 }
