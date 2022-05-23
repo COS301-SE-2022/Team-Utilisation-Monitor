@@ -19,7 +19,7 @@ export class ExampleComponent implements OnInit {
     password: new FormControl('')
   })
 
-  
+
 
   onSubmit(formdata: { email: string; password: string; })
   {
@@ -45,5 +45,7 @@ export class ExampleComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log()
+  }
 }

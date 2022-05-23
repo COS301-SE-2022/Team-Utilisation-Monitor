@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 <p>Team Utilisation</p>
-=======
 <!-- Cornel Coetzee, u20586737 -->
 <!DOCTYPE html>
 <html>
@@ -23,22 +21,21 @@
                         <br>
                         <mat-divider></mat-divider>
                         <br>
-                        <form>
+                        <form [formGroup]="loginForm">
                             <div class="example-container">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Enter your email</mat-label>
-                                    <input id="login_Username" matInput placeholder="pat@example.com" required>
+                                    <input id="login_Username" matInput placeholder="pat@example.com" formControlName="email">
                                 </mat-form-field>
                             </div>
 
                             <div class="example-container">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Enter your Password</mat-label>
-                                    <input id="login_Password" matInput required>
+                                    <input id="login_Password" matInput formControlName="password">
                                 </mat-form-field>
                             </div>
-
-                            <button type="submit" routerLink="home_page" mat-raised-button color="primary">Sign In</button>
+                            <button type="submit"  mat-raised-button color="primary" [disabled]="!loginForm.valid" onclick="onsubmit">Sign In</button>
                         </form>
                     </mat-card-content>
                 </mat-card>
@@ -51,7 +48,7 @@
                     </mat-card-content>
                 </mat-card>
             </div>
-            
+
 
 
             <mat-toolbar color="primary" class="footer">
@@ -59,7 +56,7 @@
                     Working in a development-based environment has managers managing resource allocation and
                     utilization quite often, a task often made even more difficult with the work from home
                     environment recent years have created.This could range from assigning resources to make
-                    the most of their available skills to identifying 
+                    the most of their available skills to identifying
                 </mat-toolbar-row>
                 <mat-toolbar-row>
                     skills currently lacking in the business
@@ -71,4 +68,3 @@
         </div>
 	</body>
 </html>
->>>>>>> bd56cb708500f37f1dc4544aa801bb295245c8fd

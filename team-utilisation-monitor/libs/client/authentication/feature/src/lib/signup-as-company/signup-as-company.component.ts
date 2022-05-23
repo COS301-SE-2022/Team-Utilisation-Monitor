@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../Authentication.service';
 
 @Component({
@@ -24,14 +25,24 @@ export class SignupAsCompanyComponent implements OnInit {
     console.log();
   }
 
+  //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
+
+  constructor(private service:AuthenticationService ,private router:Router) {}
+
   onSubmit()
   {
     if(this.profileForm.get('password')?.value==this.profileForm.get('confirmPassword')?.value)  //Password matches
     {
       //Continue with the submission
-      console.log(JSON.stringify(this.profileForm.value));
-
-      //this.service.addUser(this.profileForm.value);
+      //console.log(JSON.stringify(this.profileForm.value));
+      const firstname=this.profileForm.get('firstName')?.value;
+      const lastname=this.profileForm.get('lastName')?.value;
+      const password=this.profileForm.get('password')?.value;
+      const email=this.profileForm.get('email')?.value;
+      const company=this.profileForm.get('company')?.value;
+      this.service.addUser(firstname,lastname,company,email,password);
+      //Redirect to the login page
+      this.router.navigate(['login_page']);
     }
     else
     {
