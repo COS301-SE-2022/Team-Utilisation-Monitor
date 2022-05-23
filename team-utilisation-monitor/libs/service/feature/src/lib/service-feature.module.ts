@@ -5,6 +5,7 @@ import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-
 import { QueryHandlers } from './queries/handlers';
 import { ServiceFeatureController } from './service-feature.controller';
 import { ServiceFeatureService } from './service-feature.service';
+import { CommandHandlers } from './commands/handlers';
 
 @Module({
   imports:[CqrsModule],
@@ -12,6 +13,7 @@ import { ServiceFeatureService } from './service-feature.service';
   providers: [
     ServiceFeatureService, 
     ...QueryHandlers,
+    ...CommandHandlers,
     DataAccessRepository,
     PrismaService],
   exports: [ServiceFeatureService],
