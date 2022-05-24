@@ -1,5 +1,6 @@
 
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
+import { Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
@@ -28,6 +29,29 @@ export class ApiFeatureResolver {
     const resp=await this.service.getAllUserPerson();
     console.log(resp);
     return resp;
+  }
+
+  @Mutation(()=>UserPerson)
+  async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
+  {
+    let R:Role;
+    let sus:boolean;
+
+    if(role==="USER")
+      R=Role.USER;
+    else
+      R=Role.ADMIN;
+
+    if(suspended==="true")
+      sus=true;
+    else
+      sus=false;
+
+    const resp=await this.service.signup(name,surname,email,password,R,sus,company_name);
+
+
+    return resp;
+
   }
 
   @Query(() => String)

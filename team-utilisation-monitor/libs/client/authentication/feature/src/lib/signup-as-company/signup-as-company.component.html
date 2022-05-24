@@ -1,62 +1,28 @@
 
+<form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
-    <!-- TO BE IMPLEMENTED IN THE HEADER FILE LATER-->
-    <div class="bodyStyle">
-      <nav class="topNav">
-          <h1>Team Utilization Monitor</h1>
-      </nav>
+  <label for="company-name">Company Name: </label>
+  <input id="company-name" type="text" formControlName="companyName">
 
-        <div class="LoginContainer">
+  <h1>Admin Details</h1>
+    <label for="first-name">First Name: </label>
+    <input id="first-name" type="text" formControlName="firstName">
 
+    <label for="last-name">Last Name: </label>
+    <input id="last-name" type="text" formControlName="lastName">
 
-        <form>
-          <div>
-              <h1>Signup</h1>
-          </div>
+    <label for="email">Email Address: </label>
+    <input id="email" type="email" formControlName="email">
 
-          <div class="form-group">
-            <label for="Email1">Email address</label>
-            <input type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Email">
-          </div><br>
+      <br>
+      <label for="password">Password: </label>
+      <input id="password" type="password" formControlName="password">
 
-          <div class="form-group">
-            <label for="Password1">Password</label>
-            <input type="password" class="form-control" id="Password1" placeholder="Password">
-          </div><br>
+      <label for="confimrPassword">Confirm Password: </label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword">
 
-          <div class="form-group">
-              <label for="company">Company name</label>
-              <input type="text" class="form-control" id="companny"placeholder="Company name">
-            </div><br>
-
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" placeholder="Username">
-            </div><br>
-
-          <button type="submit" class="btn btn-primary">Sign up</button>
-        </form>
-        </div><br>
-
-        <div class="MainContainer ContType2">
-          <div class="InfoContainer">
-              <h2>About the Project</h2>
-              <hr width="90%" size="2px">
-
-              <p>
-                Working in a development-based environment has managers managing resource allocation and
-                utilization quite often, a task often made even more difficult with the work from home
-                environment recent years have created. This could range from assigning resources to make
-                 the most of their available skills to identifying skills currently lacking in the business
-                 based on projects being attained. This interactive web application sets out to streamline
-                 these processes by effectively managing recources, streamlining the management process to
-                 increase team efficiency and project development time.
-            </p>
-
-          </div>
-        </div>
-
-      </div>
+  <p>Complete the form to enable button.</p>
+  <button mat-button-raised type="submit" [disabled]="!profileForm.valid" onclick="">Submit</button>
 
 
-
+</form>

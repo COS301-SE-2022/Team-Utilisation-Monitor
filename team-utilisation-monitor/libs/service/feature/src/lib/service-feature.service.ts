@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CreatePersonCommand } from './commands/impl/create-person.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
 import { Login } from './queries/impl/login.query';
@@ -8,7 +10,7 @@ import { Login } from './queries/impl/login.query';
 @Injectable()
 export class ServiceFeatureService {
 
-    constructor(private readonly queryBus:QueryBus){}
+    constructor(private readonly queryBus:QueryBus,private readonly commandBus:CommandBus){}
 
     async getAllUserPerson():Promise<UserPerson>
     {
@@ -25,10 +27,9 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new Login(email,password));
     }
 
-    async signup(userPerson:UserPerson)
+    async signup(name:string,surname:string,email:string,password:string,role:Role,suspended:boolean,company_name:string)
     {
-
-        return "sign-up";
+        return this.commandBus.execute(new CreatePersonCommand(name,surname,email,password,role,suspended,company_name));
     }
 
     
