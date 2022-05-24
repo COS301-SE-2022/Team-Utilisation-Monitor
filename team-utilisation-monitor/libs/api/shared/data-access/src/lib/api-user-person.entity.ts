@@ -36,6 +36,18 @@ export class UserPerson{
     @Field({ nullable: true })
     team_name?:string;
 
+    @Field({ nullable: true })
+    company_id?:number;
+
+    @Field({ nullable: true })
+    project_id?:number;
+
+    @Field({ nullable: true })
+    team_id?:number;
+
+
+
+
     
 
 

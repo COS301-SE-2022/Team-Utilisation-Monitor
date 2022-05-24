@@ -1,87 +1,87 @@
 body {
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0px;
-    background-color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: #333;
 }
 
 .bodyStyle {
-	margin: auto;
-	padding-bottom: 1px;
-	width: 90%;
-	justify-content: center;
-    background-color:rgb(243, 242, 242);
+  margin: auto;
+  padding-bottom: 1px;
+  width: 90%;
+  justify-content: center;
+  background-color:rgb(243, 242, 242);
 }
 
 .MainContainer {
-	width: 93%;
-	margin: 25px 25px;
-    display: flex;
-	height: auto;
-	border-radius: 10px;
-	padding: 20px;
+  width: 93%;
+  margin: 25px 25px;
+  display: flex;
+  height: auto;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .LoginContainer {
-	flex:1;
-	height:300px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
+  flex:1;
+  height:300px;
+  margin: 10px 20px 10px 20px;
+  border-right:6px solid rgb(243, 242, 242);
+  border-bottom:6px solid rgb(243, 242, 242);
+  border-radius: 15px;
 }
 
 .InfoContainer {
-	flex:1;
-	height:250px;
-    width: 150px;
-	margin: 10px 20px 10px 20px;
-	border-right:6px solid rgb(243, 242, 242);
-    border-bottom:6px solid rgb(243, 242, 242);
-	border-radius: 15px;
+  flex:1;
+  height:250px;
+  width: 150px;
+  margin: 10px 20px 10px 20px;
+  border-right:6px solid rgb(243, 242, 242);
+  border-bottom:6px solid rgb(243, 242, 242);
+  border-radius: 15px;
 }
 
 .InfoContainer p{
-	padding: 10px 20px;
-	color: white;
-	font-size: 18px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 18px;
 }
 
 .LoginField {
-	padding-left: 10px;
-    padding-bottom: 20px;
-    margin: 15px;
-	font-size: 20px;
-	height: 30px;
-	width:65%;
-	border: 0px;
-	color: black;
+  padding-left: 10px;
+  padding-bottom: 20px;
+  margin: 15px;
+  font-size: 20px;
+  height: 30px;
+  width:65%;
+  border: 0;
+  color: black;
 }
 
 .LoginBtn {
-	height: 40px;
-	border: 0px;
-	width:45%;
-	font-size: 18px;
-	color: black;
+  height: 40px;
+  border: 0;
+  width:45%;
+  font-size: 18px;
+  color: black;
 }
 
 .LoginBtn:hover {
-	background-color: #ccc;
-	cursor: pointer;
+  background-color: #ccc;
+  cursor: pointer;
 }
 
 .topNav {
-	background-color: #333;
-	height: 80px;
+  background-color: #333;
+  height: 80px;
 }
 
 .topNav h1{
-	display: block;
+  display: block;
   color: white;
-	text-align: center;
-	padding: 20px 40px;
-	text-decoration: none;
-    font-size: 40px;
+  text-align: center;
+  padding: 20px 40px;
+  text-decoration: none;
+  font-size: 40px;
 }
 
 .topNav h1{
@@ -93,21 +93,21 @@ body {
 }
 
 h2{
-    margin-top: 0px;
-    color: white;
+  margin-top: 0;
+  color: white;
 }
 
 h3{
-    margin-top: 0px;
-    color: white;
+  margin-top: 0;
+  color: white;
 }
 
 .ContType1 {
-	background: linear-gradient(135deg, blue, rgb(48, 54, 61) 25%);
+  background: linear-gradient(135deg, blue, rgb(48, 54, 61) 25%);
 }
 
 .ContType2 {
-	background: linear-gradient(135deg, purple, rgb(48, 54, 61) 60%);
+  background: linear-gradient(135deg, purple, rgb(48, 54, 61) 60%);
 }
 
 .btn btn-primary{
