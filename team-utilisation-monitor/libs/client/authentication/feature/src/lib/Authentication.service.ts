@@ -19,8 +19,13 @@ export class AuthenticationService {
 
   addUser(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    const Query='query{signUpPerson(name:"'+firstName+'",surname:"'+lastname+'",company:"'+company+'",email:"'+email+'",password:"'+password+'"){}}';
-    this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}));
+    const Query='mutation{createPerson(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",role:"employee",suspended:"false",password:"'+password+'",company_name:"'+company+'"){name surname email role password suspended company_name}}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+        })
+    }
+    this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}),options);
   }
 
 

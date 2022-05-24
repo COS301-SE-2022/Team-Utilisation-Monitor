@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'team-utilisation-monitor-signup-as-individual',
@@ -23,7 +24,7 @@ export class SignupAsIndividualComponent implements OnInit {
 
   Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
 
-  constructor(private service:AuthenticationService ) {}
+  constructor(private service:AuthenticationService ,private router:Router) {}
 
   onSubmit()
   {
@@ -37,6 +38,8 @@ export class SignupAsIndividualComponent implements OnInit {
       const email=this.profileForm.get('email')?.value;
       const company=this.profileForm.get('company')?.value;
       this.service.addUser(firstname,lastname,company,email,password);
+      //Redirect to the login page
+      this.router.navigate(['login_page']);
     }
     else
     {
