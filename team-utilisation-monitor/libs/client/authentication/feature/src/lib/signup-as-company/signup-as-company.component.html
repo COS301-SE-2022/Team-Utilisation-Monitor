@@ -1,28 +1,78 @@
 
-<form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
+<p>Team Utilisation</p>
+<!-- Cornel Coetzee, u20586737 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Utilization Monitor</title>
+</head>
 
-  <label for="company-name">Company Name: </label>
-  <input id="company-name" type="text" formControlName="companyName">
+<body>
+<div class="bodyStyle">
+  <mat-toolbar color="primary" id="topNav">
+    <span>Team Utilization Monitor</span>
+    <span class="example-spacer"></span>
+    <mat-slide-toggle>Theme!</mat-slide-toggle>
+  </mat-toolbar>
 
-  <h1>Admin Details</h1>
-    <label for="first-name">First Name: </label>
-    <input id="first-name" type="text" formControlName="firstName">
-
-    <label for="last-name">Last Name: </label>
-    <input id="last-name" type="text" formControlName="lastName">
-
-    <label for="email">Email Address: </label>
-    <input id="email" type="email" formControlName="email">
-
-      <br>
-      <label for="password">Password: </label>
-      <input id="password" type="password" formControlName="password">
-
-      <label for="confimrPassword">Confirm Password: </label>
-      <input id="confirmPassword" type="password" formControlName="confirmPassword">
-
-  <p>Complete the form to enable button.</p>
-  <button mat-button-raised type="submit" [disabled]="!profileForm.valid" >Submit</button>
+  <div class="cardStyle">
+    <mat-card class="Card_Type1">
+      <mat-card-title>Account Sign Up</mat-card-title>
+      <mat-card-content>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
 
 
-</form>
+        <form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
+
+          <label for="company-name">Company Name: </label>
+          <input id="company-name" type="text" formControlName="companyName">
+
+          <h1>Admin Details</h1>
+          <label for="first-name">First Name: </label>
+          <input id="first-name" type="text" formControlName="firstName">
+
+          <label for="last-name">Last Name: </label>
+          <input id="last-name" type="text" formControlName="lastName">
+
+          <label for="email">Email Address: </label>
+          <input id="email" type="email" formControlName="email">
+
+          <br>
+          <label for="password">Password: </label>
+          <input id="password" type="password" formControlName="password">
+
+          <label for="confirmPassword">Confirm Password: </label>
+          <input id="confirmPassword" type="password" formControlName="confirmPassword">
+
+          <p>Complete the form to enable button.</p>
+          <button mat-button-raised color="accent" type="submit"  [disabled]="!profileForm.valid" onclick="">Submit</button>
+
+
+        </form>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+
+  <mat-toolbar color="primary" class="footer">
+    <mat-toolbar-row>
+      Working in a development-based environment has managers managing resource allocation and
+      utilization quite often, a task often made even more difficult with the work from home
+      environment recent years have created.This could range from assigning resources to make
+      the most of their available skills to identifying
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      skills currently lacking in the business
+      based on projects being attained.This interactive web application sets out to streamline
+      these processes by effectively managing recources, streamlining the management process to
+      increase team efficiency and project development time.
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+</body>
+</html>
+
