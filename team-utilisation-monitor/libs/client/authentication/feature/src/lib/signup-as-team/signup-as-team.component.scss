@@ -4,6 +4,10 @@
   margin: 10px;
 }
 
+.p{
+  color: darkblue;
+}
+
 #topNav{
   margin-bottom: 60px;
 }
@@ -12,6 +16,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: -40px;
 }
 
 .example-spacer {
@@ -19,8 +24,9 @@
 }
 
 .mat-form-field {
-  font-size:medium;
+  font-size:small;
   width:350px;
+  height:60px;
 }
 
 .bodyStyle {
@@ -45,3 +51,4 @@ button{
   width: 100%;
   font-size: 13px;
 }
+
