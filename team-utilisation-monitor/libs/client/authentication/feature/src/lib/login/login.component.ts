@@ -5,6 +5,7 @@ import {MatCardModule} from '@angular/material/card'
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  result = <unknown> Observable;
 
   loginForm = new FormGroup({
     email: new FormControl('',[Validators.required]),
@@ -27,24 +30,27 @@ export class LoginComponent implements OnInit {
     console.log();
   }
 
-onSubmit()
-{
-  if(this.loginForm.valid)
+  onSubmit(formdata: { email: string; password: string; })
   {
-    this.service.login(this.loginForm.get("email")?.value,this.loginForm.get("email")?.value).subscribe(resp=>
-      {
-        if(resp!=null) //Data was returned hence the login credentials are valid
-        {
-          //set local storage with tokens and userId
-          this.router.navigate(['home_page']);
-        }
-        else
-        {
-          console.log("Invalid login Details")
-          this.router.navigate(['']); //try again
-        }
-      })
+    console.log("In login: "+formdata);
+
+    if(this.loginForm.valid) {
+      this.result = this.service.login(formdata.email, formdata.password).subscribe({
+        next: (item) => {
+          if (item.data != null){
+            //localStorage.setItem("id", item.data.login.id);
+
+            console.log("logged In!!!");
+            console.log(item);
+
+            this.router.navigate(['home_page'], {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});
+          }else{
+            alert("Incorrect Details, Try Again!");
+          }
+        },
+      error: (err) => { console.log(err); }
+      });
+    }
   }
-}
 
 }
