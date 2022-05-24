@@ -25,40 +25,56 @@
 
         <form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
-          <label for="first-name">Full Name: </label>
-          <input id="first-name" type="text" formControlName="firstName">
 
-          <label for="last-name">Last Name: </label>
-          <input id="last-name" type="text" formControlName="lastName">
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input id="first-name" matInput  formControlName="firstName">
+            </mat-form-field>
+          </div>
 
-          <label for="company-name">Company: </label>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input id="last-name" matInput  formControlName="lastName">
+            </mat-form-field>
+          </div>
+
+
+        <!--  <label for="company-name">Company: </label>
           <select  id="company-name" formControlName="company" placeholder="">
             <option *ngFor="let companyName of Companies" [value]="companyName">{{companyName}}</option>
-          </select>
+          </select> -->
 
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Email Adress</mat-label>
+              <input id="email" matInput  placeholder="theo@example.com" formControlName="email">
+            </mat-form-field>
+          </div>
 
-          <label for="email">Email Address: </label>
-          <input id="email" type="email" formControlName="email">
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input id="password" matInput  formControlName="password">
+            </mat-form-field>
+          </div>
 
-
-          <br>
-          <label for="password">Password: </label>
-          <input id="password" type="password" formControlName="password" required="true">
-
-          <label for="confirmPassword">Confirm Password: </label>
-          <input id="confirmPassword" type="password" formControlName="confirmPassword">
-
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm Password</mat-label>
+              <input id="confirmPassword" matInput  formControlName="confirmPassword">
+            </mat-form-field>
+          </div>
 
           <p>Complete the form to enable button.</p>
-          <button mat-button-raised type="submit" [disabled]="!profileForm.valid" onsubmit="onSubmit()">Submit</button>
+          <button type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid" onsubmit="onSubmit()">Submit</button>
 
         </form>
 
       </mat-card-content>
     </mat-card>
   </div>
-
-
 
   <mat-toolbar color="primary" class="footer">
     <mat-toolbar-row>
