@@ -4,20 +4,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/api/shared/data-access/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/api/shared/data-access/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/api/shared/data-access"
-      ],
+      "outputs": ["coverage/libs/api/shared/data-access"],
       "options": {
         "jestConfig": "libs/api/shared/data-access/jest.config.ts",
         "passWithNoTests": true

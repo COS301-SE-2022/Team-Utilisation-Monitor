@@ -21,7 +21,7 @@
                         <br>
                         <mat-divider></mat-divider>
                         <br>
-                        <form [formGroup]="loginForm">
+                        <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
                             <div class="example-container">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Enter your email</mat-label>
@@ -35,7 +35,7 @@
                                     <input id="login_Password" matInput formControlName="password">
                                 </mat-form-field>
                             </div>
-                            <button type="submit"  mat-raised-button color="primary" [disabled]="!loginForm.valid" onclick="onsubmit">Sign In</button>
+                            <button type="submit"  mat-raised-button color="primary" [disabled]="!loginForm.valid" >Sign In</button>
                         </form>
                     </mat-card-content>
                 </mat-card>
@@ -44,7 +44,7 @@
                     <mat-card-title>Don't have an account?</mat-card-title>
                     <mat-card-content>
                         <br>
-                        <button routerLink="signup_page" mat-raised-button color="accent">Create Account</button>
+                        <button routerLink="signup_as_page" mat-raised-button color="accent">Create Account</button>
                     </mat-card-content>
                 </mat-card>
             </div>
