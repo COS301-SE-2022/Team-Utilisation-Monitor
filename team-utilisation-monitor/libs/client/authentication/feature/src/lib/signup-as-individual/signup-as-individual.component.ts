@@ -44,7 +44,7 @@ export class SignupAsIndividualComponent implements OnInit {
       this.service.addUser(firstname,lastname,"Geotech",email,password);
 
       //Redirect to the login page
-      this.router.navigate(['login_page']);
+      this.router.navigate(['']);
     }
     else
     {
