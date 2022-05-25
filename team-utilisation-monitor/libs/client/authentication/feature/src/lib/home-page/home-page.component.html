@@ -7,15 +7,44 @@
 
 	<body>
         <mat-sidenav-container color="primary">
-            <mat-sidenav mode="side" opened>
-                <mat-toolbar color="primary">
-                    SideNav
+            <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+            (closed)="events.push('close!')" opened>
+                <mat-toolbar color="primary" id="adHome-UserName">
+                    Agape Mamphasa
+                    <span class="example-spacer"></span>
+                    <!-- close navbar icon -->
                 </mat-toolbar>
+                
             </mat-sidenav>
 
             <mat-sidenav-content>
                 <mat-toolbar color="primary">
-                    <span>Company Name</span>
+                    <button type="button" mat-raised-button (click)="sidenav.toggle()">
+                        <mat-icon>subject</mat-icon>
+                    </button>
+                    
+                    <span id="adHome-CompanyName">University of Pretoria</span>
+                    <span class="example-spacer"></span>
+                    <div class="example-button-row">
+                        <div class="example-flex-container">
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>assignment_ind</mat-icon>
+                                </button>
+                            </div>
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>home</mat-icon>
+                                </button>
+                            </div>
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>assessment</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <span class="example-spacer"></span>
                     <button routerLink="" mat-raised-button color="accent">Sign Out</button>
                     <button mat-raised-button color="accent">Settings</button>
