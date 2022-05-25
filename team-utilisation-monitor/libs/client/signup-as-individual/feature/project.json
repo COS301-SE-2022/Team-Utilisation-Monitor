@@ -5,9 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/client/signup-as-individual/feature"
-      ],
+      "outputs": ["coverage/libs/client/signup-as-individual/feature"],
       "options": {
         "jestConfig": "libs/client/signup-as-individual/feature/jest.config.ts",
         "passWithNoTests": true

@@ -39,7 +39,7 @@ export class SignupAsIndividualComponent implements OnInit {
       const company=this.profileForm.get('company')?.value;
       this.service.addUser(firstname,lastname,company,email,password);
       //Redirect to the login page
-      this.router.navigate(['login_page']);
+      this.router.navigate(['']);
     }
     else
     {

@@ -1,13 +1,13 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/client/example/feature/src",
+  "sourceRoot": "libs/client/dashboard/feature/src",
   "prefix": "team-utilisation-monitor",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/client/example/feature"],
+      "outputs": ["coverage/libs/client/dashboard/feature"],
       "options": {
-        "jestConfig": "libs/client/example/feature/jest.config.ts",
+        "jestConfig": "libs/client/dashboard/feature/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/client/example/feature/**/*.ts",
-          "libs/client/example/feature/**/*.html"
+          "libs/client/dashboard/feature/**/*.ts",
+          "libs/client/dashboard/feature/**/*.html"
         ]
       }
     }
