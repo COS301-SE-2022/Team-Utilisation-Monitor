@@ -9,8 +9,14 @@ const routes: Routes = [
         (x) => x.ClientAuthenticationFeatureModule
       ),
   },
+  {
 
-
+    path: '',
+    loadChildren: () =>
+      import('@team-utilisation-monitor/client/admin/feature').then(
+        (x) => x.ClientAdminFeatureModule
+      ),
+  },
 
 ]
   @NgModule({
