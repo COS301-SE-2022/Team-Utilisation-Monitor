@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-company-view.component.scss'],
 })
 export class AdminCompanyViewComponent implements OnInit {
- // constructor() {}
+  // constructor() {}
+  events: string[] = [];
+  opened = true;
 
   ngOnInit(): void {
     console.log();
