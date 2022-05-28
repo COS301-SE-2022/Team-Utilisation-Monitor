@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/client/dashboard/feature/src",
+  "prefix": "team-utilisation-monitor",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/dashboard/feature"],
+      "options": {
+        "jestConfig": "libs/client/dashboard/feature/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/dashboard/feature/**/*.ts",
+          "libs/client/dashboard/feature/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

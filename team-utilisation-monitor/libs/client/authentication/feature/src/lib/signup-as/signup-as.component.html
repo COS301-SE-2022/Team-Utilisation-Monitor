@@ -1,63 +1,60 @@
 
+<p>Team Utilisation</p>
+
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Team Utilization Monitor</title>
+</head>
 
-  <head>
-    <title></title>
-  </head>
+<body>
+<div class="bodyStyle">
+  <mat-toolbar color="primary" id="topNav">
+    <span>Team Utilization Monitor</span>
+    <span class="example-spacer"></span>
+    <mat-slide-toggle>Theme!</mat-slide-toggle>
+  </mat-toolbar>
 
-  <body>
-    <div class="bodyStyle">
-      <nav class="topNav">
-          <h1>Team Utilization Monitor</h1>
-      </nav>
+  <div class="cardStyle">
+    <mat-card class="Card_Type1">
+      <mat-card-title >Account Sign Up</mat-card-title>
+      <mat-card-content>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
 
-        <div class="LoginContainer">
-            <h2>Sign Up</h2>
-            <hr width="85%" size="2px">
-            <h3>Sign Up as</h3>
+        <button routerLink="signup_as_company_page" mat-raised-button color="accent" >A company/Admin</button>
 
-            <form>
-              <div class="text">
-                  <p>Signup as</p>
-              </div>
+        <br><br>
 
-            <div class="buttons">
+        <button routerLink="signup_as_individual_page" mat-raised-button color="accent">Individual</button>
 
-              <button routerLink="signup_as_company_page" type="submit" class="btn btn-primary">A company/Admin</button>
-              <br>
+        <br><br>
 
-              <button routerLink="signup_as_individual_page" type="submit" class="btn btn-primary">Individual</button>
-              <br>
+        <button routerLink="signup_as_team_page" mat-raised-button color="accent">Team</button>
 
-              <button routerLink="signup_as_team_page" type="submit" class="btn btn-primary">Team</button>
-              <br>
-          </div>
+        <br>
 
-          </form>
-
-        </div>
-
-    </div>
-
-    <div class="MainContainer ContType2">
-      <div class="InfoContainer">
-          <h2>About the Project</h2>
-          <hr width="90%" size="2px">
-
-          <p>
-            Working in a development-based environment has managers managing resource allocation and
-            utilization quite often, a task often made even more difficult with the work from home
-            environment recent years have created. This could range from assigning resources to make
-             the most of their available skills to identifying skills currently lacking in the business
-             based on projects being attained. This interactive web application sets out to streamline
-             these processes by effectively managing recources, streamlining the management process to
-             increase team efficiency and project development time.
-        </p>
-
-      </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  </body>
 
+
+  <mat-toolbar color="primary" class="footer">
+    <mat-toolbar-row>
+      Working in a development-based environment has managers managing resource allocation and
+      utilization quite often, a task often made even more difficult with the work from home
+      environment recent years have created.This could range from assigning resources to make
+      the most of their available skills to identifying
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      skills currently lacking in the business
+      based on projects being attained.This interactive web application sets out to streamline
+      these processes by effectively managing recources, streamlining the management process to
+      increase team efficiency and project development time.
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+</body>
 </html>

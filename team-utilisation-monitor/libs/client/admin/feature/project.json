@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/client/admin/feature/src",
+  "prefix": "team-utilisation-monitor",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/client/admin/feature"],
+      "options": {
+        "jestConfig": "libs/client/admin/feature/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/client/admin/feature/**/*.ts",
+          "libs/client/admin/feature/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

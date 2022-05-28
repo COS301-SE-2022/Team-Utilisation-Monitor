@@ -2,46 +2,105 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Today</title>
+		<title>Welcome</title>
 	</head>
 
 	<body>
-        <div class="bodyStyle">
-            <nav class="topNav">
-                <div class="profilePicture"></div>
-                <p class="UserInformation">
-                    Cornel Coetzee
-                    <br>
-                    Front End Developer
-                    <br>
-                    <br>
-                    <br>
-                    University of Pretoria
-                </p>
-                <div class="emptyDiv"></div>
-                <div>
+        <mat-sidenav-container color="primary">
+            <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+            (closed)="events.push('close!')" opened>
+                <mat-toolbar color="primary" id="adHome-UserName">
+                    Agape Mamphasa
+                    <span class="example-spacer"></span>
+                    <!-- close navbar icon -->
+                </mat-toolbar>
+                
+            </mat-sidenav>
 
-                    <button class="LoginBtn" routerLink="">Log Out</button>
-                    <br>
-                    <button class="LoginBtn">Settings</button>
-                </div>
-            </nav>
+            <mat-sidenav-content>
+                <mat-toolbar color="primary">
+                    <button type="button" mat-raised-button (click)="sidenav.toggle()">
+                        <mat-icon>subject</mat-icon>
+                    </button>
+                    
+                    <span id="adHome-CompanyName">University of Pretoria</span>
+                    <span class="example-spacer"></span>
+                    <div class="example-button-row">
+                        <div class="example-flex-container">
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>assignment_ind</mat-icon>
+                                </button>
+                            </div>
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>home</mat-icon>
+                                </button>
+                            </div>
+                            <div class="example-button-container">
+                                <button mat-fab color="accent">
+                                    <mat-icon>assessment</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="MainContainer ContType1">
-                <div class="userPicture"></div>
-            </div>
+                    <span class="example-spacer"></span>
+                    <button routerLink="" mat-raised-button color="accent">Sign Out</button>
+                    <button mat-raised-button color="accent">Settings</button>
+                </mat-toolbar>
 
-            <div class="MainContainer ContType2">
-                <div class="userPicture"></div>
-            </div>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Cornel Coetzee</mat-card-title>
+                        <mat-card-subtitle>Bsc Computer Science</mat-card-subtitle>
+                        <img mat-card-avatar src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png">
+                    </mat-card-header>
 
-            <div class="MainContainer ContType1">
-                <div class="userPicture"></div>
-            </div>
+                    <mat-card-content>
+                        <p>Utilization</p>
+                        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                        <p>Time Spent Working</p>
+                        <mat-progress-bar color="accent" mode="determinate" value="88"></mat-progress-bar>
+                        <p>Available Assets</p>
+                        <mat-progress-bar color="warn" mode="determinate" value="88"></mat-progress-bar>
+                    </mat-card-content>
+                </mat-card>
 
-            <div class="MainContainer ContType2">
-                <div class="userPicture"></div>
-            </div>
-        </div>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Cornel Coetzee</mat-card-title>
+                        <mat-card-subtitle>Bsc Computer Science</mat-card-subtitle>
+                        <img mat-card-avatar src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png">
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        <p>Utilization</p>
+                        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                        <p>Time Spent Working</p>
+                        <mat-progress-bar mode="determinate" value="88"></mat-progress-bar>
+                        <p>Available Assets</p>
+                        <mat-progress-bar color="warn" mode="determinate" value="88"></mat-progress-bar>
+                    </mat-card-content>
+                </mat-card>
+
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Cornel Coetzee</mat-card-title>
+                        <mat-card-subtitle>Bsc Computer Science</mat-card-subtitle>
+                        <img mat-card-avatar src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png">
+                    </mat-card-header>
+
+                    <mat-card-content>
+                        <p>Utilization</p>
+                        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+                        <p>Time Spent Working</p>
+                        <mat-progress-bar mode="determinate" value="88"></mat-progress-bar>
+                        <p>Available Assets</p>
+                        <mat-progress-bar mode="determinate" value="88"></mat-progress-bar>
+                    </mat-card-content>
+                </mat-card>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
 	</body>
 </html>

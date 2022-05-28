@@ -54,7 +54,7 @@ model Team{
 
 model Company{
   id Int @id @default(autoincrement())
-  company_name String
+  company_name String @unique
   admin_id Int?
 
   employees Person[] @relation("worksFor")

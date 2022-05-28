@@ -21,8 +21,14 @@
       "@team-utilisation-monitor/api/shared/data-access": [
         "libs/api/shared/data-access/src/index.ts"
       ],
+      "@team-utilisation-monitor/client/admin/feature": [
+        "libs/client/admin/feature/src/index.ts"
+      ],
       "@team-utilisation-monitor/client/authentication/feature": [
         "libs/client/authentication/feature/src/index.ts"
+      ],
+      "@team-utilisation-monitor/client/dashboard/feature": [
+        "libs/client/dashboard/feature/src/index.ts"
       ],
       "@team-utilisation-monitor/client/example/feature": [
         "libs/client/example/feature/src/index.ts"

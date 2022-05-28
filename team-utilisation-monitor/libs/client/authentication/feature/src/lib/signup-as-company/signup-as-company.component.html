@@ -1,62 +1,97 @@
 
+<p>Team Utilisation</p>
+<!-- Cornel Coetzee, u20586737 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Utilization Monitor</title>
+</head>
 
-    <!-- TO BE IMPLEMENTED IN THE HEADER FILE LATER-->
-    <div class="bodyStyle">
-      <nav class="topNav">
-          <h1>Team Utilization Monitor</h1>
-      </nav>
+<body>
+<div class="bodyStyle">
+  <mat-toolbar color="primary" id="topNav">
+    <span>Team Utilization Monitor</span>
+    <span class="example-spacer"></span>
+    <mat-slide-toggle>Theme!</mat-slide-toggle>
+  </mat-toolbar>
 
-        <div class="LoginContainer">
+  <div class="cardStyle">
+    <mat-card class="Card_Type1">
+      <mat-card-title class="p">Account Sign Up</mat-card-title>
+      <mat-card-content>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
 
+        <form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
-        <form>
-          <div>
-              <h1>Signup</h1>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Company Name</mat-label>
+              <input id="company-name" matInput  formControlName="companyName">
+            </mat-form-field>
           </div>
 
-          <div class="form-group">
-            <label for="Email1">Email address</label>
-            <input type="email" class="form-control" id="Email1" aria-describedby="emailHelp" placeholder="Email">
-          </div><br>
+          <h2>Admin Details</h2>
 
-          <div class="form-group">
-            <label for="Password1">Password</label>
-            <input type="password" class="form-control" id="Password1" placeholder="Password">
-          </div><br>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input id="first-name" matInput  formControlName="firstName">
+            </mat-form-field>
+          </div>
 
-          <div class="form-group">
-              <label for="company">Company name</label>
-              <input type="text" class="form-control" id="companny"placeholder="Company name">
-            </div><br>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input id="last-name" matInput  formControlName="lastName">
+            </mat-form-field>
+          </div>
 
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" class="form-control" id="username" placeholder="Username">
-            </div><br>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Email Adress</mat-label>
+              <input id="email" matInput  placeholder="theo@example.com" formControlName="email">
+            </mat-form-field>
+          </div>
 
-          <button type="submit" class="btn btn-primary">Sign up</button>
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input id="password" matInput  formControlName="password">
+            </mat-form-field>
+          </div>
+
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm Password</mat-label>
+              <input id="confirmPassword" matInput  formControlName="confirmPassword">
+            </mat-form-field>
+          </div>
+
+          <p >Complete the form to enable button.</p>
+          <button type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid" >Submit</button>
         </form>
-        </div><br>
-
-        <div class="MainContainer ContType2">
-          <div class="InfoContainer">
-              <h2>About the Project</h2>
-              <hr width="90%" size="2px">
-
-              <p>
-                Working in a development-based environment has managers managing resource allocation and
-                utilization quite often, a task often made even more difficult with the work from home
-                environment recent years have created. This could range from assigning resources to make
-                 the most of their available skills to identifying skills currently lacking in the business
-                 based on projects being attained. This interactive web application sets out to streamline
-                 these processes by effectively managing recources, streamlining the management process to
-                 increase team efficiency and project development time.
-            </p>
-
-          </div>
-        </div>
-
-      </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
 
+  <mat-toolbar color="primary" class="footer">
+    <mat-toolbar-row>
+      Working in a development-based environment has managers managing resource allocation and
+      utilization quite often, a task often made even more difficult with the work from home
+      environment recent years have created.This could range from assigning resources to make
+      the most of their available skills to identifying
+    </mat-toolbar-row>
+    <mat-toolbar-row>
+      skills currently lacking in the business
+      based on projects being attained.This interactive web application sets out to streamline
+      these processes by effectively managing recources, streamlining the management process to
+      increase team efficiency and project development time.
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+</body>
+</html>
 
