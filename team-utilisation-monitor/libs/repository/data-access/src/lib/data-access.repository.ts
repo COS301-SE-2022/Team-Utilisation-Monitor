@@ -164,7 +164,7 @@ export class DataAccessRepository {
 
         if(company)
         {
-            return this.returnCompanyObject(company.id,company.company_name,company.admin_id);
+            return this.returnCompanyObject(company.id,company.company_name,company.id);
         }
         else
             return null; //company doesn't exist
