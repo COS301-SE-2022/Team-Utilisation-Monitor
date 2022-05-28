@@ -131,13 +131,33 @@ export class DataAccessRepository {
                 position:true,
                 company:true,
                 project:true,
-                team:true
+                team:true,
             }
         })
 
         if(person)
-        {
-            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,person.company.company_name,person.position.title,person.project.project_name,person.team.team_name,person.company_id,person.project_id,person.team_id);
+        {   
+            let local_project:string;
+            let local_company:string;
+            let local_team:string;
+
+            if(person.project==null)
+                local_project=null;
+            else
+                local_project=person.project.project_name
+            
+            if(person.company==null)
+                local_company=null;
+            else
+                local_company=person.company.company_name;
+
+            if(person.team==null)
+                local_team=null;
+            else
+                local_team=person.team.team_name;
+
+
+            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,person.position.title,local_project,local_team,person.company_id,person.project_id,person.team_id);
         }
         else
             return "getOnePersonVEmail() returned null"
