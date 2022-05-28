@@ -16,7 +16,7 @@ model Person{
   surname String
   email String @unique
   password String @default("password")
-  role Role? @default(USER)
+  role Role @default(USER)
   suspended Boolean @default(false)
   utilisation Int @default(0)
   
@@ -103,7 +103,7 @@ model Admins{
 
 model Position{
   id Int @id @default(autoincrement())
-  title String 
+  title String @default("newbie")
 
   person Person? @relation(fields: [person_id],references: [id])
   person_id Int?
