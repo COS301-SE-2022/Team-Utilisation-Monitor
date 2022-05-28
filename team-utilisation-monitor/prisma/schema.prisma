@@ -82,7 +82,7 @@ model Invites{
   company Company? @relation(fields: [company_id],references: [id])
   company_id Int?
 
-  created DateTime
+  created DateTime 
 
   expire DateTime
 
@@ -125,6 +125,8 @@ model Project{
 
   team Team? @relation(fields: [team_id],references: [id])
   team_id Int?
+
+  man_hours Int? @default(0)
   
 
   @@map("project")
