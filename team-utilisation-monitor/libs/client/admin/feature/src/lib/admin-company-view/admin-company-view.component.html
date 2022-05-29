@@ -7,8 +7,7 @@
 
 	<body>
         <mat-sidenav-container color="primary">
-            <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-            (closed)="events.push('close!')" opened>
+            <mat-sidenav #sidenav mode="side" [(opened)]="opened" opened>
                 <mat-toolbar color="primary" id="adHome-UserName">
                     Agape Mamphasa
                     <span class="example-spacer"></span>
@@ -34,9 +33,7 @@
 
                 <mat-card>
                     <mat-card-title>Owner</mat-card-title>
-                    <mat-card-content>
-                        <team-utilisation-monitor-comp-owner-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-owner-individual>
-                    </mat-card-content>
+                    <team-utilisation-monitor-comp-owner-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-owner-individual>
                 </mat-card>
 
                 <mat-card>

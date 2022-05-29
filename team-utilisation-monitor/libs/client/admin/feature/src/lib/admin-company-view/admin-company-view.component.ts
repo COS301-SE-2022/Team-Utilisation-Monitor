@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminCompanyViewComponent implements OnInit {
   // constructor() {}
-  events: string[] = [];
   opened = true;
 
   OutIndivName = "Cornel Coetzee";
