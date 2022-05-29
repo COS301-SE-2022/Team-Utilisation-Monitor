@@ -1,1 +1,3 @@
-export class GetUserIDQuery {}
+export class GetUserIDQuery {
+    constructor(public user:string){}
+}

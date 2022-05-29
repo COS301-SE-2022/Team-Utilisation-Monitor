@@ -11,3 +11,13 @@ import { GetUserIDQuery } from "../impl/get-user-id.query";
 //         return this.repository.getOnePersonVEmail(query.email);
 //     }
 // }
+
+@QueryHandler(GetUserIDQuery)
+export class GetOnePersonQueryHandler implements IQueryHandler<GetUserIDQuery>{
+
+    constructor(private readonly repository:DataAccessRepository){}
+
+    async execute(query: GetUserIDQuery): Promise<any> {
+        return this.repository.getOnePersonVEmail(query.user);
+    }
+}
