@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-company-view',
@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminCompanyViewComponent implements OnInit {
   // constructor() {}
-  opened = true;
+  boolshow = true;
 
   OutIndivName = "Cornel Coetzee";
+
+
 
   ngOnInit(): void {
     console.log();

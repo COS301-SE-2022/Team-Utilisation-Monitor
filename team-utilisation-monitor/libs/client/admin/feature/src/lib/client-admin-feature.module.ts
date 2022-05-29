@@ -23,6 +23,8 @@ import { AdminCompanyViewComponent } from './admin-company-view/admin-company-vi
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CompOwnerIndividualComponent } from './comp-owner-individual/comp-owner-individual.component';
 import { CompEmployeeIndividualComponent } from './comp-employee-individual/comp-employee-individual.component';
+import { CompNavbarComponent } from './comp-navbar/comp-navbar.component';
+import { CompAdminTopnavComponent } from './comp-admin-topnav/comp-admin-topnav.component';
 
 @NgModule({
   imports: [
@@ -57,6 +59,8 @@ import { CompEmployeeIndividualComponent } from './comp-employee-individual/comp
     AdminCompanyViewComponent,
     CompOwnerIndividualComponent,
     CompEmployeeIndividualComponent,
+    CompNavbarComponent,
+    CompAdminTopnavComponent,
   ],
   exports: [AdminRoutingModule],
 })

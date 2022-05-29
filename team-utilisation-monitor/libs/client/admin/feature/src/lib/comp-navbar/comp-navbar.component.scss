@@ -1,0 +1,27 @@
+mat-sidenav-container{
+	height: 100vh;
+}
+
+mat-sidenav{
+	width: 20%;
+}
+
+button{
+	margin-left: 3px;
+}
+
+.SideNavButton{
+    width: 95%;
+    margin:3px;
+    font-size: large;
+    height: 50px;
+}
+
+.SideNavButton:hover {
+  background-color: lightgray;
+}
+
+mat-icon{
+    margin: 5px;
+	margin-top: 1px;
+}
