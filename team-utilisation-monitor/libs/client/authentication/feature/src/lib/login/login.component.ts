@@ -32,24 +32,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(formdata: { email: string; password: string; })
   {
-
-    /*
-    this.service.login(this.loginForm.get("email")?.value,this.loginForm.get("email")?.value).subscribe(resp=>
-      {
-        if(resp!=null) //Data was returned hence the login credentials are valid
-        {
-          //set local storage with tokens and userId
-          
-          this.router.navigate(['home_page']);
-        }
-        else
-        {
-          console.log("Invalid login Details")
-          this.router.navigate(['']); //try again
-        }
-      })*/
     
-    console.log("In login: "+formdata);
+    console.log("In login function: "+formdata);
 
     if(this.loginForm.valid) {
       this.result = this.service.login(formdata.email, formdata.password).subscribe({

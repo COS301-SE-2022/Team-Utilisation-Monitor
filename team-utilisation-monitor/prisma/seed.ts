@@ -9,79 +9,88 @@ async function main()
   const person_1=await prisma.company.create({
 
     data:{
-      company_name:'Patronas',
-      admin_id:4,
-      
-      teams:{
+      company_name:'iCreateSoftware',
+      employees:
+      {
         create:[{
-          team_name:'synthetic Team',
+          name:'Theo',
+          surname:'Faresa',
+          email:'theo@gmail.com',
+          password:'code',
+          
 
-          project:{
-            create:
-            {
-              project_name:'project merc',
-              workers:{
-                create:[{
-                  name:'Orifha',
-                  surname:'Mbedzi',
-                  email:'om@gmail.com',
-                  password:'code',
-
-                  position:{
-                      create:{
-                      title:'senior software developer'
-                    }
-                  }
-                },
-                
-                {
-                  name:'Theo',
-                  surname:'Faresa',
-                  email:'thangeni@gmail.com',
-                  password:'food',
-      
-                position:{
-                  create:{
-                    title:'junior software developer'
-                  }
-                }},
-
-                {
-                  name:'Cornel',
-                  surname:'Rourke',
-                  email:'CR@gmail.com',
-                  password:'braaa',
-      
-                  position:{
-                  create:{
-                    title:'junior software developer'
-                  }
-                }
-                }
-              
-              ]}
+          position:{
+              create:{
+              title:'senior software developer'
             }
           }
+        },
         
+        {
+          name:'Gift',
+          surname:'Monwa',
+          email:'gift@gmail.com',
+          password:'food',
+          role:'ADMIN',
+
+        position:{
+          create:{
+            title:'junior software developer'
+          }
+        }},
+        {
+          name:'Max',
+          surname:'Verstappen',
+          email:'max@gmail.com',
+          password:'p1',
+          role:'USER',
+
+          position:{
+          create:{
+            title:'junior software developer'
+          }
         }
-      ]}
+      }]
+    },
 
-  
-
-      }
-
-
-    })
-  
-
-  
+    admins:{
+     create:{
+       person:{
+        create:[
+          {
+              name:'Checo',
+              surname:'Perez',
+              email:'checo@gmail.com',
+              password:'mexico',
+              role:'ADMIN',
+              company_id:1,
     
-
+              position:{
+              create:{
+                title:'Administrator'
+              } 
+            }
+          },
+          {
+            name:'Christian',
+            surname:'Horner',
+            email:'RB@gmail.com',
+            password:'theworldchampion',
+            role:'ADMIN',
+            company_id:1,
     
+            position:{
+            create:{
+              title:'Administrator'
+            } 
+          }
+        }]
+       }
+     }
+    }
 
-   
-
-    
+  }
+})
 }
 
 main()
