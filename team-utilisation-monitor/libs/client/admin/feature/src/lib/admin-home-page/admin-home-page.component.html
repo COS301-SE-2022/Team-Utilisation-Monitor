@@ -1,11 +1,5 @@
 <!-- Cornel Coetzee, u20586737 -->
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Welcome</title>
-	</head>
 
-	<body>
         <mat-sidenav-container color="primary">
             <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
             (closed)="events.push('close!')" opened>
@@ -24,7 +18,7 @@
                     <button type="button" mat-raised-button (click)="sidenav.toggle()">
                         <mat-icon>subject</mat-icon>
                     </button>
-                    
+
                     <span id="adHome-CompanyName">University of Pretoria</span>
                     <span class="example-spacer"></span>
 
@@ -32,8 +26,9 @@
                     <button mat-raised-button color="accent">Settings</button>
                 </mat-toolbar>
 
-                
+                <team-utilisation-monitor-admin-list-view></team-utilisation-monitor-admin-list-view>
+
+
             </mat-sidenav-content>
         </mat-sidenav-container>
-	</body>
-</html>
+
