@@ -1,3 +1,3 @@
 export class GetUserIDQuery {
-    constructor(public user:string){}
+    constructor(public email:string){}
 }
