@@ -10,6 +10,8 @@ export class AdminCompanyViewComponent implements OnInit {
   events: string[] = [];
   opened = true;
 
+  OutIndivName = "Cornel Coetzee";
+
   ngOnInit(): void {
     console.log();
   }
