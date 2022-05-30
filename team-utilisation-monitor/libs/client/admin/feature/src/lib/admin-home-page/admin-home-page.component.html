@@ -7,6 +7,34 @@
         <mat-sidenav-content>
             <!-- boolshow is a var used for toggeling navbar open and closed -->
             <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
+
+            <mat-grid-list cols="4" rowHeight="2:1">
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of active Emplyees</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display % utilization of the company</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of open and completed projects</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of teams</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile colspan="4" rowspan="3">
+                    <mat-card class="graphCard">
+                        <mat-card-content >Graph of company utilization over time</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+            </mat-grid-list>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </body>
