@@ -1,6 +1,4 @@
 
-<p>Team Utilisation</p>
-<!-- Cornel Coetzee, u20586737 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +48,7 @@
 
           <div class="example-container">
             <mat-form-field appearance="outline">
-              <mat-label>Email Adress</mat-label>
+              <mat-label>Email Address</mat-label>
               <input id="email" matInput  placeholder="theo@example.com" formControlName="email">
             </mat-form-field>
           </div>
@@ -70,7 +68,7 @@
           </div>
 
           <p >Complete the form to enable button.</p>
-          <button type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid" >Submit</button>
+          <button (click)="onSubmit()" type="submit" mat-raised-button color="primary" [disabled]="!profileForm.valid" >Submit</button>
         </form>
       </mat-card-content>
     </mat-card>
