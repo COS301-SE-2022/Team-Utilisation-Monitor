@@ -21,6 +21,11 @@ import { AdminListViewComponent } from './admin-list-view/admin-list-view.compon
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { AdminCompanyViewComponent } from './admin-company-view/admin-company-view.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CompOwnerIndividualComponent } from './comp-owner-individual/comp-owner-individual.component';
+import { CompEmployeeIndividualComponent } from './comp-employee-individual/comp-employee-individual.component';
+import { CompNavbarComponent } from './comp-navbar/comp-navbar.component';
+import { CompAdminTopnavComponent } from './comp-admin-topnav/comp-admin-topnav.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -46,16 +51,19 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatDividerModule,
     MatSidenavModule,
     MatProgressBarModule,
-    RouterModule.forChild([
-
-    ]),
+    MatExpansionModule,
+    RouterModule.forChild([]),
   ],
 
   declarations: [
     AdminListViewComponent,
     AdminHomePageComponent,
-    AdminCompanyViewComponent
+    AdminCompanyViewComponent,
+    CompOwnerIndividualComponent,
+    CompEmployeeIndividualComponent,
+    CompNavbarComponent,
+    CompAdminTopnavComponent,
   ],
-  exports:[AdminRoutingModule],
+  exports: [AdminRoutingModule],
 })
 export class ClientAdminFeatureModule {}
