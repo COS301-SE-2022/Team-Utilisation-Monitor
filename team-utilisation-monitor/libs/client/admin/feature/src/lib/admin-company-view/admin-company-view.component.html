@@ -13,21 +13,31 @@
                 <team-utilisation-monitor-comp-owner-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-owner-individual>
             </mat-card>
 
-            <mat-card>
-                <mat-card-title>Admins</mat-card-title>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-            </mat-card>
-
-            <mat-card>
-                <mat-card-title>Emplyees</mat-card-title>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-                <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
-            </mat-card>
+            <mat-accordion multi>
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                    <mat-expansion-panel-header><mat-panel-title>
+                            Admins
+                    </mat-panel-title></mat-expansion-panel-header>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                </mat-expansion-panel>
+ 
+                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                    <mat-expansion-panel-header><mat-panel-title>
+                            Emplyees
+                    </mat-panel-title></mat-expansion-panel-header>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                    <team-utilisation-monitor-comp-employee-individual [IndivName]="OutIndivName"></team-utilisation-monitor-comp-employee-individual>
+                </mat-expansion-panel>
+            </mat-accordion>
         </mat-sidenav-content>
     </mat-sidenav-container>
+
+
 </body>

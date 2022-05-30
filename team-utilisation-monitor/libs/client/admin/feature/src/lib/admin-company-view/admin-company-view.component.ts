@@ -8,10 +8,8 @@ import { Component, OnInit} from '@angular/core';
 export class AdminCompanyViewComponent implements OnInit {
   // constructor() {}
   boolshow = true;
-
   OutIndivName = "Cornel Coetzee";
-
-
+  panelOpenState = true;
 
   ngOnInit(): void {
     console.log();

@@ -25,6 +25,7 @@ import { CompOwnerIndividualComponent } from './comp-owner-individual/comp-owner
 import { CompEmployeeIndividualComponent } from './comp-employee-individual/comp-employee-individual.component';
 import { CompNavbarComponent } from './comp-navbar/comp-navbar.component';
 import { CompAdminTopnavComponent } from './comp-admin-topnav/comp-admin-topnav.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { CompAdminTopnavComponent } from './comp-admin-topnav/comp-admin-topnav.
     MatDividerModule,
     MatSidenavModule,
     MatProgressBarModule,
+    MatExpansionModule,
     RouterModule.forChild([]),
   ],
 
