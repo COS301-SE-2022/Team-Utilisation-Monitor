@@ -19,37 +19,13 @@ button{
 }
 
 mat-card{
-	background: #fff;
 	border-radius: 4px;
 	box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.5);
-	margin: 20px;
-}
-
-mat-progress-bar{
-	height: 20px;
-	width: 100%;
-}
-
-p{
-	margin: 0;
-	margin-top: 10px;
-	width: 100%;
-	font-size: medium;
+	margin: 16px;
 }
 
 #adHome-CompanyName{
 	margin-left: 15px;
-}
-
-.SideNavButton{
-    width: 95%;
-    margin:3px;
-    font-size: large;
-    height: 50px;
-}
-
-.SideNavButton:hover {
-  background-color: lightgray;
 }
 
 mat-icon{
@@ -57,31 +33,10 @@ mat-icon{
 	margin-top: 1px;
 }
 
-.InvdividualBox{
+mat-panel-title{
 	font-size: large;
-	display: flex;
-	height: 15px;
+}
+
+mat-expansion-panel{
 	margin: 16px;
 }
-
-.Mat-Individual{
-	margin: 5px;
-
-	padding: 0px;
-	padding-top: 5px;
-	height: 40px;
-}
-
-mat-card-content{
-	margin: 5px;
-
-}
-
-.InvdividualButton{
-	height: 34px;
-}
-
-.InvdividualName{
-	padding-top: 7px;
-}
-

@@ -7,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminListViewComponent implements OnInit {
   //constructor() {}
-  events: string[] = [];
-  opened = true;
+  boolshow = true;
   
   ngOnInit(): void {
     console.log();
