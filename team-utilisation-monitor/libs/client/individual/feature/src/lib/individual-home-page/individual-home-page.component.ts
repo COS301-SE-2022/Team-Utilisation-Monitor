@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndividualHomePageComponent implements OnInit {
 
-  constructor() { }
+
+  events: string[] = [];
+  opened = true;
 
   ngOnInit(): void {
+    console.log();
   }
 
 }
