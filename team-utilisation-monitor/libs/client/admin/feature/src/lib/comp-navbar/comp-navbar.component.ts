@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompNavbarComponent implements OnInit {
   //constructor() {} 
-  
+  adminName = "Agape Mamphasa";
+
+
   ngOnInit(): void {
     console.log()
   }
