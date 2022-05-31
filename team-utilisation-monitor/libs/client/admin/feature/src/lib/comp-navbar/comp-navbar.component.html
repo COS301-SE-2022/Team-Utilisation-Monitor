@@ -7,3 +7,13 @@
 <button class="SideNavButton" routerLink="/AdminListView" mat-button><mat-icon>assignment_ind</mat-icon>List View</button>
 <button class="SideNavButton" routerLink="/AdminCompanyView" mat-button><mat-icon>assessment</mat-icon>Company View</button>
 
+<mat-accordion>
+    <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false" expanded>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Requested Users
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button class="userRequestButton" mat-button>Add User <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
+    </mat-expansion-panel>
+</mat-accordion>

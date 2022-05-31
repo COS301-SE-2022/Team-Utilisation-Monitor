@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class CompNavbarComponent implements OnInit {
   //constructor() {} 
   adminName = "Agape Mamphasa";
-
+  requestOpenState = true;
 
   ngOnInit(): void {
     console.log()
