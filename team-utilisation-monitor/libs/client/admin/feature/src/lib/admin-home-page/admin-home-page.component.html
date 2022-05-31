@@ -1,43 +1,40 @@
-<!-- Cornel Coetzee, u20586737 -->
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>Welcome</title>
-	</head>
+<body>
+    <mat-sidenav-container color="primary">
+        <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+            <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
+        </mat-sidenav>
 
-	<body>
-        <mat-sidenav-container color="primary">
-            <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-            (closed)="events.push('close!')" opened>
-                <mat-toolbar color="primary" id="adHome-UserName">
-                    Agape Mamphasa
-                    <span class="example-spacer"></span>
-                    <!-- close navbar icon -->
-                </mat-toolbar>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>home</mat-icon>Home Page</button>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assignment_ind</mat-icon>List View</button>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assessment</mat-icon>Company View</button>
-            </mat-sidenav>
+        <mat-sidenav-content>
+            <!-- boolshow is a var used for toggeling navbar open and closed -->
+            <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-            <mat-sidenav-content>
-                <mat-toolbar color="primary">
-                    <button type="button" mat-raised-button (click)="sidenav.toggle()">
-                        <mat-icon>subject</mat-icon>
-                    </button>
-
-                    <span id="adHome-CompanyName">University of Pretoria</span>
-                    <span class="example-spacer"></span>
-
-                    <button routerLink="" mat-raised-button color="accent">Sign Out</button>
-                    <button mat-raised-button color="accent">Settings</button>
-                </mat-toolbar>
-
-
-            </mat-sidenav-content>
-        </mat-sidenav-container>
-	</body>
-</html>
+            <mat-grid-list cols="4" rowHeight="2:1">
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of active Emplyees</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display % utilization of the company</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of open and completed projects</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card>
+                        <mat-card-content>Card that will display Nr of teams</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+                <mat-grid-tile colspan="4" rowspan="3">
+                    <mat-card class="graphCard">
+                        <mat-card-content >Graph of company utilization over time</mat-card-content>
+                    </mat-card>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</body>

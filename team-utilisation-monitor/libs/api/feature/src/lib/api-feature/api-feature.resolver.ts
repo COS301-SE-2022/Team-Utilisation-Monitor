@@ -17,6 +17,18 @@ export class ApiFeatureResolver {
       console.log(resp);
       return resp;
   }
+
+  @Query((returns) => UserPerson, { name: 'name' })
+  async getUser(@Args('userId', { type: () => String }) userId: string) {
+    let id;
+    if (userId == '123') id = '1';
+    else id = null;
+
+    const userObj = new UserPerson();
+    userObj.id = id;
+
+    return userObj;
+  }
   
 
   @Query(() => String)
@@ -68,7 +80,7 @@ export class ApiFeatureResolver {
   //Mock Object:
   async getMock() {
     const mockUser = new UserPerson();
-    mockUser.id = 123;
+    mockUser.id = -1;
     mockUser.name = "Rourke"
     mockUser.email = "icreatesoftware@gmail.com"
     return mockUser;

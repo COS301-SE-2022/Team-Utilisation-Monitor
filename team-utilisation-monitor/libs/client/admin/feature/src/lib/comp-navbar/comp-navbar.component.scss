@@ -1,0 +1,16 @@
+.SideNavButton{
+    width: 95%;
+    margin:3px;
+    font-size: large;
+    height: 50px;
+    background-color:rgb(251, 251, 251); ;
+}
+
+.SideNavButton:hover {
+  color: rgb(41, 80, 152);
+}
+
+mat-icon{
+  margin: 5px;
+	margin-top: 1px;
+}
