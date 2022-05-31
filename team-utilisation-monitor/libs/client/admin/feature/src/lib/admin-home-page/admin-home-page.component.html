@@ -17,9 +17,8 @@
                             <hr>
                             <mat-grid-list cols="2">
                                 <mat-grid-tile><mat-icon>account_box</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>109</h1></mat-grid-tile>
+                                <mat-grid-tile><h1>{{nrOfEmployees}}</h1></mat-grid-tile>
                             </mat-grid-list>
-                            
                         </mat-card-content>
                     </mat-card>
                 </mat-grid-tile>
@@ -30,7 +29,7 @@
                            <hr>
                            <mat-grid-list cols="2">
                                 <mat-grid-tile><mat-icon>rocket_launch</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>82%</h1></mat-grid-tile>
+                                <mat-grid-tile><h1>{{utilizationPersentage}}%</h1></mat-grid-tile>
                             </mat-grid-list>
                         </mat-card-content>
                     </mat-card>
@@ -42,7 +41,7 @@
                             <hr>
                             <mat-grid-list cols="2">
                                 <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>43/99</h1></mat-grid-tile>
+                                <mat-grid-tile><h1>{{nrOfOpenProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
                             </mat-grid-list>
                          </mat-card-content>
                     </mat-card>
@@ -54,7 +53,7 @@
                             <hr>
                             <mat-grid-list cols="2">
                                 <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>22</h1></mat-grid-tile>
+                                <mat-grid-tile><h1>{{nrOfTeams}}</h1></mat-grid-tile>
                             </mat-grid-list>
                         </mat-card-content>
                     </mat-card>
