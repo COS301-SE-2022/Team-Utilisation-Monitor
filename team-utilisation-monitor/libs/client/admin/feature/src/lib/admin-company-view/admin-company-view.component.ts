@@ -8,7 +8,20 @@ import { Component, OnInit} from '@angular/core';
 export class AdminCompanyViewComponent implements OnInit {
   // constructor() {}
   boolshow = true;
-  OutIndivName = "Cornel Coetzee";
+  Name = "User's Name";
+  OutOwnerName = "Agape Mamphasa";
+  OutAdminNames = [{Name: "Cornel Coetzee"},
+                  {Name: "Gift Monwa"},
+                  {Name: "Rourke Amiss"},
+                  {Name: "Agape Mamphasa"},
+                ];
+  
+  OutEmployeeName = [{Name: "Mr Cornel Coetzee"},
+                    {Name: "Mr Gift Monwa"},
+                    {Name: "Mr Rourke Amiss"},
+                    {Name: "Mr Agape Mamphasa"},
+                    {Name: "Mr Agape Mamphasa"},
+                  ];              
   panelOpenState = true;
 
   ngOnInit(): void {
