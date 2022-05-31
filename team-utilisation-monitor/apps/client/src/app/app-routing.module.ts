@@ -17,6 +17,14 @@ const routes: Routes = [
         (x) => x.ClientAdminFeatureModule
       ),
   },
+  {
+
+    path: '',
+    loadChildren: () =>
+      import('@team-utilisation-monitor/client/shared/feature').then(
+        (x) => x.ClientSharedFeatureModule
+      ),
+  },
 
 ]
   @NgModule({

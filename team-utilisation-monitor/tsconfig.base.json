@@ -33,6 +33,9 @@
       "@team-utilisation-monitor/client/example/feature": [
         "libs/client/example/feature/src/index.ts"
       ],
+      "@team-utilisation-monitor/client/shared/feature": [
+        "libs/client/shared/feature/src/index.ts"
+      ],
       "@team-utilisation-monitor/client/signup-as-company/feature": [
         "libs/client/signup-as-company/feature/src/index.ts"
       ],
