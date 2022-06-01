@@ -38,7 +38,7 @@ Working in a development-based environment has managers managing resource alloca
    -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
    -   [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
    -   [UI styled wireframe](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
-   -   [demo1 video recording missing]
+   -   [demo1 video recording missing](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
   
   #### Demo 2
      - 
