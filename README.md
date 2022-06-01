@@ -1,3 +1,7 @@
+
+   # ICreateSoftware - Team Utilization Monitor
+
+
 ![Banner Image](https://user-images.githubusercontent.com/94779890/166801515-c389fa13-d875-47e8-8568-c3b5c72f0270.jpg)
 
   <!-- PROJECT SHIELDS -->
@@ -8,39 +12,49 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/COS301-SE-2022/Team-Utilisation-Monitor?color=%23b96ac9&style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/COS301-SE-2022/Team-Utilisation-Monitor?color=%23ff9000&style=for-the-badge)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitor?color=%23d80032&style=for-the-badge)
-
-
+   ![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
+  
 
 </div>
-# ICreateSoftware - Team Utilization Monitor
-<hr>
+<br>
+<div align="center">
+  
+   Description 
+  
+  </div>
+
 
 <p>
   <img width="300" height="220" align='left' src="https://user-images.githubusercontent.com/94779890/166801809-9087731b-07a8-4bc6-977a-771ba46db29a.jpg">
 </p>
+<hr>
 
-## Discription
 Working in a development-based environment has managers managing resource allocation and utilization quite often, a task often made even more difficult with the work from home environment recent years have created. This could range from assigning resources to make the most of their available skills to identifying skills currently lacking in the business based on projects being attained. This interactive web application sets out to streamline these processes by effectively managing recources, streamlining the management process to increase team efficiency and project development time.
 
 <hr>
 
-## Team Demo's
+## Team's Demos
+  #### Demo 1
+   -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
+   -   [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
+   -   [UI styled wireframe](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
+   -   [demo1 video recording missing]
+  
+  #### Demo 2
+     - 
+  
+  #### Demo 3
+    -
+    
+  #### Demo 4
+    -
 
-<hr>
+<br>
 
-## Functional Requirements (SRS) documents
-[SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
-<hr>
 
 ## GitHub Project Board
-https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/projects
+ - [Github Project Board](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/projects)
 
-## Wireframe in progress
--Standard 1
-https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
-
--Standard 2
-https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 
 <hr>
 
@@ -51,16 +65,15 @@ https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen
 </p>
 
 ### Mamphasa Agape - u18105883
-Bsc Computer Science
-<br/>
-Interests: Geopolitics, Business and finance, Media and journalism, Politics
+##### Bsc Computer Science
 
-Github: https://github.com/theaman249
-<br>
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://www.linkedin.com/in/agape-mamphasa-9675081b4/) - Linked In
+##### Interests: Geopolitics, Business and finance, Media and journalism, Politics
 
-<br>
-<br>
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/agape-mamphasa-9675081b4/) 
+  
+[<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/theaman249) 
+
+
 <br>
 <br>
 
@@ -69,15 +82,15 @@ Github: https://github.com/theaman249
 </p>
 
 ### Cornel Coetzee - u20586737
-Bsc Computer Science
-<br/>
-Interests: Software Development
+ #### Bsc Computer Science
 
-Github Link: https://github.com/L3m0nRoCk
-<br>
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://www.linkedin.com/in/cornelcoetzee/) - Linked In
+##### Interests: Software Development
 
-<br>
+[<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/cornelcoetzee/)
+
+[<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/L3m0nRoCk)
+
+
 <br>
 <br>
 
@@ -86,15 +99,15 @@ Github Link: https://github.com/L3m0nRoCk
 </p>
 
 ### Faresa Thangeni - u18312374
-Bsc Computer Science
-<br/>
-Interests: Software Development
+  #### Bsc Computer Science
 
-Github Link: https://github.com/thangeniFT
-<br>
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://linkedin.com/in/faresa-thangeni-878991211) - Linked In
+  ##### Interests: Software Development, Penetration Testing| Security
+  
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://linkedin.com/in/faresa-thangeni-878991211)
+  
+  [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/thangeniFT)
+ 
 
-<br>
 <br>
 <br>
 
@@ -103,15 +116,15 @@ Github Link: https://github.com/thangeniFT
 </p>
 
 ### Gift Monwa - u18196366
-Bsc Computer Science
-<br/>
-Interests: Software Development
+   #### Bsc Computer Science
 
-Github Link: https://github.com/GiftMonwa
-<br>
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://www.linkedin.com/in/gift-monwa-856513196/) - Linked In
+  ##### Interests: Software Development
+  
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/gift-monwa-856513196/)
 
-<br>
+ [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/GiftMonwa)
+ 
+
 <br>
 <br>
 
@@ -120,10 +133,12 @@ Github Link: https://github.com/GiftMonwa
 </p>
 
 ### Rourke Amiss - u18098721
-Bsc Computer Science
-<br/>
-Interests: Artifical Intelligence, Python Development
+   #### Bsc Computer Science
 
-Github: https://github.com/Rourke9001
-<br>
-[![](https://img.utdstc.com/icon/3c3/023/3c30232730dafce72dcc24328f4c95f6096b3b60c0049eb895f8a455bc33a71b:25)](https://www.linkedin.com/in/rourke-amiss-73b983a7/) - Linked In
+   ##### Interests: Artifical Intelligence, Python Development
+   
+   [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/rourke-amiss-73b983a7/)
+   
+   [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/Rourke9001)
+
+
