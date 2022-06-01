@@ -8,6 +8,11 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
+import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {ClientAdminFeatureModule} from "@team-utilisation-monitor/client/admin/feature";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -20,9 +25,14 @@ import {IndividualRoutingModule} from "./ind-routing.module";
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
+    ClientAdminFeatureModule,
+    MatGridListModule,
+    MatCardModule,
   ],
   declarations: [
-    IndividualHomePageComponent
+    IndividualHomePageComponent,
+    IndividualProfileComponent,
+    DashboardComponent
   ],
   exports: [IndividualRoutingModule],
 })

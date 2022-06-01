@@ -66,6 +66,6 @@ import { MatBadgeModule } from '@angular/material/badge';
     CompNavbarComponent,
     CompAdminTopnavComponent,
   ],
-  exports: [AdminRoutingModule],
+  exports: [AdminRoutingModule, CompNavbarComponent, CompNavbarComponent, CompAdminTopnavComponent, CompAdminTopnavComponent, CompAdminTopnavComponent],
 })
 export class ClientAdminFeatureModule {}
