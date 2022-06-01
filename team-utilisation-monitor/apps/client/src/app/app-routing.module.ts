@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {
+  IndividualHomePageComponent
+} from "../../../../libs/client/individual/feature/src/lib/individual-home-page/individual-home-page.component";
+import {ClientIndividualFeatureModule} from "@team-utilisation-monitor/client/individual/feature";
 
 const routes: Routes = [
   {
@@ -23,6 +27,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('@team-utilisation-monitor/client/shared/feature').then(
         (x) => x.ClientSharedFeatureModule
+      ),
+  },
+
+  {
+
+    path: '',
+    loadChildren: () =>
+      import('@team-utilisation-monitor/client/individual/feature').then(
+        (x) => x.ClientIndividualFeatureModule
       ),
   },
 

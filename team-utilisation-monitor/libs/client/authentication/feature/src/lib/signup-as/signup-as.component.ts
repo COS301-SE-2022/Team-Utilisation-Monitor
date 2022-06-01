@@ -18,11 +18,19 @@ export class SignupAsComponent implements OnInit {
   //constructor() { }
   loginForm: any;
 
-  constructor(private service:AuthenticationService,private router:Router) {
+  constructor(private service:AuthenticationService,private router:Router) {}
+
+  company(): void {
+    this.router.navigateByUrl('signup_as_company_page');
+  }
+
+  individual(): void {
+    this.router.navigateByUrl('signup_as_individual_page');
   }
 
   ngOnInit(): void {
     console.log();
   }
+
 
 }
