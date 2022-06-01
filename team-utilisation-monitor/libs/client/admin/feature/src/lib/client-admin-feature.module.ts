@@ -27,6 +27,7 @@ import { CompNavbarComponent } from './comp-navbar/comp-navbar.component';
 import { CompAdminTopnavComponent } from './comp-admin-topnav/comp-admin-topnav.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CompNavRequestUsersComponent } from './comp-nav-request-users/comp-nav-request-users.component';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     CompEmployeeIndividualComponent,
     CompNavbarComponent,
     CompAdminTopnavComponent,
+    CompNavRequestUsersComponent,
   ],
   exports: [AdminRoutingModule],
 })

@@ -9,13 +9,16 @@
     <button class="SideNavButton" routerLink="/AdminCompanyView" mat-button><mat-icon>assessment</mat-icon>Company View</button>    
 </mat-card>
 
-<mat-accordion>
+<mat-accordion multi>
     <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <p><span matBadge="9" matBadgeOverlap="false" matBadgeColor="accent">Requested Users</span></p>
+                <p><span [matBadge]="nrOfRequests" matBadgeOverlap="false" matBadgeColor="accent">Requested Users</span></p>
             </mat-panel-title>
         </mat-expansion-panel-header>
         <button class="userRequestButton" mat-button>Add User <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
+        <team-utilisation-monitor-comp-nav-request-users
+        *ngFor="let user of OutEmployeeName"
+        [IndivName] = "user"></team-utilisation-monitor-comp-nav-request-users>
     </mat-expansion-panel>
 </mat-accordion>
