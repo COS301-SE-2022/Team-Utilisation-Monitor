@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { Router } from '@angular/router';
+import {IndividualRoutingModule} from "./ind-routing.module";
 
 @NgModule({
   imports: [
@@ -23,5 +24,6 @@ import { Router } from '@angular/router';
   declarations: [
     IndividualHomePageComponent
   ],
+  exports: [IndividualRoutingModule],
 })
 export class ClientIndividualFeatureModule {}
