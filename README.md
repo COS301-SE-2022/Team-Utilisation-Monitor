@@ -8,10 +8,10 @@
 <div align="center">
  
 ![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
-![Security Headers](https://img.shields.io/security-headers?color=%23258ea6&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2FCOS301-SE-2022/Team-Utilisation-Monitor)
-![GitHub language count](https://img.shields.io/github/languages/count/COS301-SE-2022/Team-Utilisation-Monitor?color=%23b96ac9&style=for-the-badge)
+   ![Security Headers](https://img.shields.io/security-headers?color=%23258ea6&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2FCOS301-SE-2022/Team-Utilisation-Monitor)
+   ![GitHub language count](https://img.shields.io/github/languages/count/COS301-SE-2022/Team-Utilisation-Monitor?color=%23b96ac9&style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/COS301-SE-2022/Team-Utilisation-Monitor?color=%23ff9000&style=for-the-badge)
-![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitor?color=%23d80032&style=for-the-badge)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitorcolor=%23d80032&style=for-the-badge)
    ![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
   
 
@@ -38,7 +38,7 @@ Working in a development-based environment has managers managing resource alloca
    -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
    -   [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
    -   [UI styled wireframe](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
-   -   [demo1 video recording missing](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
+   -   [Demo1 video recording](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
   
   #### Demo 2
      - 
