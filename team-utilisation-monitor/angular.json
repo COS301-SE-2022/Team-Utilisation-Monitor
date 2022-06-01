@@ -10,7 +10,8 @@
     "client-dashboard-feature": "libs/client/dashboard/feature",
     "client-e2e": "apps/client-e2e",
     "client-example-feature": "libs/client/example/feature",
-    "client-shared-feature": "libs/client/shared/feature",
+    "client-individual-feature": "libs/client/individual/feature",
+
     "client-signup-as-company-feature": "libs/client/signup-as-company/feature",
     "client-signup-as-individual-feature": "libs/client/signup-as-individual/feature",
     "client-signup-as-team-feature": "libs/client/signup-as-team/feature",

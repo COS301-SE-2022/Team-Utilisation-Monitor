@@ -40,7 +40,7 @@ export class SignupAsCompanyComponent implements OnInit {
       const password=this.profileForm.get('password')?.value;
       const email=this.profileForm.get('email')?.value;
       const company=this.profileForm.get('company')?.value;
-      this.service.addUser(firstname,lastname,company,email,password);
+      this.service.addCompany(firstname,lastname,company,email,password);
       //Redirect to the login page
       this.router.navigate(['login_page']);
     }
