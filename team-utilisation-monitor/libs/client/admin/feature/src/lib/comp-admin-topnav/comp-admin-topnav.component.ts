@@ -6,6 +6,9 @@ import { Component, OnInit ,Input,Output,EventEmitter } from '@angular/core';
   styleUrls: ['./comp-admin-topnav.component.scss'],
 })
 export class CompAdminTopnavComponent implements OnInit {
+  companyName = "University of Pretoria";
+
+  //code to implement side nav toggeling below
   constructor() {
     this.state = true;
   }

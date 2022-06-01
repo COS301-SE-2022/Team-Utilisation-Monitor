@@ -11,6 +11,20 @@
 }
 
 mat-icon{
-  margin: 5px;
+  margin: 7px;
 	margin-top: 1px;
+  transform: scale(1.3);
+}
+
+.userRequestButton{
+  width: 100%;
+}
+
+mat-panel-title{
+  height: 50px;
+  margin-top: 15px;
+}
+
+mat-expansion-panel{
+  margin-top: 10px;
 }
