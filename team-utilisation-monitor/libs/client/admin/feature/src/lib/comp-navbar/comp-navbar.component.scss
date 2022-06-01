@@ -18,6 +18,9 @@ mat-icon{
 
 .userRequestButton{
   width: 100%;
+  background: rgb(246, 245, 245);
+  margin-left: 5px;
+  height: 45px;
 }
 
 mat-panel-title{
@@ -26,5 +29,9 @@ mat-panel-title{
 }
 
 mat-expansion-panel{
-  margin-top: 10px;
+  margin: 10px;
+}
+
+mat-card{
+  margin: 10px;
 }
