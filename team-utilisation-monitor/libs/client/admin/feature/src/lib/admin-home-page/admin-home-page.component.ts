@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminHomePageComponent implements OnInit {
   //constructor() {}
-  boolshow = true;
 
+  //information cards values, calculate them and update the variables to link it to the front end
+  boolshow = true;
+  nrOfEmployees = 108;
+  utilizationPersentage = 80;
+  nrOfOpenProjects = 40;
+  nrOfClosedProjects = 50;
+  nrOfTeams = 20;
 
   ngOnInit(): void {
     console.log();
