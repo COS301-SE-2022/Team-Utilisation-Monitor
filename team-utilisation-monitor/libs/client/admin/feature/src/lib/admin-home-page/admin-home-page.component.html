@@ -1,69 +1,67 @@
-<body>
-  <mat-sidenav-container color="primary">
-      <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
-          <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
-      </mat-sidenav>
+<mat-sidenav-container color="primary">
+    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+        <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
+    </mat-sidenav>
 
-        <mat-sidenav-content>
-            <!-- boolshow is a var used for toggeling navbar open and closed -->
-            <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
+    <mat-sidenav-content>
+        <!-- boolshow is a var used for toggeling navbar open and closed -->
+        <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-            <mat-grid-list cols="4" rowHeight="2:1">
-                <mat-grid-tile>
-                    <mat-card>
-                        <mat-card-title># of Emplyees</mat-card-title>
+        <mat-grid-list cols="4" rowHeight="2:1">
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-title># of Emplyees</mat-card-title>
 
-                        <mat-card-content>
-                            <hr>
-                            <mat-grid-list cols="2">
-                                <mat-grid-tile><mat-icon>account_box</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>{{nrOfEmployees}}</h1></mat-grid-tile>
-                            </mat-grid-list>
+                    <mat-card-content>
+                        <hr>
+                        <mat-grid-list cols="2">
+                            <mat-grid-tile><mat-icon>account_box</mat-icon></mat-grid-tile>
+                            <mat-grid-tile><h1>{{nrOfEmployees}}</h1></mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-title>Utilization</mat-card-title>
+                    <mat-card-content>
+                        <hr>
+                        <mat-grid-list cols="2">
+                            <mat-grid-tile><mat-icon>rocket_launch</mat-icon></mat-grid-tile>
+                            <mat-grid-tile><h1>{{utilizationPersentage}}%</h1></mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-title>Open Projects</mat-card-title>
+                    <mat-card-content>
+                        <hr>
+                        <mat-grid-list cols="2">
+                            <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
+                            <mat-grid-tile><h1>{{nrOfOpenProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
+                        </mat-grid-list>
                         </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card>
-                        <mat-card-title>Utilization</mat-card-title>
-                        <mat-card-content>
-                           <hr>
-                           <mat-grid-list cols="2">
-                                <mat-grid-tile><mat-icon>rocket_launch</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>{{utilizationPersentage}}%</h1></mat-grid-tile>
-                            </mat-grid-list>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card>
-                        <mat-card-title>Open Projects</mat-card-title>
-                        <mat-card-content>
-                            <hr>
-                            <mat-grid-list cols="2">
-                                <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>{{nrOfOpenProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
-                            </mat-grid-list>
-                         </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card>
-                        <mat-card-title># of Teams</mat-card-title>
-                        <mat-card-content>
-                            <hr>
-                            <mat-grid-list cols="2">
-                                <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
-                                <mat-grid-tile><h1>{{nrOfTeams}}</h1></mat-grid-tile>
-                            </mat-grid-list>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="4" rowspan="3">
-                    <mat-card class="graphCard">
-                        <mat-card-footer>Graph of company utilization over time</mat-card-footer>
-                    </mat-card>
-                </mat-grid-tile>
-            </mat-grid-list>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-</body>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <mat-card>
+                    <mat-card-title># of Teams</mat-card-title>
+                    <mat-card-content>
+                        <hr>
+                        <mat-grid-list cols="2">
+                            <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
+                            <mat-grid-tile><h1>{{nrOfTeams}}</h1></mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="4" rowspan="3">
+                <mat-card class="graphCard">
+                    <mat-card-footer>Graph of company utilization over time</mat-card-footer>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-sidenav-content>
+</mat-sidenav-container>

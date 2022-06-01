@@ -1,21 +1,15 @@
-body {
-	margin: 0px;
-}
 
-.example-spacer {
-	flex: 1 1 auto;
-  }
 
 mat-sidenav-container{
 	height: 100vh;
 }
 
-mat-sidenav{
-	width: 20%;
+mat-sidenav-content{
+	background-color: rgb(228, 228, 228);
 }
 
-button{
-	margin-left: 3px;
+mat-sidenav{
+	width: 20%;
 }
 
 mat-card{
@@ -55,23 +49,4 @@ p{
 	margin-top: 10px;
 	width: 100%;
 	font-size: medium;
-}
-
-#adHome-CompanyName{
-	margin-left: 15px;
-}
-
-.SideNavButton{
-    width: 95%;
-    margin:3px;
-    font-size: large;
-    height: 50px;
-}
-
-.SideNavButton:hover {
-  background-color: lightgray;
-}
-
-mat-icon{
-    margin: 5px;
 }

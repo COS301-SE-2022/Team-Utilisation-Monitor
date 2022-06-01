@@ -1,37 +1,35 @@
-<body>
-    <mat-sidenav-container color="primary">
-        <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
-            <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
-        </mat-sidenav>
+<mat-sidenav-container color="primary">
+    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+        <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
+    </mat-sidenav>
 
-        <mat-sidenav-content>
-            <!-- boolshow is a var used for toggeling navbar open and closed -->
-            <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
+    <mat-sidenav-content>
+        <!-- boolshow is a var used for toggeling navbar open and closed -->
+        <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-            <mat-card>
-                <mat-card-title>Owner</mat-card-title>
-                <team-utilisation-monitor-comp-owner-individual [IndivName]="OutOwnerName"></team-utilisation-monitor-comp-owner-individual>
-            </mat-card>
+        <mat-card>
+            <mat-card-title>Owner</mat-card-title>
+            <team-utilisation-monitor-comp-owner-individual [IndivName]="OutOwnerName"></team-utilisation-monitor-comp-owner-individual>
+        </mat-card>
 
-            <mat-accordion multi>
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
-                    <mat-expansion-panel-header><mat-panel-title>
-                            Admins
-                    </mat-panel-title></mat-expansion-panel-header>
-                    <team-utilisation-monitor-comp-employee-individual
-                    *ngFor="let user of OutAdminNames"
-                    [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
-                </mat-expansion-panel>
- 
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
-                    <mat-expansion-panel-header><mat-panel-title>
-                            Emplyees
-                    </mat-panel-title></mat-expansion-panel-header>
-                    <team-utilisation-monitor-comp-employee-individual
-                    *ngFor="let user of OutEmployeeName"
-                    [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
-                </mat-expansion-panel>
-            </mat-accordion>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-</body>
+        <mat-accordion multi>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Admins
+                </mat-panel-title></mat-expansion-panel-header>
+                <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutAdminNames"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Emplyees
+                </mat-panel-title></mat-expansion-panel-header>
+                <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutEmployeeName"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-sidenav-content>
+</mat-sidenav-container>
