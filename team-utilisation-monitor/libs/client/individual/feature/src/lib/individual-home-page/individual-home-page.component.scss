@@ -96,35 +96,56 @@ p{
 .img{
   max-width:30000px;
 }
+div{
+  display:block;
+}
+
 
 .row{
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  height: 100%;
+
 }
 
 .side{
   position: relative;
-  width: 100%;
+  width: 60%;
   padding-right: 15px;
   padding-left: 15px;
 }
 
 .col-md-4{
   position: relative;
-  width: 100%;
+ width: 30%;
   padding-right: 15px;
   padding-left: 15px;
 }
 
-.card{
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-clip: border-box;
+.col-md-4 .card{
+  width: 90%;
+  height: 40%;
+}
 
+.col-md-4 .card-user{
+  height: 60%;
+}
+
+.side .card-user{
+  height: 90%;
+}
+
+.card{
+  border-radius: 12px;
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
+  background-color: #fff;
+  color: #252422;
+  margin-bottom: 20px;
+  position: relative;
+  border: 0;
+  transition:transform .3s cubic-bezier(.34, 2, .6, 1), box-shadow .2s ease, -webkit-transform .3s cubic-bezier(.34, 2, .6, 1)
 }
 
 .edit-card{
@@ -137,6 +158,10 @@ p{
   border: 0;
   transition: transform .3s cubic-bezier(.34,2,.6,1),box-shadow .2s ease,-webkit-transform .3s cubic-bezier(.34,2,.6,1);
 
+}
+
+.foot{
+  height: 100%;
 }
 
 .image{
