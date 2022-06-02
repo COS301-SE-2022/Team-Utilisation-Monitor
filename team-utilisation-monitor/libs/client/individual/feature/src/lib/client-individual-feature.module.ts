@@ -13,6 +13,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {ClientAdminFeatureModule} from "@team-utilisation-monitor/client/admin/feature";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   imports: [
@@ -28,6 +32,10 @@ import {MatCardModule} from "@angular/material/card";
     ClientAdminFeatureModule,
     MatGridListModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule,
   ],
   declarations: [
     IndividualHomePageComponent,

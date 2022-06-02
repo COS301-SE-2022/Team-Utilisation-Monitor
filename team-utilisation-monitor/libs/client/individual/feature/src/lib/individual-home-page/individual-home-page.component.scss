@@ -135,6 +135,8 @@ div{
 
 .side .card-user{
   height: 90%;
+  padding-right: -150px;
+  width: 95%;
 }
 
 .card{
@@ -169,7 +171,49 @@ div{
   width: 100px;
 }
 
+h5 {
+  font-size: 1.2em;
+  line-height: 1.2em;
+  margin-bottom: 15px;
+}
 
+.example-form {
+  min-width: 70%;
+  //max-width: 500px;
+  width: 100%;
+  margin-top: 15%;
+  margin-left: -50%;
+  position: center;
 
+}
 
+.form{
+  position: center;
 
+}
+
+.mat-form-field {
+  font-size:small;
+  width:100%;
+  height:60px;
+}
+.form-control[disabled]{
+  background-color: #e3e3e3;
+  color: #66615b;
+  cursor: not-allowed;
+}
+
+.two{
+  width:145%;
+}
+
+.three{
+  width:50%;
+}
+.button{
+  margin-left:50%;
+  position: center;
+}
+.au{
+  height:150px;
+}
