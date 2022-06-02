@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class AdminListViewComponent implements OnInit {
   //constructor() {}
   boolshow = true;
+  OutEmployeeName = [{Name: "Mr Cornel", Surname:"Coetzee"},
+                    {Name: "Mr Cornel", Surname:"Coetzee"},
+                    {Name: "Mr Cornel", Surname:"Coetzee"},
+                  ]; 
   
   ngOnInit(): void {
     console.log();

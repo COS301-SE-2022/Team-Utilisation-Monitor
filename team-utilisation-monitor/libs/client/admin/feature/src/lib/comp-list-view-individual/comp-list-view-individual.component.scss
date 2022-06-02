@@ -2,18 +2,6 @@ h1{
 	margin: 5px;
 }
 
-mat-sidenav-container{
-	height: 100vh;
-}
-
-mat-sidenav-content{
-	background-color: rgb(228, 228, 228);
-}
-
-mat-sidenav{
-	width: 20%;
-}
-
 mat-card{
 	background: #fff;
 	border-radius: 4px;
@@ -43,17 +31,17 @@ mat-card-content{
 
 .div1 {
 	height: 35px;
-	background-color: #4ec19e;
+	background-color: rgb(255, 61, 129);
 }
 
 .div2 {
 	height: 35px;
-	background-color: #ff7156;
+	background-color: rgb(244, 67, 54);
 }
 
 .div3 {
 	height: 35px;
-	background-color: rgb(228, 228, 228);
+	background-color: rgb(212, 212, 212);
 }
 
 .divBorder{
