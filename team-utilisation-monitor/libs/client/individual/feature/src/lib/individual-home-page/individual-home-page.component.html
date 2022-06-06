@@ -1,0 +1,44 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<mat-sidenav-container color="primary">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+               (closed)="events.push('close!')" opened>
+    <mat-toolbar color="primary" id="adHome-UserName">
+      USER NAME
+      <span class="example-spacer"></span>
+
+    </mat-toolbar>
+    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>home</mat-icon>Home Page</button>
+    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assignment_ind</mat-icon>List View</button>
+    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assessment</mat-icon>Company View</button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" mat-raised-button (click)="sidenav.toggle()">
+        <mat-icon>subject</mat-icon>
+      </button>
+
+      <span id="adHome-CompanyName">University of Pretoria</span>
+      <span class="example-spacer"></span>
+
+      <button routerLink="" mat-raised-button color="accent">Sign Out</button>
+      <button mat-raised-button color="accent">Settings</button>
+    </mat-toolbar>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+</body>
+</html>

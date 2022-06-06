@@ -50,6 +50,16 @@ export class DataAccessRepository {
         return user_company;
     }
 
+    async returnUserID(id:number)
+    {
+        const user_person=new UserPerson();
+        
+        user_person.id=id;
+
+        return user_person;
+
+    }
+
     
 
     /***
@@ -383,6 +393,28 @@ export class DataAccessRepository {
         {
             return "Senna";         
         }
+    }
+
+    /**
+     * This function returns the user id.
+     * @param arg_email 
+     * @returns 
+     */
+
+    async getUserID(arg_email:string)
+    {
+        const person=await this.prisma.person.findUnique({
+            where:{
+                email:arg_email,
+            }
+        })
+
+        if(person)
+        {   
+            return this.returnUserID(person.id);
+        }
+        else
+            return "getUserID() returned null"
     }
     
 }

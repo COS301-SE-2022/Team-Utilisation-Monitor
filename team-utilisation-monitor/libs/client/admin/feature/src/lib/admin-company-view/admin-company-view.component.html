@@ -1,72 +1,35 @@
-<!-- Cornel Coetzee, u20586737 -->
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Welcome</title>
-	</head>
+<mat-sidenav-container color="primary">
+    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+        <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
+    </mat-sidenav>
 
-	<body>
-        <mat-sidenav-container color="primary">
-            <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-            (closed)="events.push('close!')" opened>
-                <mat-toolbar color="primary" id="adHome-UserName">
-                    Agape Mamphasa
-                    <span class="example-spacer"></span>
-                    <!-- close navbar icon -->
-                </mat-toolbar>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>home</mat-icon>Home Page</button>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assignment_ind</mat-icon>List View</button>
-                <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assessment</mat-icon>Company View</button>
-            </mat-sidenav>
+    <mat-sidenav-content>
+        <!-- boolshow is a var used for toggeling navbar open and closed -->
+        <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-            <mat-sidenav-content>
-                <mat-toolbar color="primary">
-                    <button type="button" mat-raised-button (click)="sidenav.toggle()">
-                        <mat-icon>subject</mat-icon>
-                    </button>
-                    
-                    <span id="adHome-CompanyName">University of Pretoria</span>
-                    <span class="example-spacer"></span>
+        <mat-card>
+            <mat-card-title>Owner</mat-card-title>
+            <team-utilisation-monitor-comp-owner-individual [IndivName]="OutOwnerName"></team-utilisation-monitor-comp-owner-individual>
+        </mat-card>
 
-                    <button routerLink="" mat-raised-button color="accent">Sign Out</button>
-                    <button mat-raised-button color="accent">Settings</button>
-                </mat-toolbar>
+        <mat-accordion multi>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Admins
+                </mat-panel-title></mat-expansion-panel-header>
+                <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutAdminNames"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+            </mat-expansion-panel>
 
-                <mat-card>
-                    <mat-card-title>Owner</mat-card-title>
-                    <mat-card-content><mat-card class="Mat-Individual"><mat-card-content class="InvdividualBox">
-                        <span class="InvdividualName">Cornel Coetzee</span>
-                    </mat-card-content></mat-card></mat-card-content>
-                </mat-card>
-
-                <mat-card>
-                    <mat-card-title>Admins</mat-card-title>
-                    <mat-card-content><mat-card class="Mat-Individual"><mat-card-content class="InvdividualBox">
-                        <span class="InvdividualName">Cornel Coetzee</span>
-                        <span class="example-spacer"></span>
-                        <button mat-raised-button class="InvdividualButton" color="warn"><mat-icon>delete_forever</mat-icon></button>
-                    </mat-card-content></mat-card></mat-card-content>
-                    <mat-card-content><mat-card class="Mat-Individual"><mat-card-content class="InvdividualBox">
-                        <span class="InvdividualName">Cornel Coetzee</span>
-                        <span class="example-spacer"></span>
-                        <button mat-raised-button class="InvdividualButton" color="warn"><mat-icon>delete_forever</mat-icon></button>
-                    </mat-card-content></mat-card></mat-card-content>
-                    <mat-card-content><mat-card class="Mat-Individual"><mat-card-content class="InvdividualBox">
-                        <span class="InvdividualName">Cornel Coetzee</span>
-                        <span class="example-spacer"></span>
-                        <button mat-raised-button class="InvdividualButton" color="warn"><mat-icon>delete_forever</mat-icon></button>
-                    </mat-card-content></mat-card></mat-card-content>
-                </mat-card>
-
-                <mat-card>
-                    <mat-card-title>Emplyees</mat-card-title>
-                    <mat-card-content><mat-card class="Mat-Individual"><mat-card-content class="InvdividualBox">
-                        <span class="InvdividualName">Cornel Coetzee</span>
-                        <span class="example-spacer"></span>
-                        <button mat-raised-button class="InvdividualButton" color="warn"><mat-icon>delete_forever</mat-icon></button>
-                    </mat-card-content></mat-card></mat-card-content>
-                </mat-card>
-            </mat-sidenav-content>
-        </mat-sidenav-container>
-	</body>
-</html>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Emplyees
+                </mat-panel-title></mat-expansion-panel-header>
+                <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutEmployeeName"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-sidenav-content>
+</mat-sidenav-container>

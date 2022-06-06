@@ -1,21 +1,17 @@
-body {
-	margin: 0px;
+h1{
+	margin: 5px;
 }
-
-.example-spacer {
-	flex: 1 1 auto;
-  }
 
 mat-sidenav-container{
 	height: 100vh;
 }
 
-mat-sidenav{
-	width: 20%;
+mat-sidenav-content{
+	background-color: rgb(228, 228, 228);
 }
 
-button{
-	margin-left: 3px;
+mat-sidenav{
+	width: 20%;
 }
 
 mat-card{
@@ -38,40 +34,29 @@ mat-card-header{
 img{
 	height: 150px;
 	width: 150px;
+	padding-left: 25px;
 }
 
 mat-card-content{
-	padding-left: 50px;
-	width: 65%;
+	width: 90%;
 }
 
-mat-progress-bar{
-	height: 20px;
-	width: 100%;
+.div1 {
+	height: 35px;
+	background-color: #4ec19e;
 }
 
-p{
-	margin: 0;
-	margin-top: 10px;
-	width: 100%;
-	font-size: medium;
+.div2 {
+	height: 35px;
+	background-color: #ff7156;
 }
 
-#adHome-CompanyName{
-	margin-left: 15px;
+.div3 {
+	height: 35px;
+	background-color: rgb(228, 228, 228);
 }
 
-.SideNavButton{
-    width: 95%;
-    margin:3px;
-    font-size: large;
-    height: 50px;
-}
-
-.SideNavButton:hover {
-  background-color: lightgray;
-}
-
-mat-icon{
-    margin: 5px;
+.divBorder{
+	border-style: solid;
+	border-width: 1px;
 }
