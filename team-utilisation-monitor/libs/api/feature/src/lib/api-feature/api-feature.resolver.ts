@@ -6,7 +6,7 @@ import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
 
-@Resolver(() => UserPerson)
+@Resolver()
 export class ApiFeatureResolver {
 
   constructor(private readonly service: ServiceFeatureService ) {}

@@ -19,6 +19,8 @@ model Person{
   role Role @default(USER)
   suspended Boolean @default(false)
   utilisation Int @default(0)
+  approved Boolean @default(false)
+
   
   position Position? 
 
@@ -57,6 +59,7 @@ model Team{
 }
 
 model Company{
+  
   id Int @id @default(autoincrement())
   company_name String @unique
 
@@ -70,7 +73,24 @@ model Company{
 
   invite Invites?
 
+  utilisations CompanyUtilisations[] @relation("hasUtilisations")
+
   @@map("company")
+}
+
+model CompanyUtilisations{
+
+  id Int @id @default(autoincrement())
+
+  company Company? @relation(name: "hasUtilisations",fields: [company_id],references: [id])
+  company_id Int?
+
+  month String?
+
+  average_utilisation Float?
+
+
+  @@map("company_utilisations")
 }
 
 model Invites{
@@ -127,7 +147,8 @@ model Project{
   team_id Int?
 
   man_hours Int? @default(0)
-  
+
+  completed Boolean @default(false)  
 
   @@map("project")
 }
