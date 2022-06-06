@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Person } from "@prisma/client";
 
 @ObjectType({description:'object encapsulates the company details'})
 export class UserCompany{
@@ -11,5 +12,5 @@ export class UserCompany{
 
     @Field()
     admin_id!:number;
-    
+
 }
