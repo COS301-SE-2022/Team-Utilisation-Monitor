@@ -12,7 +12,7 @@ export class DataAccessRepository {
     async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
         const user_person=new UserPerson();
-        
+
         user_person.id=id;
         user_person.name=name;
         user_person.surname=surname;
@@ -47,14 +47,14 @@ export class DataAccessRepository {
     async returnUserID(id:number)
     {
         const user_person=new UserPerson();
-        
+
         user_person.id=id;
 
         return user_person;
 
     }
 
-    
+
 
     /***
      * Role is an enum defined in the in the schema.prisma file.
@@ -83,7 +83,7 @@ export class DataAccessRepository {
                 role:f_role,
                 password:f_password,
                 suspended:f_suspended,
-                company_id:usr_company_id,             
+                company_id:usr_company_id,
             }
         })
 
@@ -110,7 +110,7 @@ export class DataAccessRepository {
 
         const people_arr=[];
 
-        
+
         if(people)
         {
 
@@ -122,8 +122,8 @@ export class DataAccessRepository {
         else
             console.log("Object people returned null");
 
-        return people_arr; 
-            
+        return people_arr;
+
 
     }
 
@@ -146,7 +146,7 @@ export class DataAccessRepository {
         })
 
         if(person)
-        {   
+        {
             let local_project:string;
             let local_company:string;
             let local_team:string;
@@ -155,7 +155,7 @@ export class DataAccessRepository {
                 local_project=null;
             else
                 local_project=person.project.project_name
-            
+
             if(person.company==null)
                 local_company=null;
             else
@@ -176,11 +176,11 @@ export class DataAccessRepository {
 
     /**
      * This function returns the company object from the database.
-     * At the moment,the object has 3 components: 
+     * At the moment,the object has 3 components:
      * id,company_name ad admin_id
      * More will be added later
-     * @param f_company_name 
-     * @returns 
+     * @param f_company_name
+     * @returns
      */
 
 
@@ -190,7 +190,7 @@ export class DataAccessRepository {
             where:{
                 company_name:f_company_name
             }
-        }) 
+        })
 
         if(company)
         {
@@ -202,8 +202,8 @@ export class DataAccessRepository {
 
     /**
      * This function returns the user id.
-     * @param arg_email 
-     * @returns 
+     * @param arg_email
+     * @returns
      */
 
     async getUserID(arg_email:string)
@@ -215,11 +215,28 @@ export class DataAccessRepository {
         })
 
         if(person)
-        {   
+        {
             return this.returnUserID(person.id);
         }
         else
             return "getUserID() returned null"
     }
-    
+
+    async getCompanyObject(name:string)
+    {
+      const company=await this.prisma.company.findUnique({
+        where:{
+          company_name:name,
+        }
+      })
+      if(company)
+      {
+        return company;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
 }
