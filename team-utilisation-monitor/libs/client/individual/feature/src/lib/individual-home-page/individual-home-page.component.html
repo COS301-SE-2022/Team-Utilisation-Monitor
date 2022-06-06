@@ -1,44 +1,199 @@
-
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-
+<body xmlns:width="http://www.w3.org/1999/xhtml">
 <mat-sidenav-container color="primary">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-               (closed)="events.push('close!')" opened>
-    <mat-toolbar color="primary" id="adHome-UserName">
-      USER NAME
-      <span class="example-spacer"></span>
-
-    </mat-toolbar>
-    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>home</mat-icon>Home Page</button>
-    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assignment_ind</mat-icon>List View</button>
-    <button class="SideNavButton" routerLink="" mat-raised-button><mat-icon>assessment</mat-icon>Company View</button>
+  <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+ <!-- side nav bar for individual-->
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button type="button" mat-raised-button (click)="sidenav.toggle()">
-        <mat-icon>subject</mat-icon>
-      </button>
 
-      <span id="adHome-CompanyName">University of Pretoria</span>
-      <span class="example-spacer"></span>
+    <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-      <button routerLink="" mat-raised-button color="accent">Sign Out</button>
-      <button mat-raised-button color="accent">Settings</button>
-    </mat-toolbar>
+
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <mat-card class="card card-user">
+
+          <div mat-card-image class="example-header-image"></div>
+          <div mat-card-avatar class="example-header-av"></div>
+
+          <mat-card-header>
+            <mat-card-title> </mat-card-title>
+            <mat-card-subtitle> </mat-card-subtitle>
+          </mat-card-header>
+
+          <!--image-->
+          <mat-card-content>
+            <p>
+
+            </p>
+          </mat-card-content>
+
+          <mat-card-footer>
+            <mat-card-actions>
+
+            </mat-card-actions>
+          </mat-card-footer>
+
+        </mat-card>
+
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title> </mat-card-title>
+            <mat-card-subtitle> </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p>
+
+            </p>
+          </mat-card-content>
+
+          <mat-card-footer>
+            <mat-card-actions>
+
+            </mat-card-actions>
+          </mat-card-footer>
+
+        </mat-card>
+        <br><br>
+
+      </div>
+
+      <div class ="side">
+        <mat-card class="card card-user">
+          <mat-card-header>
+            <mat-card-title>
+              <h5 class="card-title">Edit Profile</h5>
+            </mat-card-title>
+
+            <mat-card-subtitle>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="form">
+              <form class="example-form">
+                <table class="three">
+                  <tr>
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Email</mat-label><input matInput disabled value="fareesa@gmail.com">
+                      </mat-form-field>
+                    </td>
+
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Company Name</mat-label><input matInput disabled value="EPI Use">
+                      </mat-form-field>
+
+                    </td>
+
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Projects</mat-label>
+                        <mat-select>
+                          <mat-option value="option">Project 1</mat-option>
+                          <mat-option value="option">Project 2</mat-option>
+                          <mat-option value="option">Project 3</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+
+
+
+                  </tr>
+                </table>
+
+                <table class="two" >
+                  <tr>
+
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>First Name</mat-label><input matInput >
+                      </mat-form-field>
+                    </td>
+
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Last Name</mat-label><input matInput >
+                      </mat-form-field>
+                    </td>
+
+
+                  </tr>
+                </table>
+
+                <table class="two">
+                  <tr>
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Adress</mat-label>
+                        <input matInput placeholder="613 Luselo str">
+                      </mat-form-field>
+                    </td>
+
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>City</mat-label>
+                        <input matInput placeholder="Ex. San Francisco">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+
+                <table class="two" >
+                  <tr>
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Province</mat-label>
+                        <input matInput placeholder="Ex. San Francisco">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>Zip code</mat-label>
+                      <input matInput maxlength="4" type="number" placeholder="1182" min="4">
+                      </mat-form-field>
+                    </td>
+
+                </tr>
+                </table>
+
+
+                <p class="one">
+                  <mat-form-field class="two" appearance="outline">
+                    <mat-label>About</mat-label>
+                    <textarea class="au" matInput placeholder="Ex. 100 Main St" ></textarea>
+                  </mat-form-field>
+                </p>
+
+
+                <br><br>
+                <div class="button">
+                <button mat-raised-button color="primary">Update</button>
+                </div>
+              </form>
+            </div>
+
+          </mat-card-content>
+
+          <mat-card-footer>
+            <mat-card-actions>
+
+            </mat-card-actions>
+          </mat-card-footer>
+
+        </mat-card>
+      </div>
+
+    </div>
+
+
+
 
 
   </mat-sidenav-content>
 </mat-sidenav-container>
-
 </body>
-</html>
