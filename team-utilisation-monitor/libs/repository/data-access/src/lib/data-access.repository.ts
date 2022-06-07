@@ -99,17 +99,130 @@ export class DataAccessRepository {
 
     }
 
+    /****
+     * This function is used to add a new admin to an existing compony
+     * Returns null if the company doesn't exist
+    */
+
+    async addAdminToCompany(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    {
+        const c_id=await this.getCompanyID(f_company_name);
+
+        if(c_id>0)
+        {
+            const new_admin=await this.prisma.person.create({
+                data:{
+                    name:f_name,
+                    surname:f_surname,
+                    email:f_email,
+                    password:f_password, 
+                    company_id:c_id, 
+                    admin_id:c_id,
+                    role:Role.ADMIN,
+                    approved:true        
+                }
+            })
+            
+            const return_admin=new UserPerson();
+
+            return_admin.company_id=new_admin.id;
+            return_admin.name=new_admin.name;
+            return_admin.password=new_admin.password;
+            return_admin.surname=new_admin.surname;
+            return_admin.email=new_admin.email;
+            return_admin.company_name=f_company_name;
+            return_admin.company_id=new_admin.company_id;
+            return_admin.role=new_admin.role;
+
+            this.superCreateCompany(f_company_name,return_admin);
+            
+            return return_admin;
+            
+    
+        }
+        
+        console.log("Company Doesn't exist. Returning null");
+        return null;
+
+
+    }
+
+    /***
+     * This function is used to register an admin onto a company. If the company already exists
+     * the admin will be added to an existing company. If it doesn't,  a new compnay will be created.
+     * Returns null if admin cannot be created, because company doesn't exist
+    */
+
+    async createUserAdmin(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    {
+        const c_id=await this.getCompanyID(f_company_name);
+
+        if(c_id>0) //the company already exists
+        {
+            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name,f_password);
+        }
+        else //the admin is an admin of a new company
+        {
+            console.log("creating company")
+
+            await this.createCompnany(f_company_name);
+
+            //create the person entity
+            const c_id=await this.getCompanyID(f_company_name); //new company id
+
+            console.log("company id is "+c_id);
+
+            if(c_id>0)
+            {
+                const new_admin=await this.prisma.person.create({
+                    data:{
+                        name:f_name,
+                        surname:f_surname,
+                        email:f_email,
+                        password:f_password,  
+                        company_id:c_id,
+                        role:Role.ADMIN,     
+                        approved: true
+                    }
+                })
+
+                //return new admin
+
+                const return_admin=new UserPerson();
+
+                return_admin.company_id=new_admin.id;
+                return_admin.name=new_admin.name;
+                return_admin.password=new_admin.password;
+                return_admin.surname=new_admin.surname;
+                return_admin.email=new_admin.email;
+                return_admin.company_name=f_company_name;
+                return_admin.company_id=new_admin.company_id;
+                return_admin.role=new_admin.role;
+
+                this.superCreateCompany(f_company_name,return_admin);
+                
+                return return_admin;
+            }
+            else
+                return null;
+            
+        }
+
+
+    }
+
     /***
      * The function creates and adds the user object to the database. Returns the user object from
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,inviteLink:string)
+    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string)
     {
         //use the invitation link to get the company id
         
 
         const local_company_id=await this.verifyCode(inviteLink);
+        const company_name=await this.getCompanyVID(local_company_id);
 
         if(local_company_id>0) //link is valid
         {
@@ -118,15 +231,22 @@ export class DataAccessRepository {
                     name:f_name,
                     surname:f_surname,
                     email:f_email,         
-                    company:{
-                        connect:{
-                            id:local_company_id,
-                        }
-                    },
+                    company_id:local_company_id,
+                    password:f_password
                 }
             })
 
-            return new_user;
+            const return_user=new UserPerson();
+
+            return_user.name=new_user.name;
+            return_user.surname=new_user.surname;
+            return_user.email=new_user.email;
+            return_user.password=new_user.password;
+            return_user.company_name=company_name;
+            return_user.company_id=local_company_id;
+            return_user.role=new_user.role;
+
+            return return_user;
         }
         else 
         {
@@ -137,7 +257,7 @@ export class DataAccessRepository {
 
 
     }
-    /*****
+    /***
      * This function is used to create or add a new team to the database
      */
 
@@ -286,7 +406,7 @@ export class DataAccessRepository {
             }
         })
 
-        if(invite!=null) //return the name of the company
+        if(invite!=null) //return the id of the company
         {
             return invite.company_id;
         }   
@@ -597,6 +717,85 @@ export class DataAccessRepository {
         else
             return -1;
     }
+
+    /***Admins superFunctions:
+     * These are fucntions that may only be used by the admin to do admin stuff.
+     * Don't use for user
+     */
+
+    /***
+     * Use this function to add admins to the database.
+     * This function connects the admin to the company.
+     */
+
+    async superCreateCompany(companyName:string,userPerson:UserPerson)
+    {
+        console.log("in super!!");
+        console.log("company_name is "+companyName);
+
+        const c_id=await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {   
+            console.log("updating company");
+
+            const update_company=await this.prisma.company.update({
+                where:{
+                    id:c_id,
+                },
+                data:{
+                   employees:{
+                       connect:{
+                           id:userPerson.id,
+                       }
+                   },
+
+                   admins:{
+                       connect:{
+                           id:userPerson.id
+                       }
+                   }
+                   
+                }
+                
+            })
+        }   
+        else
+            console.error("superCreateCompany() failed to create a company");
+    }
+
+    /****
+     * This function is used to add employees to the database.
+    */
+
+    async superAddEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {
+            console.log("Adding Employee");
+            
+            const update_company=await this.prisma.company.update({
+                where:{
+                    id:c_id,
+                },
+                data:{
+                   employees:{
+                       connect:{
+                           id:userPerson.id,
+                       }
+                   }
+                   
+                }
+                
+            })
+
+        }
+        else
+            console.error("superAddEmployeeToCompany() failed to add employee to company")
+    }
+
 
     
     

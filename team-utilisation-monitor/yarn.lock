@@ -257,10 +257,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-13.3.7.tgz#ff36f6f9a3ad152bfe9bdab6b2f0be8157b32696"
   integrity sha512-l48mF8IfDyoSf1Unip8lDnR2QLKqMB6kd14Byb0UzKSCJAEwIsAxZWvzYLv9SviX0lMD+rmV+4hdnRJRq8Yu3w==
 
-"@angular/material@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-14.0.0.tgz#519d20bd22e14aa6a206b5086d38a9c9d36ef2ba"
-  integrity sha512-RNV1g7DbnlSI9rjsuqH+fO2e+IQCJEJmjBRGvx6dBYugiag4iR9ZnpHNued26UTJ+BPTemTA7a4cDzseKKB6NQ==
+"@angular/material@^13.3.7":
+  version "13.3.7"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-13.3.7.tgz#7df10649b58eb9f6fdf8e3235eee633f617aa545"
+  integrity sha512-CXdLvohaxl3Nii6I70pEJX2FZRRkBPNiocUNP39hFHXf2PW/eNYCN8TS5DG2uOAaR2wyPwrXrU95mDjgvlqXqQ==
   dependencies:
     tslib "^2.3.0"
 
