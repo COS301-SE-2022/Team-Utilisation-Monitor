@@ -1,11 +1,14 @@
 {
+  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/client/example/feature/src",
   "prefix": "team-utilisation-monitor",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/client/example/feature"],
+      "outputs": [
+        "coverage/libs/client/example/feature"
+      ],
       "options": {
         "jestConfig": "libs/client/example/feature/jest.config.ts",
         "passWithNoTests": true

@@ -1,17 +1,24 @@
 {
+  "$schema": "..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "libs/repository/data-access/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/repository/data-access/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/repository/data-access/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/repository/data-access"],
+      "outputs": [
+        "coverage/libs/repository/data-access"
+      ],
       "options": {
         "jestConfig": "libs/repository/data-access/jest.config.ts",
         "passWithNoTests": true

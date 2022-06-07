@@ -1,6 +1,6 @@
-module.exports = {
+export default {
   displayName: 'client-signup-as-team-feature',
-  preset: '../../../../jest.preset.ts',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
