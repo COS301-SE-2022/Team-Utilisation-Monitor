@@ -1,8 +1,8 @@
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { CommandHandler, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { DataAccessRepository } from "@team-utilisation-monitor/repository/data-access";
 import { CreateUserCommand } from "../impl/create-user.command";
 
-@QueryHandler(CreateUserCommand)
+@CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements IQueryHandler<CreateUserCommand>{
 
 

@@ -46,7 +46,7 @@ model Person{
 model Team{
 
   id Int @id @default(autoincrement())
-  team_name String @default("New Team")
+  team_name String @unique
 
   members Person[] @relation("partOf")
 

@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { ProjectEntity } from "./api-project.entity";
 import { UserPerson } from "./api-user-person.entity";
 
 @ObjectType({description:'Object encapsulates team entity'})
@@ -17,7 +18,7 @@ export class TeamEntity{
     company_id?:number;
 
     @Field({nullable:true})
-    project_id?:number;
+    project?:ProjectEntity;
 
     
 }
