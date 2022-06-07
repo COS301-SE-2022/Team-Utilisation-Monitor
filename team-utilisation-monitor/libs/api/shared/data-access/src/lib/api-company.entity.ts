@@ -1,3 +1,4 @@
+import { UserPerson } from './api-user-person.entity';
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { Person } from "@prisma/client";
 
