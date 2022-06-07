@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
-import {UserPerson,UserCompany} from '@team-utilisation-monitor/api/shared/data-access'
+import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -64,7 +64,8 @@ export class DataAccessRepository {
 
     /***
      * Role is an enum defined in the in the schema.prisma file.
-     * Thinking is i'm going to use the company id to associate the user
+     * Thinking is i'm going to use the company id to associate the user.
+     * I think you can use this to create the admin.
      */
 
     async createPerson(f_name:string,f_surname:string,f_email:string,f_role:Role,f_password:string,f_suspended:boolean,f_company_name:string){
@@ -76,7 +77,7 @@ export class DataAccessRepository {
             usr_company_id= (await this.getCompanyVName(f_company_name)).id //user has an affiliated company
         }
         else
-            usr_company_id=0; //user doesn't have an affiliated company
+            usr_company_id=null; //user doesn't have an affiliated company
 
         //IF person is created in a non-existing company,it might break!
 
@@ -133,6 +134,74 @@ export class DataAccessRepository {
             return null;
         }
 
+
+    }
+
+    /***
+     * This function is used to create a company object within the database
+     */
+
+    async createCompnany(c_name:string):Promise<UserCompany>
+    {
+        const new_company=await this.prisma.company.create({
+            data:{
+                company_name:c_name,
+            }
+        })
+
+        const return_company=new UserCompany();
+
+        return_company.id=new_company.id;
+        return_company.company_name=new_company.company_name;
+
+        return return_company;
+    }
+
+    /***
+     * The function is used to generate a unique invitation code associated 
+     * with a company. The code is then stored in the database
+     */
+
+    async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
+    {
+        //generate random code e.g pwc288
+        const prefix=company_name.substring(0,3);
+
+       
+
+        const min = Math.ceil(100);
+        const max = Math.floor(300);
+        const suffix= Math.floor(Math.random() * (max - min) + min); //The maximum is 
+
+        const code=prefix+suffix;
+
+        //put the code into the database
+
+        const c_id=await this.getCompanyID(company_name); //company_id
+
+        if(c_id>0)
+        {
+            const new_code=await this.prisma.invites.create({
+                data:{
+                    company_id:c_id,
+                    invite_code:code,
+                    expire:"2023-01-01T03:53:00.000Z"
+                }
+            })
+
+            const return_code=new InviteCodeEntity();
+
+            return_code.id=new_code.id;
+            return_code.company_id=new_code.company_id;
+            return_code.inviteCode=code;
+            return_code.created=new_code.created;
+            return_code.expire=new_code.expire;
+
+            return return_code;
+
+        }
+
+        return null;
 
     }
 
@@ -415,6 +484,27 @@ export class DataAccessRepository {
         }
         else
             return "getUserID() returned null"
+    }
+
+    /****
+     * This function returns the company ID by taking in the company name.
+     * Returns -1, if no company was found with that name.
+     */
+
+    async getCompanyID(c_name:string):Promise<number>
+    {
+        const company=await this.prisma.company.findUnique({
+            where:{
+                company_name:c_name,
+            }
+        })
+
+        if(company)
+        {
+            return company.id;
+        }
+        else
+            return -1;
     }
     
 }
