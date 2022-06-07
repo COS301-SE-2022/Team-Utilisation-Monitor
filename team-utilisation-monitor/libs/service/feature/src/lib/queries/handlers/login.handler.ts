@@ -7,7 +7,7 @@ import { Login } from "../impl/login.query";
 @QueryHandler(Login)
 export class LoginHandler implements IQueryHandler<Login>{
 
-    constructor(private readonly repository:DataAccessRepository, private service:ServiceFeatureService){}
+    constructor(private service:ServiceFeatureService){}
 
     /***
       * The function returns the object if the authentication is successful

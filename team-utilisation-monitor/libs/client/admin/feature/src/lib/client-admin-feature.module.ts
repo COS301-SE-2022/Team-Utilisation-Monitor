@@ -70,6 +70,6 @@ import { CompListViewIndividualComponent } from './comp-list-view-individual/com
     CompNavRequestUsersComponent,
     CompListViewIndividualComponent,
   ],
-  exports: [AdminRoutingModule],
+  exports: [AdminRoutingModule, CompNavbarComponent, CompNavbarComponent, CompAdminTopnavComponent, CompAdminTopnavComponent, CompAdminTopnavComponent],
 })
 export class ClientAdminFeatureModule {}

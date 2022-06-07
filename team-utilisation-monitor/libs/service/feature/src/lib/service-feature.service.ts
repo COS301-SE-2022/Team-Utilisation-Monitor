@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CreateCompanyCommand } from './commands/impl/create-company.command';
+import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
 import { CreatePersonCommand } from './commands/impl/create-person.command';
+import { CreateProjectCommand } from './commands/impl/create-project.command';
+import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
@@ -38,5 +42,23 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetCompanyQuery(name));
     }
 
+    async createInviteCode(companyName:string):Promise<any>
+    {
+        return this.commandBus.execute(new CreateInviteCodeCommand(companyName));
+    }
 
+    async createCompany(companyName:string):Promise<any>
+    {
+        return this.commandBus.execute(new CreateCompanyCommand(companyName));
+    }
+
+    async createProject(projectName:string,companyName:string,teamName:string,manHours:number):Promise<any>
+    {
+        return this.commandBus.execute(new CreateProjectCommand(projectName,teamName,companyName,manHours));
+    }
+
+    async createTeam(teamName:string,companyName:string):Promise<any>
+    {
+        return this.commandBus.execute(new CreateTeamCommand(teamName,companyName))
+    }
 }
