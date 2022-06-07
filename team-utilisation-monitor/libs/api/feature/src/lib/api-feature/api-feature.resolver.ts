@@ -103,6 +103,23 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  @Mutation(()=>UserPerson)
+  async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("company_name")company_name:string)
+  {
+    const resp=await this.service.createAdmin(name,surname,email,password,company_name);
+
+    return resp;
+  }
+
+  @Mutation(()=>UserPerson)
+  async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password")password:string,@Args("inviteCode")inviteCode:string)
+  {
+    const resp=await this.service.createUser(name,surname,email,password,inviteCode)
+
+    return resp;
+  }
+
+
   @Query(() => String)
   pingUser() {
     return 'on';
