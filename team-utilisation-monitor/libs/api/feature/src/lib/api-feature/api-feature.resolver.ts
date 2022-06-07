@@ -1,7 +1,7 @@
 
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
-import { InviteCodeEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -77,6 +77,22 @@ export class ApiFeatureResolver {
   async createCompany(@Args("company_name")company_name:string)
   {
     const resp= await this.service.createCompany(company_name);
+
+    return resp;
+  }
+
+  @Mutation(()=>ProjectEntity)
+  async createProject(@Args("project_name") project_name:string,@Args("company_name") company_name:string, @Args("team_name") team_name:string,@Args("man_hours")man_hours:number)
+  {
+    const resp= await this.service.createProject(project_name,company_name,team_name,man_hours);
+
+    return resp;
+  }
+
+  @Mutation(()=>TeamEntity)
+  async createTeam(@Args("team_name") team_name:string,@Args("company_name")company_name:string)
+  {
+    const resp=await this.service.createTeam(team_name,company_name);
 
     return resp;
   }

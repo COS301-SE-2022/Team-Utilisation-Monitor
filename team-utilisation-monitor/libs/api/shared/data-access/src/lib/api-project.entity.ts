@@ -16,6 +16,9 @@ export class ProjectEntity{
     @Field(()=>[UserPerson],{nullable:true})
     workers?:UserPerson[]
 
+    @Field()
+    team_id?:number;
+
     @Field({nullable:true})
     man_hours?:number;
 

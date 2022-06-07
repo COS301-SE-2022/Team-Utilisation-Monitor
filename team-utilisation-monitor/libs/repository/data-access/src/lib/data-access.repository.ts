@@ -4,6 +4,7 @@ import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monito
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
+import e = require('cors');
 
 @Injectable()
 export class DataAccessRepository {
@@ -136,9 +137,78 @@ export class DataAccessRepository {
 
 
     }
+    /*****
+     * This function is used to create or add a new team to the database
+     */
+
+    async createTeam(teamName:string,companyName:string):Promise<TeamEntity>
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {
+            const new_team=await this.prisma.team.create({
+                data:{
+                    team_name:teamName,
+                    company_id:c_id
+                }
+            })
+
+            const return_team=new TeamEntity();
+
+            return_team.id=new_team.id;
+            return_team.team_name=new_team.team_name;
+            return_team.company_id=new_team.company_id;
+
+            return return_team;
+            
+        }
+
+
+        return null;
+    }
 
     /***
-     * This function is used to create a company object within the database
+     * This function is used to create a project for a company
+     * Returns null if the company doesn't exist. or if the team doens't exist
+     */
+
+    async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
+    {
+        const c_id=await this.getCompanyID(companyName); //company_id
+
+        const t_id=await this.getTeamIDVName(teamName); //team_id
+
+        if(c_id>0 && t_id>0)
+        {
+            const new_project=await this.prisma.project.create({
+                data:{
+                    project_name:projectName,
+                    owner_id:c_id,
+                    man_hours:hoursToComplete,
+                    team_id:t_id
+                }
+            })
+
+            const return_project=new ProjectEntity();
+
+            return_project.id=new_project.id;
+            return_project.project_name=new_project.project_name;
+            return_project.ownwer_id=new_project.owner_id;
+            return_project.man_hours=new_project.man_hours;
+            return_project.team_id=new_project.team_id;
+
+            return return_project;
+        }
+        
+
+        return null;
+
+    }
+
+    /***
+     * This function is used to create a company object within the database.
+     * Returns an object of the new Company Created
      */
 
     async createCompnany(c_name:string):Promise<UserCompany>
@@ -165,9 +235,7 @@ export class DataAccessRepository {
     async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
     {
         //generate random code e.g pwc288
-        const prefix=company_name.substring(0,3);
-
-       
+        const prefix=company_name.substring(0,3);  
 
         const min = Math.ceil(100);
         const max = Math.floor(300);
@@ -486,6 +554,29 @@ export class DataAccessRepository {
             return "getUserID() returned null"
     }
 
+    /***
+     * Thos function returns the team's id from the database through the 
+     * team name. Returns -1 if team doesn't exist
+     */
+
+     async getTeamIDVName(t_name:string):Promise<number>
+     {
+        const team=await this.prisma.team.findUnique({
+            where:{
+               team_name:t_name 
+            }
+        })
+ 
+        if(team)
+        {
+            return team.id;
+        }
+         
+        return -1;
+ 
+ 
+     }
+
     /****
      * This function returns the company ID by taking in the company name.
      * Returns -1, if no company was found with that name.
@@ -506,5 +597,7 @@ export class DataAccessRepository {
         else
             return -1;
     }
+
+    
     
 }
