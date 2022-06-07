@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
-import {UserPerson,UserCompany} from '@team-utilisation-monitor/api/shared/data-access'
+import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -141,7 +141,7 @@ export class DataAccessRepository {
      * This function is used to create a company object within the database
      */
 
-    async createCompnany(c_name:string)
+    async createCompnany(c_name:string):Promise<UserCompany>
     {
         const new_company=await this.prisma.company.create({
             data:{
@@ -149,7 +149,12 @@ export class DataAccessRepository {
             }
         })
 
-        return new_company;
+        const return_company=new UserCompany();
+
+        return_company.id=new_company.id;
+        return_company.company_name=new_company.company_name;
+
+        return return_company;
     }
 
     /***
@@ -157,15 +162,16 @@ export class DataAccessRepository {
      * with a company. The code is then stored in the database
      */
 
-    async createInviteCode(company_name:string):Promise<string>
+    async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
     {
         //generate random code e.g pwc288
-        const prefix=company_name.substring(0,4);
+        const prefix=company_name.substring(0,3);
 
-        const max=300;
-        const min=100;
+       
 
-        const suffix=Math.random() * (max - min) + min;
+        const min = Math.ceil(100);
+        const max = Math.floor(300);
+        const suffix= Math.floor(Math.random() * (max - min) + min); //The maximum is 
 
         const code=prefix+suffix;
 
@@ -182,9 +188,20 @@ export class DataAccessRepository {
                     expire:"2023-01-01T03:53:00.000Z"
                 }
             })
+
+            const return_code=new InviteCodeEntity();
+
+            return_code.id=new_code.id;
+            return_code.company_id=new_code.company_id;
+            return_code.inviteCode=code;
+            return_code.created=new_code.created;
+            return_code.expire=new_code.expire;
+
+            return return_code;
+
         }
 
-        return code;
+        return null;
 
     }
 
