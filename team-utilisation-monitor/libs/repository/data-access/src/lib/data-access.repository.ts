@@ -457,7 +457,6 @@ export class DataAccessRepository {
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
@@ -469,9 +468,7 @@ export class DataAccessRepository {
 
                     workers_arr.push(user);
                 }
-
                 projects_arr.push(project);
-
             }
         }
 
@@ -515,7 +512,7 @@ export class DataAccessRepository {
 
 
 
-        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,null)
+        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
 
     }
 
