@@ -61,9 +61,24 @@ export class ApiFeatureResolver {
 
     const resp=await this.service.signup(name,surname,email,password,R,sus,company_name);
 
-
     return resp;
 
+  }
+
+  @Mutation(()=>String)
+  async createInviteCode(@Args("company_name")company_name:string)
+  {
+    const resp=await this.service.createInviteCode(company_name);
+
+    return resp;
+  }
+
+  @Mutation(()=>String)
+  async createCompany(@Args("company_name")company_name:string)
+  {
+    const resp= await this.service.createCompany(company_name);
+
+    return resp;
   }
 
   @Query(() => String)

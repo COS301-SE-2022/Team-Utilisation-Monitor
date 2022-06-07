@@ -64,7 +64,8 @@ export class DataAccessRepository {
 
     /***
      * Role is an enum defined in the in the schema.prisma file.
-     * Thinking is i'm going to use the company id to associate the user
+     * Thinking is i'm going to use the company id to associate the user.
+     * I think you can use this to create the admin.
      */
 
     async createPerson(f_name:string,f_surname:string,f_email:string,f_role:Role,f_password:string,f_suspended:boolean,f_company_name:string){
@@ -76,7 +77,7 @@ export class DataAccessRepository {
             usr_company_id= (await this.getCompanyVName(f_company_name)).id //user has an affiliated company
         }
         else
-            usr_company_id=0; //user doesn't have an affiliated company
+            usr_company_id=null; //user doesn't have an affiliated company
 
         //IF person is created in a non-existing company,it might break!
 
@@ -133,6 +134,57 @@ export class DataAccessRepository {
             return null;
         }
 
+
+    }
+
+    /***
+     * This function is used to create a company object within the database
+     */
+
+    async createCompnany(c_name:string)
+    {
+        const new_company=await this.prisma.company.create({
+            data:{
+                company_name:c_name,
+            }
+        })
+
+        return new_company;
+    }
+
+    /***
+     * The function is used to generate a unique invitation code associated 
+     * with a company. The code is then stored in the database
+     */
+
+    async createInviteCode(company_name:string):Promise<string>
+    {
+        //generate random code e.g pwc288
+        const prefix=company_name.substring(0,4);
+
+        const max=300;
+        const min=100;
+
+        const suffix=Math.random() * (max - min) + min;
+
+        const code=prefix+suffix;
+
+        //put the code into the database
+
+        const c_id=await this.getCompanyID(company_name); //company_id
+
+        if(c_id>0)
+        {
+            const new_code=await this.prisma.invites.create({
+                data:{
+                    company_id:c_id,
+                    invite_code:code,
+                    expire:"2023-01-01T03:53:00.000Z"
+                }
+            })
+        }
+
+        return code;
 
     }
 
@@ -415,6 +467,27 @@ export class DataAccessRepository {
         }
         else
             return "getUserID() returned null"
+    }
+
+    /****
+     * This function returns the company ID by taking in the company name.
+     * Returns -1, if no company was found with that name.
+     */
+
+    async getCompanyID(c_name:string):Promise<number>
+    {
+        const company=await this.prisma.company.findUnique({
+            where:{
+                company_name:c_name,
+            }
+        })
+
+        if(company)
+        {
+            return company.id;
+        }
+        else
+            return -1;
     }
     
 }
