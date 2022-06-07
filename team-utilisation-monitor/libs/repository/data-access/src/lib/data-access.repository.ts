@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
 import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
@@ -404,8 +405,14 @@ export class DataAccessRepository {
 
         let employees_arr:UserPerson[]
         let projects_arr:ProjectEntity[]
+
         let teams_arr:TeamEntity[]
         let admins_arr:UserPerson[]
+
+        employees_arr=[]
+        projects_arr=[]
+        teams_arr=[]
+        admins_arr=[]
 
         if(company.employees!=null)
         {
@@ -508,7 +515,6 @@ export class DataAccessRepository {
 
         return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
 
-
     }
 
     /***
@@ -554,22 +560,6 @@ export class DataAccessRepository {
             return "getUserID() returned null"
     }
 
-    async getCompanyObject(name:string)
-    {
-      const company=await this.prisma.company.findUnique({
-        where:{
-          company_name:name,
-        }
-      })
-      if(company)
-      {
-        return company;
-      }
-      else
-      {
-        return null;
-      }
-    }
 
     /***
      * Thos function returns the team's id from the database through the
