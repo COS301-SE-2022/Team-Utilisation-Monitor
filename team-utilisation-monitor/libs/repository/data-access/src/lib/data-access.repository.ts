@@ -247,6 +247,8 @@ export class DataAccessRepository {
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
 
+            //DEV Note: There's no need to add the user to the company relation. Prisma magic
+
             return return_user;
         }
         else
@@ -413,6 +415,44 @@ export class DataAccessRepository {
         }
         else
             return -1;
+    }
+
+    /***
+     * This function returns an array of Persons Objects. Those are pending requests
+     * to the company.
+     */
+
+    
+
+    async getPendingRequests(companyName:string):Promise<UserPerson[]>
+    {
+        let return_arr=[];
+
+        const c_id= await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {
+            const get_pendingRequest=await this.prisma.person.findMany({
+                where:{
+                    role:Role.USER,
+                    approved:false,
+                    company_id:c_id
+                },
+            })
+    
+            for(let i=0;i<get_pendingRequest.length;++i)
+            {
+                return_arr[i]=new UserPerson();
+                return_arr[i].id=get_pendingRequest[i].id;
+                return_arr[i].name=get_pendingRequest[i].name;
+                return_arr[i].surname=get_pendingRequest[i].surname;
+                return_arr[i].email=get_pendingRequest[i].email;
+            }
+
+            return return_arr
+        }
+        else
+            console.error("getPendingRequests() failed to resolve the requery")
     }
 
     /***
@@ -774,7 +814,7 @@ export class DataAccessRepository {
      * This function is used to add employees to the database.
     */
 
-    async superAddEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    async addEmployeeToCompany(companyName:string,userPerson:UserPerson)
     {
         const c_id=await this.getCompanyID(companyName);
 
