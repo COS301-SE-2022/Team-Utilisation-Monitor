@@ -10,6 +10,6 @@ export class GetCompanyQueryHandler implements IQueryHandler<GetCompanyQuery>{
     constructor(private readonly repository:DataAccessRepository){}
 
     async execute(query: GetCompanyQuery): Promise<any> {
-        return this.repository.getCompanyObject(query.name);
+        return this.repository.getCompanyVName(query.name);
     }
 }

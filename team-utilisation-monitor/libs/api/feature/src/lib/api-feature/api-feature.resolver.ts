@@ -1,4 +1,3 @@
-import { GetCompanyQuery } from './../../../../../service/feature/src/lib/queries/impl/getCompany.query';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';

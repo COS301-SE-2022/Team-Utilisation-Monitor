@@ -513,7 +513,9 @@ export class DataAccessRepository {
             }
         }
 
-        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
+
+
+        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,null)
 
     }
 
