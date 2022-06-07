@@ -11,6 +11,7 @@ import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
+import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 
@@ -72,6 +73,11 @@ export class ServiceFeatureService {
     async createUser(name:string,surname:string,email:string,password:string,invite_code:string)
     {
         return this.commandBus.execute(new CreateUserCommand(name,surname,email,password,invite_code));
+    }
+
+    async getPendingRequests(companyName:string):Promise<UserPerson>
+    {
+        return this.queryBus.execute(new GetPendingRequests(companyName));
     }
 
     /**
