@@ -1,4 +1,3 @@
-
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
@@ -18,6 +17,12 @@ export class ApiFeatureResolver {
       return resp;
   }
 
+  @Query(() => UserCompany)
+  async GetCompanyQuery(@Args("name") company_name:string){
+      const resp=await this.service.getCompany(company_name);
+      return resp;
+  }
+
   @Query((returns) => UserPerson, { name: 'name' })
   async getUser(@Args('userId', { type: () => String }) userId: string) {
     let id;
@@ -29,7 +34,8 @@ export class ApiFeatureResolver {
 
     return userObj;
   }
-  
+
+
 
   @Query(() => String)
   sayHello(@Args("name") name:string){

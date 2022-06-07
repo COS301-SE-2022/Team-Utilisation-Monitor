@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button'
-import {MatMenuModule} from '@angular/material/menu'
-import {MatCardModule} from '@angular/material/card'
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
@@ -30,13 +27,14 @@ export class LoginComponent implements OnInit {
     console.log();
   }
 
-  onSubmit(formdata: { email: string; password: string; })
+  onSubmit()
   {
-    
-    console.log("In login function: "+formdata);
+
+    console.log("In login function: "+this.loginForm);
 
     if(this.loginForm.valid) {
-      this.result = this.service.login(formdata.email, formdata.password).subscribe({
+
+      this.result = this.service.login(this.loginForm.get("email")?.value as string, this.loginForm.get("password")?.value as string).subscribe({
         next: (item) => {
           if (item.data != null){
             //localStorage.setItem("id", item.data.login.id);

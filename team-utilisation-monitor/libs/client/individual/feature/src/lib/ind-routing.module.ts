@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {IndividualHomePageComponent} from "./individual-home-page/individual-home-page.component";
 import {ClientIndividualServiceService} from "./client-individual-service/client-individual-service.service";
-import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
-import {DashboardComponent} from "./dashboard/dashboard.component";
 
 const routes: Routes = [
   {
@@ -15,15 +13,7 @@ const routes: Routes = [
     component: IndividualHomePageComponent,
   },
 
-  {
-    path: 'individual_profile_page',
-    component: IndividualProfileComponent,
-  },
 
-  {
-    path: 'individual_dashboard_page',
-    component: DashboardComponent,
-  },
 
   {
     path: '**',

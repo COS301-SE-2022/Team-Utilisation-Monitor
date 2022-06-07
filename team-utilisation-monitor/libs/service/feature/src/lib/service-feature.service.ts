@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Role } from '@prisma/client';
+import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
 import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
@@ -9,6 +9,7 @@ import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
+import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 
 @Injectable()
@@ -36,6 +37,11 @@ export class ServiceFeatureService {
         return this.commandBus.execute(new CreatePersonCommand(name,surname,email,password,role,suspended,company_name));
     }
 
+    async getCompany(name: string):Promise<Company>
+    {
+      return this.queryBus.execute(new GetCompanyQuery(name));
+    }
+
     async createInviteCode(companyName:string):Promise<any>
     {
         return this.commandBus.execute(new CreateInviteCodeCommand(companyName));
@@ -55,8 +61,4 @@ export class ServiceFeatureService {
     {
         return this.commandBus.execute(new CreateTeamCommand(teamName,companyName))
     }
-
-    
-
-    
 }

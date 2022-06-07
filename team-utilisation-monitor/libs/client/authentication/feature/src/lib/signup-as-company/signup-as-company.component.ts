@@ -13,7 +13,7 @@ export class SignupAsCompanyComponent implements OnInit {
   //constructor() { }
 
   profileForm = new FormGroup({
-    companyName:new FormControl('',[Validators.required]),
+      companyName:new FormControl('',[Validators.required]),
       firstName: new FormControl('',[Validators.required]),
       lastName: new FormControl('',[Validators.required]),
       email:new FormControl('',[Validators.required,Validators.email]),
@@ -39,10 +39,10 @@ export class SignupAsCompanyComponent implements OnInit {
       const lastname=this.profileForm.get('lastName')?.value;
       const password=this.profileForm.get('password')?.value;
       const email=this.profileForm.get('email')?.value;
-      const company=this.profileForm.get('company')?.value;
-      this.service.addCompany(firstname,lastname,company,email,password);
+      const company=this.profileForm.get('companyName')?.value;
+      this.service.addCompany(firstname as string,lastname as string,company as string,email as string,password as string);
       //Redirect to the login page
-      this.router.navigate(['login_page']);
+      this.router.navigate(['']);
     }
     else
     {
