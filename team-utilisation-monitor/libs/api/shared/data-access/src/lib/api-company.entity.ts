@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Person } from "@prisma/client";
 import { ProjectEntity } from "./api-project.entity";
 import { UserPerson } from "./api-user-person.entity";
 import { TeamEntity } from "./api-team.entity";
@@ -27,5 +28,4 @@ export class UserCompany{
     @Field({nullable:true})
     invite_code?:string
 
-    
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
 import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
@@ -14,7 +15,7 @@ export class DataAccessRepository {
     async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
         const user_person=new UserPerson();
-        
+
         user_person.id=id;
         user_person.name=name;
         user_person.surname=surname;
@@ -46,7 +47,7 @@ export class DataAccessRepository {
         user_company.projects=projects;
         user_company.teams=teams;
         user_company.invite_code=invite_code;
-        
+
 
         return user_company;
     }
@@ -54,14 +55,14 @@ export class DataAccessRepository {
     async returnUserID(id:number)
     {
         const user_person=new UserPerson();
-        
+
         user_person.id=id;
 
         return user_person;
 
     }
 
-    
+
 
     /***
      * Role is an enum defined in the in the schema.prisma file.
@@ -91,7 +92,7 @@ export class DataAccessRepository {
                 role:f_role,
                 password:f_password,
                 suspended:f_suspended,
-                company_id:usr_company_id,             
+                company_id:usr_company_id,
             }
         })
 
@@ -219,7 +220,7 @@ export class DataAccessRepository {
     async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string)
     {
         //use the invitation link to get the company id
-        
+
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=await this.getCompanyVID(local_company_id);
@@ -248,7 +249,7 @@ export class DataAccessRepository {
 
             return return_user;
         }
-        else 
+        else
         {
             console.log("Couldn't verify Invitation link");
 
@@ -281,7 +282,7 @@ export class DataAccessRepository {
             return_team.company_id=new_team.company_id;
 
             return return_team;
-            
+
         }
 
 
@@ -320,7 +321,7 @@ export class DataAccessRepository {
 
             return return_project;
         }
-        
+
 
         return null;
 
@@ -348,18 +349,18 @@ export class DataAccessRepository {
     }
 
     /***
-     * The function is used to generate a unique invitation code associated 
+     * The function is used to generate a unique invitation code associated
      * with a company. The code is then stored in the database
      */
 
     async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
     {
         //generate random code e.g pwc288
-        const prefix=company_name.substring(0,3);  
+        const prefix=company_name.substring(0,3);
 
         const min = Math.ceil(100);
         const max = Math.floor(300);
-        const suffix= Math.floor(Math.random() * (max - min) + min); //The maximum is 
+        const suffix= Math.floor(Math.random() * (max - min) + min); //The maximum is
 
         const code=prefix+suffix;
 
@@ -409,7 +410,7 @@ export class DataAccessRepository {
         if(invite!=null) //return the id of the company
         {
             return invite.company_id;
-        }   
+        }
         else
             return -1;
     }
@@ -433,7 +434,7 @@ export class DataAccessRepository {
 
         const people_arr=[];
 
-        
+
         if(people)
         {
 
@@ -445,8 +446,8 @@ export class DataAccessRepository {
         else
             console.log("Object people returned null");
 
-        return people_arr; 
-            
+        return people_arr;
+
 
     }
 
@@ -469,7 +470,7 @@ export class DataAccessRepository {
         })
 
         if(person)
-        {   
+        {
             let local_project:string;
             let local_company:string;
             let local_team:string;
@@ -478,7 +479,7 @@ export class DataAccessRepository {
                 local_project=null;
             else
                 local_project=person.project.project_name
-            
+
             if(person.company==null)
                 local_company=null;
             else
@@ -499,11 +500,11 @@ export class DataAccessRepository {
 
     /**
      * This function returns the company object from the database.
-     * At the moment,the object has 3 components: 
+     * At the moment,the object has 3 components:
      * id,company_name ad admin_id
      * More will be added later
-     * @param f_company_name 
-     * @returns 
+     * @param f_company_name
+     * @returns
      */
 
 
@@ -520,12 +521,18 @@ export class DataAccessRepository {
                 admins:true,
                 invite:true
             }
-        }) 
+        })
 
         let employees_arr:UserPerson[]
         let projects_arr:ProjectEntity[]
+
         let teams_arr:TeamEntity[]
         let admins_arr:UserPerson[]
+
+        employees_arr=[]
+        projects_arr=[]
+        teams_arr=[]
+        admins_arr=[]
 
         if(company.employees!=null)
         {
@@ -557,7 +564,7 @@ export class DataAccessRepository {
             {
                 const project=new ProjectEntity();
                 let workers_arr:UserPerson[];
-                
+
                 project.id=company.projects[i].id;
                 project.project_name=company.projects[i].project_name;
                 project.ownwer_id=company.projects[i].owner_id;
@@ -565,26 +572,23 @@ export class DataAccessRepository {
                 for(let i=0;i<company.employees.length;++i)
                 {
                     const user=new UserPerson();
-    
+
                     user.id=company.employees[i].id;
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
                     user.company_id=company.id;
-    
+
                     /**
                      * What's missing is the project, team name and project,team id field
                     */
-    
+
                     workers_arr.push(user);
                 }
-
                 projects_arr.push(project);
-
             }
         }
 
@@ -600,7 +604,7 @@ export class DataAccessRepository {
                 //return a function that returns project_id based on teams_id
 
                 teams_arr.push(team);
-            }  
+            }
         }
 
         if(company.admins!=null)
@@ -626,8 +630,9 @@ export class DataAccessRepository {
             }
         }
 
-        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
 
+
+        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
 
     }
 
@@ -642,20 +647,20 @@ export class DataAccessRepository {
             where:{
                 id:f_id
             }
-        }) 
-        
+        })
+
         if(company==null)
             console.warn("getCompanyVID() returned"+ company)
         else
         {
-            return "Senna";         
+            return "Senna";
         }
     }
 
     /**
      * This function returns the user id.
-     * @param arg_email 
-     * @returns 
+     * @param arg_email
+     * @returns
      */
 
     async getUserID(arg_email:string)
@@ -667,15 +672,16 @@ export class DataAccessRepository {
         })
 
         if(person)
-        {   
+        {
             return this.returnUserID(person.id);
         }
         else
             return "getUserID() returned null"
     }
 
+
     /***
-     * Thos function returns the team's id from the database through the 
+     * Thos function returns the team's id from the database through the
      * team name. Returns -1 if team doesn't exist
      */
 
@@ -683,18 +689,18 @@ export class DataAccessRepository {
      {
         const team=await this.prisma.team.findUnique({
             where:{
-               team_name:t_name 
+               team_name:t_name
             }
         })
- 
+
         if(team)
         {
             return team.id;
         }
-         
+
         return -1;
- 
- 
+
+
      }
 
     /****
