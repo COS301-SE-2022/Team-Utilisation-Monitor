@@ -251,6 +251,7 @@ export class DataAccessRepository {
             return_user.company_name=company_name;
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
+            return_user.utilisation=new_user.utilisation;
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
@@ -609,6 +610,8 @@ export class DataAccessRepository {
             }
         })
 
+        //console.log(person);
+
         if(person)
         {
             let local_project:string;
@@ -642,10 +645,14 @@ export class DataAccessRepository {
                 local_team=person.team.team_name;
 
 
-            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+
+            return_user.utilisation=person.utilisation;
+
+            return return_user;
         }
         else
-            return "getOnePersonVEmail() returned null"
+            return null;
     }
 
 
@@ -698,6 +705,7 @@ export class DataAccessRepository {
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
                     user.company_id=company.id;
+                    user.utilisation=company.employees[i].utilisation;
     
                     /**
                      * What's missing is the project, team name and project,team id field
@@ -825,6 +833,7 @@ export class DataAccessRepository {
                     user.suspended=company.employees[i].suspended;
                     user.company_name=company.company_name;
                     user.company_id=company.id;
+                    user.utilisation=company.employees[i].utilisation;
                     
                     return_arr.push(user);
                     
@@ -885,6 +894,7 @@ export class DataAccessRepository {
                     user.suspended=company.employees[i].suspended;
                     user.company_name=company.company_name;
                     user.company_id=company.id;
+                    user.utilisation=company.employees[i].utilisation;
                     /**
                      * What's missing is the project, team name and project,team id field
                      */

@@ -53,41 +53,7 @@ async function main()
       }]
     },
 
-    admins:{
-     create:{
-       person:{
-        create:[
-          {
-              name:'Checo',
-              surname:'Perez',
-              email:'checo@gmail.com',
-              password:'mexico',
-              role:'ADMIN',
-              company_id:1,
-    
-              position:{
-              create:{
-                title:'Administrator'
-              } 
-            }
-          },
-          {
-            name:'Christian',
-            surname:'Horner',
-            email:'RB@gmail.com',
-            password:'theworldchampion',
-            role:'ADMIN',
-            company_id:1,
-    
-            position:{
-            create:{
-              title:'Administrator'
-            } 
-          }
-        }]
-       }
-     }
-    }
+  
 
   }
 })

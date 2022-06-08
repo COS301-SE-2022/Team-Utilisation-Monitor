@@ -27,7 +27,7 @@ export class ApiFeatureResolver {
       return resp;
   }
 
-  @Query((returns) => UserPerson, { name: 'name' })
+  @Query(() => UserPerson, { name: 'name' })
   async getUser(@Args('userId', { type: () => String }) userId: string) {
     let id;
     if (userId == '123') id = '1';
@@ -37,6 +37,18 @@ export class ApiFeatureResolver {
     userObj.id = id;
 
     return userObj;
+  }
+
+  /***
+   * This function returns a single user object based on the email argument
+   */
+
+  @Query(()=>UserPerson)
+  async getOnePerson(@Args("email") email:string )
+  {
+    const resp=this.service.getOnePersonVEmailService(email);
+
+    return resp;
   }
 
   /***
