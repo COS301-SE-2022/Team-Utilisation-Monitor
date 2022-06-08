@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { ApproveRequestCommand } from './commands/impl/approve-request.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
 import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
@@ -10,7 +11,10 @@ import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
+import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
+import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
+import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 
@@ -72,6 +76,26 @@ export class ServiceFeatureService {
     async createUser(name:string,surname:string,email:string,password:string,invite_code:string)
     {
         return this.commandBus.execute(new CreateUserCommand(name,surname,email,password,invite_code));
+    }
+
+    async getPendingRequests(companyName:string):Promise<UserPerson>
+    {
+        return this.queryBus.execute(new GetPendingRequests(companyName));
+    }
+
+    async getUserIDVEmail(email:string):Promise<UserPerson>
+    {
+        return this.queryBus.execute(new GetUserIDQuery(email));
+    }
+
+    async approveRequestVID(f_id:number):Promise<any>
+    {
+        return this.commandBus.execute(new ApproveRequestCommand(f_id));
+    }
+
+    async getCompanyStats(companyName:string):Promise<any>
+    {
+        return this.queryBus.execute(new GetCompanyStats(companyName));
     }
 
     /**

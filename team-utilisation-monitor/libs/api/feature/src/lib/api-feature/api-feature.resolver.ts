@@ -1,6 +1,6 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
-import { InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -16,6 +16,10 @@ export class ApiFeatureResolver {
       console.log(resp);
       return resp;
   }
+
+  /***
+   * This function returns a company object of type UserCompany
+   */
 
   @Query(() => UserCompany)
   async GetCompanyQuery(@Args("name") company_name:string){
@@ -35,6 +39,33 @@ export class ApiFeatureResolver {
     return userObj;
   }
 
+  /***
+   * This function is used to get the user ID. It returns an object that contains
+   * only the ID
+   */
+
+  @Query(()=>UserPerson)
+  async getUserID(@Args("email")email:string)
+  {
+    const resp=await this.service.getUserIDVEmail(email);
+
+    return resp;
+  }
+
+  /***
+   * This function returns the company's stats. This is an object that includes
+   * number of projects,number of teams,number of employees,number of admins
+   * use numTeams,numProjects,numEmployees,numAdmins
+   */
+
+  @Query(()=>CompanyStatsEntity)
+  async getCompanyStats(@Args("company_name") company_name:string)
+  {
+    const resp=await this.service.getCompanyStats(company_name);
+
+    return resp;
+  }
+
 
 
   @Query(() => String)
@@ -42,12 +73,21 @@ export class ApiFeatureResolver {
     return 'Hello '+name;
   }
 
+  /***
+   * This function is used to get all users in the databse irrespective of company
+   */
+
   @Query(()=>[UserPerson])
   async getAllPeople(){
     const resp=await this.service.getAllUserPerson();
     console.log(resp);
     return resp;
   }
+
+  /***
+   * Early concept function. Mainly used for testing. Used to create a user into the
+   * database
+   */
 
   @Mutation(()=>UserPerson)
   async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
@@ -71,13 +111,36 @@ export class ApiFeatureResolver {
 
   }
 
+  /***
+   * This function returns an array of UserPerson objects. Use this function
+   * To get all pending requests against the argument company.
+   * In it's current state, the objects will contain id,name,surname and email
+   */
+
+  @Query(()=>[UserPerson])
+  async getPendingRequests(@Args("company_name") company_name:string)
+  {
+    const resp=await this.service.getPendingRequests(company_name);
+
+    return resp;
+  }
+
+  /***
+   * This function creates an inviteCode to be used by the user to login.
+   * There's a 1-1 mapping between the invite code and a company
+   */
+
   @Mutation(()=>InviteCodeEntity)
-  async createInviteCode(@Args("company_name")company_name:string)
+  async createInviteCode(@Args("company_name") company_name:string)
   {
     const resp=await this.service.createInviteCode(company_name);
 
     return resp;
   }
+
+  /***
+   * This function is used to create a company.
+   */
 
   @Mutation(()=>UserCompany)
   async createCompany(@Args("company_name")company_name:string)
@@ -87,6 +150,10 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * This function is used to create a project
+   */
+
   @Mutation(()=>ProjectEntity)
   async createProject(@Args("project_name") project_name:string,@Args("company_name") company_name:string, @Args("team_name") team_name:string,@Args("man_hours")man_hours:number)
   {
@@ -94,6 +161,10 @@ export class ApiFeatureResolver {
 
     return resp;
   }
+
+  /***
+   * This function is used to create a team
+   */
 
   @Mutation(()=>TeamEntity)
   async createTeam(@Args("team_name") team_name:string,@Args("company_name")company_name:string)
@@ -103,6 +174,10 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * This function is used to create an Admin
+   */
+
   @Mutation(()=>UserPerson)
   async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("company_name")company_name:string)
   {
@@ -111,10 +186,26 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * This function is used to create a user i.e role=USER
+   */
+
   @Mutation(()=>UserPerson)
   async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password")password:string,@Args("inviteCode")inviteCode:string)
   {
     const resp=await this.service.createUser(name,surname,email,password,inviteCode)
+
+    return resp;
+  }
+
+  /***
+   * This function is used to approve requests via id
+   */
+  
+  @Mutation(()=>Boolean)
+  async approveRequest(@Args("id") id:string)
+  {
+    const resp=await this.service.approveRequestVID(parseInt(id));
 
     return resp;
   }

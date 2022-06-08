@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
-import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -182,8 +182,13 @@ export class DataAccessRepository {
                         email:f_email,
                         password:f_password,
                         company_id:c_id,
-                        role:Role.ADMIN,
-                        approved: true
+                        role:Role.ADMIN,     
+                        approved: true,
+                        position:{
+                            create:{
+                                title:"Administrator"
+                            }
+                        }
                     }
                 })
 
@@ -223,7 +228,7 @@ export class DataAccessRepository {
 
 
         const local_company_id=await this.verifyCode(inviteLink);
-        const company_name=await this.getCompanyVID(local_company_id);
+        const company_name=(await this.getCompanyVID(local_company_id)).company_name;
 
         if(local_company_id>0) //link is valid
         {
@@ -246,6 +251,8 @@ export class DataAccessRepository {
             return_user.company_name=company_name;
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
+
+            //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
             return return_user;
         }
@@ -415,6 +422,135 @@ export class DataAccessRepository {
             return -1;
     }
 
+
+    
+
+    /***
+     * This function returns an array of Persons Objects. Those are pending requests
+     * to the company.
+     */
+
+    
+
+    async getPendingRequests(companyName:string):Promise<UserPerson[]>
+    {
+        let return_arr=[];
+
+        const c_id= await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {
+            const get_pendingRequest=await this.prisma.person.findMany({
+                where:{
+                    role:Role.USER,
+                    approved:false,
+                    company_id:c_id
+                },
+            })
+    
+            for(let i=0;i<get_pendingRequest.length;++i)
+            {
+                return_arr[i]=new UserPerson();
+                return_arr[i].id=get_pendingRequest[i].id;
+                return_arr[i].name=get_pendingRequest[i].name;
+                return_arr[i].surname=get_pendingRequest[i].surname;
+                return_arr[i].email=get_pendingRequest[i].email;
+            }
+
+            return return_arr
+        }
+        else
+            console.error("getPendingRequests() failed to resolve the requery")
+    }
+
+    /***
+     * This function is used to approve requests via id of the user.
+     * Returns true if application is successful
+     */
+
+    async approveRequest(f_id:number):Promise<boolean>
+    {
+        const confirm=await this.prisma.person.update({
+            data:{
+                approved:true
+            },
+            where:{
+                id:f_id
+            }
+        })
+
+        if(confirm)
+            return true;
+        else
+            return false;
+    }
+
+    /***
+     * This function is used to approve requests via id of the user.
+     * Returns true if application is successful
+     */
+
+     async approveRequestVEmail(f_email:string):Promise<boolean>
+     {
+         const confirm=await this.prisma.person.update({
+             data:{
+                 approved:true
+             },
+             where:{
+                email:f_email
+             }
+         })
+ 
+         if(confirm)
+             return true;
+         else
+             return false;
+    }
+
+    /****
+     * This function returns an object CompanyStats, that packages stats of the
+     * company like number of projects, teams,employees and Admins
+     * Returns null if company doesn't exist
+     */
+
+    async getCompanyStats(companyName:string):Promise<CompanyStatsEntity>
+    {
+        const company_object=await this.getCompanyVName(companyName);
+
+        let numProjects=0;
+        let numTeams=0;
+        let numEmployees=0;
+        let numAdmins=0;
+
+        if(company_object)
+        {
+            numProjects=company_object.projects.length;
+            numTeams=company_object.teams.length;
+            numEmployees=company_object.employees.length;
+
+            for(let i=0;i<company_object.employees.length;++i)
+            {
+                if(company_object.employees[i].role==Role.ADMIN)
+                {
+                    ++numAdmins;
+                }
+            }
+
+            const return_stats=new CompanyStatsEntity();
+
+            return_stats.numProjects=numProjects;
+            return_stats.numTeams=numTeams;
+            return_stats.numEmployees=numEmployees;
+            return_stats.numAdmins=numAdmins;
+
+            return return_stats;
+
+        }
+        else
+            return null;
+
+    }
+
     /***
      * Returns an array of all persons on the dataBase
      */
@@ -450,6 +586,8 @@ export class DataAccessRepository {
 
 
     }
+
+
 
     /***
      * Returns one user via their email address.
@@ -513,9 +651,6 @@ export class DataAccessRepository {
 
     /**
      * This function returns the company object from the database.
-     * At the moment,the object has 3 components:
-     * id,company_name ad admin_id
-     * More will be added later
      * @param f_company_name
      * @returns
      */
@@ -536,98 +671,24 @@ export class DataAccessRepository {
             }
         })
 
-        let employees_arr:UserPerson[]
-        let projects_arr:ProjectEntity[]
-
-        let teams_arr:TeamEntity[]
-        let admins_arr:UserPerson[]
-
-        employees_arr=[]
-        projects_arr=[]
-        teams_arr=[]
-        admins_arr=[]
-
-        if(company.employees!=null)
-        {
-            for(let i=0;i<company.employees.length;++i)
+        if(company){
+            let employees_arr:UserPerson[]
+            let projects_arr:ProjectEntity[]
+    
+            let teams_arr:TeamEntity[]
+            let admins_arr:UserPerson[]
+    
+            employees_arr=[]
+            projects_arr=[]
+            teams_arr=[]
+            admins_arr=[]
+    
+            if(company.employees!=null)
             {
-                const user=new UserPerson();
-
-                user.id=company.employees[i].id;
-                user.name=company.employees[i].name;
-                user.surname=company.employees[i].surname;
-                user.email=company.employees[i].email;
-                user.password=company.employees[i].password;
-                user.role=company.employees[i].role;
-                user.suspended=company.employees[i].suspended;
-                user.company_name=f_company_name;
-                user.company_id=company.id;
-
-                /**
-                 * What's missing is the project, team name and project,team id field
-                 */
-
-                employees_arr.push(user);
-            }
-        }
-
-        if(company.projects!=null)
-        {
-            for(let i=0;i<company.projects.length;++i)
-            {
-                const project=new ProjectEntity();
-                let workers_arr:UserPerson[];
-
-                project.id=company.projects[i].id;
-                project.project_name=company.projects[i].project_name;
-                project.ownwer_id=company.projects[i].owner_id;
-
                 for(let i=0;i<company.employees.length;++i)
                 {
                     const user=new UserPerson();
-
-                    user.id=company.employees[i].id;
-                    user.name=company.employees[i].name;
-                    user.surname=company.employees[i].surname;
-                    user.email=company.employees[i].email;
-                    user.role=company.employees[i].role;
-                    user.suspended=company.employees[i].suspended;
-                    user.company_name=f_company_name;
-                    user.company_id=company.id;
-
-                    /**
-                     * What's missing is the project, team name and project,team id field
-                    */
-
-                    workers_arr.push(user);
-                }
-                projects_arr.push(project);
-            }
-        }
-
-        if(company.teams!=null)
-        {
-            for(let i=0;i<company.teams.length;++i)
-            {
-                const team=new TeamEntity();
-
-                team.id=company.teams[i].id;
-                team.team_name=company.teams[i].team_name;
-                team.company_id=company.teams[i].company_id;
-                //return a function that returns project_id based on teams_id
-
-                teams_arr.push(team);
-            }
-        }
-
-        if(company.admins!=null)
-        {
-            for(let i=0;i<company.employees.length;++i)
-            {
-                if(company.employees[i].role=='ADMIN')
-                {
-                    const user=new UserPerson();
-
+    
                     user.id=company.employees[i].id;
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
@@ -637,15 +698,95 @@ export class DataAccessRepository {
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
                     user.company_id=company.id;
-
-                    admins_arr.push(user);
+    
+                    /**
+                     * What's missing is the project, team name and project,team id field
+                     */
+    
+                    employees_arr.push(user);
                 }
             }
+    
+            if(company.projects!=null)
+            {
+                for(let i=0;i<company.projects.length;++i)
+                {
+                    const project=new ProjectEntity();
+                    let workers_arr:UserPerson[];
+    
+                    project.id=company.projects[i].id;
+                    project.project_name=company.projects[i].project_name;
+                    project.ownwer_id=company.projects[i].owner_id;
+    
+                    for(let i=0;i<company.employees.length;++i)
+                    {
+                        const user=new UserPerson();
+    
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=f_company_name;
+                        user.company_id=company.id;
+    
+                        /**
+                         * What's missing is the project, team name and project,team id field
+                        */
+    
+                        workers_arr.push(user);
+                    }
+                    projects_arr.push(project);
+                }
+            }
+    
+            if(company.teams!=null)
+            {
+                for(let i=0;i<company.teams.length;++i)
+                {
+                    const team=new TeamEntity();
+    
+                    team.id=company.teams[i].id;
+                    team.team_name=company.teams[i].team_name;
+                    team.company_id=company.teams[i].company_id;
+                    //return a function that returns project_id based on teams_id
+    
+                    teams_arr.push(team);
+                }
+            }
+    
+            if(company.admins!=null)
+            {
+                for(let i=0;i<company.employees.length;++i)
+                {
+                    if(company.employees[i].role=='ADMIN')
+                    {
+                        const user=new UserPerson();
+    
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.password=company.employees[i].password;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=f_company_name;
+                        user.company_id=company.id;
+    
+                        admins_arr.push(user);
+                    }
+                }
+            }
+    
+    
+    
+            return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
+    
+       
         }
-
-
-
-        return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
+        else
+            return null;
 
     }
 
@@ -654,29 +795,143 @@ export class DataAccessRepository {
      * the id of the company
      */
 
-    async getCompanyVID(f_id:number)
+    async getCompanyVID(f_id:number):Promise<UserCompany|null>
     {
         const company=await this.prisma.company.findUnique({
             where:{
                 id:f_id
+            },
+            include:{
+                employees:true,
+                projects:true,
+                teams:true,
+                admins:true,
+                invite:true
             }
         })
 
-        if(company==null)
-            console.warn("getCompanyVID() returned"+ company)
-        else
+        if(company)
         {
-            return "Senna";
+            let employees_arr:UserPerson[]
+            let projects_arr:ProjectEntity[]
+    
+            let teams_arr:TeamEntity[]
+            let admins_arr:UserPerson[]
+    
+            employees_arr=[]
+            projects_arr=[]
+            teams_arr=[]
+            admins_arr=[]
+    
+            if(company.employees!=null)
+            {
+                for(let i=0;i<company.employees.length;++i)
+                {
+                    const user=new UserPerson();
+    
+                    user.id=company.employees[i].id;
+                    user.name=company.employees[i].name;
+                    user.surname=company.employees[i].surname;
+                    user.email=company.employees[i].email;
+                    user.password=company.employees[i].password;
+                    user.role=company.employees[i].role;
+                    user.suspended=company.employees[i].suspended;
+                    user.company_name=company.company_name;
+                    user.company_id=company.id;
+                    /**
+                     * What's missing is the project, team name and project,team id field
+                     */
+    
+                    employees_arr.push(user);
+                }
+            }
+    
+            if(company.projects!=null)
+            {
+                for(let i=0;i<company.projects.length;++i)
+                {
+                    const project=new ProjectEntity();
+                    let workers_arr:UserPerson[];
+    
+                    project.id=company.projects[i].id;
+                    project.project_name=company.projects[i].project_name;
+                    project.ownwer_id=company.projects[i].owner_id;
+    
+                    for(let i=0;i<company.employees.length;++i)
+                    {
+                        const user=new UserPerson();
+    
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=company.company_name;
+                        user.company_id=company.id;
+    
+                        /**
+                         * What's missing is the project, team name and project,team id field
+                        */
+    
+                        workers_arr.push(user);
+                    }
+                    projects_arr.push(project);
+                }
+            }
+    
+            if(company.teams!=null)
+            {
+                for(let i=0;i<company.teams.length;++i)
+                {
+                    const team=new TeamEntity();
+    
+                    team.id=company.teams[i].id;
+                    team.team_name=company.teams[i].team_name;
+                    team.company_id=company.teams[i].company_id;
+                    //return a function that returns project_id based on teams_id
+    
+                    teams_arr.push(team);
+                }
+            }
+    
+            if(company.admins!=null)
+            {
+                for(let i=0;i<company.employees.length;++i)
+                {
+                    if(company.employees[i].role=='ADMIN')
+                    {
+                        const user=new UserPerson();
+    
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.password=company.employees[i].password;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=company.company_name;
+                        user.company_id=company.id;
+    
+                        admins_arr.push(user);
+                    }
+                }
+            }
+    
+            return  this.returnCompanyObject(company.id,company.company_name,admins_arr,employees_arr,projects_arr,teams_arr,company.invite.invite_code)
+    
         }
+
+        
     }
 
     /**
-     * This function returns the user id.
+     * This function returns the user id. Returns an object with the user id
      * @param arg_email
      * @returns
      */
 
-    async getUserID(arg_email:string)
+    async getUserIDVEmail(arg_email:string):Promise<UserPerson>
     {
         const person=await this.prisma.person.findUnique({
             where:{
@@ -689,7 +944,7 @@ export class DataAccessRepository {
             return this.returnUserID(person.id);
         }
         else
-            return "getUserID() returned null"
+            return null
     }
 
 
@@ -787,7 +1042,7 @@ export class DataAccessRepository {
      * This function is used to add employees to the database.
     */
 
-    async superAddEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    async addEmployeeToCompany(companyName:string,userPerson:UserPerson)
     {
         const c_id=await this.getCompanyID(companyName);
 
