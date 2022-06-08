@@ -12,6 +12,7 @@ import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
 import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
+import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 
@@ -78,6 +79,11 @@ export class ServiceFeatureService {
     async getPendingRequests(companyName:string):Promise<UserPerson>
     {
         return this.queryBus.execute(new GetPendingRequests(companyName));
+    }
+
+    async getUserIDVEmail(email:string):Promise<UserPerson>
+    {
+        return this.queryBus.execute(new GetUserIDQuery(email));
     }
 
     /**

@@ -8,6 +8,6 @@ export class GetUserIDQueryHandler implements IQueryHandler<GetUserIDQuery>{
     constructor(private readonly repository:DataAccessRepository){}
 
     async execute(query: GetUserIDQuery): Promise<any> {
-        return this.repository.getUserID(query.email);
+        return this.repository.getUserIDVEmail(query.email);
     }
 }
