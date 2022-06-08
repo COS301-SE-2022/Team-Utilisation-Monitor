@@ -30,6 +30,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CompNavRequestUsersComponent } from './comp-nav-request-users/comp-nav-request-users.component';
 import { CompListViewIndividualComponent } from './comp-list-view-individual/comp-list-view-individual.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { CompAddUserPopupComponent } from './comp-add-user-popup/comp-add-user-popup.component';
 
 @NgModule({
   imports: [
@@ -57,9 +59,10 @@ import { CompListViewIndividualComponent } from './comp-list-view-individual/com
     MatProgressBarModule,
     MatExpansionModule,
     MatBadgeModule,
+    MatDialogModule,
     RouterModule.forChild([]),
   ],
-  providers:[CookieService],
+  providers: [CookieService],
   declarations: [
     AdminListViewComponent,
     AdminHomePageComponent,
@@ -70,7 +73,15 @@ import { CompListViewIndividualComponent } from './comp-list-view-individual/com
     CompAdminTopnavComponent,
     CompNavRequestUsersComponent,
     CompListViewIndividualComponent,
+    CompAddUserPopupComponent,
   ],
-  exports: [AdminRoutingModule, CompNavbarComponent, CompNavbarComponent, CompAdminTopnavComponent, CompAdminTopnavComponent, CompAdminTopnavComponent],
+  exports: [
+    AdminRoutingModule,
+    CompNavbarComponent,
+    CompNavbarComponent,
+    CompAdminTopnavComponent,
+    CompAdminTopnavComponent,
+    CompAdminTopnavComponent,
+  ],
 })
 export class ClientAdminFeatureModule {}

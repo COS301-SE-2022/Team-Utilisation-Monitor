@@ -16,7 +16,7 @@
                 <p><span [matBadge]="nrOfRequests" matBadgeOverlap="false" matBadgeColor="accent">Requested Users</span></p>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <button class="userRequestButton" mat-button>Add User <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
+        <button class="userRequestButton" (click)="onOpenCreateTeamClick()" mat-button>Add User <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
         <team-utilisation-monitor-comp-nav-request-users
         *ngFor="let user of OutEmployeeName"
         [IndivName] = "user"></team-utilisation-monitor-comp-nav-request-users>
