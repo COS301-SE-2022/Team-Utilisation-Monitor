@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCommonModule, MatOptionModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -58,7 +59,7 @@ import { CompListViewIndividualComponent } from './comp-list-view-individual/com
     MatBadgeModule,
     RouterModule.forChild([]),
   ],
-
+  providers:[CookieService],
   declarations: [
     AdminListViewComponent,
     AdminHomePageComponent,
