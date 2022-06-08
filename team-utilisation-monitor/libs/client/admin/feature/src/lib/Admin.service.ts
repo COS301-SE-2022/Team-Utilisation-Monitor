@@ -21,13 +21,26 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
   }
-  this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}),options).subscribe(data=>
-    {
-      this.company=data;
-    })
+  this.company=this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
 
     return this.company;
   }
+
+  login(email:string,password:string):Observable<any>
+  {
+    const query='query{login(email:"'+email+'",password:"'+password+'"){name}}';
+
+    const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+    console.log()
+    return obj;
+
+}
 
   getAdmins(companyName:string)
   {
@@ -48,6 +61,5 @@ export class AdminService {
   {
     //
   }
-
 
 }
