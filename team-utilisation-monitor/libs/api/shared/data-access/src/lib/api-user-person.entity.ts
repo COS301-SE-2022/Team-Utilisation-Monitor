@@ -27,6 +27,9 @@ export class UserPerson{
     @Field({ nullable: true })
     company_name?:string;
 
+    @Field()
+    utilisation:number;
+
     @Field({ nullable: true })
     position?:string;
 
