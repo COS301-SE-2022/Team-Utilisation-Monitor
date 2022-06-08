@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CompAddUserPopupComponent } from '../comp-add-user-popup/comp-add-user-popup.component';
+import { CompCreateTeamPopupComponent } from '../comp-create-team-popup/comp-create-team-popup.component';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-navbar',
@@ -25,6 +26,10 @@ export class CompNavbarComponent implements OnInit {
   }
 
   onOpenCreateTeamClick(){
-     this.matDialog.open(CompAddUserPopupComponent);
+     this.matDialog.open(CompCreateTeamPopupComponent);
+  }
+
+  onOpenAddUserClick(){
+    this.matDialog.open(CompAddUserPopupComponent);
   }
 }
