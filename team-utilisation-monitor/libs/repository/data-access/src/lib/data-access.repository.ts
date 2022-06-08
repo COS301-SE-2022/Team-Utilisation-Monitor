@@ -116,14 +116,14 @@ export class DataAccessRepository {
                     name:f_name,
                     surname:f_surname,
                     email:f_email,
-                    password:f_password, 
-                    company_id:c_id, 
+                    password:f_password,
+                    company_id:c_id,
                     admin_id:c_id,
                     role:Role.ADMIN,
-                    approved:true        
+                    approved:true
                 }
             })
-            
+
             const return_admin=new UserPerson();
 
             return_admin.company_id=new_admin.id;
@@ -136,12 +136,12 @@ export class DataAccessRepository {
             return_admin.role=new_admin.role;
 
             this.superCreateCompany(f_company_name,return_admin);
-            
+
             return return_admin;
-            
-    
+
+
         }
-        
+
         console.log("Company Doesn't exist. Returning null");
         return null;
 
@@ -180,7 +180,7 @@ export class DataAccessRepository {
                         name:f_name,
                         surname:f_surname,
                         email:f_email,
-                        password:f_password,  
+                        password:f_password,
                         company_id:c_id,
                         role:Role.ADMIN,     
                         approved: true,
@@ -206,12 +206,12 @@ export class DataAccessRepository {
                 return_admin.role=new_admin.role;
 
                 this.superCreateCompany(f_company_name,return_admin);
-                
+
                 return return_admin;
             }
             else
                 return null;
-            
+
         }
 
 
@@ -236,7 +236,7 @@ export class DataAccessRepository {
                 data:{
                     name:f_name,
                     surname:f_surname,
-                    email:f_email,         
+                    email:f_email,
                     company_id:local_company_id,
                     password:f_password
                 }
@@ -593,6 +593,8 @@ export class DataAccessRepository {
      * Returns one user via their email address.
      */
 
+
+
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
     {
         const person=await this.prisma.person.findUnique({
@@ -612,6 +614,8 @@ export class DataAccessRepository {
             let local_project:string;
             let local_company:string;
             let local_team:string;
+            let title:string;
+
 
             if(person.project==null)
                 local_project=null;
@@ -623,13 +627,22 @@ export class DataAccessRepository {
             else
                 local_company=person.company.company_name;
 
+            if(person.position==null)
+                title=null;
+            else
+                if(person.position.title==null)
+                  title=null;
+                else
+                  title=person.position.title;
+
+
             if(person.team==null)
                 local_team=null;
             else
                 local_team=person.team.team_name;
 
 
-            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,person.position.title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            return this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
         }
         else
             return "getOnePersonVEmail() returned null"
@@ -997,7 +1010,7 @@ export class DataAccessRepository {
         const c_id=await this.getCompanyID(companyName);
 
         if(c_id>0)
-        {   
+        {
             console.log("updating company");
 
             const update_company=await this.prisma.company.update({
@@ -1016,11 +1029,11 @@ export class DataAccessRepository {
                            id:userPerson.id
                        }
                    }
-                   
+
                 }
-                
+
             })
-        }   
+        }
         else
             console.error("superCreateCompany() failed to create a company");
     }
@@ -1036,7 +1049,7 @@ export class DataAccessRepository {
         if(c_id>0)
         {
             console.log("Adding Employee");
-            
+
             const update_company=await this.prisma.company.update({
                 where:{
                     id:c_id,
@@ -1047,9 +1060,9 @@ export class DataAccessRepository {
                            id:userPerson.id,
                        }
                    }
-                   
+
                 }
-                
+
             })
 
         }
@@ -1058,6 +1071,6 @@ export class DataAccessRepository {
     }
 
 
-    
-    
+
+
 }

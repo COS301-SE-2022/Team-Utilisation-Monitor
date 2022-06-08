@@ -41,7 +41,7 @@ export class SignupAsIndividualComponent implements OnInit {
       /*detect the name of the company from the table that the user's email will be registered to
       WHEN THE ADMIN ADD A PERSON USING EMAIL..WE WILL ADD THE NAME OF THE COMPANY THEY ARE BEING
       TO THEN PASS IT AS A COMPANY ON THIS FUNCTION*/
-      this.service.addUser(firstname as string,lastname as string,"Geotech",email as string,password as string);
+      //this.service.addUser(firstname as string,lastname as string,"Geotech",email as string,password as string);
 
       //Redirect to the login page
       this.router.navigate(['']);
