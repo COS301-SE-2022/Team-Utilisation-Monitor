@@ -166,6 +166,18 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * This function is used to approve requests via id
+   */
+  
+  @Mutation(()=>Boolean)
+  async approveRequest(@Args("id") id:string)
+  {
+    const resp=await this.service.approveRequestVID(parseInt(id));
+
+    return resp;
+  }
+
 
   @Query(() => String)
   pingUser() {
