@@ -196,7 +196,7 @@
   optionalDependencies:
     parse5 "^5.0.0"
 
-"@angular/cli@14.0.0":
+"@angular/cli@~14.0.0":
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-14.0.0.tgz#ce761693bef18e8cf46eeebc01c85ea49f0a110f"
   integrity sha512-dGIP0FdKnZ52VJZo83r+eQlCnUDVj08Dx3v3szD/IT/f7bhv7Ob6Bdae+c7CgM5yIt1DBIYe6xX8uZ/JIGtBoQ==
@@ -7919,6 +7919,13 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+ngx-cookie-service@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-14.0.0.tgz#c10735af0b646c52d09fa7e71ed788d8043aba35"
+  integrity sha512-Yur9aIrtcqkI40UgvIN8VLoOzxhI3o/yWc16Q/buvprapTQzYdplNZ5chjb50SYaREiJdXfj7Wc49YG+9ABX1A==
+  dependencies:
+    tslib "^2.0.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"

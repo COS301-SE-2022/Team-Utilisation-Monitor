@@ -42,6 +42,7 @@
     "graphql": "^16.5.0",
     "graphql-tools": "^8.2.11",
     "install": "^0.13.0",
+    "ngx-cookie-service": "^14.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",

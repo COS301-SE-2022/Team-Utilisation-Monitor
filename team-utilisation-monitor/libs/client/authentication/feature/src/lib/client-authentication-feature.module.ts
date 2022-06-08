@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -60,6 +61,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
        */
     ]),
   ],
+  providers:[CookieService],
   declarations: [
     LoginComponent,
     SignupAsComponent,
