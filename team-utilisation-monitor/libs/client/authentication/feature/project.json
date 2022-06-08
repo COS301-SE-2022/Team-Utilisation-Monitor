@@ -1,11 +1,14 @@
 {
+  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/client/authentication/feature/src",
   "prefix": "team-utilisation-monitor",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/client/authentication/feature"],
+      "outputs": [
+        "coverage/libs/client/authentication/feature"
+      ],
       "options": {
         "jestConfig": "libs/client/authentication/feature/jest.config.ts",
         "passWithNoTests": true

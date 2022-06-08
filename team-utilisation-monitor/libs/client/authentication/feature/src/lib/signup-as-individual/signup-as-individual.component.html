@@ -24,6 +24,12 @@
 
         <form [formGroup]="profileForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="gappx" (ngSubmit)="onSubmit()">
 
+          <div class="example-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Invite Code</mat-label>
+              <input id="invitecode" matInput  formControlName="Invitecode">
+            </mat-form-field>
+          </div>
 
           <div class="example-container">
             <mat-form-field appearance="outline">

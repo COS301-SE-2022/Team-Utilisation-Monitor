@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button'
-import {MatMenuModule} from '@angular/material/menu'
-import {MatCardModule} from '@angular/material/card'
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import {CookieService} from 'ngx-cookie-service'
 
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('',[Validators.required,Validators.minLength(4),Validators.pattern("")]),
   });
 
-  constructor(private service:AuthenticationService,private router:Router) {
+  constructor(private service:AuthenticationService,private router:Router,private cookie:CookieService) {
    }
 
 
@@ -30,21 +30,30 @@ export class LoginComponent implements OnInit {
     console.log();
   }
 
-  onSubmit(formdata: { email: string; password: string; })
+  onSubmit()
   {
-    
-    console.log("In login function: "+formdata);
+
+    console.log("In login function: "+this.loginForm);
 
     if(this.loginForm.valid) {
-      this.result = this.service.login(formdata.email, formdata.password).subscribe({
+      const email:string=this.loginForm.get("email")?.value!;
+      const pass=this.loginForm.get("password")?.value!;
+      this.result = this.service.login(email,pass).subscribe({
         next: (item) => {
-          if (item.data != null){
-            //localStorage.setItem("id", item.data.login.id);
+          if (item.data != null)
+          {
+            this.cookie.set("UserName",item.data.login.name+" "+item.data.login.surname);
+            this.cookie.set("CompanyName",item.data.login.company_name);
 
-            console.log("logged In!!!");
-            console.log(item);
+            if(item.data.login.role=="ADMIN") //CURRENT USER IS ADMIN
+            {
+              this.router.navigate(['AdminHome'])
+            }
+            else
+            {
+              this.router.navigate(['home_page']) //, {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});
+            }
 
-            this.router.navigate(['home_page'], {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});
           }else{
             alert("Incorrect Details, Try Again!");
           }

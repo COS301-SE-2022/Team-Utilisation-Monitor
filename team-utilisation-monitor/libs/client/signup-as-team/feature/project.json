@@ -1,11 +1,14 @@
 {
+  "$schema": "..\\..\\..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/client/signup-as-team/feature/src",
   "prefix": "team-utilisation-monitor",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/client/signup-as-team/feature"],
+      "outputs": [
+        "coverage/libs/client/signup-as-team/feature"
+      ],
       "options": {
         "jestConfig": "libs/client/signup-as-team/feature/jest.config.ts",
         "passWithNoTests": true

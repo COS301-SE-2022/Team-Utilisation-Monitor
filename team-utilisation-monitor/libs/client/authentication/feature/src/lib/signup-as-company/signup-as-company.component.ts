@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +15,7 @@ export class SignupAsCompanyComponent implements OnInit {
   //constructor() { }
 
   profileForm = new FormGroup({
-    companyName:new FormControl('',[Validators.required]),
+      companyName:new FormControl('',[Validators.required]),
       firstName: new FormControl('',[Validators.required]),
       lastName: new FormControl('',[Validators.required]),
       email:new FormControl('',[Validators.required,Validators.email]),
@@ -21,12 +23,12 @@ export class SignupAsCompanyComponent implements OnInit {
       confirmPassword: new FormControl('',[Validators.required,Validators.minLength(10)])
 
   });
+  Admin:any;
   ngOnInit(): void {
     console.log();
   }
 
   //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
-
   constructor(private service:AuthenticationService ,private router:Router) {}
 
   onSubmit()
@@ -35,19 +37,26 @@ export class SignupAsCompanyComponent implements OnInit {
     {
       //Continue with the submission
       //console.log(JSON.stringify(this.profileForm.value));
-      const firstname=this.profileForm.get('firstName')?.value;
-      const lastname=this.profileForm.get('lastName')?.value;
-      const password=this.profileForm.get('password')?.value;
-      const email=this.profileForm.get('email')?.value;
-      const company=this.profileForm.get('company')?.value;
-      this.service.addCompany(firstname,lastname,company,email,password);
+      const firstname=this.profileForm.get('firstName')?.value!;
+      const lastname=this.profileForm.get('lastName')?.value!;
+      const email=this.profileForm.get("email")?.value!;
+      const password=this.profileForm.get("password")?.value!;
+      const company=this.profileForm.get('companyName')?.value!;
+      this.service.addAdmin(firstname,lastname,company,email,password).subscribe(data=>
+        {
+          this.Admin=data;
+          if(this.Admin.data!=null)
+          {
+            //
+          }
+        });
       //Redirect to the login page
-      this.router.navigate(['login_page']);
+      this.router.navigate(['']);
     }
     else
     {
       //Console an error message
-      console.log("Passwords not matching")
+      alert("Passwords not matching");
     }
 
   }

@@ -19,10 +19,12 @@ model Person{
   role Role @default(USER)
   suspended Boolean @default(false)
   utilisation Int @default(0)
+  approved Boolean @default(false)
+
   
   position Position? 
 
-  admin Admins? @relation(name: "personWhoIsAdmin",fields: [admin_id],references: [id])
+  admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id])
   admin_id Int?
 
   company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
@@ -44,7 +46,7 @@ model Person{
 model Team{
 
   id Int @id @default(autoincrement())
-  team_name String @default("New Team")
+  team_name String @unique
 
   members Person[] @relation("partOf")
 
@@ -57,6 +59,7 @@ model Team{
 }
 
 model Company{
+  
   id Int @id @default(autoincrement())
   company_name String @unique
 
@@ -66,11 +69,28 @@ model Company{
 
   teams Team[] @relation("memberOf") 
 
-  admins Admins[] @relation("setOfAdmins")
+  admins Person[] @relation("setOfAdmins")
 
   invite Invites?
 
+  utilisations CompanyUtilisations[] @relation("hasUtilisations")
+
   @@map("company")
+}
+
+model CompanyUtilisations{
+
+  id Int @id @default(autoincrement())
+
+  company Company? @relation(name: "hasUtilisations",fields: [company_id],references: [id])
+  company_id Int?
+
+  month String?
+
+  average_utilisation Float?
+
+
+  @@map("company_utilisations")
 }
 
 model Invites{
@@ -82,23 +102,11 @@ model Invites{
   company Company? @relation(fields: [company_id],references: [id])
   company_id Int?
 
-  created DateTime 
+  created DateTime? @default(now())
 
-  expire DateTime
+  expire DateTime //2023-01-01T03:53:00.000Z
 
   @@map("invites")
-}
-
-model Admins{
-
-  id Int @id @default(autoincrement())
-
-  person Person[]  @relation("personWhoIsAdmin")//A single entry is associated with multiple admins
-
-  company Company? @relation(name: "setOfAdmins",fields: [company_id],references: [id])
-  company_id Int?
-
-  @@map("admins")
 }
 
 model Position{
@@ -127,7 +135,8 @@ model Project{
   team_id Int?
 
   man_hours Int? @default(0)
-  
+
+  completed Boolean @default(false)  
 
   @@map("project")
 }
