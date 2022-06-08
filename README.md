@@ -42,8 +42,8 @@ Working in a development-based environment has managers managing resource alloca
   
   #### Demo 2
    -  [SRS Document Version2 Here]
-   -  [Architectural Requirements Here]
-   -  [User Manual Here]
+   -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
+   -  [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing)
    -  [Demo2 Pre-recording Here]
    -  [Demo2 Live recording Here]
   
