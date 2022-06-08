@@ -35,6 +35,14 @@ export class ApiFeatureResolver {
     return userObj;
   }
 
+  @Query(()=>UserPerson)
+  async getUserID(@Args("email")email:string)
+  {
+    const resp=await this.service.getUserIDVEmail(email);
+
+    return resp;
+  }
+
 
 
   @Query(() => String)

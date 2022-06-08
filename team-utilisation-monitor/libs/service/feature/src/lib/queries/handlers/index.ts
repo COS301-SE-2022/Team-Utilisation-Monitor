@@ -3,5 +3,7 @@ import { GetOnePersonQueryHandler } from "./get-one-person.handler";
 import { LoginHandler } from "./login.handler";
 import { GetCompanyQueryHandler } from "./getCompany.handler";
 import { GetPendingRequestsHandler } from "./get-pending-requests.handler";
+import { GetUserIDQueryHandler } from "./get-user-id.handler";
 
-export const QueryHandlers=[GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler]
+
+export const QueryHandlers=[GetUserIDQueryHandler,GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler]
