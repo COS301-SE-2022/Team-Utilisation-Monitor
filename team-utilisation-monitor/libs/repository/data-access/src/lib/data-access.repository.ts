@@ -791,6 +791,53 @@ export class DataAccessRepository {
     }
 
     /***
+     * This function returns an array of employees of a company
+     * Returns null if company doesn't exist
+     */
+
+    async getEmployeesOfCompany(companyName:string):Promise<UserPerson[]>
+    {
+        const company=await this.prisma.company.findUnique({
+            where:{
+                company_name:companyName
+            },
+            include:{
+                employees:true,
+            }
+        })
+
+        if(company)
+        {
+            let return_arr=[];
+
+            if(company.employees!=null)
+            {
+                for(let i=0;i<company.employees.length;++i)
+                {
+                    const user=new UserPerson();
+    
+                    user.id=company.employees[i].id;
+                    user.name=company.employees[i].name;
+                    user.surname=company.employees[i].surname;
+                    user.email=company.employees[i].email;
+                    user.password=company.employees[i].password;
+                    user.role=company.employees[i].role;
+                    user.suspended=company.employees[i].suspended;
+                    user.company_name=company.company_name;
+                    user.company_id=company.id;
+                    
+                    return_arr.push(user);
+                    
+                }
+            }
+
+            return return_arr;
+        }
+        else
+            return null;
+    }
+
+    /***
      * This function returns the company object from the database using
      * the id of the company
      */

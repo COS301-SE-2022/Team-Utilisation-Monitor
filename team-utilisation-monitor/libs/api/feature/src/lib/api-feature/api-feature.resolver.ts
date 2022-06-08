@@ -66,6 +66,20 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /****
+   * This function is used to get all the employees of an organisation.
+   * It returns an array of all employees
+   */
+
+
+  @Query(()=>[UserPerson])
+  async getEmployeesOfACompany(@Args("company_name") company_name:string)
+  {
+    const resp=await this.service.getAllEmployees(company_name);
+
+    return resp;
+  }
+
 
 
   @Query(() => String)
