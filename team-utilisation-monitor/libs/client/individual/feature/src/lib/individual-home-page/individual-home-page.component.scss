@@ -40,15 +40,17 @@ mat-progress-bar{
 .mat-card{
   height: 90%;
   margin: 1%;
-  display: flex;
+  display: -ms-flex;
 
 }
 
 .mat-card1{
   width: 40%;
   height: 40%;
+  display: flex;
 }
 
 .mat-card2{
+  height: 30%;
 
 }
