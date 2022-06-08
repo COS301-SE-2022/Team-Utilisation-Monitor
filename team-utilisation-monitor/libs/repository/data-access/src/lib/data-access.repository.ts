@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient, Role } from '@prisma/client';
-import {UserPerson,UserCompany, InviteCodeEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -183,7 +183,12 @@ export class DataAccessRepository {
                         password:f_password,  
                         company_id:c_id,
                         role:Role.ADMIN,     
-                        approved: true
+                        approved: true,
+                        position:{
+                            create:{
+                                title:"Administrator"
+                            }
+                        }
                     }
                 })
 
@@ -500,7 +505,51 @@ export class DataAccessRepository {
              return true;
          else
              return false;
-     }
+    }
+
+    /****
+     * This function returns an object CompanyStats, that packages stats of the
+     * company like number of projects, teams,employees and Admins
+     * Returns null if company doesn't exist
+     */
+
+    async getCompanyStats(companyName:string):Promise<CompanyStatsEntity>
+    {
+        const company_object=await this.getCompanyVName(companyName);
+
+        let numProjects=0;
+        let numTeams=0;
+        let numEmployees=0;
+        let numAdmins=0;
+
+        if(company_object)
+        {
+            numProjects=company_object.projects.length;
+            numTeams=company_object.teams.length;
+            numEmployees=company_object.employees.length;
+
+            for(let i=0;i<company_object.employees.length;++i)
+            {
+                if(company_object.employees[i].role==Role.ADMIN)
+                {
+                    ++numAdmins;
+                }
+            }
+
+            const return_stats=new CompanyStatsEntity();
+
+            return_stats.numProjects=numProjects;
+            return_stats.numTeams=numTeams;
+            return_stats.numEmployees=numEmployees;
+            return_stats.numAdmins=numAdmins;
+
+            return return_stats;
+
+        }
+        else
+            return null;
+
+    }
 
     /***
      * Returns an array of all persons on the dataBase
@@ -589,9 +638,6 @@ export class DataAccessRepository {
 
     /**
      * This function returns the company object from the database.
-     * At the moment,the object has 3 components:
-     * id,company_name ad admin_id
-     * More will be added later
      * @param f_company_name
      * @returns
      */

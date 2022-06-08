@@ -11,6 +11,7 @@ import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
+import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
 import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
 import { GetUserIDQuery } from './queries/impl/get-user-id.query';
@@ -90,6 +91,11 @@ export class ServiceFeatureService {
     async approveRequestVID(f_id:number):Promise<any>
     {
         return this.commandBus.execute(new ApproveRequestCommand(f_id));
+    }
+
+    async getCompanyStats(companyName:string):Promise<any>
+    {
+        return this.queryBus.execute(new GetCompanyStats(companyName));
     }
 
     /**
