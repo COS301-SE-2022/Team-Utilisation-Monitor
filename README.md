@@ -44,7 +44,7 @@ Working in a development-based environment has managers managing resource alloca
      - 
   
   #### Demo 3
-    -
+     -
     
   #### Demo 4
     -
@@ -57,6 +57,42 @@ Working in a development-based environment has managers managing resource alloca
 
 
 <hr>
+
+## GitHub Repository
+  ### 🏡-Git Structure
+  <img width="732" alt="Screenshot 2022-06-08 at 09 21 37" align='center' src="https://user-images.githubusercontent.com/93540728/172556584-574704d9-7392-4b11-a56d-015dd7569e97.png">
+  
+      -  Basic Folder structure
+         -> src Folder           :The source code folder
+         -> .config Folder       :local configurationin relation to setup on local machine.
+         -> .build Folder        :Contain all scripts related to build process (Docker our case).
+         -> libs Folder
+         -> tools Folder         :A convenient directory. contain task automating Scripts, i.e build and rename script.
+         
+      - Git Special Files
+         -> .gitignore           :List of blobs for to ignored by git.
+         
+      - Special Files & Folders
+         ->README File           :WWH (What, Why, How) answers with regards to our project. 
+         
+  
+   
+  ### Git organization and management
+     -
+       
+  ### 🌴-Branching strategy
+   <img width="1000" alt="paste" src="https://user-images.githubusercontent.com/93540728/172563460-f0933f29-21c3-4892-9fde-b81a3f9be9fb.png">
+  
+  ###### Credits : DEV Community
+  
+      Feature     :Represent
+      
+      Develop     :Latest Working Code merged from features and Ready to be merge into main after thorough review
+      
+      Main        :Latest and working Realease
+
+      
+ <hr>
 
 ## Members
 
