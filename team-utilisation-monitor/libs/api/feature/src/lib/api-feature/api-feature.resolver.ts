@@ -1,6 +1,6 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
-import { InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -16,6 +16,10 @@ export class ApiFeatureResolver {
       console.log(resp);
       return resp;
   }
+
+  /***
+   * This function returns a company object of type UserCompany
+   */
 
   @Query(() => UserCompany)
   async GetCompanyQuery(@Args("name") company_name:string){
@@ -35,10 +39,29 @@ export class ApiFeatureResolver {
     return userObj;
   }
 
+  /***
+   * This function is used to get the user ID. It returns an object that contains
+   * only the ID
+   */
+
   @Query(()=>UserPerson)
   async getUserID(@Args("email")email:string)
   {
     const resp=await this.service.getUserIDVEmail(email);
+
+    return resp;
+  }
+
+  /***
+   * This function returns the company's stats. This is an object that includes
+   * number of projects,number of teams,number of employees,number of admins
+   * use numTeams,numProjects,numEmployees,numAdmins
+   */
+
+  @Query(()=>CompanyStatsEntity)
+  async getCompanyStats(@Args("company_name") company_name:string)
+  {
+    const resp=await this.service.getCompanyStats(company_name);
 
     return resp;
   }
@@ -50,12 +73,21 @@ export class ApiFeatureResolver {
     return 'Hello '+name;
   }
 
+  /***
+   * This function is used to get all users in the databse irrespective of company
+   */
+
   @Query(()=>[UserPerson])
   async getAllPeople(){
     const resp=await this.service.getAllUserPerson();
     console.log(resp);
     return resp;
   }
+
+  /***
+   * Early concept function. Mainly used for testing. Used to create a user into the
+   * database
+   */
 
   @Mutation(()=>UserPerson)
   async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
