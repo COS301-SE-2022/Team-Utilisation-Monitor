@@ -5,6 +5,7 @@ import { GetCompanyQueryHandler } from "./getCompany.handler";
 import { GetPendingRequestsHandler } from "./get-pending-requests.handler";
 import { GetUserIDQueryHandler } from "./get-user-id.handler";
 import { GetCompanyStatsHandler } from "./get-company-stats.handler";
+import { GetAllEmployeesOfCompanyHandler } from "./get-all-employees-of-company.handler";
 
 
-export const QueryHandlers=[GetCompanyStatsHandler,GetUserIDQueryHandler,GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler]
+export const QueryHandlers=[GetAllEmployeesOfCompanyHandler,GetCompanyStatsHandler,GetUserIDQueryHandler,GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler]

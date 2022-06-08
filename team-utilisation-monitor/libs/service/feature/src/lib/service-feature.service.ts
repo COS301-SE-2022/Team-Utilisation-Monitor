@@ -10,6 +10,7 @@ import { CreatePersonCommand } from './commands/impl/create-person.command';
 import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
+import { GetAllEmployeesOfCompany } from './queries/impl/get-all-employees-of-company.query';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
@@ -96,6 +97,11 @@ export class ServiceFeatureService {
     async getCompanyStats(companyName:string):Promise<any>
     {
         return this.queryBus.execute(new GetCompanyStats(companyName));
+    }
+
+    async getAllEmployees(companyName:string):Promise<any>
+    {
+        return this.queryBus.execute(new GetAllEmployeesOfCompany(companyName));
     }
 
     /**
