@@ -10,7 +10,7 @@
 </mat-card>
 
 <mat-accordion multi>
-    <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false" expanded>
+    <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <p><span [matBadge]="nrOfRequests" matBadgeOverlap="false" matBadgeColor="accent">Requested Users</span></p>
@@ -22,3 +22,8 @@
         [IndivName] = "user"></team-utilisation-monitor-comp-nav-request-users>
     </mat-expansion-panel>
 </mat-accordion>
+
+<mat-card>
+    <button class="SideNavButton" mat-button><mat-icon>add</mat-icon>Create Team</button>
+    <button class="SideNavButton" mat-button><mat-icon>add</mat-icon>Create Project</button>  
+</mat-card>
