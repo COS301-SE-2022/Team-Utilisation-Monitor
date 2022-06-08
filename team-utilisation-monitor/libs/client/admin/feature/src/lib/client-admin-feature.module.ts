@@ -33,6 +33,7 @@ import { CompListViewIndividualComponent } from './comp-list-view-individual/com
 import { MatDialogModule } from '@angular/material/dialog';
 import { CompAddUserPopupComponent } from './comp-add-user-popup/comp-add-user-popup.component';
 import { CompCreateTeamPopupComponent } from './comp-create-team-popup/comp-create-team-popup.component';
+import { CompCreateProjectPopupComponent } from './comp-create-project-popup/comp-create-project-popup.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { CompCreateTeamPopupComponent } from './comp-create-team-popup/comp-crea
     CompListViewIndividualComponent,
     CompAddUserPopupComponent,
     CompCreateTeamPopupComponent,
+    CompCreateProjectPopupComponent,
   ],
   exports: [
     AdminRoutingModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CompAddUserPopupComponent } from '../comp-add-user-popup/comp-add-user-popup.component';
+import { CompCreateProjectPopupComponent } from '../comp-create-project-popup/comp-create-project-popup.component';
 import { CompCreateTeamPopupComponent } from '../comp-create-team-popup/comp-create-team-popup.component';
 
 @Component({
@@ -31,5 +32,9 @@ export class CompNavbarComponent implements OnInit {
 
   onOpenAddUserClick(){
     this.matDialog.open(CompAddUserPopupComponent);
+  }
+
+  onOpenCreateProjectClick(){
+    this.matDialog.open(CompCreateProjectPopupComponent);
   }
 }
