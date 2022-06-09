@@ -26,7 +26,6 @@ export class SignupAsIndividualComponent implements OnInit {
 
   User:any
 
- //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
 
   constructor(private service:AuthenticationService ,private router:Router) {}
 
@@ -34,8 +33,6 @@ export class SignupAsIndividualComponent implements OnInit {
   {
     if(this.profileForm.get('password')?.value==this.profileForm.get('confirmPassword')?.value)  //Password matches
     {
-      //Continue with the submission
-      //console.log(JSON.stringify(this.profileForm.value));
       const firstname=this.profileForm.get('firstName')?.value!;
       const lastname=this.profileForm.get('lastName')?.value!;
       const password=this.profileForm.get('password')?.value!;
@@ -52,7 +49,7 @@ export class SignupAsIndividualComponent implements OnInit {
             if(item.data!=null){
               console.log("INNNNNNN!!!")
               //add routerin -love
-              
+
             }
             else
             {
@@ -71,7 +68,6 @@ export class SignupAsIndividualComponent implements OnInit {
     }
 
   }
-
   ngOnInit(): void {
     console.log();
   }
