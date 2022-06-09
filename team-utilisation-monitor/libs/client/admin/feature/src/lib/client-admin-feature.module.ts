@@ -34,6 +34,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CompAddUserPopupComponent } from './comp-add-user-popup/comp-add-user-popup.component';
 import { CompCreateTeamPopupComponent } from './comp-create-team-popup/comp-create-team-popup.component';
 import { CompCreateProjectPopupComponent } from './comp-create-project-popup/comp-create-project-popup.component';
+import { AdminTeamProjectViewComponent } from './admin-team-project-view/admin-team-project-view.component';
+import { CompTeamListComponent } from './comp-team-list/comp-team-list.component';
+import { CompProjectListComponent } from './comp-project-list/comp-project-list.component';
+import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/comp-add-team-member-popup.component';
 
 @NgModule({
   imports: [
@@ -78,6 +82,10 @@ import { CompCreateProjectPopupComponent } from './comp-create-project-popup/com
     CompAddUserPopupComponent,
     CompCreateTeamPopupComponent,
     CompCreateProjectPopupComponent,
+    AdminTeamProjectViewComponent,
+    CompTeamListComponent,
+    CompProjectListComponent,
+    CompAddTeamMemberPopupComponent,
   ],
   exports: [
     AdminRoutingModule,

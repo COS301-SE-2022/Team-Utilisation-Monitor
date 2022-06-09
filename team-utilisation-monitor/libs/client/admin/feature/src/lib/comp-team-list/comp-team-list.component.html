@@ -1,0 +1,16 @@
+<mat-accordion>
+    <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{TeamName.Name}}
+            </mat-panel-title>
+            <mat-panel-description>
+                <mat-progress-bar mode="determinate" [value]="value"></mat-progress-bar>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <button class="userRequestButton" (click)="onOpenAddTeamMemberClick()" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
+        <team-utilisation-monitor-comp-employee-individual
+        *ngFor="let user of OutEmployeeName"
+        [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+    </mat-expansion-panel>
+</mat-accordion>
