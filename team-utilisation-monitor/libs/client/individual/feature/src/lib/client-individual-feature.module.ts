@@ -18,6 +18,7 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatListModule} from "@angular/material/list";
+import { CompSidenavComponent } from './comp-sidenav/comp-sidenav.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import {MatListModule} from "@angular/material/list";
   ],
   declarations: [
     IndividualHomePageComponent,
-    IndividualProfileComponent
+    IndividualProfileComponent,
+    CompSidenavComponent
   ],
   exports: [IndividualRoutingModule],
 })
