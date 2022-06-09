@@ -363,7 +363,36 @@ export class DataAccessRepository {
 
     async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
     {
+
+
+        //first check if the inviteCode exists
+
+        const companyId=await this.getCompanyID(company_name);
+
+        const exist_code=await this.prisma.invites.findUnique({
+            where:{
+                company_id:companyId
+            }
+        })
+
+        //console.log(exist_code);
+        
+        if(exist_code)
+        {
+            const return_code=new InviteCodeEntity();
+
+            return_code.id=exist_code.id;
+            return_code.company_id=exist_code.company_id;
+            return_code.inviteCode=exist_code.invite_code;
+            return_code.created=exist_code.created;
+            return_code.expire=exist_code.expire;
+
+            return return_code; 
+        }
+
+    
         //generate random code e.g pwc288
+
         const prefix=company_name.substring(0,3);
 
         const min = Math.ceil(100);
@@ -372,7 +401,9 @@ export class DataAccessRepository {
 
         const code=prefix+suffix;
 
-        //put the code into the database
+       
+
+        //put the code into the database. Code doesn't exist
 
         const c_id=await this.getCompanyID(company_name); //company_id
 
