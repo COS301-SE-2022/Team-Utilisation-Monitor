@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 
 @Component({
@@ -7,17 +8,38 @@ import { AdminService } from '../Admin.service';
   styleUrls: ['./admin-list-view.component.scss'],
 })
 export class AdminListViewComponent implements OnInit {
-  constructor(private service:AdminService) {}
+  constructor(private service:AdminService,private cookie:CookieService) {}
   boolshow = true;
   company:any;
-  OutEmployeeName:any ; /*[{Name: "Mr Cornel", Surname:"Coetzee"},
+  companyName=''
+  employeeData:any
+  OutEmployeeName:any[]=[] ; /*[{Name: "Mr Cornel", Surname:"Coetzee"},
                     {Name: "Mr Cornel", Surname:"Coetzee"},
                     {Name: "Mr Cornel", Surname:"Coetzee"},
                   ];*/
   ngOnInit(): void {
     console.log();
-    //this.company=this.service.getCompany("iCreateSofware");
-    //console.log(JSON.stringify(this.service.login("gift@gmail.com","food")));
-    //console.log(JSON.stringify(this.company));
+    this.companyName=this.cookie.get("CompanyName");
+
+    this.service.getCompany(this.companyName).subscribe(data=>{
+      //
+      this.employeeData=data;
+        if(this.employeeData.data.GetCompanyQuery.employees!=null)
+        {
+          type nameObject=
+          {
+            Name:string
+            Surname:string
+          }
+
+          for(const requests of this.employeeData.data.GetCompanyQuery.employees)
+          {
+            const  obj={} as nameObject;
+            obj.Name=requests.name
+            obj.Surname=requests.surname;
+            this.OutEmployeeName.push(obj);
+          }
+        }
+    })
   }
 }
