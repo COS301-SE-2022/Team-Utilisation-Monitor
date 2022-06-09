@@ -17,8 +17,14 @@ export class TeamEntity{
     @Field({nullable:true})
     company_id?:number;
 
-    @Field({nullable:true})
-    project?:ProjectEntity;
+    @Field()
+    project_name?:string;
+
+    @Field()
+    project_id?:number;
+
+    @Field()
+    completed?:number;
 
     
 }

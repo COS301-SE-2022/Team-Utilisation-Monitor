@@ -218,6 +218,91 @@ export class DataAccessRepository {
     }
 
     /***
+     * Use this function to get all projects of the company as an argument in an array
+     * Returns null if the company doesn't exist
+     * Use 0 to get projects or 1 to get the teams
+    */
+
+    async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        let return_projects=[];
+        let return_teams=[];
+        let default_arr=[];
+
+        if(c_id>0) //company exists
+        {
+            if(typeOfContent===0)
+            {
+                const all_projects=await this.prisma.project.findMany({
+                    where:{
+                        owner_id:c_id
+                    }
+                })
+    
+                if(all_projects)
+                {
+                    for(let i=0;i<all_projects.length;++i)
+                    {
+                        return_projects[i]=new ProjectEntity();
+    
+                        return_projects[i].id=all_projects[i].id;
+                        return_projects[i].project_name=all_projects[i].project_name;
+                        return_projects[i].owner_id=all_projects[i].owner_id;
+                        return_projects[i].team_id=all_projects[i].team_id;
+                        return_projects[i].man_hours=all_projects[i].man_hours;
+                        return_projects[i].hoursToComplete=all_projects[i].completed;
+                    }
+    
+                    return return_projects
+                }
+                else
+                    return_projects; //empty array
+            }
+            else if(typeOfContent===1) //get all teams
+            {
+                const all_teams=await this.prisma.team.findMany({
+                    where:{
+                        company_id:c_id,
+                    },
+                    include:{
+                        project:true
+                    }
+                })
+
+                if(all_teams)
+                {
+                    for(let i=0;i<all_teams.length;++i)
+                    {
+                        return_teams[i]=new TeamEntity();
+
+                        return_teams[i].id=all_teams[i].id;
+                        return_teams[i].team_name=all_teams[i].team_name;
+                        return_teams[i].company_id=all_teams[i].company_id;
+                        return_teams[i].project_name=all_teams[i].project.project_name;
+                        return_teams[i].project_id=all_teams[i].project.id;
+                        return_teams[i].completed=all_teams[i].project.completed;
+                    }
+
+                    return return_teams;
+                }
+                else
+                {
+                    return return_teams;
+                }
+
+            }
+            else
+                return default_arr;
+            
+            
+        }
+        else
+            return null;
+    }
+
+    /***
      * The function creates and adds the user object to the database. Returns the user object from
      * The database
      */
@@ -519,6 +604,8 @@ export class DataAccessRepository {
         else
             return false;
     }
+
+     
 
     /***
      * This function is used to approve requests via id of the user.
