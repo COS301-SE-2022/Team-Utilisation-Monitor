@@ -11,3 +11,5 @@ export class GetAllProjectsOrTeamsOfCompanyHandler implements IQueryHandler<GetA
         return this.repository.getAllProjectsOrTeamsOfCompany(query.company_name,query.contentType);
     }
 }
+
+//Treamour
