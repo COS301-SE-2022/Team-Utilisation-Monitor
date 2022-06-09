@@ -222,10 +222,9 @@ export class DataAccessRepository {
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string)
+    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string):Promise<UserPerson|null>
     {
         //use the invitation link to get the company id
-
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -254,6 +253,8 @@ export class DataAccessRepository {
             return_user.utilisation=new_user.utilisation;
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
+
+            console.log("Marubi");
 
             return return_user;
         }
