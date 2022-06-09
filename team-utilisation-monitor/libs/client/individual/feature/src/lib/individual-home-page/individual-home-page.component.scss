@@ -88,9 +88,12 @@ height: 20%;
 }
 
 .mid{
- margin-top: 10%;
+ margin-top: 2%;
   //margin-right: 25%;
   float: left;
+  width: 98%;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .list{

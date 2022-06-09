@@ -8,7 +8,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
-//import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
+import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
 //import { DashboardComponent } from './dashboard/dashboard.component';
 import {ClientAdminFeatureModule} from "@team-utilisation-monitor/client/admin/feature";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -17,7 +17,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
-//import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
 import {MatListModule} from "@angular/material/list";
 
 @NgModule({
@@ -42,7 +41,7 @@ import {MatListModule} from "@angular/material/list";
   ],
   declarations: [
     IndividualHomePageComponent,
-    //IndividualProfileComponent
+    IndividualProfileComponent
   ],
   exports: [IndividualRoutingModule],
 })

@@ -110,6 +110,33 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+
+  /***
+   * This function returns all the projects of a company as an array
+   * The 0 indicates that you want a projects, not teams
+  */
+
+  @Query(()=>[ProjectEntity])
+  async getAllProjectsOfACompany(@Args("company_name") company_name:string)
+  {
+    const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,0);
+
+    return resp;
+  }
+
+  /***
+   * This function returns all the teams of a company as an array
+   * The 1 indicates that you want a teams, not teams
+  */
+
+   @Query(()=>[TeamEntity])
+   async getAllTeamsOfACompany(@Args("company_name") company_name:string)
+   {
+     const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
+ 
+     return resp;
+   }
+
   /***
    * Early concept function. Mainly used for testing. Used to create a user into the
    * database
@@ -226,7 +253,8 @@ export class ApiFeatureResolver {
 
   /***
    * This function is used to approve requests via id
-   */
+   * Returns true if process was successful,false otherwise
+  */
   
   @Mutation(()=>Boolean)
   async approveRequest(@Args("id") id:string)
@@ -235,6 +263,19 @@ export class ApiFeatureResolver {
 
     return resp;
   }
+
+   /***
+   * This function is used to approve requests via email
+   * Returns true if process was successful,false otherwise
+   */
+  
+    @Mutation(()=>Boolean)
+    async approveRequestVEmail(@Args("email") email:string)
+    {
+      const resp=await this.service.approveRequestVEmail(email);
+  
+      return resp;
+    }
 
 
   @Query(() => String)

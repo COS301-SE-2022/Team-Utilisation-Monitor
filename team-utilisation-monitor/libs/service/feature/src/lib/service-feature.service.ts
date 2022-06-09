@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { ApproveRequestCommand } from './commands/impl/approve-request.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
@@ -12,6 +13,7 @@ import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllEmployeesOfCompany } from './queries/impl/get-all-employees-of-company.query';
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
+import { GetAllProjectsOrTeamsOfCompany } from './queries/impl/get-all-projects-or-teams.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
 import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
@@ -94,6 +96,11 @@ export class ServiceFeatureService {
         return this.commandBus.execute(new ApproveRequestCommand(f_id));
     }
 
+    async approveRequestVEmail(email:string)
+    {
+        return this.commandBus.execute(new ApproveRequestVEmailCommand(email));
+    }
+
     async getCompanyStats(companyName:string):Promise<any>
     {
         return this.queryBus.execute(new GetCompanyStats(companyName));
@@ -103,6 +110,13 @@ export class ServiceFeatureService {
     {
         return this.queryBus.execute(new GetAllEmployeesOfCompany(companyName));
     }
+
+    async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number)
+    {
+        return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
+    }
+
+    
 
     /**
      * public readonly name:string,
