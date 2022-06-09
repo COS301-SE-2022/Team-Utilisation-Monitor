@@ -60,6 +60,7 @@ export class CompNavbarComponent implements OnInit {
           this.nrOfRequests=count
         }
       })
+      console.log()
 
   }
 

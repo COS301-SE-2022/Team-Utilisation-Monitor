@@ -38,6 +38,7 @@ export class AdminService {
     const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
     console.log()
     return obj;
+    console.log()
 
   }
 
