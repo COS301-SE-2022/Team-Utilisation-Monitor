@@ -12,13 +12,6 @@ export class CompProjectListComponent implements OnInit {
   //get Team associated with the Project from back end;
   TeamName = "I Create Software";
 
-  OutEmployeeName = [{Name: "Mr Cornel Coetzee"},
-  {Name: "Mr Gift Monwa"},
-  {Name: "Mr Rourke Amiss"},
-  {Name: "Mr Agape Mamphasa"},
-  {Name: "Mr Agape Mamphasa"},
-  ];
-
   ngOnInit(): void {
     console.log();
   }

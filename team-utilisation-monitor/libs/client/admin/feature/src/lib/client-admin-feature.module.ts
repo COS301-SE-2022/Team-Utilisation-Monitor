@@ -37,6 +37,7 @@ import { CompCreateProjectPopupComponent } from './comp-create-project-popup/com
 import { AdminTeamProjectViewComponent } from './admin-team-project-view/admin-team-project-view.component';
 import { CompTeamListComponent } from './comp-team-list/comp-team-list.component';
 import { CompProjectListComponent } from './comp-project-list/comp-project-list.component';
+import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/comp-add-team-member-popup.component';
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import { CompProjectListComponent } from './comp-project-list/comp-project-list.
     AdminTeamProjectViewComponent,
     CompTeamListComponent,
     CompProjectListComponent,
+    CompAddTeamMemberPopupComponent,
   ],
   exports: [
     AdminRoutingModule,

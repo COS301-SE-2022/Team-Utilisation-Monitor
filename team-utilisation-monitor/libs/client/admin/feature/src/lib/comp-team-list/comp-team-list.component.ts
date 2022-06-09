@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { MatDialog } from '@angular/material/dialog';
+import { CompAddTeamMemberPopupComponent } from '../comp-add-team-member-popup/comp-add-team-member-popup.component';
 @Component({
   selector: 'team-utilisation-monitor-comp-team-list',
   templateUrl: './comp-team-list.component.html',
   styleUrls: ['./comp-team-list.component.scss'],
 })
 export class CompTeamListComponent implements OnInit {
-  //constructor() {}
+  constructor(private matDialog: MatDialog) {}
   @Input() TeamName!: { Name: string };
   requestOpenState = false;
 
@@ -26,6 +27,6 @@ export class CompTeamListComponent implements OnInit {
   }
 
   onOpenAddTeamMemberClick(){
-    console.log();
+    this.matDialog.open(CompAddTeamMemberPopupComponent);
   }
 }
