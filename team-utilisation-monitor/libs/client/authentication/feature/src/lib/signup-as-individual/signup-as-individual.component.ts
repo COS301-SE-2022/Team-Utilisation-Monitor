@@ -24,6 +24,8 @@ export class SignupAsIndividualComponent implements OnInit {
 
   });
 
+  User:any
+
  //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
 
   constructor(private service:AuthenticationService ,private router:Router) {}
@@ -40,13 +42,27 @@ export class SignupAsIndividualComponent implements OnInit {
       const email=this.profileForm.get('email')?.value!;
       const inviteCode=this.profileForm.get('Invitecode')?.value!;
 
-      /*detect the name of the company from the table that the user's email will be registered to
-      WHEN THE ADMIN ADD A PERSON USING EMAIL..WE WILL ADD THE NAME OF THE COMPANY THEY ARE BEING
-      TO THEN PASS IT AS A COMPANY ON THIS FUNCTION*/
-      this.service.createUser(firstname,lastname,email,password,inviteCode);
+      console.log(firstname);
 
-      //Redirect to the login page
-      this.router.navigate(['']);
+      if(this.profileForm.valid)
+      {
+
+        this.service.createUser(firstname,lastname,email,password,inviteCode).subscribe({
+          next:(item)=>{
+            if(item.data!=null){
+              console.log("INNNNNNN!!!")
+              //add routerin -love
+              
+            }
+            else
+            {
+              console.log(item.data);
+              alert("something went wrong");
+            }
+          },
+          error: (err)=>{console.log(err)}
+        })
+      }
     }
     else
     {
@@ -61,3 +77,5 @@ export class SignupAsIndividualComponent implements OnInit {
   }
 
 }
+
+
