@@ -74,17 +74,6 @@ mat-progress-bar{
   position: center;
 }
 
-.mat-card1 :hover
-{
-  opacity: 0.5;
-  color: #888888;
-}
-
-.smc :hover
-{
-  background-color: #999999;
-
-}
 .tc .smc{
 height: 20%;
   width: 96%;
@@ -96,5 +85,16 @@ height: 20%;
 .tc{
   height:100%;
 
+}
+
+.mid{
+ margin-top: 10%;
+  //margin-right: 25%;
+  float: left;
+}
+
+.list{
+  //margin-left:15%;
+  float: left;
 }
 

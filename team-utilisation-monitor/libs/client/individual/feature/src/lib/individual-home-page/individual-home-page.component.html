@@ -13,6 +13,16 @@
     <mat-card class="mat-card1">
       <mat-card-header>
         <mat-card-title> Allocated Teams</mat-card-title>
+
+        <mat-card-content class="mid">
+          <mat-nav-list class="list">
+            <mat-list-item *ngFor="let link of teams">
+              <a matLine href="...">{{ link }}</a>
+              <button mat-icon-button (click)="showInfo(link)">
+              </button>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-card-content>
       </mat-card-header>
 
 
@@ -22,6 +32,16 @@
       <mat-card class="mat-card1">
         <mat-card-header>
           <mat-card-title> Allocated Projects</mat-card-title>
+          <mat-card-content class="mid">
+            <mat-nav-list class="list">
+              <mat-list-item *ngFor="let link of projects">
+                <a matLine href="...">{{ link }}</a>
+                <button mat-icon-button (click)="showInfo(link)">
+                </button>
+              </mat-list-item>
+            </mat-nav-list>
+
+          </mat-card-content>
         </mat-card-header>
 
     </mat-card>
