@@ -1,8 +1,8 @@
-<form>
+<form [formGroup]="projectForm" >
     <h2>Create a New Project</h2>
     <mat-form-field appearance="fill">
         <mat-label>Enter Project name</mat-label>
-        <input id="Project_Name" matInput placeholder="Project">
+        <input id="Project_Name" matInput placeholder="Project" formControlName="">
     </mat-form-field>
     <br>
     <h4>Add a team to the Project on the Team/Project View tab</h4>

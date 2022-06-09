@@ -28,8 +28,6 @@ export class AuthenticationService {
   {
     const query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){id,name,surname}}'
 
-    console.log("Hey j");
-
     //const query='mutation{createUser(name:"Sharp",surname:"Tank",email:"shark@gmail.com",password:"theshartank",inviteCode:"no 167"){name,surname,email}}';
     const options = {
       headers: new HttpHeaders({
@@ -38,9 +36,6 @@ export class AuthenticationService {
     }
 
     const obj=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query}),options)
-
-    console.log(obj);
-
     return obj;
   }
 
