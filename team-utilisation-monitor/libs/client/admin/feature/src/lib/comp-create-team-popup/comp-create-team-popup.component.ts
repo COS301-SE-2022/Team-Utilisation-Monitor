@@ -25,8 +25,19 @@ export class CompCreateTeamPopupComponent implements OnInit {
 
   OnSubmit()
   {
-    const teamName=this.teamForm.get('firstName')?.value!;
+    if(this.teamForm.valid)
+    {
+    const teamName=this.teamForm.get('teamName')?.value!;
+    console.log(teamName)
     this.companyName=this.cookie.get("CompanyName");
-    this.adminService.createTeam(teamName,this.companyName);
+    this.adminService.createTeam(teamName,this.companyName).subscribe(()=>
+      {
+        alert("Team "+teamName+" Created")
+      });
+    }
+    else
+    {
+      alert("Invalid Form")
+    }
   }
 }

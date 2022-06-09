@@ -27,22 +27,6 @@ export class AdminService {
     return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
 
-  login(email:string,password:string):Observable<any>
-  {
-    const query='query{login(email:"'+email+'",password:"'+password+'"){name}}';
-
-    const options = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
-
-    const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
-    console.log()
-    return obj;
-    console.log()
-
-  }
 
   getCompanyStats(companyName: string):Observable<any>
   {

@@ -31,11 +31,15 @@ export class CompCreateProjectPopupComponent implements OnInit {
     if(this.projectForm.valid)
     {
       const projectName=this.projectForm.get('projectName')?.value!;
-      const teamName=this.projectForm.get('firstName')?.value!;
+      const teamName=this.projectForm.get('teamName')?.value!;
       const projectHours=this.projectForm.get('manHours')?.value!;
 
 
-      //this.adminService.createProject(projectName,this.companyName,teamName,projectHours)
+      this.adminService.createProject(projectName,this.companyName,teamName,Number(projectHours)).subscribe(
+        ()=>{
+          alert("Project "+projectName+" has been created")
+        }
+      )
 
     }
   }
