@@ -24,11 +24,24 @@ export class AuthenticationService {
     return object;
   }
 
-  createUser(firstName:string,lastname :string,email:string,password:string,inviteCode:string)
+  createUser(firstName:string,lastname :string,email:string,password:string,inviteCode:string):Observable<any>
   {
-    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){name,surname,company_name}}'
-    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query}))
-    return object;
+    const query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){id,name,surname}}'
+
+    console.log("Hey j");
+
+    //const query='mutation{createUser(name:"Sharp",surname:"Tank",email:"shark@gmail.com",password:"theshartank",inviteCode:"no 167"){name,surname,email}}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+        })
+    }
+
+    const obj=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query}),options)
+
+    console.log(obj);
+
+    return obj;
   }
 
   login(email:string,password:string):Observable<any>

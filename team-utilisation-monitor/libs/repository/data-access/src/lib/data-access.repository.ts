@@ -222,10 +222,9 @@ export class DataAccessRepository {
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string)
+    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string):Promise<UserPerson|null>
     {
         //use the invitation link to get the company id
-
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -254,6 +253,8 @@ export class DataAccessRepository {
             return_user.utilisation=new_user.utilisation;
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
+
+            console.log("Marubi");
 
             return return_user;
         }
@@ -363,7 +364,36 @@ export class DataAccessRepository {
 
     async createInviteCode(company_name:string):Promise<InviteCodeEntity|null>
     {
+
+
+        //first check if the inviteCode exists
+
+        const companyId=await this.getCompanyID(company_name);
+
+        const exist_code=await this.prisma.invites.findUnique({
+            where:{
+                company_id:companyId
+            }
+        })
+
+        //console.log(exist_code);
+        
+        if(exist_code)
+        {
+            const return_code=new InviteCodeEntity();
+
+            return_code.id=exist_code.id;
+            return_code.company_id=exist_code.company_id;
+            return_code.inviteCode=exist_code.invite_code;
+            return_code.created=exist_code.created;
+            return_code.expire=exist_code.expire;
+
+            return return_code; 
+        }
+
+    
         //generate random code e.g pwc288
+
         const prefix=company_name.substring(0,3);
 
         const min = Math.ceil(100);
@@ -372,7 +402,7 @@ export class DataAccessRepository {
 
         const code=prefix+suffix;
 
-        //put the code into the database
+        //put the code into the database. Code doesn't exist
 
         const c_id=await this.getCompanyID(company_name); //company_id
 
@@ -825,20 +855,24 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.employees.length;++i)
                 {
-                    const user=new UserPerson();
+                    
+                    if(company.employees[i].approved)
+                    {
+                        const user=new UserPerson();
 
-                    user.id=company.employees[i].id;
-                    user.name=company.employees[i].name;
-                    user.surname=company.employees[i].surname;
-                    user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
-                    user.role=company.employees[i].role;
-                    user.suspended=company.employees[i].suspended;
-                    user.company_name=company.company_name;
-                    user.company_id=company.id;
-                    user.utilisation=company.employees[i].utilisation;
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.password=company.employees[i].password;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=company.company_name;
+                        user.company_id=company.id;
+                        user.utilisation=company.employees[i].utilisation;
 
-                    return_arr.push(user);
+                        return_arr.push(user);
+                    }
 
                 }
             }

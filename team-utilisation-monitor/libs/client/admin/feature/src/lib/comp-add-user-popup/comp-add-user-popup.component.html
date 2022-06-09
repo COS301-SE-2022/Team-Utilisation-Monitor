@@ -1,14 +1,13 @@
 <form>
     <h2>Add A new User</h2>
     <mat-form-field appearance="fill">
-        <mat-label>Enter New User's Name</mat-label>
-        <input id="User_Username" matInput placeholder="pat@example.com">
-    </mat-form-field>
-    <br>
-    <mat-form-field appearance="fill">
         <mat-label>Enter user Email Address</mat-label>
         <input id="User_Email" matInput placeholder="pat@example.com" formControlName="email">
     </mat-form-field>
+    <br>
+    <h4>New Employees will be sent an email where they can Register with an invite code</h4>
+    <h4>After the invite has been sent, a user will be added to the requested users list</h4>
+    <h4>Users will show up as employees once they have registered under the company invite</h4>
     <br>
     <button mat-raised-button color="primary">Send Invite</button>
 </form>

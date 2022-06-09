@@ -17,8 +17,6 @@ const routes: Routes = [
     path: 'individual_profile_page',
     component: IndividualProfileComponent,
   },*/
-
-
   {
     path: '**',
     redirectTo: 'login_page',
