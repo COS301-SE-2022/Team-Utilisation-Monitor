@@ -16,11 +16,11 @@ export class AdminTeamProjectViewComponent implements OnInit {
                   {Name: "Tuks Sport"},
                 ];
 
-  OutProjectName = [{Name: "Delete Software"},
-                    {Name: "Create Software"},
-                    {Name: "Create FronteEnd"},
-                    {Name: "Delete FronteEnd"},
-                    {Name: "Finish all Projects"},
+  OutProject = [{Name: "Delete Software", TeamName: "I Create Software"},
+                    {Name: "Create Software", TeamName: "I Create Software"},
+                    {Name: "Create FronteEnd", TeamName: "I Create Software"},
+                    {Name: "Delete FronteEnd", TeamName: "I Create Software"},
+                    {Name: "Finish all Projects", TeamName: "I Create Software"},
                   ];
 
   ngOnInit(): void {
