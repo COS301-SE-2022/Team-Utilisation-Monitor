@@ -14,7 +14,7 @@ export class AuthenticationService {
 
   addAdmin(firstName:string,lastname :string,company:string,email:string,password:string)
   {
-    const Query='mutation{createAdmin(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",password:"'+password+'",company_name:"'+company+'"){name,surname,email,company_name,company_id}}'
+    const Query='mutation{createAdmin(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",password:"'+password+'",company_name:"'+company+'"){name,surname,email,company_name,company_id}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -26,22 +26,20 @@ export class AuthenticationService {
 
   createUser(firstName:string,lastname :string,email:string,password:string,inviteCode:string):Observable<any>
   {
-    const query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){id,name,surname}}'
+    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){name,surname,email,password,company_name,company_id,role,utilisation}}';
 
-    console.log("Hey j");
+    console.log(Query);
 
-    //const query='mutation{createUser(name:"Sharp",surname:"Tank",email:"shark@gmail.com",password:"theshartank",inviteCode:"no 167"){name,surname,email}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
         })
     }
+    const object=this.client.post<any>('http://localhost:3333/graphql', JSON.stringify({ query: Query }), options)
 
-    const obj=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query}),options)
+    console.log(object);
+    return object;
 
-    console.log(obj);
-
-    return obj;
   }
 
   login(email:string,password:string):Observable<any>
