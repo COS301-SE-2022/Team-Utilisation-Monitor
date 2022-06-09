@@ -17,6 +17,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
+import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   imports: [
@@ -36,9 +38,11 @@ import {MatSelectModule} from "@angular/material/select";
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatListModule,
   ],
   declarations: [
-    IndividualHomePageComponent
+    IndividualHomePageComponent,
+    IndividualProfileComponent
   ],
   exports: [IndividualRoutingModule],
 })
