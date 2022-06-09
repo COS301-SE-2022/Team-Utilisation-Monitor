@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { ApproveRequestCommand } from './commands/impl/approve-request.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
@@ -95,6 +96,11 @@ export class ServiceFeatureService {
         return this.commandBus.execute(new ApproveRequestCommand(f_id));
     }
 
+    async approveRequestVEmail(email:string)
+    {
+        return this.commandBus.execute(new ApproveRequestVEmailCommand(email));
+    }
+
     async getCompanyStats(companyName:string):Promise<any>
     {
         return this.queryBus.execute(new GetCompanyStats(companyName));
@@ -109,6 +115,8 @@ export class ServiceFeatureService {
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
+
+    
 
     /**
      * public readonly name:string,
