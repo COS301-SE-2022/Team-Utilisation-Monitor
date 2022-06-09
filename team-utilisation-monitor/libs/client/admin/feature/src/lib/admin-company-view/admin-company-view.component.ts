@@ -65,7 +65,6 @@ export class AdminCompanyViewComponent implements OnInit {
             obj.Name=requests.name+" "+requests.surname;
             this.OutEmployeeName.push(obj);
           }
-          console.log()
         }
       })
   }
