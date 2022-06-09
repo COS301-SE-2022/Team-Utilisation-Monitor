@@ -75,12 +75,12 @@ mat-progress-bar{
   color: #888888;
 }
 
-.tc{
-height: 25%;
-  margin-left:  0px;
+.tc .smc{
+height: 20%;
+  width: 93%;
+  //margin-left:  10px;
 }
-.mat-full{
-  width:90%;
-  ///height: 40%;
-  //margin-bottom: -100px;
+
+.tc{
+  height:100%;
 }
