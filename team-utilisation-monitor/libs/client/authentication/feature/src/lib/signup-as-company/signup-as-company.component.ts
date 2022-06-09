@@ -42,14 +42,15 @@ export class SignupAsCompanyComponent implements OnInit {
       const email=this.profileForm.get("email")?.value!;
       const password=this.profileForm.get("password")?.value!;
       const company=this.profileForm.get('companyName')?.value!;
+
       this.service.addAdmin(firstname,lastname,company,email,password).subscribe(data=>
+      {
+        this.Admin=data;
+        if(this.Admin.data!=null)
         {
-          this.Admin=data;
-          if(this.Admin.data!=null)
-          {
-            //
-          }
-        });
+          //
+        }
+      });
       //Redirect to the login page
       this.router.navigate(['']);
     }
