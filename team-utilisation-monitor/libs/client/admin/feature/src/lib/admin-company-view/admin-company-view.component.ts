@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AdminCompanyViewComponent implements OnInit {
    constructor(private adminService:AdminService,private cookie:CookieService) {}
-  boolshow = false;
+  boolshow = true;
   /*
   Name = "User's Name";
   OutOwnerName = "Agape Mamphasa";

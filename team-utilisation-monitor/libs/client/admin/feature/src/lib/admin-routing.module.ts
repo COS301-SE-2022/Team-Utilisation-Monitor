@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminCompanyViewComponent } from './admin-company-view/admin-company-view.component';
 import { AdminListViewComponent } from './admin-list-view/admin-list-view.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
+import { AdminTeamProjectViewComponent } from './admin-team-project-view/admin-team-project-view.component';
 
 
 
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'AdminListView',
     component: AdminListViewComponent,
+  },
+  {
+    path: 'AdminTeamProjectView',
+    component: AdminTeamProjectViewComponent,
   },
 ];
 
