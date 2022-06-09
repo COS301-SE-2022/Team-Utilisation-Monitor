@@ -1,4 +1,5 @@
 import { Component, OnInit ,Input,Output,EventEmitter } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-admin-topnav',
@@ -6,13 +7,13 @@ import { Component, OnInit ,Input,Output,EventEmitter } from '@angular/core';
   styleUrls: ['./comp-admin-topnav.component.scss'],
 })
 export class CompAdminTopnavComponent implements OnInit {
-  companyName = "University of Pretoria";
+  companyName = "";
 
   //code to implement side nav toggeling below
-  constructor() {
+  constructor(private cookie:CookieService) {
     this.state = true;
   }
-  
+
   @Input() state: boolean;  //imported boolean from parent class
   @Output() toggle = new EventEmitter();
 
@@ -28,5 +29,7 @@ export class CompAdminTopnavComponent implements OnInit {
 
   ngOnInit(): void {
     console.log();
+    this.companyName=this.cookie.get("CompanyName");
+    console.log()
   }
 }
