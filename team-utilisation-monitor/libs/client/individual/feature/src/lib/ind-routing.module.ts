@@ -13,12 +13,10 @@ const routes: Routes = [
     path: 'individual_home_page',
     component: IndividualHomePageComponent,
   },
-  {
+  /*{
     path: 'individual_profile_page',
-    //component: IndividualProfileComponent,
-  },
-
-
+    component: IndividualProfileComponent,
+  },*/
   {
     path: '**',
     redirectTo: 'login_page',
