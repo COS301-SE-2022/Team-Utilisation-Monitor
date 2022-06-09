@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -6,7 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./comp-project-list.component.scss'],
 })
 export class CompProjectListComponent implements OnInit {
-  constructor() {}
+  //constructor() {}
+  @Input() ProjectName!: { Name: string };
 
-  ngOnInit(): void {}
+  //get Team associated with the Project from back end;
+  TeamName = "I Create Software";
+
+  OutEmployeeName = [{Name: "Mr Cornel Coetzee"},
+  {Name: "Mr Gift Monwa"},
+  {Name: "Mr Rourke Amiss"},
+  {Name: "Mr Agape Mamphasa"},
+  {Name: "Mr Agape Mamphasa"},
+  ];
+
+  ngOnInit(): void {
+    console.log();
+  }
 }

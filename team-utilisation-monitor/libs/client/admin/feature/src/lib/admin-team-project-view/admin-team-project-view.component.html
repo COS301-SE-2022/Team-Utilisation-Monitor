@@ -12,18 +12,18 @@
                 <mat-expansion-panel-header><mat-panel-title>
                         Teams
                 </mat-panel-title></mat-expansion-panel-header>
-                <!-- <team-utilisation-monitor-comp-employee-individual
-                *ngFor="let user of OutTeamNames"
-                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual> -->
+                <team-utilisation-monitor-comp-team-list
+                *ngFor="let Team of OutTeamNames"
+                [TeamName] = "Team"></team-utilisation-monitor-comp-team-list>
             </mat-expansion-panel>
 
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
                 <mat-expansion-panel-header><mat-panel-title>
                         Projects
                 </mat-panel-title></mat-expansion-panel-header>
-                <!-- <team-utilisation-monitor-comp-employee-individual
-                *ngFor="let user of OutProjectName"
-                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual> -->
+                <team-utilisation-monitor-comp-project-list
+                *ngFor="let project of OutProjectName"
+                [ProjectName] = "project"></team-utilisation-monitor-comp-project-list>
             </mat-expansion-panel>
         </mat-accordion>
     </mat-sidenav-content>

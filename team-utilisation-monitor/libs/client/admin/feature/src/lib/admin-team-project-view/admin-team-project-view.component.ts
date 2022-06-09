@@ -10,17 +10,17 @@ export class AdminTeamProjectViewComponent implements OnInit {
   boolshow = true;
   panelOpenState = false;
   
-  OutTeamNames = [{Name: "Cornel Coetzee"},
-                  {Name: "Gift Monwa"},
-                  {Name: "Rourke Amiss"},
-                  {Name: "Agape Mamphasa"},
+  OutTeamNames = [{Name: "I Create Software"},
+                  {Name: "University Of Pretoria"},
+                  {Name: "Tuks Rugby"},
+                  {Name: "Tuks Sport"},
                 ];
 
-  OutProjectName = [{Name: "Mr Cornel Coetzee"},
-                    {Name: "Mr Gift Monwa"},
-                    {Name: "Mr Rourke Amiss"},
-                    {Name: "Mr Agape Mamphasa"},
-                    {Name: "Mr Agape Mamphasa"},
+  OutProjectName = [{Name: "Delete Software"},
+                    {Name: "Create Software"},
+                    {Name: "Create FronteEnd"},
+                    {Name: "Delete FronteEnd"},
+                    {Name: "Finish all Projects"},
                   ];
 
   ngOnInit(): void {
