@@ -25,6 +25,6 @@ export class IndividualHomePageComponent implements OnInit {
   }
 
   showInfo(link: string) {
-
+    console.log()
   }
 }
