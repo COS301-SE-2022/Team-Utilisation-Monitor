@@ -17,6 +17,7 @@ async function main()
           surname:'Faresa',
           email:'theo@gmail.com',
           password:'code',
+          utilisation:50,
           
 
           position:{
@@ -32,10 +33,12 @@ async function main()
           email:'gift@gmail.com',
           password:'food',
           role:'ADMIN',
+          utilisation:20,
+          approved:true,
 
         position:{
           create:{
-            title:'junior software developer'
+            title:'Administrator'
           }
         }},
         {
@@ -44,6 +47,7 @@ async function main()
           email:'max@gmail.com',
           password:'p1',
           role:'USER',
+          utilisation:50,
 
           position:{
           create:{
