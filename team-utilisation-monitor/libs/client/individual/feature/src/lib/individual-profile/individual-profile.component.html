@@ -20,9 +20,9 @@
 
           <mat-card-content class="mat-card-content">
             <div class="details">
-              <h3>First Name: </h3> <!-- {{CurrentUserName}} -->
-              <h3>Surname: </h3> <!-- {{CurrentUserSurname}} -->
-              <h3>Email: </h3>
+              <h3>First Name: {{fName}}</h3> <!-- {{CurrentUserName}} -->
+              <h3>Surname: {{lastName}}</h3> <!-- {{CurrentUserSurname}} -->
+              <h3>Email: {{email}}</h3>
               <h3>Allocated Projects:</h3> <!-- {{Number of allocated projects}} -->
             </div>
           </mat-card-content>
@@ -32,20 +32,18 @@
         <div class="smc">
           <mat-card class="mat-card1">
             <mat-card-header>
-              <mat-card-title>Team Mmbers</mat-card-title>
+              <mat-card-title>Team Members</mat-card-title>
             </mat-card-header>
 
             <mat-card-content class="mid">
               <mat-nav-list class="list">
-                <mat-list-item *ngFor="let link of teams">
+                <mat-list-item *ngFor="let link of members">
                   <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
                   <button mat-icon-button (click)="showInfo(link)">
                   </button>
                 </mat-list-item>
               </mat-nav-list>
             </mat-card-content>
-
-
           </mat-card>
 
         </div>
