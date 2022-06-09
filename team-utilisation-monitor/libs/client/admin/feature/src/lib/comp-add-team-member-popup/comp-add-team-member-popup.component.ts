@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./comp-add-team-member-popup.component.scss'],
 })
 export class CompAddTeamMemberPopupComponent implements OnInit {
-  constructor() {}
+  //constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log()
+  }
 }
