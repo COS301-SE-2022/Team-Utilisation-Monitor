@@ -14,7 +14,10 @@ export class ProjectEntity{
     ownwer_id!:number;
 
     @Field(()=>[UserPerson],{nullable:true})
-    workers?:UserPerson[]
+    workers?:UserPerson[];
+
+    @Field()
+    completed?:boolean;
 
     @Field()
     team_id?:number;
