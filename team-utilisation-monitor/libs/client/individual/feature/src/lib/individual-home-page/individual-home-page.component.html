@@ -18,7 +18,7 @@
         <mat-card-content class="mid">
           <mat-nav-list class="list">
             <mat-list-item *ngFor="let link of teams">
-              <a matLine href="...">{{ link }}</a>
+              <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
               <button mat-icon-button (click)="showInfo(link)">
               </button>
             </mat-list-item>
@@ -36,7 +36,7 @@
           <mat-card-content class="mid">
             <mat-nav-list class="list">
               <mat-list-item *ngFor="let link of projects">
-                <a matLine href="...">{{ link }}</a>
+                <a matLine href="#">{{ link }}</a>        <!--redirect to a respective Team view here-->
                 <button mat-icon-button (click)="showInfo(link)">
                 </button>
               </mat-list-item>
