@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {IndividualHomePageComponent} from "./individual-home-page/individual-home-page.component";
 import {ClientIndividualServiceService} from "./client-individual-service/client-individual-service.service";
-import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
+//import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'individual_profile_page',
-    component: IndividualProfileComponent,
+    //component: IndividualProfileComponent,
   },
 
 
