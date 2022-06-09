@@ -42,21 +42,25 @@ export class SignupAsIndividualComponent implements OnInit {
       const email=this.profileForm.get('email')?.value!;
       const inviteCode=this.profileForm.get('Invitecode')?.value!;
 
+      console.log(firstname);
+
       if(this.profileForm.valid)
       {
 
-        this.service.createUser(firstname,lastname,password,email,inviteCode).subscribe({
+        this.service.createUser(firstname,lastname,email,password,inviteCode).subscribe({
           next:(item)=>{
             if(item.data!=null){
               console.log("INNNNNNN!!!")
-              //Add router here Gift -love Agape
+              //add routerin -love
+              
             }
             else
             {
               console.log(item.data);
               alert("something went wrong");
             }
-          }
+          },
+          error: (err)=>{console.log(err)}
         })
       }
     }
