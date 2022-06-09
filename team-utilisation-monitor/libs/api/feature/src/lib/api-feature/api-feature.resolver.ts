@@ -253,7 +253,8 @@ export class ApiFeatureResolver {
 
   /***
    * This function is used to approve requests via id
-   */
+   * Returns true if process was successful,false otherwise
+  */
   
   @Mutation(()=>Boolean)
   async approveRequest(@Args("id") id:string)
@@ -262,6 +263,19 @@ export class ApiFeatureResolver {
 
     return resp;
   }
+
+   /***
+   * This function is used to approve requests via email
+   * Returns true if process was successful,false otherwise
+   */
+  
+    @Mutation(()=>Boolean)
+    async approveRequestVEmail(@Args("email") email:string)
+    {
+      const resp=await this.service.approveRequestVEmail(email);
+  
+      return resp;
+    }
 
 
   @Query(() => String)

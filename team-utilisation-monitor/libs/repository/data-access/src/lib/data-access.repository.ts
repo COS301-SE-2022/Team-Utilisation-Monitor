@@ -466,7 +466,7 @@ export class DataAccessRepository {
         })
 
         //console.log(exist_code);
-        
+
         if(exist_code)
         {
             const return_code=new InviteCodeEntity();
@@ -477,10 +477,10 @@ export class DataAccessRepository {
             return_code.created=exist_code.created;
             return_code.expire=exist_code.expire;
 
-            return return_code; 
+            return return_code;
         }
 
-    
+
         //generate random code e.g pwc288
 
         const prefix=company_name.substring(0,3);
@@ -604,6 +604,8 @@ export class DataAccessRepository {
         else
             return false;
     }
+
+     
 
     /***
      * This function is used to approve requests via id of the user.
@@ -843,6 +845,7 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    workers_arr=[]
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
@@ -944,7 +947,7 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.employees.length;++i)
                 {
-                    
+
                     if(company.employees[i].approved)
                     {
                         const user=new UserPerson();
