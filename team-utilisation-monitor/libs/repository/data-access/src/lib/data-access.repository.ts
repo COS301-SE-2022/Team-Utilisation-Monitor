@@ -401,8 +401,6 @@ export class DataAccessRepository {
 
         const code=prefix+suffix;
 
-       
-
         //put the code into the database. Code doesn't exist
 
         const c_id=await this.getCompanyID(company_name); //company_id
@@ -856,20 +854,24 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.employees.length;++i)
                 {
-                    const user=new UserPerson();
+                    
+                    if(company.employees[i].approved)
+                    {
+                        const user=new UserPerson();
 
-                    user.id=company.employees[i].id;
-                    user.name=company.employees[i].name;
-                    user.surname=company.employees[i].surname;
-                    user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
-                    user.role=company.employees[i].role;
-                    user.suspended=company.employees[i].suspended;
-                    user.company_name=company.company_name;
-                    user.company_id=company.id;
-                    user.utilisation=company.employees[i].utilisation;
+                        user.id=company.employees[i].id;
+                        user.name=company.employees[i].name;
+                        user.surname=company.employees[i].surname;
+                        user.email=company.employees[i].email;
+                        user.password=company.employees[i].password;
+                        user.role=company.employees[i].role;
+                        user.suspended=company.employees[i].suspended;
+                        user.company_name=company.company_name;
+                        user.company_id=company.id;
+                        user.utilisation=company.employees[i].utilisation;
 
-                    return_arr.push(user);
+                        return_arr.push(user);
+                    }
 
                 }
             }
