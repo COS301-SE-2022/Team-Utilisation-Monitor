@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CompProjectListComponent implements OnInit {
   //constructor() {}
-  @Input() ProjectName!: { Name: string };
+  @Input() Project!: { Name: string, TeamName: string };
 
   //get Team associated with the Project from back end;
   TeamName = "I Create Software";
