@@ -18,15 +18,13 @@ async function main()
           email:'theo@gmail.com',
           password:'code',
           utilisation:50,
-          
-
           position:{
               create:{
               title:'senior software developer'
             }
           }
         },
-        
+
         {
           name:'Gift',
           surname:'Monwa',
@@ -57,7 +55,7 @@ async function main()
       }]
     },
 
-  
+
 
   }
 })
