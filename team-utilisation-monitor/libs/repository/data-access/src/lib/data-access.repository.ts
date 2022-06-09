@@ -588,8 +588,8 @@ export class DataAccessRepository {
 
     async getAllPersons():Promise<UserPerson[]>
     {
-        //absolutely brilliat. The include tag includes other details i.e other dchema data
-        //that might be nesglected
+        //absolutely brilliant. The include tag includes other details i.e other dchema data
+        //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
                 position:true,
@@ -1165,6 +1165,46 @@ export class DataAccessRepository {
     }
 
 
+    async getWorkersOfProject(projectName:string):Promise<UserPerson[]>
+    {
+        const project=await this.prisma.project.findMany({
+            where:{
+                project_name:projectName
+            },
+            include:{
+                workers:true,
+            }
+        })
 
+        if(project)
+        {
+            let return_arr=[];
 
+            for(let i=0;i<project[0].workers.length;++i)
+            {
+                
+                if(project[0].workers[i].approved)
+                {
+                    const user=new UserPerson();
+
+                    user.id=project[0].workers[i].id;
+                    user.name=project[0].workers[i].name;
+                    user.surname=project[0].workers[i].surname;
+                    user.email=project[0].workers[i].email;
+                    user.password=project[0].workers[i].password;
+                    user.role=project[0].workers[i].role;
+                    user.suspended=project[0].workers[i].suspended;
+                    user.utilisation=project[0].workers[i].utilisation;
+
+                    return_arr.push(user);
+                }
+
+            }
+            
+
+            return return_arr;
+        }
+        else
+            return null;
+    }
 }
