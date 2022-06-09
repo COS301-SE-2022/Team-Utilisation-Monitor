@@ -14,11 +14,11 @@
 
       <div class="col-md-4">
         <mat-card class="card-card-user">
-          <mat-card-header>
+          <mat-card-header class="mat-card-header">
             <div mat-card-avatar class="example-header-image" > </div>
           </mat-card-header>
 
-          <mat-card-content>
+          <mat-card-content class="mat-card-content">
             <div class="details">
               <h3>First Name: </h3> <!-- {{CurrentUserName}} -->
               <h3>Surname: </h3> <!-- {{CurrentUserSurname}} -->
@@ -29,20 +29,26 @@
 
         </mat-card>
 
-        <mat-card class="card">
-          <mat-card-header>
+        <div class="smc">
+          <mat-card class="mat-card1">
+            <mat-card-header>
+              <mat-card-title>Allocated Teams</mat-card-title>
+            </mat-card-header>
 
-            <mat-card-title><h5 class="teams">Team members  </h5></mat-card-title>
-            <mat-card-subtitle> </mat-card-subtitle>
-          </mat-card-header>
+            <mat-card-content class="mid">
+              <mat-nav-list class="list">
+                <mat-list-item *ngFor="let link of teams">
+                  <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                  <button mat-icon-button (click)="showInfo(link)">
+                  </button>
+                </mat-list-item>
+              </mat-nav-list>
+            </mat-card-content>
 
-          <mat-card-content>
-            <p>
 
-            </p>
-          </mat-card-content>
+          </mat-card>
 
-        </mat-card>
+        </div>
         <br><br>
 
       </div>
@@ -152,10 +158,18 @@
                 </table>
 
 
+
+
                 <p class="one">
+
                   <mat-form-field class="two" appearance="outline">
-                    <mat-label>About</mat-label>
-                    <textarea class="au" matInput placeholder="Ex. 100 Main St" ></textarea>
+                    <mat-label>Add skill</mat-label>
+                    <input matInput placeholder="Leadership">
+                  </mat-form-field>
+
+                  <mat-form-field class="two" appearance="outline">
+                    <mat-label>Brief Skill Description</mat-label>
+                    <textarea class="au" matInput placeholder="" ></textarea>
                   </mat-form-field>
                 </p>
 

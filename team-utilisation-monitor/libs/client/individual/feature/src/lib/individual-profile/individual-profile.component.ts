@@ -11,14 +11,13 @@ export class IndividualProfileComponent implements OnInit {
   opened = true;
 
   boolshow = true;
-  nrOfEmployees = 108;
-  utilizationPersentage = 80;
-  nrOfOpenProjects = 40;
-  nrOfClosedProjects = 50;
-  nrOfTeams = 20;
+  teams: string[]=['Team A', 'Team B','Team B','Team B','Team B','Team C'];
 
   ngOnInit(): void {
     console.log();
+  }
+  showInfo(link: string) {
+    console.log()
   }
 
 }
