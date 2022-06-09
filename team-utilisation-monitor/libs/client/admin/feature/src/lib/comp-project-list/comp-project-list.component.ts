@@ -10,7 +10,6 @@ export class CompProjectListComponent implements OnInit {
   @Input() Project!: { Name: string, TeamName: string };
 
   //get Team associated with the Project from back end;
-  TeamName = "I Create Software";
 
   ngOnInit(): void {
     console.log();

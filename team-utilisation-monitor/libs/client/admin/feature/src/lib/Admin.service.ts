@@ -17,7 +17,7 @@ export class AdminService {
   //GET FUNCTIONS
   getCompany(companyName:string):Observable<any>
   {
-    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname},admins{name,surname},projects{project_name,team_name}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname},admins{name,surname},teams{team_name},projects{project_name,team_name}}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
