@@ -12,9 +12,12 @@ export class IndividualProfileComponent implements OnInit {
 
   boolshow = true;
   members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
+  projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
+
+  noOfProject=this.projects.length;
 
   ngOnInit(): void {
     console.log();

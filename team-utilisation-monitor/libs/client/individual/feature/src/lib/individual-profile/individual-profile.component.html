@@ -18,12 +18,13 @@
             <div mat-card-avatar class="example-header-image" > </div>
           </mat-card-header>
 
-          <mat-card-content class="mat-card-content">
+          <mat-card-content class="mat-card-details">
             <div class="details">
               <h3>First Name: {{fName}}</h3> <!-- {{CurrentUserName}} -->
               <h3>Surname: {{lastName}}</h3> <!-- {{CurrentUserSurname}} -->
               <h3>Email: {{email}}</h3>
-              <h3>Allocated Projects:</h3> <!-- {{Number of allocated projects}} -->
+              <h3>Allocated Projects: {{noOfProject}}
+              </h3> <!-- {{Number of allocated projects}} -->
             </div>
           </mat-card-content>
 
@@ -88,9 +89,7 @@
                         <!-- LIST OF PROJECTS THE USER IS ASSIGNED TO HERE-->
                         <mat-label>Projects</mat-label>
                         <mat-select>
-                          <mat-option value="option">Project 1</mat-option>
-                          <mat-option value="option">Project 2</mat-option>
-                          <mat-option value="option">Project 3</mat-option>
+                          <mat-option value="option" *ngFor="let n of projects">{{n}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                     </td>
