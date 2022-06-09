@@ -15,16 +15,14 @@ export class AdminService {
 
   getCompany(companyName:string):Observable<any>
   {
-    const Query='query{GetCompanyQuery(name:"iCreateSoftware"){id,company_name,employees{name,surname},admins{name,surname},projects{project_name}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname},admins{name,surname},projects{project_name}}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
   }
 
-  this.company=this.client.post<any>("https://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
-
-    return this.company;
+    return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
 
   login(email:string,password:string):Observable<any>
@@ -70,6 +68,17 @@ export class AdminService {
   createInviteCode(companyName: string):Observable<any>
   {
     const query='mutation{createInviteCode(company_name:"'+companyName+'"){inviteCode}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  getPendingRequests(companyName:string):Observable<any>
+  {
+    const query='query{getPendingRequests(company_name:"'+companyName+'"){name,surname,email}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

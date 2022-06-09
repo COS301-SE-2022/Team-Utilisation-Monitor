@@ -16,8 +16,8 @@ export class AdminListViewComponent implements OnInit {
                   ];*/
   ngOnInit(): void {
     console.log();
-    this.company=this.service.getCompany("iCreateSofware");
-    console.log(JSON.stringify(this.service.login("gift@gmail.com","food")));
-    console.log(JSON.stringify(this.company));
+    //this.company=this.service.getCompany("iCreateSofware");
+    //console.log(JSON.stringify(this.service.login("gift@gmail.com","food")));
+    //console.log(JSON.stringify(this.company));
   }
 }
