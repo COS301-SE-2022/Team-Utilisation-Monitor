@@ -1,1 +1,30 @@
-<p>admin-team-project-view works!</p>
+<mat-sidenav-container color="primary">
+    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+        <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <!-- boolshow is a var used for toggeling navbar open and closed -->
+        <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
+
+        <mat-accordion multi>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Teams
+                </mat-panel-title></mat-expansion-panel-header>
+                <!-- <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutTeamNames"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual> -->
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+                <mat-expansion-panel-header><mat-panel-title>
+                        Projects
+                </mat-panel-title></mat-expansion-panel-header>
+                <!-- <team-utilisation-monitor-comp-employee-individual
+                *ngFor="let user of OutProjectName"
+                [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual> -->
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-sidenav-content>
+</mat-sidenav-container>
