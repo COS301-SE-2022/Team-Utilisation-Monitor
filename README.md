@@ -91,7 +91,7 @@ Working in a development-based environment has managers managing resource alloca
   
   ###### Credits : DEV Community
   
-      Feature     :Represent
+      Feature     :Represent a feature being worked on
       
       Develop     :Latest Working Code merged from features and Ready to be merge into main after thorough review
       
