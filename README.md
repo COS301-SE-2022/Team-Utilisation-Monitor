@@ -41,7 +41,7 @@ Working in a development-based environment has managers managing resource alloca
    -   [Demo1 video recording](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
   
   #### Demo 2
-   -  [SRS Document Version2](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8875069/SRS.Document.V2.pdf)
+   -  [[SRS Document Version2](https://docs.google.com/document/d/18veI5lELv3HaCNOrs_wC81VGLr9ADIuRxFwNa-2zGpQ/edit?usp=sharing)
    -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
    -  [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
