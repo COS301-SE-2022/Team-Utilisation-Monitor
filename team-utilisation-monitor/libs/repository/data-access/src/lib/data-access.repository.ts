@@ -1007,6 +1007,7 @@ export class DataAccessRepository {
             projects_arr=[]
             teams_arr=[]
             admins_arr=[]
+            
 
             if(company.employees!=null)
             {
@@ -1038,6 +1039,7 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
