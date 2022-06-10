@@ -1,11 +1,11 @@
-<form>
+<form [formGroup]="teamForm" (ngSubmit)="OnSubmit()">
     <h2>Create a New Team</h2>
     <mat-form-field appearance="fill">
         <mat-label>Enter Team name</mat-label>
-        <input id="Team_Name" matInput placeholder="Team Name">
+        <input id="Team_Name" matInput placeholder="Team Name" formControlName="teamName">
     </mat-form-field>
     <br>
     <h4>Add Members to the team on the Team/Project View tab</h4>
     <br>
-    <button mat-raised-button color="primary">Create Team</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!teamForm.valid">Create Team</button>
 </form>

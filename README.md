@@ -41,11 +41,11 @@ Working in a development-based environment has managers managing resource alloca
    -   [Demo1 video recording](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
   
   #### Demo 2
-   -  [SRS Document Version2](https://docs.google.com/document/d/18veI5lELv3HaCNOrs_wC81VGLr9ADIuRxFwNa-2zGpQ/edit?usp=sharing)
+   -  [SRS Document Version 2](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
    -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
    -  [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
-   -  [Demo2 Pre-recording Here]
+   -  [Demo2 Pre-recording](https://drive.google.com/drive/u/2/folders/1pbA7qawV8k3V_pRlKZQ4F-XXfbLoiQis)
    -  [Demo2 Live recording Here]
   
   
@@ -91,7 +91,7 @@ Working in a development-based environment has managers managing resource alloca
   
   ###### Credits : DEV Community
   
-      Feature     :Represent
+      Feature     :Represent a feature being worked on
       
       Develop     :Latest Working Code merged from features and Ready to be merge into main after thorough review
       

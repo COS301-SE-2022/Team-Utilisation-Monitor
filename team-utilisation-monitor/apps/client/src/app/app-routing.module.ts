@@ -26,14 +26,14 @@ const routes: Routes = [
       ),
   },
 
-  // {
+   {
 
-  //   path: '',
-  //   loadChildren: () =>
-  //     import('@team-utilisation-monitor/client/individual/feature').then(
-  //       (x) => x.ClientIndividualFeatureModule
-  //     ),
-  // },
+    path: '',
+    loadChildren: () =>
+      import('@team-utilisation-monitor/client/individual/feature').then(
+        (x) => x.ClientIndividualFeatureModule
+       ),
+   },
 
 ]
   @NgModule({

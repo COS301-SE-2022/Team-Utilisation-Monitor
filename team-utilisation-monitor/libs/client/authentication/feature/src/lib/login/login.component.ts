@@ -49,6 +49,10 @@ export class LoginComponent implements OnInit {
             {
               this.router.navigate(['AdminHome'])
             }
+            else if(item.data.login.role=="USER")
+            {
+              this.router.navigate(['individual_home_page'])
+            }
             else
             {
               this.router.navigate(['home_page']) //, {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});

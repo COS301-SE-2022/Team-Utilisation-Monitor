@@ -14,13 +14,19 @@ export class ProjectEntity{
     ownwer_id!:number;
 
     @Field(()=>[UserPerson],{nullable:true})
-    workers?:UserPerson[]
+    workers?:UserPerson[];
+
+    @Field()
+    completed?:boolean;
 
     @Field()
     team_id?:number;
 
+    @Field()
+    team_name?:string;
+
     @Field({nullable:true})
     man_hours?:number;
 
-    
+
 }

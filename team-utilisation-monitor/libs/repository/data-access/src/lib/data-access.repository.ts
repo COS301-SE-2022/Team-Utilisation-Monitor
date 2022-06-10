@@ -218,6 +218,91 @@ export class DataAccessRepository {
     }
 
     /***
+     * Use this function to get all projects of the company as an argument in an array
+     * Returns null if the company doesn't exist
+     * Use 0 to get projects or 1 to get the teams
+    */
+
+    async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        let return_projects=[];
+        let return_teams=[];
+        let default_arr=[];
+
+        if(c_id>0) //company exists
+        {
+            if(typeOfContent===0)
+            {
+                const all_projects=await this.prisma.project.findMany({
+                    where:{
+                        owner_id:c_id
+                    }
+                })
+
+                if(all_projects)
+                {
+                    for(let i=0;i<all_projects.length;++i)
+                    {
+                        return_projects[i]=new ProjectEntity();
+
+                        return_projects[i].id=all_projects[i].id;
+                        return_projects[i].project_name=all_projects[i].project_name;
+                        return_projects[i].owner_id=all_projects[i].owner_id;
+                        return_projects[i].team_id=all_projects[i].team_id;
+                        return_projects[i].man_hours=all_projects[i].man_hours;
+                        return_projects[i].hoursToComplete=all_projects[i].completed;
+                    }
+
+                    return return_projects
+                }
+                else
+                    return_projects; //empty array
+            }
+            else if(typeOfContent===1) //get all teams
+            {
+                const all_teams=await this.prisma.team.findMany({
+                    where:{
+                        company_id:c_id,
+                    },
+                    include:{
+                        project:true
+                    }
+                })
+
+                if(all_teams)
+                {
+                    for(let i=0;i<all_teams.length;++i)
+                    {
+                        return_teams[i]=new TeamEntity();
+
+                        return_teams[i].id=all_teams[i].id;
+                        return_teams[i].team_name=all_teams[i].team_name;
+                        return_teams[i].company_id=all_teams[i].company_id;
+                        return_teams[i].project_name=all_teams[i].project.project_name;
+                        return_teams[i].project_id=all_teams[i].project.id;
+                        return_teams[i].completed=all_teams[i].project.completed;
+                    }
+
+                    return return_teams;
+                }
+                else
+                {
+                    return return_teams;
+                }
+
+            }
+            else
+                return default_arr;
+
+
+        }
+        else
+            return null;
+    }
+
+    /***
      * The function creates and adds the user object to the database. Returns the user object from
      * The database
      */
@@ -225,6 +310,8 @@ export class DataAccessRepository {
     async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string):Promise<UserPerson|null>
     {
         //use the invitation link to get the company id
+
+        console.log("in repository layer!!")
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -243,6 +330,7 @@ export class DataAccessRepository {
 
             const return_user=new UserPerson();
 
+            return_user.id=new_user.id;
             return_user.name=new_user.name;
             return_user.surname=new_user.surname;
             return_user.email=new_user.email;
@@ -255,6 +343,7 @@ export class DataAccessRepository {
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
             console.log("Marubi");
+            console.log(return_user)
 
             return return_user;
         }
@@ -377,7 +466,7 @@ export class DataAccessRepository {
         })
 
         //console.log(exist_code);
-        
+
         if(exist_code)
         {
             const return_code=new InviteCodeEntity();
@@ -388,10 +477,10 @@ export class DataAccessRepository {
             return_code.created=exist_code.created;
             return_code.expire=exist_code.expire;
 
-            return return_code; 
+            return return_code;
         }
 
-    
+
         //generate random code e.g pwc288
 
         const prefix=company_name.substring(0,3);
@@ -515,6 +604,8 @@ export class DataAccessRepository {
         else
             return false;
     }
+
+
 
     /***
      * This function is used to approve requests via id of the user.
@@ -692,6 +783,21 @@ export class DataAccessRepository {
      * @returns
      */
 
+    async getTeam(team_ID:number):Promise<TeamEntity>
+    {
+        const Team=await this.prisma.team.findUnique({
+          where:{
+            id:team_ID
+          }
+        })
+
+        const team=new TeamEntity();
+        team.id=Team.id;
+        team.team_name=Team.team_name;
+        team.company_id=Team.company_id;
+
+        return team;
+    }
 
     async getCompanyVName(f_company_name:string):Promise<UserCompany|null>
     {
@@ -754,10 +860,12 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    workers_arr=[]
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
                     project.ownwer_id=company.projects[i].owner_id;
+                    project.team_name=(await this.getTeam(company.projects[i].team_id)).team_name;
 
                     for(let i=0;i<company.employees.length;++i)
                     {
@@ -855,7 +963,7 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.employees.length;++i)
                 {
-                    
+
                     if(company.employees[i].approved)
                     {
                         const user=new UserPerson();
@@ -946,6 +1054,7 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    workers_arr=[]
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
