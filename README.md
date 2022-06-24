@@ -50,7 +50,14 @@ Working in a development-based environment has managers managing resource alloca
   
   
   #### Demo 3
-     -
+   -  [SRS Document Version 3]
+   -  [Project Management]
+   -  [Architectural Requirements]
+   -  [User Manual]
+   -  [Coding Standard]
+   -  [Technical Installation Manual]
+   -  [Demo3 Pre-recording]
+   -  [Demo3 Live recording Here]
     
   #### Demo 4
     -
