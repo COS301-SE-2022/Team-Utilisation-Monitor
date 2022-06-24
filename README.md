@@ -55,7 +55,7 @@ Working in a development-based environment has managers managing resource alloca
    -  [Architectural Requirements]
    -  [User Manual]
    -  [Coding Standard]
-   -  [Technical Installation Manual]
+   -  [Technical Installation Manual](https://www.overleaf.com/read/dnjrrgxzmppt)
    -  [Demo3 Pre-recording]
    -  [Demo3 Live recording Here]
     
