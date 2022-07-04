@@ -45,6 +45,12 @@ img{
   width: 65%;
 }
 
+.mat-card-details{
+  padding-left: 50%;
+  padding-top:50%;
+  width: 65%;
+}
+
 mat-progress-bar{
   height: 20px;
   width: 100%;
@@ -218,12 +224,6 @@ div{
   height:150px;
 }
 
-.details{
-  margin-bottom: 50%;
-  text-align: end;
-
-}
-
 .card-card-user{
   border-radius: 12px;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
@@ -247,10 +247,6 @@ div{
   margin-left: -98%;
 }
 
-mat-card-content .details{
-  margin-top:70%;
-  text-align: right;
-}
 .teams {
   text-align: end;
   font-size: 0.82em;
@@ -301,5 +297,13 @@ mat-card-content .details{
 .list{
   //margin-left:15%;
  float: right;
-  margin-right: 30%;
+  margin-right: 50%;
+  text-align: left;
+}
+
+.details{
+ // margin-bottom: 50%;
+  margin-top:70%;
+  text-align: left;
+
 }
