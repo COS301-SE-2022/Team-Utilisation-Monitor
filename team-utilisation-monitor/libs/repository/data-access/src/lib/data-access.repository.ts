@@ -1023,6 +1023,7 @@ export class DataAccessRepository {
             projects_arr=[]
             teams_arr=[]
             admins_arr=[]
+            
 
             if(company.employees!=null)
             {
