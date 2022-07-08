@@ -164,7 +164,6 @@ export class DataAccessRepository {
         }
         else //the admin is an admin of a new company
         {
-            this.createInviteCode(f_company_name);
             console.log("creating company")
 
             await this.createCompnany(f_company_name);
@@ -172,7 +171,7 @@ export class DataAccessRepository {
             //create the person entity
             const c_id=await this.getCompanyID(f_company_name); //new company id
 
-            console.log("company id is "+c_id);
+           // console.log("company id is "+c_id);
 
             if(c_id>0)
             {
@@ -218,11 +217,6 @@ export class DataAccessRepository {
 
     }
 
-    /***
-     * Use this function to get all projects of the company as an argument in an array
-     * Returns null if the company doesn't exist
-     * Use 0 to get projects or 1 to get the teams
-    */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
@@ -438,6 +432,7 @@ export class DataAccessRepository {
                 company_name:c_name,
             }
         })
+        this.createInviteCode(c_name);
 
         const return_company=new UserCompany();
 
@@ -1209,16 +1204,11 @@ export class DataAccessRepository {
 
     async superCreateCompany(companyName:string,userPerson:UserPerson)
     {
-        console.log("in super!!");
-        console.log("company_name is "+companyName);
-
         const c_id=await this.getCompanyID(companyName);
 
         if(c_id>0)
         {
-            console.log("updating company");
-
-            const update_company=await this.prisma.company.update({
+            await this.prisma.company.update({
                 where:{
                     id:c_id,
                 },
@@ -1226,18 +1216,28 @@ export class DataAccessRepository {
                    employees:{
                        connect:{
                            id:userPerson.id,
-                       }
-                   },
-
-                   admins:{
-                       connect:{
-                           id:userPerson.id
+                           email:userPerson.email
                        }
                    }
-
                 }
-
             })
+
+            if(userPerson.role=="ADMIN")  //If UserPerson is an Admin
+            {
+              await this.prisma.company.update({
+                where:{
+                    id:c_id,
+                },
+                data:{
+                  admins:{
+                    connect:{
+                        id:userPerson.id,
+                        email:userPerson.email
+                    }
+                  }
+                }
+            })
+            }
         }
         else
             console.error("superCreateCompany() failed to create a company");
