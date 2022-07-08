@@ -5,10 +5,10 @@ import {ClientIndividualServiceService} from "./client-individual-service/client
 import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
 
 const routes: Routes = [
-  {
+  /*{
     path: '',
     component: IndividualHomePageComponent,
-  },
+  },*/
   {
     path: 'individual_home_page',
     component: IndividualHomePageComponent,

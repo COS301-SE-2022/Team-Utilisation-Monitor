@@ -240,13 +240,13 @@ export class DataAccessRepository {
                         owner_id:c_id
                     }
                 })
-    
+
                 if(all_projects)
                 {
                     for(let i=0;i<all_projects.length;++i)
                     {
                         return_projects[i]=new ProjectEntity();
-    
+
                         return_projects[i].id=all_projects[i].id;
                         return_projects[i].project_name=all_projects[i].project_name;
                         return_projects[i].owner_id=all_projects[i].owner_id;
@@ -254,7 +254,7 @@ export class DataAccessRepository {
                         return_projects[i].man_hours=all_projects[i].man_hours;
                         return_projects[i].hoursToComplete=all_projects[i].completed;
                     }
-    
+
                     return return_projects
                 }
                 else
@@ -295,8 +295,8 @@ export class DataAccessRepository {
             }
             else
                 return default_arr;
-            
-            
+
+
         }
         else
             return null;
@@ -605,7 +605,7 @@ export class DataAccessRepository {
             return false;
     }
 
-     
+
 
     /***
      * This function is used to approve requests via id of the user.
@@ -783,6 +783,21 @@ export class DataAccessRepository {
      * @returns
      */
 
+    async getTeam(team_ID:number):Promise<TeamEntity>
+    {
+        const Team=await this.prisma.team.findUnique({
+          where:{
+            id:team_ID
+          }
+        })
+
+        const team=new TeamEntity();
+        team.id=Team.id;
+        team.team_name=Team.team_name;
+        team.company_id=Team.company_id;
+
+        return team;
+    }
 
     async getCompanyVName(f_company_name:string):Promise<UserCompany|null>
     {
@@ -850,6 +865,7 @@ export class DataAccessRepository {
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
                     project.ownwer_id=company.projects[i].owner_id;
+                    project.team_name=(await this.getTeam(company.projects[i].team_id)).team_name;
 
                     for(let i=0;i<company.employees.length;++i)
                     {
@@ -1007,6 +1023,7 @@ export class DataAccessRepository {
             projects_arr=[]
             teams_arr=[]
             admins_arr=[]
+            
 
             if(company.employees!=null)
             {
@@ -1038,6 +1055,7 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    workers_arr=[]
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
