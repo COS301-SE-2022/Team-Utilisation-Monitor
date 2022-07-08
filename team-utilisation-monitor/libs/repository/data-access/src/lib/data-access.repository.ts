@@ -164,6 +164,7 @@ export class DataAccessRepository {
         }
         else //the admin is an admin of a new company
         {
+            this.createInviteCode(f_company_name);
             console.log("creating company")
 
             await this.createCompnany(f_company_name);
@@ -1023,7 +1024,7 @@ export class DataAccessRepository {
             projects_arr=[]
             teams_arr=[]
             admins_arr=[]
-            
+
 
             if(company.employees!=null)
             {
