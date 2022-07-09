@@ -89,16 +89,15 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
-  approveRequest(employeeEmail:string)
+  approveRequest(employeeEmail:string):Observable<any>
   {
-    const query='mutation{approveRequestVEmail(email:"'+employeeEmail+'")}'
+    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-
-    this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
 }

@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./comp-nav-request-users.component.scss'],
 })
 export class CompNavRequestUsersComponent implements OnInit {
-  constructor(private service:AdminService,private cookie:CookieService) {
+  constructor(private service:AdminService) {
     console.log()
   }
 
@@ -20,6 +20,10 @@ export class CompNavRequestUsersComponent implements OnInit {
 
   approveRequest(email:string)
   {
-    this.service.approveRequest(this.cookie.get("Email"));
+    console.log(email)
+    this.service.approveRequest(email).subscribe(data=>
+      {
+        console.log(data.data.approveRequestVEmail)
+      })
   }
 }

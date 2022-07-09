@@ -601,7 +601,7 @@ export class DataAccessRepository {
                 email:f_email
              }
          })
-
+         console.log("I changed the data")
          if(confirm)
              return true;
          else

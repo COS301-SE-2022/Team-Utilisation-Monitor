@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { Console } from 'console';
 import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
