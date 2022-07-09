@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
           {
             this.cookie.set("UserName",item.data.login.name+" "+item.data.login.surname);
             this.cookie.set("CompanyName",item.data.login.company_name);
+            this.cookie.set("Email",item.data.email);
 
             if(item.data.login.role=="ADMIN") //CURRENT USER IS ADMIN
             {

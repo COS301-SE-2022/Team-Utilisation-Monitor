@@ -23,15 +23,6 @@ export class CompNavbarComponent implements OnInit {
 
 
 
- /* nrOfRequests = 5; //nr of user request sent out and pending, count of the array 'OutEmployeeName'
-  adminName = "Agape Mamphasa";*/
-  // OutEmployeeName = [{Name: "Cornel Coetzee"},
-  //                   {Name: "Gift Monwa"},
-  //                   {Name: "Rourke Amiss"},
-  //                   {Name: "Agape Mamphasa"},
-  //                   {Name: "Agape Mamphasa"},
-  //                 ];
-
   ngOnInit(): void {
     console.log()
     this.adminName=this.cookie.get("UserName");
@@ -48,12 +39,14 @@ export class CompNavbarComponent implements OnInit {
           type nameObject=
           {
             Name:string
+            Email:string
           }
 
           for(const requests of this.AdminData.data.getPendingRequests)
           {
             const  obj={} as nameObject;
             obj.Name=requests.name+" "+requests.surname;
+            obj.Email=requests.email;
             this.OutEmployeeName.push(obj);
             count++;
           }

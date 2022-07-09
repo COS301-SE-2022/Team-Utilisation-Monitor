@@ -171,7 +171,7 @@ export class DataAccessRepository {
             //create the person entity
             const c_id=await this.getCompanyID(f_company_name); //new company id
 
-            console.log("company id is "+c_id);
+           // console.log("company id is "+c_id);
 
             if(c_id>0)
             {
@@ -217,11 +217,6 @@ export class DataAccessRepository {
 
     }
 
-    /***
-     * Use this function to get all projects of the company as an argument in an array
-     * Returns null if the company doesn't exist
-     * Use 0 to get projects or 1 to get the teams
-    */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
@@ -311,7 +306,7 @@ export class DataAccessRepository {
     {
         //use the invitation link to get the company id
 
-        console.log("in repository layer!!")
+       // console.log("in repository layer!!")
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -342,15 +337,14 @@ export class DataAccessRepository {
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
-            console.log("Marubi");
-            console.log(return_user)
+            //console.log("Marubi");
+            //console.log(return_user)
 
             return return_user;
         }
         else
         {
-            console.log("Couldn't verify Invitation link");
-
+            //console.log("Couldn't verify Invitation link");
             return null;
         }
 
@@ -437,6 +431,7 @@ export class DataAccessRepository {
                 company_name:c_name,
             }
         })
+        this.createInviteCode(c_name);
 
         const return_company=new UserCompany();
 
@@ -588,22 +583,6 @@ export class DataAccessRepository {
      * Returns true if application is successful
      */
 
-    async approveRequest(f_id:number):Promise<boolean>
-    {
-        const confirm=await this.prisma.person.update({
-            data:{
-                approved:true
-            },
-            where:{
-                id:f_id
-            }
-        })
-
-        if(confirm)
-            return true;
-        else
-            return false;
-    }
 
 
 
@@ -622,7 +601,7 @@ export class DataAccessRepository {
                 email:f_email
              }
          })
-
+         console.log("I changed the data")
          if(confirm)
              return true;
          else
@@ -1023,7 +1002,7 @@ export class DataAccessRepository {
             projects_arr=[]
             teams_arr=[]
             admins_arr=[]
-            
+
 
             if(company.employees!=null)
             {
@@ -1208,16 +1187,11 @@ export class DataAccessRepository {
 
     async superCreateCompany(companyName:string,userPerson:UserPerson)
     {
-        console.log("in super!!");
-        console.log("company_name is "+companyName);
-
         const c_id=await this.getCompanyID(companyName);
 
         if(c_id>0)
         {
-            console.log("updating company");
-
-            const update_company=await this.prisma.company.update({
+            await this.prisma.company.update({
                 where:{
                     id:c_id,
                 },
@@ -1225,18 +1199,28 @@ export class DataAccessRepository {
                    employees:{
                        connect:{
                            id:userPerson.id,
-                       }
-                   },
-
-                   admins:{
-                       connect:{
-                           id:userPerson.id
+                           email:userPerson.email
                        }
                    }
-
                 }
-
             })
+
+            if(userPerson.role=="ADMIN")  //If UserPerson is an Admin
+            {
+              await this.prisma.company.update({
+                where:{
+                    id:c_id,
+                },
+                data:{
+                  admins:{
+                    connect:{
+                        id:userPerson.id,
+                        email:userPerson.email
+                    }
+                  }
+                }
+            })
+            }
         }
         else
             console.error("superCreateCompany() failed to create a company");
