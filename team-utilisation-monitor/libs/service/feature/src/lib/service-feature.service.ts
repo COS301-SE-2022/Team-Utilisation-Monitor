@@ -91,10 +91,6 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetUserIDQuery(email));
     }
 
-    async approveRequestVID(f_id:number):Promise<any>
-    {
-        return this.commandBus.execute(new ApproveRequestCommand(f_id));
-    }
 
     async approveRequestVEmail(email:string)
     {
@@ -116,7 +112,7 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
 
-    
+
 
     /**
      * public readonly name:string,
@@ -126,7 +122,7 @@ export class ServiceFeatureService {
         public readonly companyName:string
      */
 
-    
 
-    
+
+
 }

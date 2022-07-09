@@ -1,3 +1,5 @@
+import { CookieService } from 'ngx-cookie-service';
+import { AdminService } from './../Admin.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -6,11 +8,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./comp-nav-request-users.component.scss'],
 })
 export class CompNavRequestUsersComponent implements OnInit {
-  //constructor() {}
+  constructor(private service:AdminService,private cookie:CookieService) {
+    console.log()
+  }
 
   @Input() IndivName!: { Name: string };
 
   ngOnInit(): void {
     console.log();
+  }
+
+  approveRequest()
+  {
+    this.service.approveRequest(this.cookie.get("Email"));
   }
 }

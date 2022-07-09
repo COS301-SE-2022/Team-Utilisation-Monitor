@@ -306,7 +306,7 @@ export class DataAccessRepository {
     {
         //use the invitation link to get the company id
 
-        console.log("in repository layer!!")
+       // console.log("in repository layer!!")
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -337,15 +337,14 @@ export class DataAccessRepository {
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
-            console.log("Marubi");
-            console.log(return_user)
+            //console.log("Marubi");
+            //console.log(return_user)
 
             return return_user;
         }
         else
         {
-            console.log("Couldn't verify Invitation link");
-
+            //console.log("Couldn't verify Invitation link");
             return null;
         }
 
@@ -584,22 +583,6 @@ export class DataAccessRepository {
      * Returns true if application is successful
      */
 
-    async approveRequest(f_id:number):Promise<boolean>
-    {
-        const confirm=await this.prisma.person.update({
-            data:{
-                approved:true
-            },
-            where:{
-                id:f_id
-            }
-        })
-
-        if(confirm)
-            return true;
-        else
-            return false;
-    }
 
 
 
