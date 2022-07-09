@@ -39,14 +39,14 @@ export class CompNavbarComponent implements OnInit {
           type nameObject=
           {
             Name:string
-            email:string
+            Email:string
           }
 
           for(const requests of this.AdminData.data.getPendingRequests)
           {
             const  obj={} as nameObject;
             obj.Name=requests.name+" "+requests.surname;
-            obj.email=requests.email;
+            obj.Email=requests.email;
             this.OutEmployeeName.push(obj);
             count++;
           }

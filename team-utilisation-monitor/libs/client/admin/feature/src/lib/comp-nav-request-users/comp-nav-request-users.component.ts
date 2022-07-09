@@ -12,13 +12,13 @@ export class CompNavRequestUsersComponent implements OnInit {
     console.log()
   }
 
-  @Input() IndivName!: { Name: string };
+  @Input() IndivName!: { Name: string,Email:string };
 
   ngOnInit(): void {
     console.log();
   }
 
-  approveRequest()
+  approveRequest(email:string)
   {
     this.service.approveRequest(this.cookie.get("Email"));
   }
