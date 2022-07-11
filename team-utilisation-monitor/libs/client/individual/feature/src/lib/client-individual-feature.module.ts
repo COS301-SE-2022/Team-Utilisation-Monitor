@@ -6,6 +6,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+
+
+
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
 import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
@@ -19,6 +22,9 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatListModule} from "@angular/material/list";
 import { CompSidenavComponent } from './comp-sidenav/comp-sidenav.component';
+import { UtilizationGraphComponent } from './utilization-graph/utilization-graph.component';
+import { WeeklyUtilisationGraphComponent } from './weekly-utilisation-graph/weekly-utilisation-graph.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   imports: [
@@ -39,11 +45,14 @@ import { CompSidenavComponent } from './comp-sidenav/comp-sidenav.component';
     ReactiveFormsModule,
     MatSelectModule,
     MatListModule,
+    MatExpansionModule,
   ],
   declarations: [
     IndividualHomePageComponent,
     IndividualProfileComponent,
-    CompSidenavComponent
+    CompSidenavComponent,
+    UtilizationGraphComponent,
+    WeeklyUtilisationGraphComponent
   ],
   exports: [IndividualRoutingModule],
 })

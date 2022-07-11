@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {IndividualHomePageComponent} from "./individual-home-page/individual-home-page.component";
 import {ClientIndividualServiceService} from "./client-individual-service/client-individual-service.service";
 import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
+import {UtilizationGraphComponent} from "./utilization-graph/utilization-graph.component";
 
 const routes: Routes = [
   /*{
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'individual_profile_page',
     component: IndividualProfileComponent,
+  },
+  {
+    path: 'utilization_graph',
+    component: UtilizationGraphComponent,
   },
   {
     path: '**',

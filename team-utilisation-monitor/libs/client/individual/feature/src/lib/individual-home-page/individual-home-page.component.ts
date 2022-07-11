@@ -10,7 +10,7 @@ export class IndividualHomePageComponent implements OnInit {
 
   events: string[] = [];
   opened = true;
-
+  panelOpenState=false;
   boolshow = true;
   nrOfEmployees = 108;
   utilizationPersentage = 80;
