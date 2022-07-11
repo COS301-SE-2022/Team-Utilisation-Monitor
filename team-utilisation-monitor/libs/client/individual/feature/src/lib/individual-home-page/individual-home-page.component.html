@@ -57,12 +57,12 @@
         <mat-accordion >
           <mat-expansion-panel (opened)="panelOpenState = true"
                                (closed)="panelOpenState = false" >
-            <mat-expansion-panel-header expandedHeight="2px">
+            <mat-expansion-panel-header>
               <mat-panel-title>
                 Utilization
               </mat-panel-title>
               <mat-panel-description>
-                {{panelOpenState ? 'close' : 'open'}} My Utilization
+                  {{panelOpenState ? 'close' : 'View'}} My Utilization
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -72,17 +72,29 @@
                   <mat-card-title>Utilization Summary</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                  //HEREEE
+
+                    <ul class="nav nav-tabs">
+                      <li class="nav-item">
+                        <a class="nav-link" routerLink="/bar-chart">Bar Chart</a>
+                      </li>
+                    </ul>
+
+                    <div>
+                      <router-outlet></router-outlet>
+                    </div>
 
                 </mat-card-content>
 
 
               </mat-card>
             </div>
+
             <p>I'm visible because I am open</p>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
+
+
     </mat-grid-list>
   </mat-card>
 
