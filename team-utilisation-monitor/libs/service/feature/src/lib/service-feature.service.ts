@@ -112,7 +112,7 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
 
-    async getInviteCode(companyName:string)
+    async GetInviteCode(companyName:string)
     {
       return this.queryBus.execute(new getInviteCode(companyName));
     }

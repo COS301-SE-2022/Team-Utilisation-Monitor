@@ -8,6 +8,6 @@ export class GetInviteCodeHandler implements IQueryHandler<getInviteCode>
   constructor(public service:ServiceFeatureService){}
 
   async execute(query: getInviteCode): Promise<any> {
-    return this.service.getInviteCode(query.company)
+    return this.service.GetInviteCode(query.company)
   }
 }

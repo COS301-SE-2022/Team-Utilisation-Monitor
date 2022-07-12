@@ -1259,6 +1259,17 @@ export class DataAccessRepository {
     }
 
 
+    async getInviteCode(CompanyName:string)
+    {
+      const ID=await this.getCompanyID(CompanyName);
 
+      const invite=await this.prisma.invites.findUnique(
+        {
+        where:{
+          id:ID
+      }}
+      )
+      return invite.invite_code;
+    }
 
 }

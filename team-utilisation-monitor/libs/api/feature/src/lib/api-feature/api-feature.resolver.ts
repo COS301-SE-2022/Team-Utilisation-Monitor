@@ -1,3 +1,4 @@
+import { getInviteCode } from './../../../../../service/feature/src/lib/queries/impl/getInviteCode.query';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
@@ -15,6 +16,13 @@ export class ApiFeatureResolver {
       const resp=await this.service.login(email, password);
       console.log(resp);
       return resp;
+  }
+
+  @Query(()=>String)
+  async getInviteCode(@Args("name") companyName:string)
+  {
+    const resp=await this.service.GetInviteCode(companyName);
+    return resp
   }
 
   /***
