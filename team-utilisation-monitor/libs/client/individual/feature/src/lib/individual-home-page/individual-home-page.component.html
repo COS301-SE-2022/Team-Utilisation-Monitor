@@ -71,14 +71,21 @@
               <mat-card class="smc">
                 <mat-card-header>
                   <mat-card-title>Utilization Summary</mat-card-title>
+                  <br>
                 </mat-card-header>
                 <mat-card-content>
 
-                    <div style="display: block">                            <!--container for the graph and its styling-->
-                                                                             <!--THE STARTING OF INITIALISING OUR GRAPH-->
+                  <mat-tab-group mat-align-tabs="center">
+                    <mat-tab label="Monthly utilization">
+                      <br>
                       <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
+                    </mat-tab>
 
-                    </div>
+                    <mat-tab label="Weekly utilization">
+                      <br>
+                      <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
+                    </mat-tab>
+                  </mat-tab-group>
 
                 </mat-card-content>
               </mat-card>

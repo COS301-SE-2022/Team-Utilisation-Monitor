@@ -4,6 +4,7 @@ import {IndividualHomePageComponent} from "./individual-home-page/individual-hom
 import {ClientIndividualServiceService} from "./client-individual-service/client-individual-service.service";
 import {IndividualProfileComponent} from "./individual-profile/individual-profile.component";
 import {UtilizationGraphComponent} from "./utilization-graph/utilization-graph.component";
+import {WeeklyUtilisationGraphComponent} from "./weekly-utilisation-graph/weekly-utilisation-graph.component";
 
 const routes: Routes = [
   /*{
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'utilization_graph',
     component: UtilizationGraphComponent,
+  },
+  {
+    path: 'weekly_utilization_graph',
+    component: WeeklyUtilisationGraphComponent,
   },
   {
     path: '**',
