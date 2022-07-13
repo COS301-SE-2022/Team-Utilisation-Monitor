@@ -29,13 +29,16 @@ export class IndividualHomePageComponent implements OnInit {
   }
   myFunction() {
     const element = document.getElementById("monthly");
-    if(element) {
+    const el= document.getElementById("weekly");
+    if(element && el) {
 
       if (element.style.visibility === "hidden") {
         element.classList.toggle("monthly");
+        el.classList.toggle("mystyle");
       } else {
 
         element.classList.toggle("mystyle");
+        el.classList.toggle("monthly");
       }
 
     }
@@ -43,12 +46,16 @@ export class IndividualHomePageComponent implements OnInit {
 
   myFunction1() {
     const element = document.getElementById("weekly");
-    if(element) {
+    const el=document.getElementById("monthly");
+
+    if(element && el) {
+
+      el.classList.toggle("monthly");
 
       if (element.style.visibility === "hidden") {
         element.classList.toggle("monthly");
-      } else {
 
+      } else {
         element.classList.toggle("mystyle");
       }
 
