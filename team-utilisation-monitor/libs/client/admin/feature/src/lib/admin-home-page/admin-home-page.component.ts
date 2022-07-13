@@ -32,7 +32,6 @@ export class AdminHomePageComponent implements OnInit {
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getCompanyStats(this.companyName).subscribe(data=>
       {
-        data;
         this.nrOfEmployees=data.data.getCompanyStats.numEmployees;
         //utilizationPersentage=data.data.getCompanyStats.numEmployees;
         this.nrOfOpenProjects =data.data.getCompanyStats.numProjects;

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { Console } from 'console';
 import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
-import { ApproveRequestCommand } from './commands/impl/approve-request.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
 import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
@@ -20,6 +20,7 @@ import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
 import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
+import { getInviteCode } from './queries/impl/getInviteCode.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -91,10 +92,6 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetUserIDQuery(email));
     }
 
-    async approveRequestVID(f_id:number):Promise<any>
-    {
-        return this.commandBus.execute(new ApproveRequestCommand(f_id));
-    }
 
     async approveRequestVEmail(email:string)
     {
@@ -115,18 +112,11 @@ export class ServiceFeatureService {
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
-
     
+    async GetInviteCode(companyName:string)
+    {
+      return this.queryBus.execute(new getInviteCode(companyName));
+    }
 
-    /**
-     * public readonly name:string,
-        public readonly surname:string,
-        public readonly email:string,
-        public readonly password:string,
-        public readonly companyName:string
-     */
 
-    
-
-    
 }

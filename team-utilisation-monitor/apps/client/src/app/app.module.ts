@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+
+
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
   imports: [FormsModule,HttpClientModule,BrowserModule, AppRoutingModule, BrowserAnimationsModule,ReactiveFormsModule],

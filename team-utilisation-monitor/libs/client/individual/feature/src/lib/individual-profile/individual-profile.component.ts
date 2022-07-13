@@ -9,6 +9,8 @@ export class IndividualProfileComponent implements OnInit {
 
   events: string[] = [];
   opened = true;
+  address="string";
+
 
   boolshow = true;
   members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
