@@ -19,6 +19,13 @@ export class AuthenticationResolversResolver {
         const resp=await this.service.registerAdminServ(f_username,f_pass);
         return resp;
     }
+    
+    @Mutation(()=>AuthAdminEntity)
+    async registerUserGateway(@Args("username") f_username:string,@Args("password") f_pass:string)
+    {
+        const resp=await this.service.registerUserServ(f_username,f_pass);
+        return resp;
+    }
 
     
 }
