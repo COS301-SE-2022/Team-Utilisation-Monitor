@@ -14,7 +14,10 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
 
   AddTeamMember(teamName:string,EmployeeEmail:string)
   {
-    //this.service.
+    this.service.AddTeamMember(teamName,EmployeeEmail).subscribe(data=>
+      {
+        alert(data.data.AddTeamMember)
+      })
   }
 
   ngOnInit(): void {

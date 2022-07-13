@@ -1297,7 +1297,6 @@ export class DataAccessRepository {
       const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      console.log(teamID)
       await this.prisma.team.update(
         {
           where:{
