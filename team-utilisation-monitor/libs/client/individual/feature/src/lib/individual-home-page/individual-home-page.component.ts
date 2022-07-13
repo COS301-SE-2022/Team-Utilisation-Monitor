@@ -8,14 +8,6 @@ import { Component, OnInit } from '@angular/core';
 export class IndividualHomePageComponent implements OnInit {
 
 
-  public lineChartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  public lineChartLegend = true;
-
-  public lineChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Utilization'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Hours'}
-  ];
-
   events: string[] = [];
   opened = true;
   panelOpenState=false;
@@ -34,5 +26,12 @@ export class IndividualHomePageComponent implements OnInit {
 
   showInfo(link: string) {
     console.log()
+  }
+
+  myFunction() {
+    const element = document.getElementById("myDIV");
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    element.classList.toggle("mystyle");
   }
 }
