@@ -113,4 +113,15 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  AddTeamMember(teamName:string,email:string):Observable<any>
+  {
+    const Query='mutation{AddTeamMember(team_name:"'+teamName+'",email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
 }
