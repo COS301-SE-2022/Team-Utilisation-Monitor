@@ -9,60 +9,94 @@
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
   <mat-card class="mat">
-<div class="smc">
-    <mat-card class="mat-card1">
-      <mat-card-header>
-        <mat-card-title>Allocated Teams</mat-card-title>
-      </mat-card-header>
 
-        <mat-card-content class="mid">
-          <mat-nav-list class="list">
-            <mat-list-item *ngFor="let link of teams">
-              <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-              <button mat-icon-button (click)="showInfo(link)">
-              </button>
-            </mat-list-item>
-          </mat-nav-list>
-        </mat-card-content>
+    <mat-grid-list cols="2" rowHeight="85%">
 
+      <mat-grid-tile>
 
-    </mat-card>
+        <mat-grid-tile-header> </mat-grid-tile-header>
+        <mat-card class="mat-card1">
+          <mat-card-header>
+            <mat-card-title>Allocated Teams</mat-card-title>
+          </mat-card-header>
 
-    </div><div class="smc">
-      <mat-card class="mat-card1">
-        <mat-card-header>
-          <mat-card-title> Allocated Projects</mat-card-title>
-        </mat-card-header>
           <mat-card-content class="mid">
             <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of projects">
-                <a matLine href="#">{{ link }}</a>        <!--redirect to a respective Team view here-->
+              <mat-list-item *ngFor="let link of teams">
+                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
                 <button mat-icon-button (click)="showInfo(link)">
                 </button>
               </mat-list-item>
             </mat-nav-list>
-
           </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-grid-tile-header> </mat-grid-tile-header>
+
+        <mat-card class="mat-card1">
+          <mat-card-header>
+            <mat-card-title>Allocated Projects</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="mid">
+            <mat-nav-list class="list">
+              <mat-list-item *ngFor="let link of projects">
+                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <button mat-icon-button (click)="showInfo(link)">
+                </button>
+              </mat-list-item>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <!--THE TOP UTILIZATION SUMMERY-->
+      <div class="container">
+        <mat-accordion >
+          <mat-expansion-panel (opened)="panelOpenState = true"
+                               (closed)="panelOpenState = false" >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Utilization
+              </mat-panel-title>
+              <mat-panel-description>
+                  {{panelOpenState ? 'close' : 'View'}} My Utilization
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="tc">
+              <mat-card class="smc">
+                <mat-card-header>
+                  <mat-card-title>Utilization Summary</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                  <div>
+                    <div style="display: block">
+                      <canvas baseChart
+                              type='line'
+                              [datasets]="barChartData"
+                              [labels]="barChartLabels"
+                              [legend]="barChartLegend"
+                      ></canvas>
+                    </div>
+                  </div>
+
+                    <div>
+                      <router-outlet></router-outlet>
+                    </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
 
 
-    </mat-card>
-
-</div>
-
-
-    <div class="tc">
-      <mat-card class="smc">
-        <mat-card-header>
-          <mat-card-title>Utilization Summary</mat-card-title>
-        </mat-card-header>
-
-
-      </mat-card>
-    </div>
-
-
+    </mat-grid-list>
   </mat-card>
-
 
 </mat-sidenav-content>
 </mat-sidenav-container>
