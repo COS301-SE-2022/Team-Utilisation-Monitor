@@ -27,6 +27,32 @@ export class IndividualHomePageComponent implements OnInit {
   showInfo(link: string) {
     console.log()
   }
+  myFunction() {
+    const element = document.getElementById("monthly");
+    if(element) {
 
+      if (element.style.visibility === "hidden") {
+        element.classList.toggle("monthly");
+      } else {
+
+        element.classList.toggle("mystyle");
+      }
+
+    }
+  }
+
+  myFunction1() {
+    const element = document.getElementById("weekly");
+    if(element) {
+
+      if (element.style.visibility === "hidden") {
+        element.classList.toggle("monthly");
+      } else {
+
+        element.classList.toggle("mystyle");
+      }
+
+    }
+  }
 
 }
