@@ -35,15 +35,15 @@
       <mat-grid-tile>
         <mat-grid-tile-header> </mat-grid-tile-header>
 
-        <mat-card class="mat-card1">
+        <mat-card class="mat-card1">                                <!--FULL CARD THAT INCLUDES THE INNER CONTENT/LIST-->
           <mat-card-header>
             <mat-card-title>Allocated Projects</mat-card-title>
           </mat-card-header>
 
-          <mat-card-content class="mid">
+          <mat-card-content class="mid">                            <!--THE START OF THE LIST THAT IS DISPLAYED FROM THE DB-->
             <mat-nav-list class="list">
               <mat-list-item *ngFor="let link of projects">
-                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <a matLine href="#">{{ link }}</a>                      <!--redirect to a respective Team view here-->
                 <button mat-icon-button (click)="showInfo(link)">
                 </button>
               </mat-list-item>
@@ -52,11 +52,11 @@
         </mat-card>
       </mat-grid-tile>
 
-      <!--THE TOP UTILIZATION SUMMERY-->
+      <!--THE TOP UTILIZATION SUMMARY-->
       <div class="container">
         <mat-accordion >
           <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false" >
+                               (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Utilization
@@ -67,31 +67,28 @@
             </mat-expansion-panel-header>
 
             <div class="tc">
+
               <mat-card class="smc">
                 <mat-card-header>
                   <mat-card-title>Utilization Summary</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
 
-                  <div>
-                    <div style="display: block">
-                      <canvas baseChart
-                              type='line'
-                              [datasets]="barChartData"
-                              [labels]="barChartLabels"
-                              [legend]="barChartLegend"
-                      ></canvas>
+                    <div style="display: block">                            <!--container for the graph and its styling-->
+                                                                             <!--THE STARTING OF INITIALISING OUR GRAPH-->
+                      <canvas baseChart type='line'
+                              [datasets]="lineChartData"
+                              [labels]="lineChartLabels"
+                              [legend]="lineChartLegend" ></canvas>
                     </div>
-                  </div>
 
-                    <div>
-                      <router-outlet></router-outlet>
-                    </div>
                 </mat-card-content>
               </mat-card>
             </div>
+
           </mat-expansion-panel>
         </mat-accordion>
+
       </div>
 
 
