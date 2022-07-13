@@ -74,7 +74,6 @@
                 </mat-card-header>
                 <mat-card-content>
 
-
                     <mat-button-toggle-group name="utPeriod" aria-label="Utilisation period" >
                       <mat-button-toggle  (click)="myFunction()" value="monthly" >Monthly Utilization </mat-button-toggle>
                       <mat-button-toggle (click)="myFunction1()" value="weekly" >Weekly Utilization </mat-button-toggle>
@@ -83,17 +82,11 @@
                   <br><br>
 
 
-                    <div id="monthly" style="display: block">                            <!--container for the graph and its styling-->
+                    <div id="monthly" style="display: block" >                            <!--container for the graph and its styling-->
                                                                              <!--THE STARTING OF INITIALISING OUR GRAPH-->
                       <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
 
                     </div>
-
-                  <div id="weekly" style="display: block">                            <!--container for the graph and its styling-->
-                    <!--THE STARTING OF INITIALISING OUR GRAPH-->
-                    <p>prrrrrrr</p>
-
-                  </div>
 
                 </mat-card-content>
               </mat-card>
