@@ -1,4 +1,3 @@
-import { getInviteCode } from './../../../../../service/feature/src/lib/queries/impl/getInviteCode.query';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';

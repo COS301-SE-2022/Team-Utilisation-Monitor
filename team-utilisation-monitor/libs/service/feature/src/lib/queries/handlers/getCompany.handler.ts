@@ -3,8 +3,6 @@ import { DataAccessRepository } from "@team-utilisation-monitor/repository/data-
 import { GetCompanyQuery } from './../impl/getCompany.query';
 
 @QueryHandler(GetCompanyQuery)
-
-@QueryHandler(GetCompanyQuery)
 export class GetCompanyQueryHandler implements IQueryHandler<GetCompanyQuery>{
 
     constructor(private readonly repository:DataAccessRepository){}
