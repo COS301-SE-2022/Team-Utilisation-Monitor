@@ -20,6 +20,7 @@ import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
 import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
+import { getInviteCode } from './queries/impl/getInviteCode.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -111,18 +112,11 @@ export class ServiceFeatureService {
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
-
-
-
-    /**
-     * public readonly name:string,
-        public readonly surname:string,
-        public readonly email:string,
-        public readonly password:string,
-        public readonly companyName:string
-     */
-
-
+    
+    async GetInviteCode(companyName:string)
+    {
+      return this.queryBus.execute(new getInviteCode(companyName));
+    }
 
 
 }

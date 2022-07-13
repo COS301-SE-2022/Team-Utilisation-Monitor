@@ -17,6 +17,13 @@ export class ApiFeatureResolver {
       return resp;
   }
 
+  @Query(()=>String)
+  async getInviteCode(@Args("name") companyName:string)
+  {
+    const resp=await this.service.GetInviteCode(companyName);
+    return resp
+  }
+
   /***
    * This function returns a company object of type UserCompany
    */
