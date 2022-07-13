@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { ServiceFeatureModule } from '@team-utilisation-monitor/service/feature';
 import {ApiFeatureModule} from '@team-utilisation-monitor/api/feature'
 
+/***
+ * ApiFeatureModule contains the resolver.
+ */
 
 @Module({
   imports: [ApiFeatureModule,ServiceFeatureModule],

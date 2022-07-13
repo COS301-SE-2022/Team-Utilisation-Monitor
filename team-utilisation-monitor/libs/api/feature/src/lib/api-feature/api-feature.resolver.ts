@@ -283,7 +283,7 @@ export class ApiFeatureResolver {
     return 'on';
   }
 
-  @Mutation((returns) => UserPerson)
+  @Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }

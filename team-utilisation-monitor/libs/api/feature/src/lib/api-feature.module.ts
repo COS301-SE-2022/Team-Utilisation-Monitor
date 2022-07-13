@@ -3,7 +3,6 @@ import { ApiFeatureResolver } from './api-feature/api-feature.resolver';
 import { ServiceFeatureModule } from '@team-utilisation-monitor/service/feature';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
-import { QueryBus } from '@nestjs/cqrs';
 
 @Module({
   controllers: [],
