@@ -1297,7 +1297,8 @@ export class DataAccessRepository {
       const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      this.prisma.team.update(
+      console.log(teamID)
+      await this.prisma.team.update(
         {
           where:{
             id:teamID
@@ -1311,6 +1312,7 @@ export class DataAccessRepository {
             }
           }
         })
+        return "Team Member added"
 
     }
 

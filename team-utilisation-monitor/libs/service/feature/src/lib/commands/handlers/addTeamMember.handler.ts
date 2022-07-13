@@ -9,7 +9,7 @@ export class AddTeamMemberHandler implements IQueryHandler<AddTeamMemberCommand>
 
   async execute(command: AddTeamMemberCommand): Promise<any> {
 
-//    return this.repository
+    return this.repository.addTeamMember(command.TeamName,command.EmployeeEmail);
   }
 
 }
