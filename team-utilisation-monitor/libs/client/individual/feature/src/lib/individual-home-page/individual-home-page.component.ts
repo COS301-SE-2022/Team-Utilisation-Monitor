@@ -28,10 +28,9 @@ export class IndividualHomePageComponent implements OnInit {
     console.log()
   }
 
-  myFunction() {
-    const element = document.getElementById("myDIV");
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    element.classList.toggle("mystyle");
+
+
+  myFunction(x: { classList: { toggle: (arg0: string) => void; }; }) {
+    x.classList.toggle("fa-thumbs-down");
   }
 }
