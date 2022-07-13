@@ -1175,6 +1175,23 @@ export class DataAccessRepository {
             return -1;
     }
 
+
+    async getProjectID(p_name:string):Promise<number>
+    {
+        const project=await this.prisma.project.findMany({
+            where:{
+                project_name:p_name
+            }
+        })
+
+        if(project)
+        {
+            return project[0].id;
+        }
+        else
+            return -1;
+    }
+
     /***Admins superFunctions:
      * These are fucntions that may only be used by the admin to do admin stuff.
      * Don't use for user
@@ -1270,6 +1287,31 @@ export class DataAccessRepository {
       }}
       )
       return invite.invite_code;
+    }
+
+
+
+    async  addTeamMember(teamName:string,EmplooyeEmail:string)
+    {
+      //
+      const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      this.prisma.team.update(
+        {
+          where:{
+            id:teamID
+          },
+          data:
+          {
+            members:{
+              connect:{
+                id:empl_id
+              }
+            }
+          }
+        })
+
     }
 
 }
