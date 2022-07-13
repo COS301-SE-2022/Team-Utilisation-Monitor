@@ -27,5 +27,12 @@ export class AuthenticationResolversResolver {
         return resp;
     }
 
+    @Query(()=>AuthAdminEntity)
+    async loginGateway(@Args("username") f_username:string,@Args("password") f_pass:string)
+    {
+        const resp=await this.service.LoginServ(f_username,f_pass);
+        return resp;
+    }
+
     
 }
