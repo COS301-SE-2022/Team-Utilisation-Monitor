@@ -55,6 +55,8 @@ import {NgChartsModule} from "ng2-charts";
     UtilizationGraphComponent,
     WeeklyUtilisationGraphComponent
   ],
-  exports: [IndividualRoutingModule],
+  exports:
+  [IndividualRoutingModule
+  ],
 })
 export class ClientIndividualFeatureModule {}
