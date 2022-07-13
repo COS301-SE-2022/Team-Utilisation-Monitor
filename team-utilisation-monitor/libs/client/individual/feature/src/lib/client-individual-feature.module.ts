@@ -59,6 +59,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     UtilizationGraphComponent,
     WeeklyUtilisationGraphComponent
   ],
-  exports: [IndividualRoutingModule],
+  exports:
+  [IndividualRoutingModule
+  ],
 })
 export class ClientIndividualFeatureModule {}

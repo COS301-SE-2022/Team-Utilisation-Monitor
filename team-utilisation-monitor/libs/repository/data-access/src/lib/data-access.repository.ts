@@ -1,16 +1,16 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
-import e = require('cors');
+
 
 @Injectable()
 export class DataAccessRepository {
 
-    constructor(private readonly prisma:PrismaService ){}
+    constructor(private readonly prisma:PrismaService, ){}
 
     async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
@@ -160,6 +160,7 @@ export class DataAccessRepository {
 
         if(c_id>0) //the company already exists
         {
+
             return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name,f_password);
         }
         else //the admin is an admin of a new company

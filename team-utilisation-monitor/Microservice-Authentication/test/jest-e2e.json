@@ -1,0 +1,21 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "micro-auth-service/services/(.*)": "<rootDir>/../libs/services/src/$1",
+    "micro-auth-service/services": "<rootDir>/../libs/services/src",
+    "auth-repo/auth-repository/(.*)": "<rootDir>/../libs/auth-repository/src/$1",
+    "auth-repo/auth-repository": "<rootDir>/../libs/auth-repository/src",
+    "auth-res/auth-resolver/(.*)": "<rootDir>/../libs/auth-resolver/src/$1",
+    "auth-res/auth-resolver": "<rootDir>/../libs/auth-resolver/src"
+  }
+}
