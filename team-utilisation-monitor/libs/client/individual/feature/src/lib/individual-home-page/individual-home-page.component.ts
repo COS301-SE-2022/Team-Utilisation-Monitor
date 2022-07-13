@@ -29,8 +29,4 @@ export class IndividualHomePageComponent implements OnInit {
   }
 
 
-
-  myFunction(x: { classList: { toggle: (arg0: string) => void; }; }) {
-    x.classList.toggle("fa-thumbs-down");
-  }
 }
