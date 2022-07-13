@@ -26,6 +26,7 @@ import { WeeklyUtilisationGraphComponent } from './weekly-utilisation-graph/week
 import {MatExpansionModule} from "@angular/material/expansion";
 import {NgChartsModule} from "ng2-charts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     MatListModule,
     MatExpansionModule,
     NgChartsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTabsModule
   ],
   declarations: [
     IndividualHomePageComponent,

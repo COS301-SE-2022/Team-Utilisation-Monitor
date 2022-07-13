@@ -71,22 +71,24 @@
               <mat-card class="smc">
                 <mat-card-header>
                   <mat-card-title>Utilization Summary</mat-card-title>
+                  <br>
                 </mat-card-header>
                 <mat-card-content>
 
-                    <mat-button-toggle-group name="utPeriod" aria-label="Utilisation period" >
-                      <mat-button-toggle  (click)="myFunction()" value="monthly" >Monthly Utilization </mat-button-toggle>
-                      <mat-button-toggle (click)="myFunction1()" value="weekly" >Weekly Utilization </mat-button-toggle>
-                    </mat-button-toggle-group>
-
-                  <br><br>
-
-
-                    <div id="monthly" style="display: block" >                            <!--container for the graph and its styling-->
-                                                                             <!--THE STARTING OF INITIALISING OUR GRAPH-->
+                  <mat-tab-group>
+                    <mat-tab label="Monthly utilization">
+                      <br>
                       <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
+                    </mat-tab>
 
-                    </div>
+                    <mat-tab label="Weekly utilization">
+                      <br>
+                      <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
+                    </mat-tab>
+
+                    <mat-tab label="Third"> Content 3 </mat-tab>
+                    <br>
+                  </mat-tab-group>
 
                 </mat-card-content>
               </mat-card>
