@@ -73,23 +73,23 @@
                 </mat-card-header>
                 <mat-card-content>
 
-                    <ul class="nav nav-tabs">
-                      <li class="nav-item">
-                        <a class="nav-link" routerLink="/bar-chart">Bar Chart</a>
-                      </li>
-                    </ul>
+                  <div>
+                    <div style="display: block">
+                      <canvas baseChart
+                              type='line'
+                              [datasets]="barChartData"
+                              [labels]="barChartLabels"
+                              [legend]="barChartLegend"
+                      ></canvas>
+                    </div>
+                  </div>
 
                     <div>
                       <router-outlet></router-outlet>
                     </div>
-
                 </mat-card-content>
-
-
               </mat-card>
             </div>
-
-            <p>I'm visible because I am open</p>
           </mat-expansion-panel>
         </mat-accordion>
       </div>
