@@ -15,13 +15,6 @@ export class CompTeamListComponent implements OnInit {
   //calculate teams utilization (individual utilization/ nr of members in team) and set that equal to value
   value = 60;
 
-  //link this to all the team members that is accociated to each team
-  /*OutEmployeeName = [{Name: "Mr Cornel Coetzee"},
-    {Name: "Mr Gift Monwa"},
-    {Name: "Mr Rourke Amiss"},
-    {Name: "Mr Agape Mamphasa"},
-    {Name: "Mr Agape Mamphasa"},
-    ];*/
 
   OutEmployeeName:any[]=[]
   TeamData:any
@@ -35,12 +28,16 @@ export class CompTeamListComponent implements OnInit {
         type nameObject=
         {
           Name:string
+          Surname:string
+          Email:string
         }
 
         for(const requests of this.TeamData.data.GetTeamMembers)
         {
           const  obj={} as nameObject;
-          obj.Name=requests.name+" "+requests.surname
+          obj.Name=requests.name
+          obj.Surname=requests.surname
+          obj.Email=requests.email;
           this.OutEmployeeName.push(obj);
         }
       })
@@ -50,5 +47,9 @@ export class CompTeamListComponent implements OnInit {
     this.matDialog.open(CompAddTeamMemberPopupComponent);
   }
 
+  DeleteTeamMember(Name:string)
+  {
+    this.OutEmployeeName.includes(Name)
+  }
 
 }

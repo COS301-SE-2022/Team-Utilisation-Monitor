@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CompEmployeeIndividualComponent implements OnInit {
   //constructor() {}
 
-  @Input() IndivName!: { Name: string };
+  @Input() IndivName!: { Name: string ,Surname:string,Email:string};
 
   ngOnInit(): void {
     console.log();
