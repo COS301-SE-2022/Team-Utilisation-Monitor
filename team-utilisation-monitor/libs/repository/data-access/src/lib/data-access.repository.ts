@@ -1315,4 +1315,19 @@ export class DataAccessRepository {
 
     }
 
+    async getTeamMembers(teamName:string)
+    {
+      const Team_members=await this.prisma.team.findUnique(
+        {
+          where:{
+            team_name:teamName
+          },
+          include:{
+            members:true
+          }
+        }
+      )
+      return Team_members.members
+    }
+
 }
