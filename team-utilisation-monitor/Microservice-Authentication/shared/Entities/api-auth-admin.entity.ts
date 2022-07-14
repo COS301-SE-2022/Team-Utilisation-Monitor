@@ -1,6 +1,4 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Role } from "@prisma/client";
-
 
 @ObjectType({description:'Object encapsulates newely registered admin in the authentication schema'})
 export class AuthAdminEntity{
