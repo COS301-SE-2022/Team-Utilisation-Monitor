@@ -1331,4 +1331,26 @@ export class DataAccessRepository {
       return Team_members.members
     }
 
+    async deleteMember(teamName:string,email:string)
+    {
+      const empl_id=await (await this.getUserIDVEmail(email)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      await this.prisma.team.update(
+        {
+          where:{
+            id:teamID
+          },
+          data:
+          {
+            members:{
+              disconnect:{
+                id:empl_id
+              }
+            }
+          }
+        })
+        return "Team Member added"
+    }
+
 }
