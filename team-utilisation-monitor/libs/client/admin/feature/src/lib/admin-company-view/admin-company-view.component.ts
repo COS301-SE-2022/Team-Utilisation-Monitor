@@ -10,21 +10,6 @@ import { CookieService } from 'ngx-cookie-service';
 export class AdminCompanyViewComponent implements OnInit {
    constructor(private adminService:AdminService,private cookie:CookieService) {}
   boolshow = true;
-  /*
-  Name = "User's Name";
-  OutOwnerName = "Agape Mamphasa";
-  OutAdminNames = [{Name: "Cornel Coetzee"},
-                  {Name: "Gift Monwa"},
-                  {Name: "Rourke Amiss"},
-                  {Name: "Agape Mamphasa"},
-                ];
-
-  OutEmployeeName = [{Name: "Mr Cornel Coetzee"},
-                    {Name: "Mr Gift Monwa"},
-                    {Name: "Mr Rourke Amiss"},
-                    {Name: "Mr Agape Mamphasa"},
-                    {Name: "Mr Agape Mamphasa"},
-                  ];*/
   OutOwnerName=""
   OutAdminNames:any[]=[];
   OutEmployeeName:any[]=[];

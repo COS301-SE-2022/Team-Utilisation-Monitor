@@ -1316,4 +1316,41 @@ export class DataAccessRepository {
 
     }
 
+    async getTeamMembers(teamName:string)
+    {
+      const Team_members=await this.prisma.team.findUnique(
+        {
+          where:{
+            team_name:teamName
+          },
+          include:{
+            members:true
+          }
+        }
+      )
+      return Team_members.members
+    }
+
+    async deleteMember(teamName:string,email:string)
+    {
+      const empl_id=await (await this.getUserIDVEmail(email)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      await this.prisma.team.update(
+        {
+          where:{
+            id:teamID
+          },
+          data:
+          {
+            members:{
+              disconnect:{
+                id:empl_id
+              }
+            }
+          }
+        })
+        return "Team Member added"
+    }
+
 }
