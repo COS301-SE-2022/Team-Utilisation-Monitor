@@ -23,8 +23,8 @@ exports.AppModule = void 0;
 const common_1 = __webpack_require__(3);
 const auth_resolver_1 = __webpack_require__(4);
 const services_1 = __webpack_require__(8);
-const app_controller_1 = __webpack_require__(85);
-const app_service_1 = __webpack_require__(86);
+const app_controller_1 = __webpack_require__(88);
+const app_service_1 = __webpack_require__(89);
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -64,7 +64,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(5), exports);
-__exportStar(__webpack_require__(84), exports);
+__exportStar(__webpack_require__(87), exports);
 
 
 /***/ }),
@@ -84,7 +84,7 @@ const apollo_1 = __webpack_require__(6);
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(7);
 const services_1 = __webpack_require__(8);
-const authentication_resolvers_resolver_1 = __webpack_require__(83);
+const authentication_resolvers_resolver_1 = __webpack_require__(86);
 let AuthResolverModule = class AuthResolverModule {
 };
 AuthResolverModule = __decorate([
@@ -137,7 +137,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(9), exports);
-__exportStar(__webpack_require__(82), exports);
+__exportStar(__webpack_require__(85), exports);
 
 
 /***/ }),
@@ -158,7 +158,8 @@ const cqrs_1 = __webpack_require__(10);
 const auth_repository_1 = __webpack_require__(62);
 const prisma_services_authentication_service_1 = __webpack_require__(66);
 const handlers_1 = __webpack_require__(77);
-const services_service_1 = __webpack_require__(82);
+const handlers_2 = __webpack_require__(82);
+const services_service_1 = __webpack_require__(85);
 let ServicesModule = class ServicesModule {
 };
 ServicesModule = __decorate([
@@ -167,6 +168,7 @@ ServicesModule = __decorate([
         providers: [
             services_service_1.ServicesService,
             ...handlers_1.CommandHandlers,
+            ...handlers_2.QueryHandlers,
             auth_repository_1.AuthRepositoryService,
             prisma_services_authentication_service_1.PrismaServiceAuthentication
         ],
@@ -1543,6 +1545,25 @@ let AuthRepositoryService = class AuthRepositoryService {
             return returnObject;
         }
     }
+    async login(f_username, f_password) {
+        const returnObject = new src_1.AuthAdminEntity();
+        const returning_user = await this.prisma.userDetails.findUnique({
+            where: {
+                username: f_username
+            }
+        });
+        if (returning_user) {
+            returnObject.id = returning_user.id;
+            returnObject.username = returning_user.username;
+            returnObject.password = returning_user.password;
+            returnObject.role = returning_user.role;
+            returnObject.token = returning_user.token;
+            return returnObject;
+        }
+        else {
+            return null;
+        }
+    }
 };
 AuthRepositoryService = __decorate([
     (0, common_1.Injectable)(),
@@ -2151,6 +2172,85 @@ exports.RegisterUserCommand = RegisterUserCommand;
 
 /***/ }),
 /* 82 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueryHandlers = void 0;
+const loginHandler_handler_1 = __webpack_require__(83);
+exports.QueryHandlers = [loginHandler_handler_1.LoginHandler];
+
+
+/***/ }),
+/* 83 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoginHandler = void 0;
+const cqrs_1 = __webpack_require__(10);
+const auth_repository_1 = __webpack_require__(62);
+const login_query_1 = __webpack_require__(84);
+const bcrypt = __webpack_require__(76);
+let LoginHandler = class LoginHandler {
+    constructor(repository) {
+        this.repository = repository;
+    }
+    async execute(query) {
+        const user = await this.repository.login(query.username, query.password);
+        if (user != null) {
+            const hash = user.password;
+            const isMatch = await bcrypt.compare(query.password, hash);
+            console.log(isMatch);
+            if (isMatch) {
+                return user;
+            }
+            else {
+                console.log("In function LoginHandler, Wrong password was entered");
+                return null;
+            }
+        }
+        else {
+            console.log("In function LoginHandler, wrong username provided ");
+            return null;
+        }
+    }
+};
+LoginHandler = __decorate([
+    (0, cqrs_1.QueryHandler)(login_query_1.Login),
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_repository_1.AuthRepositoryService !== "undefined" && auth_repository_1.AuthRepositoryService) === "function" ? _a : Object])
+], LoginHandler);
+exports.LoginHandler = LoginHandler;
+
+
+/***/ }),
+/* 84 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Login = void 0;
+class Login {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+exports.Login = Login;
+
+
+/***/ }),
+/* 85 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2170,6 +2270,7 @@ const common_1 = __webpack_require__(3);
 const cqrs_1 = __webpack_require__(10);
 const register_admin_command_1 = __webpack_require__(79);
 const register_user_command_1 = __webpack_require__(81);
+const login_query_1 = __webpack_require__(84);
 let ServicesService = class ServicesService {
     constructor(queryBus, commandBus) {
         this.queryBus = queryBus;
@@ -2181,6 +2282,9 @@ let ServicesService = class ServicesService {
     async registerUserServ(username, password) {
         return this.commandBus.execute(new register_user_command_1.RegisterUserCommand(username, password));
     }
+    async LoginServ(username, password) {
+        return this.queryBus.execute(new login_query_1.Login(username, password));
+    }
 };
 ServicesService = __decorate([
     (0, common_1.Injectable)(),
@@ -2190,7 +2294,7 @@ exports.ServicesService = ServicesService;
 
 
 /***/ }),
-/* 83 */
+/* 86 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2227,6 +2331,10 @@ let AuthenticationResolversResolver = class AuthenticationResolversResolver {
         const resp = await this.service.registerUserServ(f_username, f_pass);
         return resp;
     }
+    async loginGateway(f_username, f_pass) {
+        const resp = await this.service.LoginServ(f_username, f_pass);
+        return resp;
+    }
 };
 __decorate([
     (0, graphql_1.Query)(() => String),
@@ -2250,6 +2358,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], AuthenticationResolversResolver.prototype, "registerUserGateway", null);
+__decorate([
+    (0, graphql_1.Query)(() => src_1.AuthAdminEntity),
+    __param(0, (0, graphql_1.Args)("username")),
+    __param(1, (0, graphql_1.Args)("password")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], AuthenticationResolversResolver.prototype, "loginGateway", null);
 AuthenticationResolversResolver = __decorate([
     (0, graphql_1.Resolver)(),
     __metadata("design:paramtypes", [typeof (_a = typeof services_1.ServicesService !== "undefined" && services_1.ServicesService) === "function" ? _a : Object])
@@ -2258,7 +2374,7 @@ exports.AuthenticationResolversResolver = AuthenticationResolversResolver;
 
 
 /***/ }),
-/* 84 */
+/* 87 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2280,7 +2396,7 @@ exports.AuthResolverService = AuthResolverService;
 
 
 /***/ }),
-/* 85 */
+/* 88 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2297,7 +2413,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AppController = void 0;
 const common_1 = __webpack_require__(3);
-const app_service_1 = __webpack_require__(86);
+const app_service_1 = __webpack_require__(89);
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -2320,7 +2436,7 @@ exports.AppController = AppController;
 
 
 /***/ }),
-/* 86 */
+/* 89 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 

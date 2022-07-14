@@ -177,6 +177,40 @@ export class AuthRepositoryService {
     }
 
 
+    /***
+     * This is the login functionality.
+     * The function returns an object with the user's details upon successful login.
+     * The logic for the password is found in the command handler.
+     * returns null if user doesn't exist
+     */
+
+
+    async login(f_username:string,f_password:string):Promise<AuthAdminEntity|null>
+    {
+        const returnObject=new AuthAdminEntity();
+
+        const returning_user=await this.prisma.userDetails.findUnique({
+            where:{
+                username:f_username
+            }
+        })
+
+        if(returning_user){ //user does exist
+            returnObject.id=returning_user.id;
+            returnObject.username=returning_user.username;
+            returnObject.password=returning_user.password;
+            returnObject.role=returning_user.role;
+            returnObject.token=returning_user.token;
+
+            return returnObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
 
 
     
