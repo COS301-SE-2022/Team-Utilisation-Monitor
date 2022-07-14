@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { PrismaServiceAuthentication } from 'shared/prisma-services-authentication.service';
-import { AuthAdminEntity } from '../../../../libs/api/shared/data-access/src';
+import { AuthAdminEntity } from 'shared/Entities/api-auth-admin.entity';
 import * as bcrypt from 'bcrypt'
 
 

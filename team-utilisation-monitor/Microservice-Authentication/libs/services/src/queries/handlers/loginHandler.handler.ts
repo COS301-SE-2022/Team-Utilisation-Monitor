@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { AuthRepositoryService } from "auth-repo/auth-repository";
-import { AuthAdminEntity } from "../../../../../../libs/api/shared/data-access/src";
+import { AuthAdminEntity } from 'shared/Entities/api-auth-admin.entity';
 import { Login } from "../impl/login.query";
 import * as bcrypt from 'bcrypt'
 
