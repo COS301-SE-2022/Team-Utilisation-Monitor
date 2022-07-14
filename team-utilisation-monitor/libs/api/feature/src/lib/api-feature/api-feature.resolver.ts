@@ -278,6 +278,12 @@ export class ApiFeatureResolver {
       return await this.service.AddTeamMember(teamName,email);
     }
 
+    @Query(()=>[UserPerson])
+    async GetTeamMembers(@Args("team_name") teamName:string)
+    {
+      return await this.service.GetTeamMembers(teamName);
+    }
+
 
   @Query(() => String)
   pingUser() {

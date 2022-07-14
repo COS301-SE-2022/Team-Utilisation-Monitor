@@ -127,7 +127,7 @@ export class ServiceFeatureService {
 
     async GetTeamMembers(teamName:string)
     {
-      return this.commandBus.execute(new GetTeamMembersQuery(teamName));
+      return this.queryBus.execute(new GetTeamMembersQuery(teamName));
     }
 
 
