@@ -1350,7 +1350,7 @@ export class DataAccessRepository {
             }
           }
         })
-        return "Team Member added"
+        return "Team Member DELETED"
     }
 
 }

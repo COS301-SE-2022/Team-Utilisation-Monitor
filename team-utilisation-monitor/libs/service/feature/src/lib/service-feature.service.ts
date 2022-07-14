@@ -1,3 +1,4 @@
+import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
 import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
 import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
@@ -128,6 +129,11 @@ export class ServiceFeatureService {
     async GetTeamMembers(teamName:string)
     {
       return this.queryBus.execute(new GetTeamMembersQuery(teamName));
+    }
+
+    async DeleteTeamMember(teamName:string,email:string)
+    {
+      return this.commandBus.execute(new DeleteTeamMemberCommand(teamName,email))
     }
 
 

@@ -290,18 +290,24 @@ export class ApiFeatureResolver {
     return 'on';
   }
 
-  @Mutation(() => UserPerson)
+  @Mutation(()=>String)
+  async DeleteTeamMember(@Args("team_name") teamName:string,@Args("email") EmployeeEmail:string)
+  {
+    return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
+  }
+
+  /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }
-
+*/
 
   //Mock Object:
-  async getMock() {
+ /* async getMock() {
     const mockUser = new UserPerson();
     mockUser.id = -1;
     mockUser.name = "Rourke"
     mockUser.email = "icreatesoftware@gmail.com"
     return mockUser;
-  }
+  }*/
 }

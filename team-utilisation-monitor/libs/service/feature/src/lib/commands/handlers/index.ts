@@ -1,3 +1,4 @@
+import { DeleteTeamMemberHandler } from './DeleteTeamMember.handler';
 import { ApproveRequestVEmailHandler } from "./approve-request-v-email.handler";
 import { CreateAdminHandler } from "./create-admin.handler";
 import { CreateCompanyHandler } from "./create-company.handler";
@@ -9,4 +10,4 @@ import { CreateUserHandler } from "./create-user.handler";
 import { AddTeamMemberHandler } from "./addTeamMember.handler";
 
 export const CommandHandlers=[ApproveRequestVEmailHandler,CreateAdminHandler,CreateTeamHandler,CreateProjectHandler,
-  CreateCompanyHandler,CreatePersonHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler];
+  CreateCompanyHandler,CreatePersonHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler];

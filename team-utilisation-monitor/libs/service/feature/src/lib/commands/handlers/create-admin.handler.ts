@@ -1,4 +1,4 @@
-import { CommandHandler, IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { CommandHandler, IQueryHandler} from "@nestjs/cqrs";
 import { DataAccessRepository } from "@team-utilisation-monitor/repository/data-access";
 import { CreateAdminCommand } from "../impl/create-admin.command";
 
