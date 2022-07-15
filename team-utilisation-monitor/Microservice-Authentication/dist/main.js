@@ -23,8 +23,8 @@ exports.AppModule = void 0;
 const common_1 = __webpack_require__(3);
 const auth_resolver_1 = __webpack_require__(4);
 const services_1 = __webpack_require__(8);
-const app_controller_1 = __webpack_require__(83);
-const app_service_1 = __webpack_require__(84);
+const app_controller_1 = __webpack_require__(80);
+const app_service_1 = __webpack_require__(81);
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -64,7 +64,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(5), exports);
-__exportStar(__webpack_require__(82), exports);
+__exportStar(__webpack_require__(79), exports);
 
 
 /***/ }),
@@ -84,7 +84,7 @@ const apollo_1 = __webpack_require__(6);
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(7);
 const services_1 = __webpack_require__(8);
-const authentication_resolvers_resolver_1 = __webpack_require__(81);
+const authentication_resolvers_resolver_1 = __webpack_require__(78);
 let AuthResolverModule = class AuthResolverModule {
 };
 AuthResolverModule = __decorate([
@@ -137,7 +137,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(9), exports);
-__exportStar(__webpack_require__(80), exports);
+__exportStar(__webpack_require__(77), exports);
 
 
 /***/ }),
@@ -157,8 +157,9 @@ const common_1 = __webpack_require__(3);
 const cqrs_1 = __webpack_require__(10);
 const auth_repository_1 = __webpack_require__(62);
 const prisma_services_authentication_service_1 = __webpack_require__(66);
-const handlers_1 = __webpack_require__(77);
-const services_service_1 = __webpack_require__(80);
+const handlers_1 = __webpack_require__(69);
+const handlers_2 = __webpack_require__(74);
+const services_service_1 = __webpack_require__(77);
 let ServicesModule = class ServicesModule {
 };
 ServicesModule = __decorate([
@@ -167,6 +168,7 @@ ServicesModule = __decorate([
         providers: [
             services_service_1.ServicesService,
             ...handlers_1.CommandHandlers,
+            ...handlers_2.QueryHandlers,
             auth_repository_1.AuthRepositoryService,
             prisma_services_authentication_service_1.PrismaServiceAuthentication
         ],
@@ -1447,14 +1449,59 @@ exports.AuthRepositoryService = void 0;
 const common_1 = __webpack_require__(3);
 const client_1 = __webpack_require__(65);
 const prisma_services_authentication_service_1 = __webpack_require__(66);
-const src_1 = __webpack_require__(67);
-const bcrypt = __webpack_require__(76);
+const api_auth_admin_entity_1 = __webpack_require__(67);
+const bcrypt = __webpack_require__(68);
 let AuthRepositoryService = class AuthRepositoryService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async registerUserRepo(f_username, f_password) {
+        const returnObject = new api_auth_admin_entity_1.AuthAdminEntity();
+        const existing_user = await this.prisma.userDetails.findUnique({
+            where: {
+                username: f_username,
+            }
+        });
+        if (existing_user != null) {
+            console.log("Found");
+            console.log(existing_user);
+            returnObject.id = existing_user.id;
+            returnObject.username = existing_user.username;
+            returnObject.role = existing_user.role;
+            returnObject.token = existing_user.token;
+            return returnObject;
+        }
+        else {
+            console.log("not found");
+            const rand = () => {
+                return Math.random().toString(36).substr(2);
+            };
+            const token = () => {
+                return rand() + rand();
+            };
+            console.log("Generated token is " + token());
+            const f_role = client_1.Role.USER;
+            const salt = await bcrypt.genSalt();
+            const hash = await bcrypt.hash(f_password, salt);
+            const new_admin = await this.prisma.userDetails.create({
+                data: {
+                    username: f_username,
+                    password: hash,
+                    token: token(),
+                    role: f_role
+                }
+            });
+            returnObject.id = new_admin.id;
+            returnObject.username = new_admin.username;
+            returnObject.role = f_role;
+            returnObject.token = new_admin.token;
+            console.log(new_admin);
+            console.log(returnObject);
+            return returnObject;
+        }
+    }
     async registerAdminRepo(f_username, f_password) {
-        const returnObject = new src_1.AuthAdminEntity();
+        const returnObject = new api_auth_admin_entity_1.AuthAdminEntity();
         const existing_user = await this.prisma.userDetails.findUnique({
             where: {
                 username: f_username,
@@ -1496,6 +1543,25 @@ let AuthRepositoryService = class AuthRepositoryService {
             console.log(new_admin);
             console.log(returnObject);
             return returnObject;
+        }
+    }
+    async login(f_username, f_password) {
+        const returnObject = new api_auth_admin_entity_1.AuthAdminEntity();
+        const returning_user = await this.prisma.userDetails.findUnique({
+            where: {
+                username: f_username
+            }
+        });
+        if (returning_user) {
+            returnObject.id = returning_user.id;
+            returnObject.username = returning_user.username;
+            returnObject.password = returning_user.password;
+            returnObject.role = returning_user.role;
+            returnObject.token = returning_user.token;
+            return returnObject;
+        }
+        else {
+            return null;
         }
     }
 };
@@ -1548,402 +1614,6 @@ exports.PrismaServiceAuthentication = PrismaServiceAuthentication;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(68), exports);
-__exportStar(__webpack_require__(69), exports);
-__exportStar(__webpack_require__(70), exports);
-__exportStar(__webpack_require__(71), exports);
-__exportStar(__webpack_require__(72), exports);
-__exportStar(__webpack_require__(73), exports);
-__exportStar(__webpack_require__(74), exports);
-__exportStar(__webpack_require__(75), exports);
-
-
-/***/ }),
-/* 68 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ApiSharedDataAccessModule = void 0;
-const common_1 = __webpack_require__(3);
-let ApiSharedDataAccessModule = class ApiSharedDataAccessModule {
-};
-ApiSharedDataAccessModule = __decorate([
-    (0, common_1.Module)({
-        controllers: [],
-        providers: [],
-        exports: [],
-    })
-], ApiSharedDataAccessModule);
-exports.ApiSharedDataAccessModule = ApiSharedDataAccessModule;
-
-
-/***/ }),
-/* 69 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UserPerson = void 0;
-const graphql_1 = __webpack_require__(7);
-let UserPerson = class UserPerson {
-};
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    __metadata("design:type", Number)
-], UserPerson.prototype, "id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserPerson.prototype, "name", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserPerson.prototype, "surname", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserPerson.prototype, "email", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserPerson.prototype, "password", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserPerson.prototype, "role", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Boolean)
-], UserPerson.prototype, "suspended", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], UserPerson.prototype, "company_name", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], UserPerson.prototype, "utilisation", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], UserPerson.prototype, "position", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], UserPerson.prototype, "project_name", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], UserPerson.prototype, "team_name", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Number)
-], UserPerson.prototype, "company_id", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Number)
-], UserPerson.prototype, "project_id", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Number)
-], UserPerson.prototype, "team_id", void 0);
-UserPerson = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'Object encapsulating the users details' })
-], UserPerson);
-exports.UserPerson = UserPerson;
-
-
-/***/ }),
-/* 70 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UserCompany = void 0;
-const graphql_1 = __webpack_require__(7);
-const api_project_entity_1 = __webpack_require__(71);
-const api_user_person_entity_1 = __webpack_require__(69);
-const api_team_entity_1 = __webpack_require__(72);
-let UserCompany = class UserCompany {
-};
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    __metadata("design:type", Number)
-], UserCompany.prototype, "id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], UserCompany.prototype, "company_name", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_user_person_entity_1.UserPerson], { nullable: true }),
-    __metadata("design:type", Array)
-], UserCompany.prototype, "admins", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_user_person_entity_1.UserPerson], { nullable: true }),
-    __metadata("design:type", Array)
-], UserCompany.prototype, "employees", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_project_entity_1.ProjectEntity], { nullable: true }),
-    __metadata("design:type", Array)
-], UserCompany.prototype, "projects", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_team_entity_1.TeamEntity], { nullable: true }),
-    __metadata("design:type", Array)
-], UserCompany.prototype, "teams", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], UserCompany.prototype, "invite_code", void 0);
-UserCompany = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'object encapsulates the company details' })
-], UserCompany);
-exports.UserCompany = UserCompany;
-
-
-/***/ }),
-/* 71 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ProjectEntity = void 0;
-const graphql_1 = __webpack_require__(7);
-const api_user_person_entity_1 = __webpack_require__(69);
-let ProjectEntity = class ProjectEntity {
-};
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    __metadata("design:type", Number)
-], ProjectEntity.prototype, "id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], ProjectEntity.prototype, "project_name", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], ProjectEntity.prototype, "ownwer_id", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_user_person_entity_1.UserPerson], { nullable: true }),
-    __metadata("design:type", Array)
-], ProjectEntity.prototype, "workers", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Boolean)
-], ProjectEntity.prototype, "completed", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], ProjectEntity.prototype, "team_id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], ProjectEntity.prototype, "team_name", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Number)
-], ProjectEntity.prototype, "man_hours", void 0);
-ProjectEntity = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'Object encapsulates project entity' })
-], ProjectEntity);
-exports.ProjectEntity = ProjectEntity;
-
-
-/***/ }),
-/* 72 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.TeamEntity = void 0;
-const graphql_1 = __webpack_require__(7);
-const api_user_person_entity_1 = __webpack_require__(69);
-let TeamEntity = class TeamEntity {
-};
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    __metadata("design:type", Number)
-], TeamEntity.prototype, "id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], TeamEntity.prototype, "team_name", void 0);
-__decorate([
-    (0, graphql_1.Field)(() => [api_user_person_entity_1.UserPerson], { nullable: true }),
-    __metadata("design:type", Array)
-], TeamEntity.prototype, "members", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", Number)
-], TeamEntity.prototype, "company_id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], TeamEntity.prototype, "project_name", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], TeamEntity.prototype, "project_id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], TeamEntity.prototype, "completed", void 0);
-TeamEntity = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'Object encapsulates team entity' })
-], TeamEntity);
-exports.TeamEntity = TeamEntity;
-
-
-/***/ }),
-/* 73 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var _a, _b;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.InviteCodeEntity = void 0;
-const graphql_1 = __webpack_require__(7);
-let InviteCodeEntity = class InviteCodeEntity {
-};
-__decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
-    __metadata("design:type", Number)
-], InviteCodeEntity.prototype, "id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", String)
-], InviteCodeEntity.prototype, "inviteCode", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], InviteCodeEntity.prototype, "company_id", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
-], InviteCodeEntity.prototype, "created", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
-], InviteCodeEntity.prototype, "expire", void 0);
-InviteCodeEntity = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'This represents the created invitation code' })
-], InviteCodeEntity);
-exports.InviteCodeEntity = InviteCodeEntity;
-
-
-/***/ }),
-/* 74 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CompanyStatsEntity = void 0;
-const graphql_1 = __webpack_require__(7);
-let CompanyStatsEntity = class CompanyStatsEntity {
-};
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], CompanyStatsEntity.prototype, "numProjects", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], CompanyStatsEntity.prototype, "numTeams", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], CompanyStatsEntity.prototype, "numEmployees", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    __metadata("design:type", Number)
-], CompanyStatsEntity.prototype, "numAdmins", void 0);
-CompanyStatsEntity = __decorate([
-    (0, graphql_1.ObjectType)({ description: 'This lists stats like number of projects,teams,employees and admins' })
-], CompanyStatsEntity);
-exports.CompanyStatsEntity = CompanyStatsEntity;
-
-
-/***/ }),
-/* 75 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1985,24 +1655,25 @@ exports.AuthAdminEntity = AuthAdminEntity;
 
 
 /***/ }),
-/* 76 */
+/* 68 */
 /***/ ((module) => {
 
 module.exports = require("bcrypt");
 
 /***/ }),
-/* 77 */
+/* 69 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandHandlers = void 0;
-const register_admin_handler_1 = __webpack_require__(78);
-exports.CommandHandlers = [register_admin_handler_1.RegisterAdminHandler];
+const register_admin_handler_1 = __webpack_require__(70);
+const register_user_hanlder_1 = __webpack_require__(72);
+exports.CommandHandlers = [register_admin_handler_1.RegisterAdminHandler, register_user_hanlder_1.RegisterUserHanlder];
 
 
 /***/ }),
-/* 78 */
+/* 70 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2020,7 +1691,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RegisterAdminHandler = void 0;
 const cqrs_1 = __webpack_require__(10);
 const auth_repository_1 = __webpack_require__(62);
-const register_admin_command_1 = __webpack_require__(79);
+const register_admin_command_1 = __webpack_require__(71);
 let RegisterAdminHandler = class RegisterAdminHandler {
     constructor(repository) {
         this.repository = repository;
@@ -2037,7 +1708,7 @@ exports.RegisterAdminHandler = RegisterAdminHandler;
 
 
 /***/ }),
-/* 79 */
+/* 71 */
 /***/ ((__unused_webpack_module, exports) => {
 
 
@@ -2053,7 +1724,137 @@ exports.RegisterAdminCommand = RegisterAdminCommand;
 
 
 /***/ }),
-/* 80 */
+/* 72 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RegisterUserHanlder = void 0;
+const cqrs_1 = __webpack_require__(10);
+const auth_repository_1 = __webpack_require__(62);
+const register_user_command_1 = __webpack_require__(73);
+let RegisterUserHanlder = class RegisterUserHanlder {
+    constructor(repository) {
+        this.repository = repository;
+    }
+    async execute(command) {
+        return this.repository.registerUserRepo(command.username, command.password);
+    }
+};
+RegisterUserHanlder = __decorate([
+    (0, cqrs_1.CommandHandler)(register_user_command_1.RegisterUserCommand),
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_repository_1.AuthRepositoryService !== "undefined" && auth_repository_1.AuthRepositoryService) === "function" ? _a : Object])
+], RegisterUserHanlder);
+exports.RegisterUserHanlder = RegisterUserHanlder;
+
+
+/***/ }),
+/* 73 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RegisterUserCommand = void 0;
+class RegisterUserCommand {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+exports.RegisterUserCommand = RegisterUserCommand;
+
+
+/***/ }),
+/* 74 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QueryHandlers = void 0;
+const loginHandler_handler_1 = __webpack_require__(75);
+exports.QueryHandlers = [loginHandler_handler_1.LoginHandler];
+
+
+/***/ }),
+/* 75 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LoginHandler = void 0;
+const cqrs_1 = __webpack_require__(10);
+const auth_repository_1 = __webpack_require__(62);
+const login_query_1 = __webpack_require__(76);
+const bcrypt = __webpack_require__(68);
+let LoginHandler = class LoginHandler {
+    constructor(repository) {
+        this.repository = repository;
+    }
+    async execute(query) {
+        const user = await this.repository.login(query.username, query.password);
+        if (user != null) {
+            const hash = user.password;
+            const isMatch = await bcrypt.compare(query.password, hash);
+            console.log(isMatch);
+            if (isMatch) {
+                return user;
+            }
+            else {
+                console.log("In function LoginHandler, Wrong password was entered");
+                return null;
+            }
+        }
+        else {
+            console.log("In function LoginHandler, wrong username provided ");
+            return null;
+        }
+    }
+};
+LoginHandler = __decorate([
+    (0, cqrs_1.QueryHandler)(login_query_1.Login),
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_repository_1.AuthRepositoryService !== "undefined" && auth_repository_1.AuthRepositoryService) === "function" ? _a : Object])
+], LoginHandler);
+exports.LoginHandler = LoginHandler;
+
+
+/***/ }),
+/* 76 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Login = void 0;
+class Login {
+    constructor(username, password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+exports.Login = Login;
+
+
+/***/ }),
+/* 77 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2071,7 +1872,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ServicesService = void 0;
 const common_1 = __webpack_require__(3);
 const cqrs_1 = __webpack_require__(10);
-const register_admin_command_1 = __webpack_require__(79);
+const register_admin_command_1 = __webpack_require__(71);
+const register_user_command_1 = __webpack_require__(73);
+const login_query_1 = __webpack_require__(76);
 let ServicesService = class ServicesService {
     constructor(queryBus, commandBus) {
         this.queryBus = queryBus;
@@ -2079,6 +1882,12 @@ let ServicesService = class ServicesService {
     }
     async registerAdminServ(username, password) {
         return this.commandBus.execute(new register_admin_command_1.RegisterAdminCommand(username, password));
+    }
+    async registerUserServ(username, password) {
+        return this.commandBus.execute(new register_user_command_1.RegisterUserCommand(username, password));
+    }
+    async LoginServ(username, password) {
+        return this.queryBus.execute(new login_query_1.Login(username, password));
     }
 };
 ServicesService = __decorate([
@@ -2089,7 +1898,7 @@ exports.ServicesService = ServicesService;
 
 
 /***/ }),
-/* 81 */
+/* 78 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2110,7 +1919,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AuthenticationResolversResolver = void 0;
 const graphql_1 = __webpack_require__(7);
 const services_1 = __webpack_require__(8);
-const src_1 = __webpack_require__(67);
+const api_auth_admin_entity_1 = __webpack_require__(67);
 let AuthenticationResolversResolver = class AuthenticationResolversResolver {
     constructor(service) {
         this.service = service;
@@ -2122,6 +1931,14 @@ let AuthenticationResolversResolver = class AuthenticationResolversResolver {
         const resp = await this.service.registerAdminServ(f_username, f_pass);
         return resp;
     }
+    async registerUserGateway(f_username, f_pass) {
+        const resp = await this.service.registerUserServ(f_username, f_pass);
+        return resp;
+    }
+    async loginGateway(f_username, f_pass) {
+        const resp = await this.service.LoginServ(f_username, f_pass);
+        return resp;
+    }
 };
 __decorate([
     (0, graphql_1.Query)(() => String),
@@ -2130,13 +1947,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthenticationResolversResolver.prototype, "hello", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => src_1.AuthAdminEntity),
+    (0, graphql_1.Mutation)(() => api_auth_admin_entity_1.AuthAdminEntity),
     __param(0, (0, graphql_1.Args)("username")),
     __param(1, (0, graphql_1.Args)("password")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], AuthenticationResolversResolver.prototype, "registerAdminGateway", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => api_auth_admin_entity_1.AuthAdminEntity),
+    __param(0, (0, graphql_1.Args)("username")),
+    __param(1, (0, graphql_1.Args)("password")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], AuthenticationResolversResolver.prototype, "registerUserGateway", null);
+__decorate([
+    (0, graphql_1.Query)(() => api_auth_admin_entity_1.AuthAdminEntity),
+    __param(0, (0, graphql_1.Args)("username")),
+    __param(1, (0, graphql_1.Args)("password")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], AuthenticationResolversResolver.prototype, "loginGateway", null);
 AuthenticationResolversResolver = __decorate([
     (0, graphql_1.Resolver)(),
     __metadata("design:paramtypes", [typeof (_a = typeof services_1.ServicesService !== "undefined" && services_1.ServicesService) === "function" ? _a : Object])
@@ -2145,7 +1978,7 @@ exports.AuthenticationResolversResolver = AuthenticationResolversResolver;
 
 
 /***/ }),
-/* 82 */
+/* 79 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2167,7 +2000,7 @@ exports.AuthResolverService = AuthResolverService;
 
 
 /***/ }),
-/* 83 */
+/* 80 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2184,7 +2017,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AppController = void 0;
 const common_1 = __webpack_require__(3);
-const app_service_1 = __webpack_require__(84);
+const app_service_1 = __webpack_require__(81);
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -2207,7 +2040,7 @@ exports.AppController = AppController;
 
 
 /***/ }),
-/* 84 */
+/* 81 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 

@@ -1,3 +1,5 @@
+import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
+import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company, Role } from '@prisma/client';
@@ -112,10 +114,20 @@ export class ServiceFeatureService {
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
-    
+
     async GetInviteCode(companyName:string)
     {
       return this.queryBus.execute(new getInviteCode(companyName));
+    }
+
+    async AddTeamMember(teamName:string,employeeEmail:string)
+    {
+      return this.commandBus.execute(new AddTeamMemberCommand(teamName,employeeEmail));
+    }
+
+    async GetTeamMembers(teamName:string)
+    {
+      return this.queryBus.execute(new GetTeamMembersQuery(teamName));
     }
 
 
