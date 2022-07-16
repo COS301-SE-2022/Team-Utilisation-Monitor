@@ -142,33 +142,6 @@ export class ApiFeatureResolver {
      const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
 
      return resp;
-   }
-
-  /***
-   * Early concept function. Mainly used for testing. Used to create a user into the
-   * database
-   */
-
-  @Mutation(()=>UserPerson)
-  async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
-  {
-    let R:Role;
-    let sus:boolean;
-
-    if(role==="USER")
-      R=Role.USER;
-    else
-      R=Role.ADMIN;
-
-    if(suspended==="true")
-      sus=true;
-    else
-      sus=false;
-
-    const resp=await this.service.signup(name,surname,email,R,sus,company_name);
-
-    return resp;
-
   }
 
   /***
@@ -239,9 +212,9 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>UserPerson)
-  async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("company_name")company_name:string)
+  async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("company_name")company_name:string)
   {
-    const resp=await this.service.createAdmin(name,surname,email,password,company_name);
+    const resp=await this.service.createAdmin(name,surname,email,company_name);
 
     return resp;
   }

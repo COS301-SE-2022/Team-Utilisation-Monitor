@@ -18,7 +18,7 @@ export class LoginHandler implements IQueryHandler<Login>{
     {
         const person=this.service.getOnePersonVEmailService(query.email);
 
-        if(person)
+        /*if(person)
         {
             if((await person).email===query.email){
                 
@@ -34,6 +34,7 @@ export class LoginHandler implements IQueryHandler<Login>{
         }
         else
             return "user doesn't exist";
+            */
     }
 
 }
