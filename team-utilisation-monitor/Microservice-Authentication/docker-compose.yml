@@ -14,9 +14,20 @@ services:
     volumes:
       - postgres-auth-data:/var/lib/postgresql/data/pg-auth-data
     ports:
-      - 5433:5432
+      - "35000:5432"
     networks:
       - icreatesoftware-private
+
+  api-authentication:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env 
+    ports:
+      - "8080:3000"
 
 
 volumes:
