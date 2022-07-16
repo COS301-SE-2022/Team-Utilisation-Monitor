@@ -13,9 +13,6 @@ export class CreateUserHandler implements IQueryHandler<CreateUserCommand>{
     {   
         const resp=await this.repository.createUser(query.name,query.surname,query.email,query.password,query.inviteLink);
         
-        console.log("In Handler!!!!!");
-        console.log(resp);
-        console.log("Out Handler!!!!!");
 
         return resp;
     }

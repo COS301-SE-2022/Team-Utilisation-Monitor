@@ -16,9 +16,6 @@ export class UserPerson{
     email!:string;
 
     @Field()
-    password!:string;
-
-    @Field()
     role!:string;
 
     @Field()

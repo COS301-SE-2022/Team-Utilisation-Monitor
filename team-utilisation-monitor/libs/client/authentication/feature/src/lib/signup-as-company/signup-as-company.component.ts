@@ -43,7 +43,7 @@ export class SignupAsCompanyComponent implements OnInit {
       const password=this.profileForm.get("password")?.value!;
       const company=this.profileForm.get('companyName')?.value!;
 
-      this.service.addAdmin(firstname,lastname,company,email,password).subscribe(data=>
+      this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
       {
         this.Admin=data;
         if(this.Admin.data!=null)
@@ -51,6 +51,19 @@ export class SignupAsCompanyComponent implements OnInit {
           //
         }
       });
+
+      //register on authentication DB
+      this.service.registerAdmin(email,password).subscribe(data=>
+      {
+        if(data!=null)
+        {
+          //some logic here
+        }
+        else{
+          console.log("data is null "+data);
+        }
+      });
+
       //Redirect to the login page
       this.router.navigate(['']);
     }

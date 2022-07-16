@@ -150,7 +150,7 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>UserPerson)
-  async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
+  async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
   {
     let R:Role;
     let sus:boolean;
@@ -165,7 +165,7 @@ export class ApiFeatureResolver {
     else
       sus=false;
 
-    const resp=await this.service.signup(name,surname,email,password,R,sus,company_name);
+    const resp=await this.service.signup(name,surname,email,R,sus,company_name);
 
     return resp;
 
