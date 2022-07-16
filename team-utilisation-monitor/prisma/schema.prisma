@@ -15,7 +15,6 @@ model Person{
   name String 
   surname String
   email String @unique
-  password String @default("password")
   role Role @default(USER)
   suspended Boolean @default(false)
   utilisation Int @default(0)
