@@ -9,7 +9,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix(globalPrefix);
 
-  const port = 3000;
+  const port = 3000; //this is not the exposed port on Docker! Don't use the exposed port
 
   await app.listen(port);
 
