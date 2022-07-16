@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
                   this.cookie.set("Email",item2.data.getOnePerson.email);
                   this.cookie.set("token",item.data.loginGateway.token);
 
-                
+                  const approved=item2.data.getOnePerson.approved;
 
                   if(item2.data.getOnePerson.role=="ADMIN") //CURRENT USER IS ADMIN
                   {
@@ -66,7 +66,12 @@ export class LoginComponent implements OnInit {
                   }
                   else if(item2.data.getOnePerson.role=="USER")
                   {
-                    this.router.navigate(['individual_home_page'])
+                    if(!approved) //user not yet approved
+                    {
+                      alert("Oops. Looks like you Request is still Pending Approval. Please contact Admin");
+                    }
+                    else
+                      this.router.navigate(['individual_home_page'])
                   }
                   else
                   {
