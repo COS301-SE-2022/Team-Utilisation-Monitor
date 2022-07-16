@@ -12,7 +12,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
         const user_person=new UserPerson();
 
@@ -61,43 +61,6 @@ export class DataAccessRepository {
 
     }
 
-
-
-    /***
-     * Role is an enum defined in the in the schema.prisma file.
-     * Thinking is i'm going to use the company id to associate the user.
-     * I think you can use this to create the admin.
-     */
-
-    async createPerson(f_name:string,f_surname:string,f_email:string,f_role:Role,f_password:string,f_suspended:boolean,f_company_name:string){
-
-        let usr_company_id:number;
-
-        if(this.getCompanyVName(f_company_name))
-        {
-            usr_company_id= (await this.getCompanyVName(f_company_name)).id //user has an affiliated company
-        }
-        else
-            usr_company_id=null; //user doesn't have an affiliated company
-
-        //IF person is created in a non-existing company,it might break!
-
-
-        const new_person=await this.prisma.person.create({
-            data:{
-                name:f_name,
-                surname:f_surname,
-                email:f_email,
-                role:f_role,
-                password:f_password,
-                suspended:f_suspended,
-                company_id:usr_company_id,
-            }
-        })
-
-        return new_person; //returns newly created object
-
-    }
 
     /****
      * This function is used to add a new admin to an existing compony
@@ -315,7 +278,6 @@ export class DataAccessRepository {
                     surname:f_surname,
                     email:f_email,
                     company_id:local_company_id,
-                    password:f_password
                 }
             })
 
@@ -672,7 +634,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].password,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
             }
         }
         else
@@ -740,7 +702,7 @@ export class DataAccessRepository {
                 local_team=person.team.team_name;
 
 
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
 
             return_user.utilisation=person.utilisation;
 

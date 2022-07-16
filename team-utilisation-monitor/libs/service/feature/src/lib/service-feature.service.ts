@@ -9,7 +9,6 @@ import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-e
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
 import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
-import { CreatePersonCommand } from './commands/impl/create-person.command';
 import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
@@ -42,11 +41,6 @@ export class ServiceFeatureService {
     async login(email:string, password:string):Promise<UserPerson>
     {
         return this.queryBus.execute(new Login(email,password));
-    }
-
-    async signup(name:string,surname:string,email:string,password:string,role:Role,suspended:boolean,company_name:string)
-    {
-        return this.commandBus.execute(new CreatePersonCommand(name,surname,email,password,role,suspended,company_name));
     }
 
     async getCompany(name: string):Promise<Company>

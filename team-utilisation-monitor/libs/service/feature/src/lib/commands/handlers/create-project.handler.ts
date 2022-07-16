@@ -1,6 +1,5 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { DataAccessRepository } from "@team-utilisation-monitor/repository/data-access";
-import { CreatePersonCommand } from "../impl/create-person.command";
 import { CreateProjectCommand } from "../impl/create-project.command";
 
 @CommandHandler(CreateProjectCommand)
