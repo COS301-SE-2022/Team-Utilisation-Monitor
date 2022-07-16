@@ -74,9 +74,9 @@ export class ServiceFeatureService {
         return this.commandBus.execute(new CreateTeamCommand(teamName,companyName))
     }
 
-    async createAdmin(name:string,surname:string,email:string,password:string,companyName:string)
+    async createAdmin(name:string,surname:string,email:string,companyName:string)
     {
-        return this.commandBus.execute(new CreateAdminCommand(name,surname,email,password,companyName));
+        return this.commandBus.execute(new CreateAdminCommand(name,surname,email,companyName));
     }
 
     async createUser(name:string,surname:string,email:string,password:string,invite_code:string)

@@ -12,9 +12,9 @@ export class AuthenticationService {
 
   constructor(private client:HttpClient){}
 
-  addAdmin(firstName:string,lastname :string,company:string,email:string,password:string)
+  addAdmin(firstName:string,lastname :string,company:string,email:string)
   {
-    const Query='mutation{createAdmin(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",password:"'+password+'",company_name:"'+company+'"){name,surname,email,company_name,company_id}}';
+    const Query='mutation{createAdmin(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",company_name:"'+company+'"){name,surname,email,company_name,company_id}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -58,7 +58,8 @@ export class AuthenticationService {
 
   /***
    * This service is used to register the user. It's running on the authentication Database
-   * Hence why it's connecting to port 8080
+   * Hence why it's connecting to port 8080.
+   * It's connecting to the container
   */
 
   registerUser(username:string,password:string):Observable<any>
@@ -78,6 +79,7 @@ export class AuthenticationService {
   /***
    * This service is used to register the Admin. It's running on the authentication Database
    * Hence why it's connecting to port 8080
+   * It's connecting to the container
   */
 
   registerAdmin(username:string,password:string):Observable<any>

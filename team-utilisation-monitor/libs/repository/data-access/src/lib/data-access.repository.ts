@@ -21,7 +21,6 @@ export class DataAccessRepository {
         user_person.surname=surname;
         user_person.email=email;
         user_person.role=role;
-        user_person.password=password;
         user_person.suspended=suspended;
         user_person.position=position;
         user_person.company_name=company;
@@ -105,7 +104,7 @@ export class DataAccessRepository {
      * Returns null if the company doesn't exist
     */
 
-    async addAdminToCompany(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    async addAdminToCompany(f_name:string,f_surname:string,f_email:string,f_company_name:string):Promise<UserPerson|null>
     {
         const c_id=await this.getCompanyID(f_company_name);
 
@@ -116,7 +115,6 @@ export class DataAccessRepository {
                     name:f_name,
                     surname:f_surname,
                     email:f_email,
-                    password:f_password,
                     company_id:c_id,
                     admin_id:c_id,
                     role:Role.ADMIN,
@@ -128,7 +126,6 @@ export class DataAccessRepository {
 
             return_admin.company_id=new_admin.id;
             return_admin.name=new_admin.name;
-            return_admin.password=new_admin.password;
             return_admin.surname=new_admin.surname;
             return_admin.email=new_admin.email;
             return_admin.company_name=f_company_name;
@@ -154,14 +151,14 @@ export class DataAccessRepository {
      * Returns null if admin cannot be created, because company doesn't exist
     */
 
-    async createUserAdmin(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    async createUserAdmin(f_name:string,f_surname:string,f_email:string,f_company_name:string):Promise<UserPerson|null>
     {
         const c_id=await this.getCompanyID(f_company_name);
 
         if(c_id>0) //the company already exists
         {
 
-            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name,f_password);
+            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
         }
         else //the admin is an admin of a new company
         {
@@ -181,7 +178,6 @@ export class DataAccessRepository {
                         name:f_name,
                         surname:f_surname,
                         email:f_email,
-                        password:f_password,
                         company_id:c_id,
                         role:Role.ADMIN,
                         approved: true,
@@ -199,7 +195,6 @@ export class DataAccessRepository {
 
                 return_admin.company_id=new_admin.id;
                 return_admin.name=new_admin.name;
-                return_admin.password=new_admin.password;
                 return_admin.surname=new_admin.surname;
                 return_admin.email=new_admin.email;
                 return_admin.company_name=f_company_name;
@@ -330,7 +325,6 @@ export class DataAccessRepository {
             return_user.name=new_user.name;
             return_user.surname=new_user.surname;
             return_user.email=new_user.email;
-            return_user.password=new_user.password;
             return_user.company_name=company_name;
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
@@ -818,7 +812,6 @@ export class DataAccessRepository {
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
@@ -897,7 +890,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=f_company_name;
@@ -952,7 +944,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;
@@ -1015,7 +1006,6 @@ export class DataAccessRepository {
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=company.company_name;
@@ -1091,7 +1081,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;
