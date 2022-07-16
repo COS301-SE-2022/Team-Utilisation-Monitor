@@ -1,3 +1,4 @@
+import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
 import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -122,6 +123,11 @@ export class ServiceFeatureService {
     async AddTeamMember(teamName:string,employeeEmail:string)
     {
       return this.commandBus.execute(new AddTeamMemberCommand(teamName,employeeEmail));
+    }
+
+    async GetTeamMembers(teamName:string)
+    {
+      return this.queryBus.execute(new GetTeamMembersQuery(teamName));
     }
 
 
