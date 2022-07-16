@@ -646,7 +646,7 @@ export class DataAccessRepository {
 
     /***
      * Returns one user via their email address.
-     */
+    */
 
 
 
@@ -702,6 +702,7 @@ export class DataAccessRepository {
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
 
             return_user.utilisation=person.utilisation;
+            return_user.approved=person.approved;
 
             return return_user;
         }

@@ -49,7 +49,7 @@ export class AuthenticationService {
 
   getPersonDetails(email:string):Observable<any>
   {
-    const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role}}';
+    const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role,approved}}';
 
     const options = {
       headers: new HttpHeaders({

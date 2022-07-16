@@ -21,6 +21,9 @@ export class UserPerson{
     @Field()
     suspended!:boolean;
 
+    @Field()
+    approved?:boolean;
+
     @Field({ nullable: true })
     company_name?:string;
 
