@@ -1,3 +1,4 @@
+import { Query } from '@nestjs/graphql';
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
@@ -17,7 +18,7 @@ export class AdminService {
   //GET FUNCTIONS
   getCompany(companyName:string):Observable<any>
   {
-    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname},admins{name,surname},projects{project_name}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname},admins{name,surname},teams{team_name},projects{project_name,team_name}}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -49,6 +50,30 @@ export class AdminService {
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
+
+  getInviteCode(companyName:string):Observable<any>
+  {
+    const query='query{getInviteCode(name:"'+companyName+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  getTeamMembers(teamName:string):Observable<any>
+  {
+    const Query='query{GetTeamMembers(team_name:"'+teamName+'"){name,surname,email}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+
 
 
 
@@ -87,6 +112,28 @@ export class AdminService {
       })
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  approveRequest(employeeEmail:string):Observable<any>
+  {
+    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  AddTeamMember(teamName:string,email:string):Observable<any>
+  {
+    const Query='mutation{AddTeamMember(team_name:"'+teamName+'",email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
 }

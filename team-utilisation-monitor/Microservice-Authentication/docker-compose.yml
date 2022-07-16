@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    container_name: authentication
+    env_file: .env
+    environment:
+      POSTGRES_USER: icreatesoftware
+      POSTGRES_PASSWORD: authentication
+      POSTGRES_DB: authentication
+      PGDATA: /var/lib/postgresql/data/pg-auth-pgdata
+    volumes:
+      - postgres-auth-data:/var/lib/postgresql/data/pg-auth-data
+    ports:
+      - "35000:5432"
+    networks:
+      - icreatesoftware-private
+
+  api-authentication:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env 
+    ports:
+      - "8080:3000"
+
+
+volumes:
+  postgres-auth-data:
+
+networks:
+  icreatesoftware-private:

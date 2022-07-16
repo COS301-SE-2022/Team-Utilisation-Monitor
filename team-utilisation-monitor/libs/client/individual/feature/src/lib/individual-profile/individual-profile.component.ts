@@ -9,9 +9,17 @@ export class IndividualProfileComponent implements OnInit {
 
   events: string[] = [];
   opened = true;
+  address="string";
+
 
   boolshow = true;
-  teams: string[]=['Team A', 'Team B','Team B','Team B','Team B','Team C'];
+  members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
+  projects: string[]=['Taint C&S', 'Community', 'WebDev'];
+  fName= "Faresa";
+  lastName="Thane";
+  email="gift@gmail.co.za";
+
+  noOfProject=this.projects.length;
 
   ngOnInit(): void {
     console.log();

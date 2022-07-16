@@ -15,7 +15,6 @@ model Person{
   name String 
   surname String
   email String @unique
-  password String @default("password")
   role Role @default(USER)
   suspended Boolean @default(false)
   utilisation Int @default(0)
@@ -99,8 +98,8 @@ model Invites{
 
   invite_code String? @unique
 
-  company Company? @relation(fields: [company_id],references: [id])
-  company_id Int?
+  company Company? @relation(fields: [company_id],references: [id]) 
+  company_id Int? @unique
 
   created DateTime? @default(now())
 
@@ -114,7 +113,7 @@ model Position{
   title String @default("newbie")
 
   person Person? @relation(fields: [person_id],references: [id])
-  person_id Int?
+  person_id Int? @unique
 
   @@map("position")
 }
@@ -132,7 +131,7 @@ model Project{
   workers Person[] @relation("workOn")
 
   team Team? @relation(fields: [team_id],references: [id])
-  team_id Int?
+  team_id Int? @unique
 
   man_hours Int? @default(0)
 

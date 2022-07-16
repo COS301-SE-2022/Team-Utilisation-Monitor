@@ -43,6 +43,14 @@ img{
 .mat-card-content{
   padding-left: 50px;
   width: 65%;
+
+}
+
+.mat-card-details{
+  padding-left: 50%;
+  padding-top:50%;
+  width: 65%;
+
 }
 
 mat-progress-bar{
@@ -137,6 +145,7 @@ div{
   height: 90%;
   padding-right: -150px;
   width: 95%;
+
 }
 
 .card{
@@ -218,12 +227,6 @@ div{
   height:150px;
 }
 
-.details{
-  margin-bottom: 50%;
-  text-align: end;
-
-}
-
 .card-card-user{
   border-radius: 12px;
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, .15);
@@ -247,10 +250,6 @@ div{
   margin-left: -98%;
 }
 
-mat-card-content .details{
-  margin-top:70%;
-  text-align: right;
-}
 .teams {
   text-align: end;
   font-size: 0.82em;
@@ -274,11 +273,9 @@ mat-card-content .details{
 
 }
 
-
 .tc .smc{
   height: 20%;
   width: 96%;
-  //margin-left:  10px;
   box-shadow: 0px 0px 25px black;
 
 }
@@ -295,11 +292,35 @@ mat-card-content .details{
   max-height: 100%;
   overflow-y: auto;
   margin-left: -80%;
-
 }
+
 
 .list{
   //margin-left:15%;
- float: right;
-  margin-right: 30%;
+  float: left;
+  width: 90%;
+  cursor: pointer;
+
+}
+
+.mat-card1{
+
+  text-align: center;
+  overflow: hidden;
+  //background-color: #4d99bf;
+
+}
+
+mat-list-item:hover {
+  color: rgb(41, 80, 152);
+  font-size: large;
+  position: center;
+
+}
+
+.details{
+ // margin-bottom: 50%;
+  margin-top:70%;
+  text-align: left;
+
 }

@@ -17,6 +17,13 @@ export class ApiFeatureResolver {
       return resp;
   }
 
+  @Query(()=>String)
+  async getInviteCode(@Args("name") companyName:string)
+  {
+    const resp=await this.service.GetInviteCode(companyName);
+    return resp
+  }
+
   /***
    * This function returns a company object of type UserCompany
    */
@@ -133,7 +140,7 @@ export class ApiFeatureResolver {
    async getAllTeamsOfACompany(@Args("company_name") company_name:string)
    {
      const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
- 
+
      return resp;
    }
 
@@ -251,30 +258,30 @@ export class ApiFeatureResolver {
     return resp;
   }
 
-  /***
-   * This function is used to approve requests via id
-   * Returns true if process was successful,false otherwise
-  */
-  
-  @Mutation(()=>Boolean)
-  async approveRequest(@Args("id") id:string)
-  {
-    const resp=await this.service.approveRequestVID(parseInt(id));
-
-    return resp;
-  }
 
    /***
    * This function is used to approve requests via email
    * Returns true if process was successful,false otherwise
    */
-  
+
     @Mutation(()=>Boolean)
     async approveRequestVEmail(@Args("email") email:string)
     {
       const resp=await this.service.approveRequestVEmail(email);
-  
+
       return resp;
+    }
+
+    @Mutation(()=>String)
+    async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
+    {
+      return await this.service.AddTeamMember(teamName,email);
+    }
+
+    @Query(()=>[UserPerson])
+    async GetTeamMembers(@Args("team_name") teamName:string)
+    {
+      return await this.service.GetTeamMembers(teamName);
     }
 
 
@@ -283,7 +290,7 @@ export class ApiFeatureResolver {
     return 'on';
   }
 
-  @Mutation((returns) => UserPerson)
+  @Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }

@@ -47,9 +47,7 @@ export class SignupAsIndividualComponent implements OnInit {
         this.service.createUser(firstname,lastname,email,password,inviteCode).subscribe({
           next:(item)=>{
             if(item.data!=null){
-              console.log("INNNNNNN!!!")
-              //add routerin -love
-
+              this.router.navigate(['']);
             }
             else
             {

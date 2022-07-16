@@ -2,7 +2,7 @@
     <mat-card-content class="InvdividualBox">
             <span class="InvdividualName">{{IndivName.Name}}</span>
             <span class="example-spacer"></span>
-            <button mat-raised-button class="InvdividualButton" color="primary">
+            <button mat-raised-button class="InvdividualButton" color="primary" (click)="approveRequest(IndivName.Email)">
                 <mat-icon>add</mat-icon>
             </button>
     </mat-card-content>

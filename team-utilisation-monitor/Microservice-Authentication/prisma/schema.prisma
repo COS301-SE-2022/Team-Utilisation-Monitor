@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets=["debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserDetails{
+  id Int @id @default(autoincrement())
+  username String @unique //username is email
+  password String @unique
+  token String 
+  role  Role @default(USER)
+
+  @@map("user_details")
+}
+
+enum Role{
+  ADMIN
+  USER
+}

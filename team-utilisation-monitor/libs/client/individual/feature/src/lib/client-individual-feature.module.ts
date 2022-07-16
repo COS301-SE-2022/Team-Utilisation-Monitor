@@ -6,9 +6,11 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
 import { IndividualProfileComponent } from './individual-profile/individual-profile.component';
+
 //import { DashboardComponent } from './dashboard/dashboard.component';
 import {ClientAdminFeatureModule} from "@team-utilisation-monitor/client/admin/feature";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -18,6 +20,13 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatListModule} from "@angular/material/list";
+import { CompSidenavComponent } from './comp-sidenav/comp-sidenav.component';
+import { UtilizationGraphComponent } from './utilization-graph/utilization-graph.component';
+import { WeeklyUtilisationGraphComponent } from './weekly-utilisation-graph/weekly-utilisation-graph.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {NgChartsModule} from "ng2-charts";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   imports: [
@@ -38,11 +47,20 @@ import {MatListModule} from "@angular/material/list";
     ReactiveFormsModule,
     MatSelectModule,
     MatListModule,
+    MatExpansionModule,
+    NgChartsModule,
+    MatButtonToggleModule,
+    MatTabsModule
   ],
   declarations: [
     IndividualHomePageComponent,
-    IndividualProfileComponent
+    IndividualProfileComponent,
+    CompSidenavComponent,
+    UtilizationGraphComponent,
+    WeeklyUtilisationGraphComponent
   ],
-  exports: [IndividualRoutingModule],
+  exports:
+  [IndividualRoutingModule
+  ],
 })
 export class ClientIndividualFeatureModule {}

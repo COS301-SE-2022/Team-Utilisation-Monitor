@@ -1,16 +1,16 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient, Role } from '@prisma/client';
+import { Role } from '@prisma/client';
 import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
-import e = require('cors');
+
 
 @Injectable()
 export class DataAccessRepository {
 
-    constructor(private readonly prisma:PrismaService ){}
+    constructor(private readonly prisma:PrismaService, ){}
 
     async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
@@ -160,6 +160,7 @@ export class DataAccessRepository {
 
         if(c_id>0) //the company already exists
         {
+
             return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name,f_password);
         }
         else //the admin is an admin of a new company
@@ -171,7 +172,7 @@ export class DataAccessRepository {
             //create the person entity
             const c_id=await this.getCompanyID(f_company_name); //new company id
 
-            console.log("company id is "+c_id);
+           // console.log("company id is "+c_id);
 
             if(c_id>0)
             {
@@ -217,11 +218,6 @@ export class DataAccessRepository {
 
     }
 
-    /***
-     * Use this function to get all projects of the company as an argument in an array
-     * Returns null if the company doesn't exist
-     * Use 0 to get projects or 1 to get the teams
-    */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
@@ -240,13 +236,13 @@ export class DataAccessRepository {
                         owner_id:c_id
                     }
                 })
-    
+
                 if(all_projects)
                 {
                     for(let i=0;i<all_projects.length;++i)
                     {
                         return_projects[i]=new ProjectEntity();
-    
+
                         return_projects[i].id=all_projects[i].id;
                         return_projects[i].project_name=all_projects[i].project_name;
                         return_projects[i].owner_id=all_projects[i].owner_id;
@@ -254,7 +250,7 @@ export class DataAccessRepository {
                         return_projects[i].man_hours=all_projects[i].man_hours;
                         return_projects[i].hoursToComplete=all_projects[i].completed;
                     }
-    
+
                     return return_projects
                 }
                 else
@@ -295,8 +291,8 @@ export class DataAccessRepository {
             }
             else
                 return default_arr;
-            
-            
+
+
         }
         else
             return null;
@@ -311,7 +307,7 @@ export class DataAccessRepository {
     {
         //use the invitation link to get the company id
 
-        console.log("in repository layer!!")
+       // console.log("in repository layer!!")
 
         const local_company_id=await this.verifyCode(inviteLink);
         const company_name=(await this.getCompanyVID(local_company_id)).company_name;
@@ -342,15 +338,14 @@ export class DataAccessRepository {
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
-            console.log("Marubi");
-            console.log(return_user)
+            //console.log("Marubi");
+            //console.log(return_user)
 
             return return_user;
         }
         else
         {
-            console.log("Couldn't verify Invitation link");
-
+            //console.log("Couldn't verify Invitation link");
             return null;
         }
 
@@ -437,6 +432,7 @@ export class DataAccessRepository {
                 company_name:c_name,
             }
         })
+        this.createInviteCode(c_name);
 
         const return_company=new UserCompany();
 
@@ -588,24 +584,8 @@ export class DataAccessRepository {
      * Returns true if application is successful
      */
 
-    async approveRequest(f_id:number):Promise<boolean>
-    {
-        const confirm=await this.prisma.person.update({
-            data:{
-                approved:true
-            },
-            where:{
-                id:f_id
-            }
-        })
 
-        if(confirm)
-            return true;
-        else
-            return false;
-    }
 
-     
 
     /***
      * This function is used to approve requests via id of the user.
@@ -622,7 +602,7 @@ export class DataAccessRepository {
                 email:f_email
              }
          })
-
+         console.log("I changed the data")
          if(confirm)
              return true;
          else
@@ -783,6 +763,21 @@ export class DataAccessRepository {
      * @returns
      */
 
+    async getTeam(team_ID:number):Promise<TeamEntity>
+    {
+        const Team=await this.prisma.team.findUnique({
+          where:{
+            id:team_ID
+          }
+        })
+
+        const team=new TeamEntity();
+        team.id=Team.id;
+        team.team_name=Team.team_name;
+        team.company_id=Team.company_id;
+
+        return team;
+    }
 
     async getCompanyVName(f_company_name:string):Promise<UserCompany|null>
     {
@@ -850,6 +845,7 @@ export class DataAccessRepository {
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
                     project.ownwer_id=company.projects[i].owner_id;
+                    project.team_name=(await this.getTeam(company.projects[i].team_id)).team_name;
 
                     for(let i=0;i<company.employees.length;++i)
                     {
@@ -1008,6 +1004,7 @@ export class DataAccessRepository {
             teams_arr=[]
             admins_arr=[]
 
+
             if(company.employees!=null)
             {
                 for(let i=0;i<company.employees.length;++i)
@@ -1038,6 +1035,7 @@ export class DataAccessRepository {
                 {
                     const project=new ProjectEntity();
                     let workers_arr:UserPerson[];
+                    workers_arr=[]
 
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
@@ -1178,6 +1176,23 @@ export class DataAccessRepository {
             return -1;
     }
 
+
+    async getProjectID(p_name:string):Promise<number>
+    {
+        const project=await this.prisma.project.findMany({
+            where:{
+                project_name:p_name
+            }
+        })
+
+        if(project)
+        {
+            return project[0].id;
+        }
+        else
+            return -1;
+    }
+
     /***Admins superFunctions:
      * These are fucntions that may only be used by the admin to do admin stuff.
      * Don't use for user
@@ -1190,16 +1205,11 @@ export class DataAccessRepository {
 
     async superCreateCompany(companyName:string,userPerson:UserPerson)
     {
-        console.log("in super!!");
-        console.log("company_name is "+companyName);
-
         const c_id=await this.getCompanyID(companyName);
 
         if(c_id>0)
         {
-            console.log("updating company");
-
-            const update_company=await this.prisma.company.update({
+            await this.prisma.company.update({
                 where:{
                     id:c_id,
                 },
@@ -1207,18 +1217,28 @@ export class DataAccessRepository {
                    employees:{
                        connect:{
                            id:userPerson.id,
-                       }
-                   },
-
-                   admins:{
-                       connect:{
-                           id:userPerson.id
+                           email:userPerson.email
                        }
                    }
-
                 }
-
             })
+
+            if(userPerson.role=="ADMIN")  //If UserPerson is an Admin
+            {
+              await this.prisma.company.update({
+                where:{
+                    id:c_id,
+                },
+                data:{
+                  admins:{
+                    connect:{
+                        id:userPerson.id,
+                        email:userPerson.email
+                    }
+                  }
+                }
+            })
+            }
         }
         else
             console.error("superCreateCompany() failed to create a company");
@@ -1257,6 +1277,80 @@ export class DataAccessRepository {
     }
 
 
+    async getInviteCode(CompanyName:string)
+    {
+      const ID=await this.getCompanyID(CompanyName);
 
+      const invite=await this.prisma.invites.findUnique(
+        {
+        where:{
+          id:ID
+      }}
+      )
+      return invite.invite_code;
+    }
+
+
+
+    async  addTeamMember(teamName:string,EmplooyeEmail:string)
+    {
+      //
+      const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      await this.prisma.team.update(
+        {
+          where:{
+            id:teamID
+          },
+          data:
+          {
+            members:{
+              connect:{
+                id:empl_id
+              }
+            }
+          }
+        })
+        return "Team Member added"
+
+    }
+
+    async getTeamMembers(teamName:string)
+    {
+      const Team_members=await this.prisma.team.findUnique(
+        {
+          where:{
+            team_name:teamName
+          },
+          include:{
+            members:true
+          }
+        }
+      )
+      return Team_members.members
+    }
+
+    async deleteMember(teamName:string,email:string)
+    {
+      const empl_id=await (await this.getUserIDVEmail(email)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      await this.prisma.team.update(
+        {
+          where:{
+            id:teamID
+          },
+          data:
+          {
+            members:{
+              disconnect:{
+                id:empl_id
+              }
+            }
+          }
+        })
+        return "Team Member added"
+    }
 
 }
