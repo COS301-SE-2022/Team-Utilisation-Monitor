@@ -10,5 +10,4 @@ export class RegisterUserHanlder implements ICommandHandler<RegisterUserCommand>
     async execute(command: RegisterUserCommand): Promise<any> {
         return this.repository.registerUserRepo(command.username,command.password);
     }
-    //This is a comments
 } 
