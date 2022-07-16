@@ -1363,21 +1363,8 @@ export class DataAccessRepository {
           }
         }
       )
-
       return deletedUser;
 
-      /*await this.prisma.team.update(
-        {
-          data:
-          {
-            members:{
-              disconnect:{
-                id:deletedUserID
-              }
-            }
-          }
-        }
-      )*/
 
     }
 
