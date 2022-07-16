@@ -2,9 +2,8 @@ import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
 import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Company, Role } from '@prisma/client';
+import { Company } from '@prisma/client';
 import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
-import { Console } from 'console';
 import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
@@ -73,9 +72,9 @@ export class ServiceFeatureService {
         return this.commandBus.execute(new CreateAdminCommand(name,surname,email,companyName));
     }
 
-    async createUser(name:string,surname:string,email:string,password:string,invite_code:string)
+    async createUser(name:string,surname:string,email:string,invite_code:string)
     {
-        return this.commandBus.execute(new CreateUserCommand(name,surname,email,password,invite_code));
+        return this.commandBus.execute(new CreateUserCommand(name,surname,email,invite_code));
     }
 
     async getPendingRequests(companyName:string):Promise<UserPerson>

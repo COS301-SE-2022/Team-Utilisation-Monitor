@@ -261,7 +261,7 @@ export class DataAccessRepository {
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string):Promise<UserPerson|null>
+    async createUser(f_name:string,f_surname:string,f_email:string,inviteLink:string):Promise<UserPerson|null>
     {
         //use the invitation link to get the company id
 
@@ -294,22 +294,19 @@ export class DataAccessRepository {
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
-            //console.log("Marubi");
-            //console.log(return_user)
-
             return return_user;
         }
         else
         {
-            //console.log("Couldn't verify Invitation link");
             return null;
         }
 
 
     }
+
     /***
      * This function is used to create or add a new team to the database
-     */
+    */
 
     async createTeam(teamName:string,companyName:string):Promise<TeamEntity>
     {
@@ -341,7 +338,7 @@ export class DataAccessRepository {
     /***
      * This function is used to create a project for a company
      * Returns null if the company doesn't exist. or if the team doens't exist
-     */
+    */
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
@@ -379,7 +376,7 @@ export class DataAccessRepository {
     /***
      * This function is used to create a company object within the database.
      * Returns an object of the new Company Created
-     */
+    */
 
     async createCompnany(c_name:string):Promise<UserCompany>
     {
