@@ -1,4 +1,4 @@
-<body xmlns:width="http://www.w3.org/1999/xhtml">
+<body >
 <mat-sidenav-container color="primary">
   <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
     <team-utilisation-monitor-comp-sidenav></team-utilisation-monitor-comp-sidenav>
@@ -14,8 +14,8 @@
 
       <div class="col-md-4">
         <mat-card class="card-card-user">
-          <mat-card-header class="mat-card-header">
-            <div mat-card-avatar class="example-header-image" > </div>
+          <mat-card-header >
+
           </mat-card-header>
 
           <mat-card-content class="mat-card-details">
@@ -30,24 +30,22 @@
 
         </mat-card>
 
-        <div class="smc">
-          <mat-card class="mat-card1">
-            <mat-card-header>
-              <mat-card-title>Team Members</mat-card-title>
-            </mat-card-header>
+        <mat-card class="mat-card1">
+          <mat-card-header>
+            <mat-card-title>Team members</mat-card-title>
+          </mat-card-header>
 
-            <mat-card-content class="mid">
-              <mat-nav-list class="list">
-                <mat-list-item *ngFor="let link of members">
-                  <a matLine href="#">{{ link }}  <div mat-card-avatar class="Thangeni F" > </div></a>      <!--redirect to a respective Team view here-->
-                  <button mat-icon-button (click)="showInfo(link)">
-                  </button>
-                </mat-list-item>
-              </mat-nav-list>
-            </mat-card-content>
-          </mat-card>
+          <mat-card-content class="mid">
+            <mat-nav-list class="list">
+              <mat-list-item *ngFor="let link of members">
+                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <button mat-icon-button (click)="showInfo(link)">
+                </button>
+              </mat-list-item>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
 
-        </div>
         <br><br>
 
       </div>
