@@ -41,10 +41,31 @@ export class AuthenticationService {
     return object;
 
   }
+  /***
+   * Use this function to get a user object.
+   * The object accepts a valid email address. 
+   * This function fetches the details from the main DB
+  */
 
-  login(email:string,password:string):Observable<any>
+  getPersonDetails(email:string):Observable<any>
   {
-    const query='query{login(email:"'+email+'",password:"'+password+'"){name,surname,role,company_id,company_name}}';
+    const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    const object= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+
+    return object;
+    
+  }
+
+  login(username:string,password:string):Observable<any>
+  {
+    const query='query{loginGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}'
 
     const options = {
         headers: new HttpHeaders({
@@ -52,7 +73,8 @@ export class AuthenticationService {
         })
     }
 
-    const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+    const obj= this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: query }), options);
+
     return obj;
   }
 
