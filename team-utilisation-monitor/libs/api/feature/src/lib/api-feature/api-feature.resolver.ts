@@ -224,9 +224,9 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>UserPerson)
-  async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password")password:string,@Args("inviteCode")inviteCode:string)
+  async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("inviteCode")inviteCode:string)
   {
-    const resp=await this.service.createUser(name,surname,email,password,inviteCode)
+    const resp=await this.service.createUser(name,surname,email,inviteCode)
 
     return resp;
   }

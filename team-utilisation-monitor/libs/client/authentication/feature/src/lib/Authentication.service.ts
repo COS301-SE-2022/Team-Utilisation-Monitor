@@ -24,20 +24,20 @@ export class AuthenticationService {
     return object;
   }
 
-  createUser(firstName:string,lastname :string,email:string,password:string,inviteCode:string):Observable<any>
+  createUser(firstName:string,lastname :string,email:string,inviteCode:string):Observable<any>
   {
-    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){name,surname,email,password,company_name,company_id,role,utilisation}}';
+    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",inviteCode:"'+inviteCode+'"){name,surname,email,company_name,company_id,role,utilisation}}';
 
-    //console.log(Query);
+    console.log(Query);
 
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
         })
     }
-    const object=this.client.post<any>('http://localhost:3333/graphql', JSON.stringify({ query: Query }), options)
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }),options)
 
-    //console.log(object);
+    console.log("Sheherezada");
     return object;
 
   }
@@ -72,7 +72,7 @@ export class AuthenticationService {
       })
     }
 
-    const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
+    const object=this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: Query }), options)
     return object;
   }
 
