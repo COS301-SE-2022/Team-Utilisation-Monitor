@@ -8,6 +8,7 @@ import { CreateProjectHandler } from "./create-project.handler";
 import { CreateTeamHandler } from "./create-team.handler";
 import { CreateUserHandler } from "./create-user.handler";
 import { AddTeamMemberHandler } from "./addTeamMember.handler";
+import { DeleteEmployeeHandler } from './DeleteEmployee.handler';
 
 export const CommandHandlers=[ApproveRequestVEmailHandler,CreateAdminHandler,CreateTeamHandler,CreateProjectHandler,
-  CreateCompanyHandler,CreatePersonHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler];
+  CreateCompanyHandler,CreatePersonHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler,DeleteEmployeeHandler];

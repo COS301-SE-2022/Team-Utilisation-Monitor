@@ -296,6 +296,12 @@ export class ApiFeatureResolver {
     return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
   }
 
+  @Mutation(()=>UserPerson)
+  async DeleteEmployee(@Args("email") email:string)
+  {
+    return await this.service.DeleteEmployee(email);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
