@@ -28,7 +28,7 @@ export class AuthenticationService {
   {
     const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'", password:"'+password+'",inviteCode:"'+inviteCode+'"){name,surname,email,password,company_name,company_id,role,utilisation}}';
 
-    console.log(Query);
+    //console.log(Query);
 
     const options = {
       headers: new HttpHeaders({
@@ -37,7 +37,7 @@ export class AuthenticationService {
     }
     const object=this.client.post<any>('http://localhost:3333/graphql', JSON.stringify({ query: Query }), options)
 
-    console.log(object);
+    //console.log(object);
     return object;
 
   }
@@ -54,6 +54,47 @@ export class AuthenticationService {
 
     const obj= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
     return obj;
-}
+  }
+
+  /***
+   * This service is used to register the user. It's running on the authentication Database
+   * Hence why it's connecting to port 8080
+  */
+
+  registerUser(username:string,password:string):Observable<any>
+  {
+    const Query='mutation{registerUserGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
+    return object;
+  }
+
+  /***
+   * This service is used to register the Admin. It's running on the authentication Database
+   * Hence why it's connecting to port 8080
+  */
+
+  registerAdmin(username:string,password:string):Observable<any>
+  {
+    const Query='mutation{registerAdminGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
+    return object;
+
+  }
+
+
 
 }
