@@ -53,7 +53,7 @@ export class SignupAsIndividualComponent implements OnInit {
                * Invite code. It has to be valid.
                */
 
-              this.service.registerUser(email,password).subscribe(data =>
+              this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
               {
                 if(data!=null)
                 {

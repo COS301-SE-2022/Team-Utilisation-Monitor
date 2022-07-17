@@ -13,6 +13,8 @@ datasource db {
 
 model UserDetails{
   id Int @id @default(autoincrement())
+  name String 
+  surname String
   username String @unique //username is email
   password String @unique
   token String 
