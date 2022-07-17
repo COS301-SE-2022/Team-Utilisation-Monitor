@@ -13,7 +13,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,password:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
         const user_person=new UserPerson();
 
@@ -22,7 +22,6 @@ export class DataAccessRepository {
         user_person.surname=surname;
         user_person.email=email;
         user_person.role=role;
-        user_person.password=password;
         user_person.suspended=suspended;
         user_person.position=position;
         user_person.company_name=company;
@@ -64,49 +63,12 @@ export class DataAccessRepository {
     }
 
 
-
-    /***
-     * Role is an enum defined in the in the schema.prisma file.
-     * Thinking is i'm going to use the company id to associate the user.
-     * I think you can use this to create the admin.
-     */
-
-    async createPerson(f_name:string,f_surname:string,f_email:string,f_role:Role,f_password:string,f_suspended:boolean,f_company_name:string){
-
-        let usr_company_id:number;
-
-        if(this.getCompanyVName(f_company_name))
-        {
-            usr_company_id= (await this.getCompanyVName(f_company_name)).id //user has an affiliated company
-        }
-        else
-            usr_company_id=null; //user doesn't have an affiliated company
-
-        //IF person is created in a non-existing company,it might break!
-
-
-        const new_person=await this.prisma.person.create({
-            data:{
-                name:f_name,
-                surname:f_surname,
-                email:f_email,
-                role:f_role,
-                password:f_password,
-                suspended:f_suspended,
-                company_id:usr_company_id,
-            }
-        })
-
-        return new_person; //returns newly created object
-
-    }
-
     /****
      * This function is used to add a new admin to an existing compony
      * Returns null if the company doesn't exist
     */
 
-    async addAdminToCompany(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    async addAdminToCompany(f_name:string,f_surname:string,f_email:string,f_company_name:string):Promise<UserPerson|null>
     {
         const c_id=await this.getCompanyID(f_company_name);
 
@@ -117,7 +79,6 @@ export class DataAccessRepository {
                     name:f_name,
                     surname:f_surname,
                     email:f_email,
-                    password:f_password,
                     company_id:c_id,
                     admin_id:c_id,
                     role:Role.ADMIN,
@@ -129,7 +90,6 @@ export class DataAccessRepository {
 
             return_admin.company_id=new_admin.id;
             return_admin.name=new_admin.name;
-            return_admin.password=new_admin.password;
             return_admin.surname=new_admin.surname;
             return_admin.email=new_admin.email;
             return_admin.company_name=f_company_name;
@@ -155,14 +115,14 @@ export class DataAccessRepository {
      * Returns null if admin cannot be created, because company doesn't exist
     */
 
-    async createUserAdmin(f_name:string,f_surname:string,f_email:string,f_company_name:string,f_password:string):Promise<UserPerson|null>
+    async createUserAdmin(f_name:string,f_surname:string,f_email:string,f_company_name:string):Promise<UserPerson|null>
     {
         const c_id=await this.getCompanyID(f_company_name);
 
         if(c_id>0) //the company already exists
         {
 
-            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name,f_password);
+            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
         }
         else //the admin is an admin of a new company
         {
@@ -182,7 +142,6 @@ export class DataAccessRepository {
                         name:f_name,
                         surname:f_surname,
                         email:f_email,
-                        password:f_password,
                         company_id:c_id,
                         role:Role.ADMIN,
                         approved: true,
@@ -200,7 +159,6 @@ export class DataAccessRepository {
 
                 return_admin.company_id=new_admin.id;
                 return_admin.name=new_admin.name;
-                return_admin.password=new_admin.password;
                 return_admin.surname=new_admin.surname;
                 return_admin.email=new_admin.email;
                 return_admin.company_name=f_company_name;
@@ -304,7 +262,7 @@ export class DataAccessRepository {
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,f_password:string,inviteLink:string):Promise<UserPerson|null>
+    async createUser(f_name:string,f_surname:string,f_email:string,inviteLink:string):Promise<UserPerson|null>
     {
         //use the invitation link to get the company id
 
@@ -321,7 +279,6 @@ export class DataAccessRepository {
                     surname:f_surname,
                     email:f_email,
                     company_id:local_company_id,
-                    password:f_password
                 }
             })
 
@@ -331,7 +288,6 @@ export class DataAccessRepository {
             return_user.name=new_user.name;
             return_user.surname=new_user.surname;
             return_user.email=new_user.email;
-            return_user.password=new_user.password;
             return_user.company_name=company_name;
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
@@ -339,22 +295,19 @@ export class DataAccessRepository {
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
-            //console.log("Marubi");
-            //console.log(return_user)
-
             return return_user;
         }
         else
         {
-            //console.log("Couldn't verify Invitation link");
             return null;
         }
 
 
     }
+
     /***
      * This function is used to create or add a new team to the database
-     */
+    */
 
     async createTeam(teamName:string,companyName:string):Promise<TeamEntity>
     {
@@ -386,7 +339,7 @@ export class DataAccessRepository {
     /***
      * This function is used to create a project for a company
      * Returns null if the company doesn't exist. or if the team doens't exist
-     */
+    */
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
@@ -424,7 +377,7 @@ export class DataAccessRepository {
     /***
      * This function is used to create a company object within the database.
      * Returns an object of the new Company Created
-     */
+    */
 
     async createCompnany(c_name:string):Promise<UserCompany>
     {
@@ -679,7 +632,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].password,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
             }
         }
         else
@@ -694,7 +647,7 @@ export class DataAccessRepository {
 
     /***
      * Returns one user via their email address.
-     */
+    */
 
 
 
@@ -747,9 +700,10 @@ export class DataAccessRepository {
                 local_team=person.team.team_name;
 
 
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.password,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
 
             return_user.utilisation=person.utilisation;
+            return_user.approved=person.approved;
 
             return return_user;
         }
@@ -819,7 +773,6 @@ export class DataAccessRepository {
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=f_company_name;
@@ -898,7 +851,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=f_company_name;
@@ -953,7 +905,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;
@@ -1016,7 +967,6 @@ export class DataAccessRepository {
                     user.name=company.employees[i].name;
                     user.surname=company.employees[i].surname;
                     user.email=company.employees[i].email;
-                    user.password=company.employees[i].password;
                     user.role=company.employees[i].role;
                     user.suspended=company.employees[i].suspended;
                     user.company_name=company.company_name;
@@ -1092,7 +1042,6 @@ export class DataAccessRepository {
                         user.name=company.employees[i].name;
                         user.surname=company.employees[i].surname;
                         user.email=company.employees[i].email;
-                        user.password=company.employees[i].password;
                         user.role=company.employees[i].role;
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;

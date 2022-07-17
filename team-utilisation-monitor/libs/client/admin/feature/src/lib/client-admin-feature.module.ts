@@ -38,6 +38,8 @@ import { AdminTeamProjectViewComponent } from './admin-team-project-view/admin-t
 import { CompTeamListComponent } from './comp-team-list/comp-team-list.component';
 import { CompProjectListComponent } from './comp-project-list/comp-project-list.component';
 import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/comp-add-team-member-popup.component';
+import { CompGraphCompanyUtilizationComponent } from './comp-graph-company-utilization/comp-graph-company-utilization.component';
+import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
   imports: [
@@ -59,6 +61,7 @@ import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/co
     MatGridListModule,
     MatFormFieldModule,
     MatInputModule,
+    NgChartsModule,
     MatIconModule,
     MatDividerModule,
     MatSidenavModule,
@@ -86,6 +89,7 @@ import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/co
     CompTeamListComponent,
     CompProjectListComponent,
     CompAddTeamMemberPopupComponent,
+    CompGraphCompanyUtilizationComponent,
   ],
   exports: [
     AdminRoutingModule,

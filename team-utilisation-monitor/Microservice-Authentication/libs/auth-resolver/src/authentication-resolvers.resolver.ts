@@ -1,7 +1,6 @@
-
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ServicesService } from 'micro-auth-service/services';
-import { AuthAdminEntity } from '../../../../libs/api/shared/data-access/src';
+import { AuthAdminEntity } from 'shared/Entities/api-auth-admin.entity';
 
 @Resolver()
 export class AuthenticationResolversResolver {
