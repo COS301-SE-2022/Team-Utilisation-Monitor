@@ -10,14 +10,14 @@ export class ServicesService {
 
     constructor(private readonly queryBus:QueryBus,private readonly commandBus:CommandBus){}
 
-    async registerAdminServ(username:string,password:string):Promise<AuthAdminEntity>
+    async registerAdminServ(name:string,surname:string,username:string,password:string):Promise<AuthAdminEntity>
     {
-        return this.commandBus.execute(new RegisterAdminCommand(username,password));
+        return this.commandBus.execute(new RegisterAdminCommand(username,password,name,surname));
     }
 
-    async registerUserServ(username:string,password:string):Promise<AuthAdminEntity>
+    async registerUserServ(name:string,surname:string,username:string,password:string):Promise<AuthAdminEntity>
     {   
-        return this.commandBus.execute(new RegisterUserCommand(username,password));
+        return this.commandBus.execute(new RegisterUserCommand(username,password,name,surname));
     }
 
     async LoginServ(username:string,password:string):Promise<AuthAdminEntity>

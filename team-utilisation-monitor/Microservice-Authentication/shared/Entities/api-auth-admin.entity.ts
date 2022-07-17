@@ -9,6 +9,12 @@ export class AuthAdminEntity{
     @Field()
     username!:string;
 
+    @Field()
+    name:string;
+
+    @Field()
+    surname:string;
+
     @Field({nullable:true})
     password?:string;
 

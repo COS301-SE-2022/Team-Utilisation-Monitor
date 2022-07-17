@@ -8,6 +8,6 @@ export class RegisterUserHanlder implements ICommandHandler<RegisterUserCommand>
     constructor(private readonly repository:AuthRepositoryService){}
 
     async execute(command: RegisterUserCommand): Promise<any> {
-        return this.repository.registerUserRepo(command.username,command.password);
+        return this.repository.registerUserRepo(command.name,command.surname,command.username,command.password);
     }
 } 

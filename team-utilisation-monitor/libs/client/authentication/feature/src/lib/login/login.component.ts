@@ -46,18 +46,23 @@ export class LoginComponent implements OnInit {
         next:(item)=>{
           if(item.data!=null)
           {
-            //The password is valid. Now fetch the user details from the main DB
+            //The password is valid. Now fetch the user details from the authentication DB
+
+            //save the details to the cookies.
+            this.cookie.set("UserName",item.data.loginGateway.name+" "+item.data.loginGateway.surname);
+            this.cookie.set("Email",item.data.loginGateway.email);
+            this.cookie.set("token",item.data.loginGateway.token);
+
+            /****
+             * Even if the main database i.e result2, fails, the user will still be 
+             * able to login using data from the authentication database
+             */
 
             this.result2=this.service.getPersonDetails(email).subscribe({
               next:(item2)=>{
                 if(item2.data!=null)
                 {
-                  //save the details to the cookies. getOnePerson is the resolver Query name
-                  this.cookie.set("UserName",item2.data.getOnePerson.name+" "+item2.data.getOnePerson.surname);
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
-                  this.cookie.set("Email",item2.data.getOnePerson.email);
-                  this.cookie.set("token",item.data.loginGateway.token);
-
                   const approved=item2.data.getOnePerson.approved;
 
                   if(item2.data.getOnePerson.role=="ADMIN") //CURRENT USER IS ADMIN
@@ -78,8 +83,8 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(['home_page']) //, {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});
                   }
               }
-                else{
-                  alert("Something went wrong; Failed to load user content")
+              else{
+                  alert("Something went wrong; Failed to contact main DB")
                 }
               }
             })
