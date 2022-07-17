@@ -289,10 +289,6 @@ export class DataAccessRepository {
     {
         const t_id=await this.getTeamIDVName(teamName); //team_id
 
-        let return_projects=[];
-        let return_teams=[];
-        let default_arr=[];
-
         if(t_id>0) //team exists
         {
             const team=await this.prisma.team.findUnique({
@@ -304,7 +300,29 @@ export class DataAccessRepository {
                 }
             })
 
+            if(team)
+            {
+                let return_arr=[];
 
+                if(team.members!=null)
+                {
+                    for(let i=0;i<team.members.length;++i)
+                    {
+                        const user=new UserPerson();
+
+                        user.id=team.members[i].id;
+                        user.name=team.members[i].name;
+                        user.surname=team.members[i].surname;
+                        user.email=team.members[i].email;
+                        user.role=team.members[i].role;
+                        user.suspended=team.members[i].suspended;
+
+                        return_arr.push(user);
+                    }
+                    return return_arr;
+                }
+                        
+            }
         }
         else
             return null;
