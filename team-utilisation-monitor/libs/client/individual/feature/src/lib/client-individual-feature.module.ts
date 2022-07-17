@@ -27,6 +27,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {NgChartsModule} from "ng2-charts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
+import { IndividualExplorePageComponent } from './individual-explore-page/individual-explore-page.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     IndividualProfileComponent,
     CompSidenavComponent,
     UtilizationGraphComponent,
-    WeeklyUtilisationGraphComponent
+    WeeklyUtilisationGraphComponent,
+    IndividualExplorePageComponent
   ],
   exports:
   [IndividualRoutingModule
