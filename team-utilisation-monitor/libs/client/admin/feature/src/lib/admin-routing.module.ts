@@ -4,8 +4,7 @@ import { AdminCompanyViewComponent } from './admin-company-view/admin-company-vi
 import { AdminListViewComponent } from './admin-list-view/admin-list-view.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { AdminTeamProjectViewComponent } from './admin-team-project-view/admin-team-project-view.component';
-
-
+import { CompGraphCompanyUtilizationComponent } from './comp-graph-company-utilization/comp-graph-company-utilization.component';
 
 const routes: Routes = [
   {
@@ -23,6 +22,10 @@ const routes: Routes = [
   {
     path: 'AdminTeamProjectView',
     component: AdminTeamProjectViewComponent,
+  },
+  {
+    path: 'CompGraphCompanyUtilization',
+    component: CompGraphCompanyUtilizationComponent,
   },
 ];
 
