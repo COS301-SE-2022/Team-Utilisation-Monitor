@@ -66,7 +66,7 @@ export class AuthenticationService {
 
   login(username:string,password:string):Observable<any>
   {
-    const query='query{loginGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}'
+    const query='query{loginGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname}}'
 
     const options = {
         headers: new HttpHeaders({
@@ -85,9 +85,9 @@ export class AuthenticationService {
    * It's connecting to the container
   */
 
-  registerUser(username:string,password:string):Observable<any>
+  registerUser(name:string,surname:string,username:string,password:string):Observable<any>
   {
-    const Query='mutation{registerUserGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}';
+    const Query='mutation{registerUserGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -105,9 +105,9 @@ export class AuthenticationService {
    * It's connecting to the container
   */
 
-  registerAdmin(username:string,password:string):Observable<any>
+  registerAdmin(name:string,surname:string,username:string,password:string):Observable<any>
   {
-    const Query='mutation{registerAdminGateway(username:"'+username+'",password:"'+password+'"){id,username,token,role}}';
+    const Query='mutation{registerAdminGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname}}';
 
     const options = {
       headers: new HttpHeaders({

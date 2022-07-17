@@ -30,6 +30,7 @@ export class CompTeamListComponent implements OnInit {
           Name:string
           Surname:string
           Email:string
+          TeamName:string
         }
 
         for(const requests of this.TeamData.data.GetTeamMembers)
@@ -38,6 +39,7 @@ export class CompTeamListComponent implements OnInit {
           obj.Name=requests.name
           obj.Surname=requests.surname
           obj.Email=requests.email;
+          obj.TeamName=this.TeamName.Name
           this.OutEmployeeName.push(obj);
         }
       })
