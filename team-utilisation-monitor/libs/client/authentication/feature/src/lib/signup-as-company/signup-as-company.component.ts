@@ -53,7 +53,7 @@ export class SignupAsCompanyComponent implements OnInit {
       });
 
       //register on authentication DB
-      this.service.registerAdmin(email,password).subscribe(data=>
+      this.service.registerAdmin(firstname,lastname,email,password).subscribe(data=>
       {
         if(data!=null)
         {

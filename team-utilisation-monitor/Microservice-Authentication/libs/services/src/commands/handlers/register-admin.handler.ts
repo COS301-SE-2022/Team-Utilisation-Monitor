@@ -9,6 +9,6 @@ export class RegisterAdminHandler implements ICommandHandler<RegisterAdminComman
 
     async execute(command: RegisterAdminCommand): Promise<any> {
         
-        return this.repository.registerAdminRepo(command.username,command.password);
+        return this.repository.registerAdminRepo(command.name,command.surname,command.username,command.password);
     }
 }
