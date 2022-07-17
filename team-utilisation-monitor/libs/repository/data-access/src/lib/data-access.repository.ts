@@ -256,6 +256,53 @@ export class DataAccessRepository {
             return null;
     }
 
+    async getNumberOfTeamsOfCompany(companyName:string):Promise<number>
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        let return_teams=[];
+        let default_arr=[];
+
+        if(c_id>0) //company exists
+        {
+                const all_teams=await this.prisma.team.findMany({
+                    where:{
+                        company_id:c_id,
+                    },
+                    include:{
+                        project:true
+                    }
+                })
+
+                if(all_teams)
+                {
+                    for(let i=0; i < all_teams.length; ++i)
+                    {
+                        return_teams[i]=new TeamEntity();
+
+                        return_teams[i].id=all_teams[i].id;
+                        return_teams[i].team_name=all_teams[i].team_name;
+                        return_teams[i].company_id=all_teams[i].company_id;
+                        return_teams[i].project_name=all_teams[i].project.project_name;
+                        return_teams[i].project_id=all_teams[i].project.id;
+                        return_teams[i].completed=all_teams[i].project.completed;
+                    }
+
+                    return all_teams.length;
+                }
+                else
+                {
+                    return return_teams;
+                }
+
+
+
+
+        }
+        else
+            return null;
+    }
+
     /***
      * The function creates and adds the user object to the database. Returns the user object from
      * The database
