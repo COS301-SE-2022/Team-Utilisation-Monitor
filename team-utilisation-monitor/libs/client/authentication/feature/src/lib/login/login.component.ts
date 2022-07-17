@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
 
             //save the details to the cookies.
             this.cookie.set("UserName",item.data.loginGateway.name+" "+item.data.loginGateway.surname);
-            this.cookie.set("Email",item.data.loginGateway.email);
+            this.cookie.set("Email",item.data.loginGateway.username);
             this.cookie.set("token",item.data.loginGateway.token);
 
             /****
