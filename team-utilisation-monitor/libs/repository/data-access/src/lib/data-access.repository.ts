@@ -1,3 +1,4 @@
+import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
@@ -1299,7 +1300,20 @@ export class DataAccessRepository {
             }
           }
         })
-        return "Team Member added"
+        return "Team Member DELETED"
+    }
+
+    async deleteEmployee(Email:string)
+    {
+      const deletedUser=await this.prisma.person.delete(
+        {
+          where:{
+            email:Email
+          }
+        }
+      )
+      return deletedUser;
+
     }
 
 }

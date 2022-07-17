@@ -30,6 +30,7 @@ export class AdminListViewComponent implements OnInit {
           {
             Name:string
             Surname:string
+            Email:string
           }
 
           for(const requests of this.employeeData.data.GetCompanyQuery.employees)
@@ -37,9 +38,11 @@ export class AdminListViewComponent implements OnInit {
             const  obj={} as nameObject;
             obj.Name=requests.name
             obj.Surname=requests.surname;
+            obj.Email=requests.email;
             this.OutEmployeeName.push(obj);
           }
         }
     })
   }
+
 }
