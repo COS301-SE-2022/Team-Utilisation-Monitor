@@ -14,13 +14,17 @@
 
       <div class="col-md-4">
         <mat-card class="card-card-user">
+          <mat-card-header>
+            <mat-card-title>Personal Details</mat-card-title>
+          </mat-card-header>
 
-          <mat-card-content class="mat-card-details">
+          <mat-card-content class="mid">
             <div class="details">
               <h3>First Name: {{fName}}</h3> <!-- {{CurrentUserName}} -->
               <h3>Surname: {{lastName}}</h3> <!-- {{CurrentUserSurname}} -->
               <h3>Email: {{email}}</h3>
               <h3>Allocated Projects: {{noOfProject}}</h3> <!-- {{Number of allocated projects}} -->
+              <h3>Current running utilization: </h3>
             </div>
           </mat-card-content>
         </mat-card>
