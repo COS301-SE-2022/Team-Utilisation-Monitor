@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
               next:(item2)=>{
                 if(item2.data!=null)
                 {
-                  //save the details to the cookies
+                  //save the details to the cookies. getOnePerson is the resolver Query name
                   this.cookie.set("UserName",item2.data.getOnePerson.name+" "+item2.data.getOnePerson.surname);
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
                   this.cookie.set("Email",item2.data.getOnePerson.email);
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
                   {
                     if(!approved) //user not yet approved
                     {
-                      alert("Oops. Looks like you Request is still Pending Approval. Please contact Admin");
+                      alert("Oops! Looks like you Request is still Pending Approval. Please contact Admin");
                     }
                     else
                       this.router.navigate(['individual_home_page'])
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
 
 
       /*
-
+      //destroyed old one
       this.result = this.service.login(email,pass).subscribe({
         next: (item) => {
           if (item.data != null)
