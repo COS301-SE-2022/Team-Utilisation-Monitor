@@ -1,8 +1,8 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
-import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
+import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
@@ -1241,7 +1241,7 @@ export class DataAccessRepository {
 
 
 
-    async  addTeamMember(teamName:string,EmplooyeEmail:string)
+    async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
       //
       const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
