@@ -2,8 +2,8 @@ import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import {UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
-import {PrismaService} from '@team-utilisation-monitor/shared/services/prisma-services'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
+import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
@@ -252,6 +252,78 @@ export class DataAccessRepository {
                 return default_arr;
 
 
+        }
+        else
+            return null;
+    }
+
+    async getNumberOfTeamsOfCompany(companyName:string):Promise<number>
+    {
+        const c_id=await this.getCompanyID(companyName);
+
+        if(c_id>0)
+        {
+                const all_teams=await this.prisma.team.findMany({
+                    where:{
+                        company_id:c_id,
+                    },
+                    include:{
+                        project:true
+                    }
+                })
+
+                if(all_teams)
+                {
+                    return all_teams.length;
+                }
+                else
+                {
+                    return 0;
+                }
+
+        }
+        else
+            return null;
+    }
+
+    async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
+    {
+        const t_id=await this.getTeamIDVName(teamName); //team_id
+
+        if(t_id>0) //team exists
+        {
+            const team=await this.prisma.team.findUnique({
+                where:{
+                    id:t_id,
+                },
+                include:{
+                    members:true,
+                }
+            })
+
+            if(team)
+            {
+                let return_arr=[];
+
+                if(team.members!=null)
+                {
+                    for(let i=0;i<team.members.length;++i)
+                    {
+                        const user=new UserPerson();
+
+                        user.id=team.members[i].id;
+                        user.name=team.members[i].name;
+                        user.surname=team.members[i].surname;
+                        user.email=team.members[i].email;
+                        user.role=team.members[i].role;
+                        user.suspended=team.members[i].suspended;
+
+                        return_arr.push(user);
+                    }
+                    return return_arr;
+                }
+                        
+            }
         }
         else
             return null;
@@ -613,8 +685,8 @@ export class DataAccessRepository {
 
     async getAllPersons():Promise<UserPerson[]>
     {
-        //absolutely brilliat. The include tag includes other details i.e other dchema data
-        //that might be nesglected
+        //absolutely brilliant. The include tag includes other details i.e other dchema data
+        //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
                 position:true,
@@ -1242,7 +1314,7 @@ export class DataAccessRepository {
 
 
 
-    async  addTeamMember(teamName:string,EmplooyeEmail:string)
+    async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
       //
       const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
@@ -1315,5 +1387,4 @@ export class DataAccessRepository {
       return deletedUser;
 
     }
-
 }
