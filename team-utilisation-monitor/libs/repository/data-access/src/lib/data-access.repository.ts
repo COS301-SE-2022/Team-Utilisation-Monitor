@@ -286,6 +286,11 @@ export class DataAccessRepository {
             return null;
     }
 
+    /***
+     * The function returns the members of a team given as input parameters
+     * Returns null if team does not exist
+     */
+
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
         const t_id=await this.getTeamIDVName(teamName); //team_id
