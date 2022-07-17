@@ -1365,7 +1365,6 @@ export class DataAccessRepository {
       )
       return deletedUser;
 
-
     }
 
 }
