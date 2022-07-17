@@ -257,6 +257,11 @@ export class DataAccessRepository {
             return null;
     }
 
+    /***
+     * The function returns the number of teams in a company given as input parameters
+     * Returns null if compnay does not exist
+     */
+
     async getNumberOfTeamsOfCompany(companyName:string):Promise<number>
     {
         const c_id=await this.getCompanyID(companyName);
