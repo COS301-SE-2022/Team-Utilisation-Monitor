@@ -1,0 +1,58 @@
+body {
+  margin: 0px;
+
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container{
+  height: 100vh;
+}
+
+mat-sidenav{
+  width: 20%;
+
+}
+
+button{
+  margin-left: 3px;
+}
+
+mat-progress-bar{
+  height: 20px;
+  width: 100%;
+}
+
+#adHome-CompanyName{
+  margin-left: 15px;
+}
+
+.SideNavButton{
+  width: 95%;
+  margin:3px;
+  font-size: large;
+  height: 50px;
+}
+
+.SideNavButton:hover {
+  background-color: lightgray;
+}
+
+.title{
+  text-align: center;
+  position: center;
+}
+
+
+mat-list-item:hover {
+  color: rgb(41, 80, 152);
+  font-size: large;
+}
+
+mat-grid-tile {
+  background: lightblue;
+  margin-top: 10%;
+}
+
