@@ -5,6 +5,7 @@ import { AdminService } from '../Admin.service';
 import { CompAddUserPopupComponent } from '../comp-add-user-popup/comp-add-user-popup.component';
 import { CompCreateProjectPopupComponent } from '../comp-create-project-popup/comp-create-project-popup.component';
 import { CompCreateTeamPopupComponent } from '../comp-create-team-popup/comp-create-team-popup.component';
+import { CompAddSkillsPopupComponent } from '../comp-add-skills-popup/comp-add-skills-popup.component';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-navbar',
@@ -70,6 +71,6 @@ export class CompNavbarComponent implements OnInit {
   }
 
   onOpenAddSkillsClick(){
-    console.log()
+    this.matDialog.open(CompAddSkillsPopupComponent);
   }
 }
