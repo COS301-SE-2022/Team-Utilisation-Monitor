@@ -12,7 +12,7 @@ datasource db {
 
 model Person{
   id Int @id @default(autoincrement())
-  name String 
+  name String
   surname String
   email String @unique
   role Role @default(USER)
@@ -20,14 +20,14 @@ model Person{
   utilisation Int @default(0)
   approved Boolean @default(false)
 
-  
-  position Position? 
+
+  position Position?
 
   admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id])
   admin_id Int?
 
   company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
-  company_id Int? 
+  company_id Int?
 
   project Project? @relation(name: "workOn",fields: [project_id],references: [id])
   project_id Int?
@@ -36,8 +36,8 @@ model Person{
   team_id Int?
 
   skills Skills[]
-  
-  
+
+
   @@map("person")
 
 }
@@ -58,7 +58,7 @@ model Team{
 }
 
 model Company{
-  
+
   id Int @id @default(autoincrement())
   company_name String @unique
 
@@ -66,7 +66,7 @@ model Company{
 
   projects Project[] @relation("ownsA")
 
-  teams Team[] @relation("memberOf") 
+  teams Team[] @relation("memberOf")
 
   admins Person[] @relation("setOfAdmins")
 
@@ -98,7 +98,7 @@ model Invites{
 
   invite_code String? @unique
 
-  company Company? @relation(fields: [company_id],references: [id]) 
+  company Company? @relation(fields: [company_id],references: [id])
   company_id Int? @unique
 
   created DateTime? @default(now())
@@ -135,7 +135,7 @@ model Project{
 
   man_hours Int? @default(0)
 
-  completed Boolean @default(false)  
+  completed Boolean @default(false)
 
   @@map("project")
 }
@@ -154,12 +154,13 @@ model Skills{
 }
 
 
+
 enum Role{
   ADMIN
   USER
 }
 
-//flow model: A company has to be created; Then a project created, then employees 
+//flow model: A company has to be created; Then a project created, then employees
 //who work on it
 
 
