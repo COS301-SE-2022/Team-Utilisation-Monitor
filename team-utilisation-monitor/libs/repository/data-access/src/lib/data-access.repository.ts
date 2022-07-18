@@ -177,6 +177,10 @@ export class DataAccessRepository {
 
     }
 
+    /***
+     * The function returns all projects or teams that belong to a company given as input parameters
+     * Returns null if compnay does not exist
+     */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
