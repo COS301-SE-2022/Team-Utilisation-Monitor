@@ -68,4 +68,8 @@ export class CompNavbarComponent implements OnInit {
   onOpenCreateProjectClick(){
     this.matDialog.open(CompCreateProjectPopupComponent);
   }
+
+  onOpenAddSkillsClick(){
+    console.log()
+  }
 }
