@@ -322,7 +322,7 @@ export class DataAccessRepository {
                     }
                     return return_arr;
                 }
-                        
+
             }
         }
         else
@@ -1385,6 +1385,30 @@ export class DataAccessRepository {
         }
       )
       return deletedUser;
+    }
+
+    /*async updateProfile(Email:string,name:string,surname:string)
+    {
+      const
+    }*/
+
+
+    async addSkill(skillType:string)
+    {
+      const Skill = await this.prisma.skills.create({
+        data: {
+          skill:skillType
+        },
+      })
+      if(Skill)
+      {
+        return Skill.skill
+      }
+      else
+      {
+        return "The Skill already exist"
+      }
+
 
     }
 }

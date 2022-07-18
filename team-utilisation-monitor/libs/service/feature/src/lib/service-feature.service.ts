@@ -23,6 +23,7 @@ import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
+import { AddSkillCommand } from './commands/impl/AddSkill.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -134,5 +135,8 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new DeleteEmployeeCommand(email));
     }
 
-
+    async AddSkill(skillType:string)
+    {
+      return this.commandBus.execute(new AddSkillCommand(skillType));
+    }
 }

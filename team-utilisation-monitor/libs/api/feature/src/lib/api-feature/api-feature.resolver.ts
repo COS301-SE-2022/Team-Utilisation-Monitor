@@ -207,7 +207,7 @@ export class ApiFeatureResolver {
     return resp;
   }
 
-  
+
 
 
   /***
@@ -277,6 +277,12 @@ export class ApiFeatureResolver {
   async DeleteEmployee(@Args("email") email:string)
   {
     return await this.service.DeleteEmployee(email);
+  }
+
+  @Mutation(()=>String)
+  async AddSkill(@Args("skillType") skill:string)
+  {
+    return await this.service.AddSkill(skill);
   }
 
   /*@Mutation(() => UserPerson)
