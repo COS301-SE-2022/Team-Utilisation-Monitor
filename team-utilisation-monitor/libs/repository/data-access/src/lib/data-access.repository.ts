@@ -1392,12 +1392,15 @@ export class DataAccessRepository {
       const
     }*/
 
-    /*addSkill(skillType:string)
+
+    async addSkill(skillType:string)
     {
-      const Skill=await this.prisma.skills.create{
-        data:{
-          skillType:
-        }
-      }
-    }*/
+      const Skill = await this.prisma.skills.create({
+        data: {
+          skill:skillType
+        },
+      })
+
+      return Skill.skill
+    }
 }

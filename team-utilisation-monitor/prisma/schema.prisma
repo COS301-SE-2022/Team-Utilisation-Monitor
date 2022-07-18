@@ -167,11 +167,6 @@ model Project{
 //the same skills can be owned by multiple people
 
 
-
-
-
-
-
 enum Role{
   ADMIN
   USER
@@ -179,7 +174,3 @@ enum Role{
 
 //flow model: A company has to be created; Then a project created, then employees
 //who work on it
-
-
-
-
