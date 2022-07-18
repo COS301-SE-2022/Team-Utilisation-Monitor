@@ -62,7 +62,6 @@ import { IndividualExplorePageComponent } from './individual-explore-page/indivi
     IndividualExplorePageComponent
   ],
   exports:
-  [IndividualRoutingModule
-  ],
+  [IndividualRoutingModule],
 })
 export class ClientIndividualFeatureModule {}

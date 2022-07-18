@@ -44,9 +44,26 @@ export class SignupAsIndividualComponent implements OnInit {
       if(this.profileForm.valid)
       {
 
-        this.service.createUser(firstname,lastname,email,password,inviteCode).subscribe({
+        this.service.createUser(firstname,lastname,email,inviteCode).subscribe({
           next:(item)=>{
             if(item.data!=null){
+
+              /***
+               * I put this guy in here because of the validation issue regarding the 
+               * Invite code. It has to be valid.
+               */
+
+              this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
+              {
+                if(data!=null)
+                {
+                  //some logic here
+                }
+                else{
+                  console.log("data is null "+data);
+                }
+              });
+
               this.router.navigate(['']);
             }
             else

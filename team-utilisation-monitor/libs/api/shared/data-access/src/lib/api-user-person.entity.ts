@@ -16,13 +16,13 @@ export class UserPerson{
     email!:string;
 
     @Field()
-    password!:string;
-
-    @Field()
     role!:string;
 
     @Field()
     suspended!:boolean;
+
+    @Field()
+    approved?:boolean;
 
     @Field({ nullable: true })
     company_name?:string;

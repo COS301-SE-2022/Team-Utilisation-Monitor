@@ -13,16 +13,16 @@ export class AuthenticationResolversResolver {
     }
 
     @Mutation(()=>AuthAdminEntity)
-    async registerAdminGateway(@Args("username") f_username:string, @Args("password") f_pass:string){
+    async registerAdminGateway(@Args("name")name:string,@Args("surname")surname:string,@Args("username") f_username:string, @Args("password") f_pass:string){
 
-        const resp=await this.service.registerAdminServ(f_username,f_pass);
+        const resp=await this.service.registerAdminServ(name,surname,f_username,f_pass);
         return resp;
     }
     
     @Mutation(()=>AuthAdminEntity)
-    async registerUserGateway(@Args("username") f_username:string,@Args("password") f_pass:string)
+    async registerUserGateway(@Args("name")name:string,@Args("surname")surname:string,@Args("username") f_username:string,@Args("password") f_pass:string)
     {
-        const resp=await this.service.registerUserServ(f_username,f_pass);
+        const resp=await this.service.registerUserServ(name,surname,f_username,f_pass);
         return resp;
     }
 
