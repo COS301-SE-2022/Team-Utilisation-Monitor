@@ -35,12 +35,36 @@ model Person{
   team Team? @relation(name: "partOf",fields: [team_id],references: [id])
   team_id Int?
 
-  skills Skills[] @relation("setOfSkills")
-
+  skills PersonOnSkills [] //one person can have many skills
 
   @@map("person")
 
 }
+
+model PersonOnSkills{
+  id Int @default(autoincrement()) //this is the skill ID.
+
+  person Person @relation(fields: [person_id],references: [id]) //person having the skill
+  person_id Int
+
+  skill Skills @relation(fields: [skill_id],references: [id]) //skill held by person
+  skill_id Int
+
+  @@id([person_id,skill_id])
+
+}
+
+model Skills{
+
+  id Int @id @default(autoincrement())
+  skill String
+
+  people PersonOnSkills [] //maultiple people can hold one skill
+
+  @@map("skills")
+}
+
+
 
 model Team{
 
@@ -142,16 +166,9 @@ model Project{
 
 //the same skills can be owned by multiple people
 
-model Skills{
 
-  id Int @id @default(autoincrement())
-  skill String
 
-  person Person @relation(name: "setOfSkills",fields: [person_id],references: [id])
-  person_id Int
 
-  @@map("skills")
-}
 
 
 
