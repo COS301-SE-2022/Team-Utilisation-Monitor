@@ -34,8 +34,6 @@ model Person{
 
   team Team? @relation(name: "partOf",fields: [team_id],references: [id])
   team_id Int?
-
-  skills Skills[]
   
   
   @@map("person")
@@ -145,10 +143,7 @@ model Project{
 model Skills{
 
   id Int @id @default(autoincrement())
-  skill_type String
-
-  person Person @relation(fields: [person_id],references: [id])
-  person_id Int
+  skill String
 
   @@map("skills")
 }
