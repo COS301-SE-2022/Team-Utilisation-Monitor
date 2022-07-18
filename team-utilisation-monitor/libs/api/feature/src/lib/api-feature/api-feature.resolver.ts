@@ -1,6 +1,6 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -142,33 +142,6 @@ export class ApiFeatureResolver {
      const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
 
      return resp;
-   }
-
-  /***
-   * Early concept function. Mainly used for testing. Used to create a user into the
-   * database
-   */
-
-  @Mutation(()=>UserPerson)
-  async createPerson(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("role") role:string,@Args("suspended") suspended:string,@Args("company_name") company_name:string)
-  {
-    let R:Role;
-    let sus:boolean;
-
-    if(role==="USER")
-      R=Role.USER;
-    else
-      R=Role.ADMIN;
-
-    if(suspended==="true")
-      sus=true;
-    else
-      sus=false;
-
-    const resp=await this.service.signup(name,surname,email,password,R,sus,company_name);
-
-    return resp;
-
   }
 
   /***
@@ -234,14 +207,17 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  
+
+
   /***
    * This function is used to create an Admin
    */
 
   @Mutation(()=>UserPerson)
-  async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password") password:string,@Args("company_name")company_name:string)
+  async createAdmin(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("company_name")company_name:string)
   {
-    const resp=await this.service.createAdmin(name,surname,email,password,company_name);
+    const resp=await this.service.createAdmin(name,surname,email,company_name);
 
     return resp;
   }
@@ -251,12 +227,13 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>UserPerson)
-  async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("password")password:string,@Args("inviteCode")inviteCode:string)
+  async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("inviteCode")inviteCode:string)
   {
-    const resp=await this.service.createUser(name,surname,email,password,inviteCode)
+    const resp=await this.service.createUser(name,surname,email,inviteCode)
 
     return resp;
   }
+
 
 
    /***
@@ -290,18 +267,30 @@ export class ApiFeatureResolver {
     return 'on';
   }
 
-  @Mutation(() => UserPerson)
+  @Mutation(()=>String)
+  async DeleteTeamMember(@Args("team_name") teamName:string,@Args("email") EmployeeEmail:string)
+  {
+    return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
+  }
+
+  @Mutation(()=>UserPerson)
+  async DeleteEmployee(@Args("email") email:string)
+  {
+    return await this.service.DeleteEmployee(email);
+  }
+
+  /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }
-
+*/
 
   //Mock Object:
-  async getMock() {
+ /* async getMock() {
     const mockUser = new UserPerson();
     mockUser.id = -1;
     mockUser.name = "Rourke"
     mockUser.email = "icreatesoftware@gmail.com"
     return mockUser;
-  }
+  }*/
 }

@@ -16,7 +16,7 @@ export class AuthRepositoryService {
      * It'll return the object that was used to create the new person
     */
 
-    async registerUserRepo(f_username:string,f_password:string):Promise<AuthAdminEntity>
+    async registerUserRepo(f_name:string,f_surname:string,f_username:string,f_password:string):Promise<AuthAdminEntity>
     {
         const returnObject=new AuthAdminEntity();
 
@@ -39,6 +39,8 @@ export class AuthRepositoryService {
             returnObject.username=existing_user.username;
             returnObject.role=existing_user.role;
             returnObject.token=existing_user.token;
+            returnObject.name=existing_user.name;
+            returnObject.surname=existing_user.surname;
 
             return returnObject; //for testing purposes. Remove in production.
         }
@@ -75,7 +77,9 @@ export class AuthRepositoryService {
                     username:f_username,
                     password:hash,
                     token:token(),
-                    role:f_role
+                    role:f_role,
+                    name:f_name,
+                    surname:f_surname
                 }
             })
 
@@ -99,7 +103,7 @@ export class AuthRepositoryService {
      * 
     */
 
-    async registerAdminRepo(f_username:string,f_password:string):Promise<AuthAdminEntity>
+    async registerAdminRepo(f_name:string,f_surname:string,f_username:string,f_password:string):Promise<AuthAdminEntity>
     {
         const returnObject=new AuthAdminEntity();
 
@@ -158,7 +162,9 @@ export class AuthRepositoryService {
                     username:f_username,
                     password:hash,
                     token:token(),
-                    role:f_role
+                    role:f_role,
+                    name:f_name,
+                    surname:f_surname
                 }
             })
 
@@ -201,6 +207,8 @@ export class AuthRepositoryService {
             returnObject.password=returning_user.password;
             returnObject.role=returning_user.role;
             returnObject.token=returning_user.token;
+            returnObject.name=returning_user.name;
+            returnObject.surname=returning_user.surname;
 
             return returnObject;
         }
