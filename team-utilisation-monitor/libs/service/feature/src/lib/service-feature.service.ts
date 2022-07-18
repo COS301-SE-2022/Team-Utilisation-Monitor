@@ -135,8 +135,8 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new DeleteEmployeeCommand(email));
     }
 
-    async AddSkill(skillType:string)
+    async AddSkill(skillType:string,companyName:string)
     {
-      return this.commandBus.execute(new AddSkillCommand(skillType));
+      return this.commandBus.execute(new AddSkillCommand(skillType,companyName));
     }
 }

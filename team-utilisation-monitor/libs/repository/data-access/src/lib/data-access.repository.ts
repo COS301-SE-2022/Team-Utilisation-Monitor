@@ -1,7 +1,7 @@
 import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -1393,20 +1393,23 @@ export class DataAccessRepository {
     }*/
 
 
-    async addSkill(skillType:string)
+    async addSkill(skillType:string,CompanyName)
     {
-      const Skill = await this.prisma.skills.create({
-        data: {
-          skill:skillType
-        },
-      })
-      if(Skill)
+      try
       {
-        return Skill.skill
-      }
-      else
+          const Skill = await this.prisma.skills.create({
+          data: {
+            skill:skillType
+          },
+          })
+
+          return Skill.skill
+      }catch(e)
       {
-        return "The Skill already exist"
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "The Skill Already exist on DB"
+        }
       }
 
 
