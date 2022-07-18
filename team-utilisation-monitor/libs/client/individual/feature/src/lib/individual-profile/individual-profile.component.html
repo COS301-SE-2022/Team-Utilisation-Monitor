@@ -1,4 +1,4 @@
-<body xmlns:width="http://www.w3.org/1999/xhtml">
+<body >
 <mat-sidenav-container color="primary">
   <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
     <team-utilisation-monitor-comp-sidenav></team-utilisation-monitor-comp-sidenav>
@@ -14,40 +14,37 @@
 
       <div class="col-md-4">
         <mat-card class="card-card-user">
-          <mat-card-header class="mat-card-header">
-            <div mat-card-avatar class="example-header-image" > </div>
+          <mat-card-header>
+            <mat-card-title>Personal Details</mat-card-title>
           </mat-card-header>
 
-          <mat-card-content class="mat-card-details">
+          <mat-card-content class="mid">
             <div class="details">
               <h3>First Name: {{fName}}</h3> <!-- {{CurrentUserName}} -->
               <h3>Surname: {{lastName}}</h3> <!-- {{CurrentUserSurname}} -->
               <h3>Email: {{email}}</h3>
               <h3>Allocated Projects: {{noOfProject}}</h3> <!-- {{Number of allocated projects}} -->
-              <h3>Team: {{team}}</h3>
+              <h3>Current running utilization: </h3>
             </div>
           </mat-card-content>
-
         </mat-card>
 
-        <div class="smc">
-          <mat-card class="mat-card1">
-            <mat-card-header>
-              <mat-card-title>Team Members</mat-card-title>
-            </mat-card-header>
+        <mat-card class="mat-card1">
+          <mat-card-header>
+            <mat-card-title>Team members</mat-card-title>
+          </mat-card-header>
 
-            <mat-card-content class="mid">
-              <mat-nav-list class="list">
-                <mat-list-item *ngFor="let link of members">
-                  <a matLine href="#">{{ link }}  <div mat-card-avatar class="Thangeni F" > </div></a>      <!--redirect to a respective Team view here-->
-                  <button mat-icon-button (click)="showInfo(link)">
-                  </button>
-                </mat-list-item>
-              </mat-nav-list>
-            </mat-card-content>
-          </mat-card>
+          <mat-card-content class="mid">
+            <mat-nav-list class="list">
+              <mat-list-item *ngFor="let link of members">
+                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <button mat-icon-button (click)="showInfo(link)">
+                </button>
+              </mat-list-item>
+            </mat-nav-list>
+          </mat-card-content>
+        </mat-card>
 
-        </div>
         <br><br>
 
       </div>
@@ -67,7 +64,7 @@
             <!--GET THIS DATA AND UPDATE THE USER'S DATA, IN THE TABLE TOO -->
             <div class="form">
               <form class="example-form">
-                <table class="three">
+                <table class="two">
                   <tr>
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
@@ -83,18 +80,6 @@
                       </mat-form-field>
 
                     </td>
-
-                    <td>
-                      <mat-form-field class="example-full-width" appearance="outline">
-                        <!-- LIST OF PROJECTS THE USER IS ASSIGNED TO HERE-->
-                        <mat-label>Projects</mat-label>
-                        <mat-select>
-                          <mat-option value="option" *ngFor="let n of projects">{{n}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </td>
-
-
 
                   </tr>
                 </table>
@@ -153,9 +138,6 @@
 
                   </tr>
                 </table>
-
-
-
 
                 <p class="one">
 

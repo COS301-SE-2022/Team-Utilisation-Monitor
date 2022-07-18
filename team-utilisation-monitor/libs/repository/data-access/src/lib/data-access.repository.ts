@@ -322,7 +322,7 @@ export class DataAccessRepository {
                     }
                     return return_arr;
                 }
-                        
+
             }
         }
         else
@@ -1385,6 +1385,19 @@ export class DataAccessRepository {
         }
       )
       return deletedUser;
-
     }
+
+    /*async updateProfile(Email:string,name:string,surname:string)
+    {
+      const
+    }*/
+
+    /*addSkill(skillType:string)
+    {
+      const Skill=await this.prisma.skills.create{
+        data:{
+          skillType:
+        }
+      }
+    }*/
 }
