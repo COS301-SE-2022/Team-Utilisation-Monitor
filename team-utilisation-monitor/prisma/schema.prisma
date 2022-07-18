@@ -57,7 +57,7 @@ model PersonOnSkills{
 model Skills{
 
   id Int @id @default(autoincrement())
-  skill String
+  skill String @unique
 
   people PersonOnSkills [] //maultiple people can hold one skill
 
