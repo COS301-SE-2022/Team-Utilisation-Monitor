@@ -5,59 +5,26 @@ const prisma=new PrismaClient()
 
 async function main()
 {
-
-  const person_1=await prisma.company.create({
-
+  /***
+   * In this seed. The user with an id of 2 is connecting to the skill with an id of 3.
+   * 
+   */
+  const assignskill=await prisma.person.update({
+    where:{
+      id:2,
+    },
     data:{
-      company_name:'iCreateSoftware',
-      employees:
-      {
+      skills:{
         create:[{
-          name:'Theo',
-          surname:'Faresa',
-          email:'theo@gmail.com',
-          password:'code',
-          utilisation:50,
-          position:{
-              create:{
-              title:'senior software developer'
+          skill:{
+            connect:{
+              id:3
             }
           }
-        },
-
-        {
-          name:'Gift',
-          surname:'Monwa',
-          email:'gift@gmail.com',
-          password:'food',
-          role:'ADMIN',
-          utilisation:20,
-          approved:true,
-
-        position:{
-          create:{
-            title:'Administrator'
-          }
-        }},
-        {
-          name:'Max',
-          surname:'Verstappen',
-          email:'max@gmail.com',
-          password:'p1',
-          role:'USER',
-          utilisation:50,
-
-          position:{
-          create:{
-            title:'junior software developer'
-          }
-        }
-      }]
-    },
-
-
-  }
-})
+        }]
+      }
+    }
+  })
 }
 
 main()
