@@ -1400,7 +1400,15 @@ export class DataAccessRepository {
           skill:skillType
         },
       })
+      if(Skill)
+      {
+        return Skill.skill
+      }
+      else
+      {
+        return "The Skill already exist"
+      }
 
-      return Skill.skill
+
     }
 }
