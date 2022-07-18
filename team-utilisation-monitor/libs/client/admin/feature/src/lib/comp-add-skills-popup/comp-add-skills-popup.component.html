@@ -1,0 +1,23 @@
+<form>
+    <h2>Add A new Skill</h2>
+    <mat-form-field appearance="fill">
+        <mat-label>Enter the name of a new skill</mat-label>
+        <input id="new_Skill_name" matInput placeholder="Angular">
+    </mat-form-field>
+    <button mat-raised-button color="primary">Add Skill</button>
+    
+    <br>
+    <br>
+
+    <h2>Current Skills in the company</h2>
+    <mat-selection-list #skills>
+        <mat-list-option *ngFor="let skill of skillsList">
+          {{skill}}
+        </mat-list-option>
+    </mat-selection-list>
+      
+    <p>
+        Options selected: {{skills.selectedOptions.selected.length}}
+    </p>
+    <button mat-raised-button color="primary">Remove Selected Skills</button>
+</form>
