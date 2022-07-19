@@ -1,3 +1,4 @@
+import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
 import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
 import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
@@ -145,4 +146,11 @@ export class ServiceFeatureService {
     {
       return this.queryBus.execute(new GetSkillsQuery);
     }
+
+    async UpdateProfile(Email:string,Name:string,Surname:string,skillName:string)
+    {
+      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName))
+    }
+
+
 }
