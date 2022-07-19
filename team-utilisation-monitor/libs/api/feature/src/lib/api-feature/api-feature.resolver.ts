@@ -285,7 +285,7 @@ export class ApiFeatureResolver {
     return await this.service.AddSkill(skill);
   }
 
-  @Query(()=>Skill)
+  @Query(()=>[Skill])
   async GetSkill()
   {
     return await this.service.GetSkills();

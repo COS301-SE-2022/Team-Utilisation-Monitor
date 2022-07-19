@@ -7,6 +7,6 @@ export class GetSkillsHandler implements IQueryHandler<GetSkillsQuery>
 {
   constructor(public repo:DataAccessRepository){}
   async execute(query: GetSkillsQuery): Promise<any> {
-      this.repo.getSkills();
+      return this.repo.getSkills();
   }
 }

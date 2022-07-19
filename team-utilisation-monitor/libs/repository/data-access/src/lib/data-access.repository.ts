@@ -1420,14 +1420,24 @@ export class DataAccessRepository {
       let SkillsArray:Skill[];
       SkillsArray=[]
 
-      for(let i=0;i<Skills.length;i++)
+      if(Skills!=null)
       {
-        const sk=new Skill()
-        sk.id=Skills[i].id;
-        sk.skill=Skills[i].skill
-        SkillsArray.push(sk);
+
+
+        for(let i=0;i<Skills.length;i++)
+        {
+          const sk=new Skill()
+          sk.id=Skills[i].id;
+          sk.skill=Skills[i].skill
+
+          SkillsArray.push(sk);
+        }
+        console.log(SkillsArray)
+        return SkillsArray;
       }
-      //console.log(SkillsArray)
-      return SkillsArray;
+      else
+      {
+        return null;
+      }
     }
 }
