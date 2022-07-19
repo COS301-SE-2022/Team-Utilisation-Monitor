@@ -23,8 +23,8 @@ exports.AppModule = void 0;
 const common_1 = __webpack_require__(3);
 const auth_resolver_1 = __webpack_require__(4);
 const services_1 = __webpack_require__(8);
-const app_controller_1 = __webpack_require__(80);
-const app_service_1 = __webpack_require__(81);
+const app_controller_1 = __webpack_require__(82);
+const app_service_1 = __webpack_require__(83);
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -64,7 +64,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(5), exports);
-__exportStar(__webpack_require__(79), exports);
+__exportStar(__webpack_require__(81), exports);
 
 
 /***/ }),
@@ -84,7 +84,7 @@ const apollo_1 = __webpack_require__(6);
 const common_1 = __webpack_require__(3);
 const graphql_1 = __webpack_require__(7);
 const services_1 = __webpack_require__(8);
-const authentication_resolvers_resolver_1 = __webpack_require__(78);
+const authentication_resolvers_resolver_1 = __webpack_require__(80);
 let AuthResolverModule = class AuthResolverModule {
 };
 AuthResolverModule = __decorate([
@@ -137,7 +137,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(9), exports);
-__exportStar(__webpack_require__(77), exports);
+__exportStar(__webpack_require__(79), exports);
 
 
 /***/ }),
@@ -159,7 +159,7 @@ const auth_repository_1 = __webpack_require__(62);
 const prisma_services_authentication_service_1 = __webpack_require__(66);
 const handlers_1 = __webpack_require__(69);
 const handlers_2 = __webpack_require__(74);
-const services_service_1 = __webpack_require__(77);
+const services_service_1 = __webpack_require__(79);
 let ServicesModule = class ServicesModule {
 };
 ServicesModule = __decorate([
@@ -1455,7 +1455,7 @@ let AuthRepositoryService = class AuthRepositoryService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async registerUserRepo(f_username, f_password) {
+    async registerUserRepo(f_name, f_surname, f_username, f_password) {
         const returnObject = new api_auth_admin_entity_1.AuthAdminEntity();
         const existing_user = await this.prisma.userDetails.findUnique({
             where: {
@@ -1469,6 +1469,8 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.username = existing_user.username;
             returnObject.role = existing_user.role;
             returnObject.token = existing_user.token;
+            returnObject.name = existing_user.name;
+            returnObject.surname = existing_user.surname;
             return returnObject;
         }
         else {
@@ -1488,7 +1490,9 @@ let AuthRepositoryService = class AuthRepositoryService {
                     username: f_username,
                     password: hash,
                     token: token(),
-                    role: f_role
+                    role: f_role,
+                    name: f_name,
+                    surname: f_surname
                 }
             });
             returnObject.id = new_admin.id;
@@ -1500,7 +1504,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             return returnObject;
         }
     }
-    async registerAdminRepo(f_username, f_password) {
+    async registerAdminRepo(f_name, f_surname, f_username, f_password) {
         const returnObject = new api_auth_admin_entity_1.AuthAdminEntity();
         const existing_user = await this.prisma.userDetails.findUnique({
             where: {
@@ -1533,7 +1537,9 @@ let AuthRepositoryService = class AuthRepositoryService {
                     username: f_username,
                     password: hash,
                     token: token(),
-                    role: f_role
+                    role: f_role,
+                    name: f_name,
+                    surname: f_surname
                 }
             });
             returnObject.id = new_admin.id;
@@ -1558,11 +1564,24 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.password = returning_user.password;
             returnObject.role = returning_user.role;
             returnObject.token = returning_user.token;
+            returnObject.name = returning_user.name;
+            returnObject.surname = returning_user.surname;
             return returnObject;
         }
         else {
             return null;
         }
+    }
+    async verifyToken(f_token) {
+        const existing_token = await this.prisma.userDetails.findUnique({
+            where: {
+                token: f_token
+            }
+        });
+        if (existing_token)
+            return true;
+        else
+            return false;
     }
 };
 AuthRepositoryService = __decorate([
@@ -1637,6 +1656,14 @@ __decorate([
     __metadata("design:type", String)
 ], AuthAdminEntity.prototype, "username", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], AuthAdminEntity.prototype, "name", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], AuthAdminEntity.prototype, "surname", void 0);
+__decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
 ], AuthAdminEntity.prototype, "password", void 0);
@@ -1697,7 +1724,7 @@ let RegisterAdminHandler = class RegisterAdminHandler {
         this.repository = repository;
     }
     async execute(command) {
-        return this.repository.registerAdminRepo(command.username, command.password);
+        return this.repository.registerAdminRepo(command.name, command.surname, command.username, command.password);
     }
 };
 RegisterAdminHandler = __decorate([
@@ -1715,9 +1742,11 @@ exports.RegisterAdminHandler = RegisterAdminHandler;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RegisterAdminCommand = void 0;
 class RegisterAdminCommand {
-    constructor(username, password) {
+    constructor(username, password, name, surname) {
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.surname = surname;
     }
 }
 exports.RegisterAdminCommand = RegisterAdminCommand;
@@ -1748,7 +1777,7 @@ let RegisterUserHanlder = class RegisterUserHanlder {
         this.repository = repository;
     }
     async execute(command) {
-        return this.repository.registerUserRepo(command.username, command.password);
+        return this.repository.registerUserRepo(command.name, command.surname, command.username, command.password);
     }
 };
 RegisterUserHanlder = __decorate([
@@ -1766,9 +1795,11 @@ exports.RegisterUserHanlder = RegisterUserHanlder;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RegisterUserCommand = void 0;
 class RegisterUserCommand {
-    constructor(username, password) {
+    constructor(username, password, name, surname) {
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.surname = surname;
     }
 }
 exports.RegisterUserCommand = RegisterUserCommand;
@@ -1782,7 +1813,8 @@ exports.RegisterUserCommand = RegisterUserCommand;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.QueryHandlers = void 0;
 const loginHandler_handler_1 = __webpack_require__(75);
-exports.QueryHandlers = [loginHandler_handler_1.LoginHandler];
+const verifyTokenHandler_handler_1 = __webpack_require__(77);
+exports.QueryHandlers = [loginHandler_handler_1.LoginHandler, verifyTokenHandler_handler_1.VerifyTokenHandler];
 
 
 /***/ }),
@@ -1867,6 +1899,56 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.VerifyTokenHandler = void 0;
+const cqrs_1 = __webpack_require__(10);
+const auth_repository_1 = __webpack_require__(62);
+const verifyToken_query_1 = __webpack_require__(78);
+let VerifyTokenHandler = class VerifyTokenHandler {
+    constructor(repository) {
+        this.repository = repository;
+    }
+    async execute(query) {
+        return this.repository.verifyToken(query.token);
+    }
+};
+VerifyTokenHandler = __decorate([
+    (0, cqrs_1.QueryHandler)(verifyToken_query_1.VerifyToken),
+    __metadata("design:paramtypes", [typeof (_a = typeof auth_repository_1.AuthRepositoryService !== "undefined" && auth_repository_1.AuthRepositoryService) === "function" ? _a : Object])
+], VerifyTokenHandler);
+exports.VerifyTokenHandler = VerifyTokenHandler;
+
+
+/***/ }),
+/* 78 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.VerifyToken = void 0;
+class VerifyToken {
+    constructor(token) {
+        this.token = token;
+    }
+}
+exports.VerifyToken = VerifyToken;
+
+
+/***/ }),
+/* 79 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ServicesService = void 0;
@@ -1875,19 +1957,23 @@ const cqrs_1 = __webpack_require__(10);
 const register_admin_command_1 = __webpack_require__(71);
 const register_user_command_1 = __webpack_require__(73);
 const login_query_1 = __webpack_require__(76);
+const verifyToken_query_1 = __webpack_require__(78);
 let ServicesService = class ServicesService {
     constructor(queryBus, commandBus) {
         this.queryBus = queryBus;
         this.commandBus = commandBus;
     }
-    async registerAdminServ(username, password) {
-        return this.commandBus.execute(new register_admin_command_1.RegisterAdminCommand(username, password));
+    async registerAdminServ(name, surname, username, password) {
+        return this.commandBus.execute(new register_admin_command_1.RegisterAdminCommand(username, password, name, surname));
     }
-    async registerUserServ(username, password) {
-        return this.commandBus.execute(new register_user_command_1.RegisterUserCommand(username, password));
+    async registerUserServ(name, surname, username, password) {
+        return this.commandBus.execute(new register_user_command_1.RegisterUserCommand(username, password, name, surname));
     }
     async LoginServ(username, password) {
         return this.queryBus.execute(new login_query_1.Login(username, password));
+    }
+    async verifyToken(token) {
+        return this.queryBus.execute(new verifyToken_query_1.VerifyToken(token));
     }
 };
 ServicesService = __decorate([
@@ -1898,7 +1984,7 @@ exports.ServicesService = ServicesService;
 
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1927,16 +2013,20 @@ let AuthenticationResolversResolver = class AuthenticationResolversResolver {
     hello() {
         return 'Hello World!';
     }
-    async registerAdminGateway(f_username, f_pass) {
-        const resp = await this.service.registerAdminServ(f_username, f_pass);
+    async registerAdminGateway(name, surname, f_username, f_pass) {
+        const resp = await this.service.registerAdminServ(name, surname, f_username, f_pass);
         return resp;
     }
-    async registerUserGateway(f_username, f_pass) {
-        const resp = await this.service.registerUserServ(f_username, f_pass);
+    async registerUserGateway(name, surname, f_username, f_pass) {
+        const resp = await this.service.registerUserServ(name, surname, f_username, f_pass);
         return resp;
     }
     async loginGateway(f_username, f_pass) {
         const resp = await this.service.LoginServ(f_username, f_pass);
+        return resp;
+    }
+    async verifyToken(f_token) {
+        const resp = await this.service.verifyToken(f_token);
         return resp;
     }
 };
@@ -1948,18 +2038,22 @@ __decorate([
 ], AuthenticationResolversResolver.prototype, "hello", null);
 __decorate([
     (0, graphql_1.Mutation)(() => api_auth_admin_entity_1.AuthAdminEntity),
-    __param(0, (0, graphql_1.Args)("username")),
-    __param(1, (0, graphql_1.Args)("password")),
+    __param(0, (0, graphql_1.Args)("name")),
+    __param(1, (0, graphql_1.Args)("surname")),
+    __param(2, (0, graphql_1.Args)("username")),
+    __param(3, (0, graphql_1.Args)("password")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], AuthenticationResolversResolver.prototype, "registerAdminGateway", null);
 __decorate([
     (0, graphql_1.Mutation)(() => api_auth_admin_entity_1.AuthAdminEntity),
-    __param(0, (0, graphql_1.Args)("username")),
-    __param(1, (0, graphql_1.Args)("password")),
+    __param(0, (0, graphql_1.Args)("name")),
+    __param(1, (0, graphql_1.Args)("surname")),
+    __param(2, (0, graphql_1.Args)("username")),
+    __param(3, (0, graphql_1.Args)("password")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], AuthenticationResolversResolver.prototype, "registerUserGateway", null);
 __decorate([
@@ -1970,6 +2064,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], AuthenticationResolversResolver.prototype, "loginGateway", null);
+__decorate([
+    (0, graphql_1.Query)(() => Boolean),
+    __param(0, (0, graphql_1.Args)("token")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthenticationResolversResolver.prototype, "verifyToken", null);
 AuthenticationResolversResolver = __decorate([
     (0, graphql_1.Resolver)(),
     __metadata("design:paramtypes", [typeof (_a = typeof services_1.ServicesService !== "undefined" && services_1.ServicesService) === "function" ? _a : Object])
@@ -1978,7 +2079,7 @@ exports.AuthenticationResolversResolver = AuthenticationResolversResolver;
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2000,7 +2101,7 @@ exports.AuthResolverService = AuthResolverService;
 
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2017,7 +2118,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AppController = void 0;
 const common_1 = __webpack_require__(3);
-const app_service_1 = __webpack_require__(81);
+const app_service_1 = __webpack_require__(83);
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
@@ -2040,7 +2141,7 @@ exports.AppController = AppController;
 
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
