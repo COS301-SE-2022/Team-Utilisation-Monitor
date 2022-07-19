@@ -1440,4 +1440,61 @@ export class DataAccessRepository {
         return null;
       }
     }
+
+    async UpdatePersonSkills(Email:string,Name:string,Surname:string,skillName:string)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )
+
+      const empID=await this.prisma.person.update(
+        {
+          where:
+          {
+            email:Email
+          },
+          data:
+          {
+            name:Name,
+            surname:Surname
+          }
+        }
+      )
+
+
+        const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:empID.id
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Profile Updated"
+        }
+        else
+        {
+          return "Something went wrong when updating"
+        }
+    }
 }
