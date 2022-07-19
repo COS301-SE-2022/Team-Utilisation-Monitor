@@ -85,7 +85,7 @@ div{
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
-  height: 90%;
+  height: fit-content;
 }
 
 .side{
@@ -108,7 +108,8 @@ div{
 }
 
 .side .card-user{
-  height: 83%;
+  min-height: 62%;
+  max-height: fit-content;
   padding-right: -150px;
   width: 95%;
 
