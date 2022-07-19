@@ -7,17 +7,17 @@
     <button mat-raised-button color="primary" (click)="AddSkill()">Add Skill</button>
 </form>
 
-    <br>
-    <br>
+<br>
+<br>
 
-    <h2>Current Skills in the company</h2>
-    <mat-selection-list #skills>
-        <mat-list-option *ngFor="let skill of skillsList">
-          {{skill}}
-        </mat-list-option>
-    </mat-selection-list>
+<h2>Current Skills in the company</h2>
+<mat-selection-list #skills>
+    <mat-list-option *ngFor="let skill of skillsList">
+        {{skill}}
+    </mat-list-option>
+</mat-selection-list>
 
-    <p>
-        Options selected: {{skills.selectedOptions.selected.length}}
-    </p>
-    <button mat-raised-button color="primary">Remove Selected Skills</button>
+<p>
+    Options selected: {{skills.selectedOptions.selected.length}}
+</p>
+<button mat-raised-button color="primary">Remove Selected Skills</button>
