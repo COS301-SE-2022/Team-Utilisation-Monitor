@@ -139,7 +139,8 @@
                   </tr>
                 </table>
 
-                <div class="setHeight">
+                <div class="mat-card1">
+
                   <mat-accordion >
                     <mat-expansion-panel (opened)="panelOpenState = true"
                                          (closed)="panelOpenState = false">
@@ -152,11 +153,13 @@
                         </mat-panel-description>
                       </mat-expansion-panel-header>
 
+                      <div class="setHeight">
                       <mat-selection-list #skill>
                         <mat-list-option *ngFor="let skill of skills">
                           {{skill}}
                         </mat-list-option>
                       </mat-selection-list>
+                      </div>
 
                     </mat-expansion-panel>
                   </mat-accordion>

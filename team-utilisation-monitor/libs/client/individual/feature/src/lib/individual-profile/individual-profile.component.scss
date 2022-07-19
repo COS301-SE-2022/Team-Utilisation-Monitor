@@ -10,6 +10,11 @@ mat-sidenav-container{
   height: 100vh;
 }
 
+mat-sidenav-content{
+  height: fit-content;
+  width: fit-content;
+}
+
 mat-sidenav{
   width: 20%;
 }
@@ -41,11 +46,6 @@ mat-card{
 
 .mat-card-details{
   width: 65%;
-}
-
-mat-progress-bar{
-  height: 20px;
-  width: 100%;
 }
 
 p{
@@ -212,6 +212,10 @@ div{
   cursor: pointer;
 }
 
+.setHeight{
+  height: 10em;
+  overflow-y: auto;
+}
 mat-list-item:hover {
   color: rgb(41, 80, 152);
   font-size: large;
