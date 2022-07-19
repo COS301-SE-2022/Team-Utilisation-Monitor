@@ -291,6 +291,12 @@ export class ApiFeatureResolver {
     return await this.service.GetSkills();
   }
 
+  @Mutation(()=>String)
+  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
+  {
+    return await this.service.UpdateProfile(Email,Name,Surname,skillName);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
