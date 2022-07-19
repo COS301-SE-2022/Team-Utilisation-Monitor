@@ -10,12 +10,50 @@
 
   <mat-card class="mat">
 
-    <mat-grid-list cols="2" rowHeight="85%">
+    <div class="util">
+      <mat-accordion >
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Utilization
+            </mat-panel-title>
+            <mat-panel-description>
+              {{panelOpenState ? 'close' : 'View'}} My Utilization
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-      <mat-grid-tile>
+          <div class="tc">
 
-        <mat-grid-tile-header> </mat-grid-tile-header>
-        <mat-card class="mat-card1">
+            <mat-card class="smc">
+              <mat-card-header>
+                <mat-card-title>Utilization Summary</mat-card-title>
+                <br>
+              </mat-card-header>
+              <mat-card-content>
+
+                <mat-tab-group mat-align-tabs="center">
+                  <mat-tab label="Monthly utilization">
+                    <br>
+                    <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
+                  </mat-tab>
+
+                  <mat-tab label="Weekly utilization">
+                    <br>
+                    <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
+                  </mat-tab>
+                </mat-tab-group>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="container" id="inline">
+      <mat-card class="mat-card1">
           <mat-card-header>
             <mat-card-title>Allocated Teams</mat-card-title>
           </mat-card-header>
@@ -30,10 +68,6 @@
             </mat-nav-list>
           </mat-card-content>
         </mat-card>
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-grid-tile-header> </mat-grid-tile-header>
 
         <mat-card class="mat-card1">                                <!--FULL CARD THAT INCLUDES THE INNER CONTENT/LIST-->
           <mat-card-header>
@@ -50,54 +84,10 @@
             </mat-nav-list>
           </mat-card-content>
         </mat-card>
-      </mat-grid-tile>
+    </div>
 
       <!--THE TOP UTILIZATION SUMMARY-->
-      <div class="container">
-        <mat-accordion >
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Utilization
-              </mat-panel-title>
-              <mat-panel-description>
-                  {{panelOpenState ? 'close' : 'View'}} My Utilization
-              </mat-panel-description>
-            </mat-expansion-panel-header>
 
-            <div class="tc">
-
-              <mat-card class="smc">
-                <mat-card-header>
-                  <mat-card-title>Utilization Summary</mat-card-title>
-                  <br>
-                </mat-card-header>
-                <mat-card-content>
-
-                  <mat-tab-group mat-align-tabs="center">
-                    <mat-tab label="Monthly utilization">
-                      <br>
-                      <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
-                    </mat-tab>
-
-                    <mat-tab label="Weekly utilization">
-                      <br>
-                      <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
-                    </mat-tab>
-                  </mat-tab-group>
-
-                </mat-card-content>
-              </mat-card>
-            </div>
-
-          </mat-expansion-panel>
-        </mat-accordion>
-
-      </div>
-
-
-    </mat-grid-list>
   </mat-card>
 
 </mat-sidenav-content>

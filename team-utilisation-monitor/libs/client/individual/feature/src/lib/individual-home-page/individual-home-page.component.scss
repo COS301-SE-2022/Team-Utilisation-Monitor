@@ -40,20 +40,25 @@ mat-progress-bar{
   background-color: lightgray;
 }
 .mat{
-  height: 85%;
+  height: fit-content;
   margin: 1%;
-  //display: flex;
   background-color: transparent;
-
 }
 
+.util{
+  margin-bottom: 10%;
+}
+#inline{
+  display: flex;
+  align-content: space-evenly;
+}
 .mat-card1{
-  margin-top: 10%;
+  margin: auto;
   text-align: center;
   width:406px;
   height: fit-content;
   box-shadow: 0px 0px 25px black;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .smc {
