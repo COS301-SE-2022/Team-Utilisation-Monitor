@@ -7,11 +7,11 @@ body {
 }
 
 mat-sidenav-container{
-  height: 100vh;
+  height: auto;
 }
 
 mat-sidenav-content{
- min-height: 98%;
+ height: 98vh;
   width: fit-content;
 }
 
@@ -112,7 +112,6 @@ div{
   max-height: fit-content;
   padding-right: -150px;
   width: 95%;
-
 }
 
 .card{
@@ -192,8 +191,7 @@ div{
 }
 
 .mat-card1{
-  min-height: 30%;
-  max-height: 30%;
+  height: 21.5em;
   text-align: center;
   overflow: hidden;
   width: 90%;

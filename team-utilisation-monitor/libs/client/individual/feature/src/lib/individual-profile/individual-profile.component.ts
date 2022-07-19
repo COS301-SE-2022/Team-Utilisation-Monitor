@@ -20,7 +20,7 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'data gathering', 'UI Designing', 'unit testing', 'e2e testing', 'data gathering'];
+  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
   skills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
   projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
