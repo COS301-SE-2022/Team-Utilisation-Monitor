@@ -1,8 +1,8 @@
-import { Person } from '@prisma/client';
+//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -1417,11 +1417,17 @@ export class DataAccessRepository {
     async getSkills()
     {
       const Skills=await this.prisma.skills.findMany();
-      let names=[];
+      let SkillsArray:Skill[];
+      SkillsArray=[]
 
       for(let i=0;i<Skills.length;i++)
       {
-        names.push(Skills[i].skill);
+        const sk=new Skill()
+        sk.id=Skills[i].id;
+        sk.skill=Skills[i].skill
+        SkillsArray.push(sk);
       }
+      //console.log(SkillsArray)
+      return SkillsArray;
     }
 }

@@ -143,6 +143,6 @@ export class ServiceFeatureService {
 
     async GetSkills()
     {
-      return this.queryBus.execute(new GetSkillsQuery());
+      return this.queryBus.execute(new GetSkillsQuery);
     }
 }
