@@ -9,6 +9,17 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CompEmployeeIndividualComponent implements OnInit {
   constructor(private service:AdminService) {}
 
+  /*
+  menueOption will display in the options menue in the Admin Company View next to the delete button
+
+  (Message for gift)
+  add an if statement
+    if (user == admin) menueOption = "Demote to Employee"
+    if (user == employee) menueOption = "Promote to Admin"
+  
+  */
+  menueOption = "Promote to admin"
+
   @Input() IndivName!: { Name: string ,Surname:string,Email:string,TeamName:string};
 
   ngOnInit(): void {
