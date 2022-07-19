@@ -280,9 +280,15 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async AddSkill(@Args("skillType") skill:string,@Args("company_name") companyName:string)
+  async AddSkill(@Args("skillType") skill:string)
   {
-    return await this.service.AddSkill(skill,companyName);
+    return await this.service.AddSkill(skill);
+  }
+
+  @Query(()=>[String])
+  async GetSkill()
+  {
+    return await this.service.GetSkills();
   }
 
   /*@Mutation(() => UserPerson)

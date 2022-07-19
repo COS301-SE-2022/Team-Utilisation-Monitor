@@ -1393,7 +1393,7 @@ export class DataAccessRepository {
     }*/
 
 
-    async addSkill(skillType:string,CompanyName)
+    async addSkill(skillType:string)
     {
       try
       {
@@ -1412,6 +1412,17 @@ export class DataAccessRepository {
         }
       }
 
+    }
 
+    async getSkills()
+    {
+      const Skills=await this.prisma.skills.findMany();
+      const length=Skills.length;
+      let names=[];
+
+      for(let i=0;i<Skills.length;i++)
+      {
+        names.push(Skills[i].skill);
+      }
     }
 }

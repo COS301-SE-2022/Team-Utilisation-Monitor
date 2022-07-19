@@ -8,6 +8,6 @@ export class AddSkillHandler implements IQueryHandler<AddSkillCommand>
 {
   constructor(public repository:DataAccessRepository){}
   async execute(query: AddSkillCommand): Promise<any> {
-      return this.repository.addSkill(query.skillType,query.companyName);
+      return this.repository.addSkill(query.skillType);
   }
 }

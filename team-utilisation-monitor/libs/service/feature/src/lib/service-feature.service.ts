@@ -1,3 +1,4 @@
+import { GetSkillsQuery } from './queries/impl/GetSkills.query';
 import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
 import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
 import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
@@ -135,8 +136,13 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new DeleteEmployeeCommand(email));
     }
 
-    async AddSkill(skillType:string,companyName:string)
+    async AddSkill(skillType:string)
     {
-      return this.commandBus.execute(new AddSkillCommand(skillType,companyName));
+      return this.commandBus.execute(new AddSkillCommand(skillType));
+    }
+
+    async GetSkills()
+    {
+      return this.queryBus.execute(new GetSkillsQuery());
     }
 }

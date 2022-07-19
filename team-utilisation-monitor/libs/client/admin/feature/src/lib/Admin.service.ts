@@ -169,6 +169,6 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-  getSkills()
+  //getSkills()
 
 }
