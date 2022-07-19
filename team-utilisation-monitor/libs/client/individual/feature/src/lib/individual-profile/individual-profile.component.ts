@@ -20,7 +20,8 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
+  members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
+  skills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
   projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
@@ -28,6 +29,7 @@ export class IndividualProfileComponent implements OnInit {
   team="none";
 
   noOfProject=this.projects.length;
+  panelOpenState = false;
 
   ngOnInit(): void {
     console.log();
@@ -42,7 +44,7 @@ export class IndividualProfileComponent implements OnInit {
           this.fName=item.data.getOnePerson.name;
           this.lastName=item.data.getOnePerson.surname;
           this.email=item.data.getOnePerson.email;
-          
+
           if(item.data.getOnePerson.team_name!=null)
             this.team=item.data.getOnePerson.team_name;
         }
@@ -53,13 +55,13 @@ export class IndividualProfileComponent implements OnInit {
       error: (err) => { console.log(err); }
     })
 
-    
 
 
-    
+
+
 
   }
-  
+
   showInfo(link: string) {
     console.log()
   }
