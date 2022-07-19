@@ -1,3 +1,4 @@
+import { Skill } from './../../../../shared/data-access/src/lib/api-skill.entity';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -285,7 +286,7 @@ export class ApiFeatureResolver {
     return await this.service.AddSkill(skill);
   }
 
-  @Query(()=>[String])
+  @Query(()=>[Skill])
   async GetSkill()
   {
     return await this.service.GetSkills();
