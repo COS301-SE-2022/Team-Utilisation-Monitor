@@ -17,7 +17,7 @@ export class IndividualHomePageComponent implements OnInit {
   nrOfOpenProjects = 40;
   nrOfClosedProjects = 50;
   nrOfTeams = 20;
-  teams: string[]=['Team A', 'Team B','Team C','Team D','Team D','Team D','Team D','Team D','Team E'];
+  teams: string[]=['Team A', 'Team B','Team C','Team D','Team D','Team D','Team D','Team E'];
   projects: string[]=['Project1','Project2','Project3','Project4','Project4','Project4','Project4','Project5'];
 
   ngOnInit(): void {

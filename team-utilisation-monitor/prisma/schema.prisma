@@ -12,7 +12,7 @@ datasource db {
 
 model Person{
   id Int @id @default(autoincrement())
-  name String 
+  name String
   surname String
   email String @unique
   role Role @default(USER)
@@ -20,14 +20,14 @@ model Person{
   utilisation Int @default(0)
   approved Boolean @default(false)
 
-  
-  position Position? 
+
+  position Position?
 
   admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id])
   admin_id Int?
 
   company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
-  company_id Int? 
+  company_id Int?
 
   project Project? @relation(name: "workOn",fields: [project_id],references: [id])
   project_id Int?
@@ -35,12 +35,36 @@ model Person{
   team Team? @relation(name: "partOf",fields: [team_id],references: [id])
   team_id Int?
 
-  skills Skills[] @relation("setOfSkills")
-  
-  
+  skills PersonOnSkills [] //one person can have many skills
+
   @@map("person")
 
 }
+
+model PersonOnSkills{
+  id Int @default(autoincrement()) //this is the skill ID.
+
+  person Person @relation(fields: [person_id],references: [id]) //person having the skill
+  person_id Int
+
+  skill Skills @relation(fields: [skill_id],references: [id]) //skill held by person
+  skill_id Int
+
+  @@id([person_id,skill_id])
+
+}
+
+model Skills{
+
+  id Int @id @default(autoincrement())
+  skill String @unique
+
+  people PersonOnSkills [] //maultiple people can hold one skill
+
+  @@map("skills")
+}
+
+
 
 model Team{
 
@@ -58,7 +82,7 @@ model Team{
 }
 
 model Company{
-  
+
   id Int @id @default(autoincrement())
   company_name String @unique
 
@@ -66,7 +90,7 @@ model Company{
 
   projects Project[] @relation("ownsA")
 
-  teams Team[] @relation("memberOf") 
+  teams Team[] @relation("memberOf")
 
   admins Person[] @relation("setOfAdmins")
 
@@ -98,7 +122,7 @@ model Invites{
 
   invite_code String? @unique
 
-  company Company? @relation(fields: [company_id],references: [id]) 
+  company Company? @relation(fields: [company_id],references: [id])
   company_id Int? @unique
 
   created DateTime? @default(now())
@@ -135,23 +159,12 @@ model Project{
 
   man_hours Int? @default(0)
 
-  completed Boolean @default(false)  
+  completed Boolean @default(false)
 
   @@map("project")
 }
 
 //the same skills can be owned by multiple people
-
-model Skills{
-
-  id Int @id @default(autoincrement())
-  skill String
-
-  person Person @relation(name: "setOfSkills",fields: [person_id],references: [id])
-  person_id Int
-
-  @@map("skills")
-}
 
 
 enum Role{
@@ -159,9 +172,5 @@ enum Role{
   USER
 }
 
-//flow model: A company has to be created; Then a project created, then employees 
+//flow model: A company has to be created; Then a project created, then employees
 //who work on it
-
-
-
-

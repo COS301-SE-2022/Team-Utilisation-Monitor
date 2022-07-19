@@ -25,8 +25,13 @@ export class IndividualService {
     const object= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
     return object;
-    
+
   }
+
+  /*updateProfile(name:string,surname:string):Observable<any>
+  {
+    //
+  }*/
 
 
 }
