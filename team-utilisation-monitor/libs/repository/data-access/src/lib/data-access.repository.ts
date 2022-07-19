@@ -1441,7 +1441,7 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonSkills(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
     {
       const skill=await this.prisma.skills.findUnique(
         {
