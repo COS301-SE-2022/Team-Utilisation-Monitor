@@ -1,8 +1,8 @@
-import { Person } from '@prisma/client';
+//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Role } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
+import { Role,Prisma } from '@prisma/client';
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -322,7 +322,7 @@ export class DataAccessRepository {
                     }
                     return return_arr;
                 }
-                        
+
             }
         }
         else
@@ -1385,6 +1385,116 @@ export class DataAccessRepository {
         }
       )
       return deletedUser;
+    }
 
+    /*async updateProfile(Email:string,name:string,surname:string)
+    {
+      const
+    }*/
+
+
+    async addSkill(skillType:string)
+    {
+      try
+      {
+          const Skill = await this.prisma.skills.create({
+          data: {
+            skill:skillType
+          },
+          })
+
+          return Skill.skill
+      }catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "The Skill Already exist on DB"
+        }
+      }
+
+    }
+
+    async getSkills()
+    {
+      const Skills=await this.prisma.skills.findMany();
+      let SkillsArray:Skill[];
+      SkillsArray=[]
+
+      if(Skills!=null)
+      {
+
+
+        for(let i=0;i<Skills.length;i++)
+        {
+          const sk=new Skill()
+          sk.id=Skills[i].id;
+          sk.skill=Skills[i].skill
+
+          SkillsArray.push(sk);
+        }
+        console.log(SkillsArray)
+        return SkillsArray;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )
+
+      const empID=await this.prisma.person.update(
+        {
+          where:
+          {
+            email:Email
+          },
+          data:
+          {
+            name:Name,
+            surname:Surname
+          }
+        }
+      )
+
+
+        const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:empID.id
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Profile Updated"
+        }
+        else
+        {
+          return "Something went wrong when updating"
+        }
     }
 }

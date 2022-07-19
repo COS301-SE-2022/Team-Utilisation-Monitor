@@ -39,7 +39,9 @@ import { CompTeamListComponent } from './comp-team-list/comp-team-list.component
 import { CompProjectListComponent } from './comp-project-list/comp-project-list.component';
 import { CompAddTeamMemberPopupComponent } from './comp-add-team-member-popup/comp-add-team-member-popup.component';
 import { CompGraphCompanyUtilizationComponent } from './comp-graph-company-utilization/comp-graph-company-utilization.component';
-import {NgChartsModule} from "ng2-charts";
+import { NgChartsModule } from "ng2-charts";
+import { CompAddSkillsPopupComponent } from './comp-add-skills-popup/comp-add-skills-popup.component';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -69,6 +71,7 @@ import {NgChartsModule} from "ng2-charts";
     MatExpansionModule,
     MatBadgeModule,
     MatDialogModule,
+    MatListModule,
     RouterModule.forChild([]),
   ],
   providers: [CookieService],
@@ -90,6 +93,7 @@ import {NgChartsModule} from "ng2-charts";
     CompProjectListComponent,
     CompAddTeamMemberPopupComponent,
     CompGraphCompanyUtilizationComponent,
+    CompAddSkillsPopupComponent,
   ],
   exports: [
     AdminRoutingModule,
