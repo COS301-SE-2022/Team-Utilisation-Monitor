@@ -31,12 +31,12 @@
 
         <mat-card class="mat-card1">
           <mat-card-header>
-            <mat-card-title>Team members</mat-card-title>
+            <mat-card-title>Current Skills</mat-card-title>
           </mat-card-header>
 
           <mat-card-content class="mid">
             <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of members">
+              <mat-list-item *ngFor="let link of currSkills">
                 <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
                 <button mat-icon-button (click)="showInfo(link)">
                 </button>
@@ -139,27 +139,39 @@
                   </tr>
                 </table>
 
-                <p class="one">
+                <div class="two">
+                  <mat-accordion >
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Skills
+                        </mat-panel-title>
+                        <mat-panel-description>
+                           Add to my skills
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
 
-                  <mat-form-field class="two" appearance="outline">
-                    <mat-label>Add skill</mat-label>
-                    <input matInput value="Java">
-                  </mat-form-field>
+                      <div class="setHeight">
+                      <mat-selection-list #skill>
+                        <mat-list-option *ngFor="let skill of skills">
+                          {{skill}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                      </div>
 
-                  <mat-form-field class="two" appearance="outline">
-                    <mat-label>Brief Skill Description</mat-label>
-                    <textarea class="au" matInput placeholder="" disabled></textarea>
-                  </mat-form-field>
-                </p>
+                    </mat-expansion-panel>
+                  </mat-accordion>
 
+                </div>
 
                 <br><br>
                 <div class="button">
                   <button mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
                 </div>
+
               </form>
             </div>
-
           </mat-card-content>
 
         </mat-card>

@@ -7,7 +7,12 @@ body {
 }
 
 mat-sidenav-container{
-  height: 100vh;
+  height: auto;
+}
+
+mat-sidenav-content{
+ height: 98vh;
+  width: fit-content;
 }
 
 mat-sidenav{
@@ -41,11 +46,6 @@ mat-card{
 
 .mat-card-details{
   width: 65%;
-}
-
-mat-progress-bar{
-  height: 20px;
-  width: 100%;
 }
 
 p{
@@ -85,7 +85,7 @@ div{
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
-  height: 90%;
+  height: fit-content;
 }
 
 .side{
@@ -108,10 +108,10 @@ div{
 }
 
 .side .card-user{
-  height: 83%;
+  min-height: 62%;
+  max-height: fit-content;
   padding-right: -150px;
   width: 95%;
-
 }
 
 .card{
@@ -179,15 +179,6 @@ div{
 
 .col-md-4 .card-card-user{
   width: 90%;
-  height: 35%;
-}
-
-.mat-card1{
-  height: 42%;
-  text-align: center;
-  overflow: hidden;
-  width: 90%;
-  border-radius: 12px;
 }
 
 .left {
@@ -199,21 +190,33 @@ div{
   font-size: 0.82em;
 }
 
+.mat-card1{
+  height: 21.5em;
+  text-align: center;
+  overflow: hidden;
+  width: 90%;
+  border-radius: 12px;
+}
+
 .mid{
   margin-top: 15%;
   width: 98%;
-  //max-height: 100%;
   overflow-y: auto;
   margin-left: -80%;
 }
 
 .list{
-  //margin-left:15%;
   float: left;
   width: 90%;
   cursor: pointer;
 }
 
+.setHeight{
+  height: 10em;
+  width: 70%;
+  margin: 0 auto;
+  overflow-y: auto;
+}
 mat-list-item:hover {
   color: rgb(41, 80, 152);
   font-size: large;

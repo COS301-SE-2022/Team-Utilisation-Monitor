@@ -26,7 +26,8 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  members: string[]=['Agape A', 'Ndivhuho B','Gift B','Cornel C','Faresa F','Rourke C'];
+  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  skills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
   projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
@@ -35,6 +36,7 @@ export class IndividualProfileComponent implements OnInit {
 
   noOfProject=this.projects.length;
   companyName=""
+  panelOpenState = false;
 
   ngOnInit(): void {
     console.log();
