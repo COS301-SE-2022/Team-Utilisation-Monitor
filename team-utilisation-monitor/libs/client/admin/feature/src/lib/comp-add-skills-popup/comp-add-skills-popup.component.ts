@@ -14,7 +14,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
     skillName:new FormControl('',[Validators.required])
   });
 
-  skillsList: string[] = ['Angular', 'java Scrypt', 'Type Scrypt', 'Python', 'C++'];
+  skillsList: string[] = [];
   skillsData:any
   constructor(private service:AdminService) { }
 
@@ -41,8 +41,12 @@ export class CompAddSkillsPopupComponent implements OnInit {
 
       this.service.AddSkill(skillName).subscribe(data=>
         {
-          alert(data.AddSkill)
+          alert(data.data.AddSkill+" Added")
         })
+    }
+    else
+    {
+      alert("Please type in a skill")
     }
   }
 
