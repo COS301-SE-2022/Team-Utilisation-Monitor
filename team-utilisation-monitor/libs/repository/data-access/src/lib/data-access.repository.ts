@@ -1,8 +1,8 @@
-import { Person } from '@prisma/client';
+//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Role } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
+import { Role,Prisma } from '@prisma/client';
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -1395,20 +1395,49 @@ export class DataAccessRepository {
 
     async addSkill(skillType:string)
     {
-      const Skill = await this.prisma.skills.create({
-        data: {
-          skill:skillType
-        },
-      })
-      if(Skill)
+      try
       {
-        return Skill.skill
+          const Skill = await this.prisma.skills.create({
+          data: {
+            skill:skillType
+          },
+          })
+
+          return Skill.skill
+      }catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "The Skill Already exist on DB"
+        }
+      }
+
+    }
+
+    async getSkills()
+    {
+      const Skills=await this.prisma.skills.findMany();
+      let SkillsArray:Skill[];
+      SkillsArray=[]
+
+      if(Skills!=null)
+      {
+
+
+        for(let i=0;i<Skills.length;i++)
+        {
+          const sk=new Skill()
+          sk.id=Skills[i].id;
+          sk.skill=Skills[i].skill
+
+          SkillsArray.push(sk);
+        }
+        console.log(SkillsArray)
+        return SkillsArray;
       }
       else
       {
-        return "The Skill already exist"
+        return null;
       }
-
-
     }
 }

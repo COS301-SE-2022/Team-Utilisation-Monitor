@@ -27,7 +27,7 @@ export class CompAddUserPopupComponent implements OnInit {
     this.service.getInviteCode(this.companyName).subscribe(data=>
     {
       this.inviteCode=data.data.getInviteCode
-      console.log(this.inviteCode)
+      //console.log(this.inviteCode)
     })
     this.AdminEmail=this.cookie.get("Email");
 
