@@ -41,7 +41,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
 
       this.service.AddSkill(skillName).subscribe(data=>
         {
-          alert(data.AddSkill)
+          alert(data.data.AddSkill+" Added")
         })
     }
     else

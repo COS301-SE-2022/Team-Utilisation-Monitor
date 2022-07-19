@@ -1,8 +1,8 @@
 <form [formGroup]="addSkillForm">
     <h2>Add A new Skill</h2>
-    <mat-form-field appearance="fill" formControlName="skillName">
+    <mat-form-field appearance="fill" >
         <mat-label>Enter the name of a new skill</mat-label>
-        <input id="new_Skill_name" matInput placeholder="Angular">
+        <input id="new_Skill_name" matInput placeholder="Angular" formControlName="skillName">
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="AddSkill()">Add Skill</button>
 </form>
