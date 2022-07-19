@@ -10,6 +10,8 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
 
   constructor(private service:AdminService) {}
 
+  employeeNames: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+
   @Input() TeamName!: { Name: string };
 
   AddTeamMember(teamName:string,EmployeeEmail:string)
