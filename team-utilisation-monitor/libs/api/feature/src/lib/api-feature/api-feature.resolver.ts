@@ -1,6 +1,6 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { Role } from '@prisma/client';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -207,6 +207,9 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+
+
+
   /***
    * This function is used to create an Admin
    */
@@ -230,6 +233,7 @@ export class ApiFeatureResolver {
 
     return resp;
   }
+
 
 
    /***
@@ -273,6 +277,24 @@ export class ApiFeatureResolver {
   async DeleteEmployee(@Args("email") email:string)
   {
     return await this.service.DeleteEmployee(email);
+  }
+
+  @Mutation(()=>String)
+  async AddSkill(@Args("skillType") skill:string)
+  {
+    return await this.service.AddSkill(skill);
+  }
+
+  @Query(()=>[Skill])
+  async GetSkill()
+  {
+    return await this.service.GetSkills();
+  }
+
+  @Mutation(()=>String)
+  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
+  {
+    return await this.service.UpdateProfile(Email,Name,Surname,skillName);
   }
 
   /*@Mutation(() => UserPerson)
