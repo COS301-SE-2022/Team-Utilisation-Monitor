@@ -7,6 +7,4 @@ export class UserStatsEnity{
     @Field(()=>[UserPerson],{nullable:true})
     teamMembers?:UserPerson[];
 
-
-
 }

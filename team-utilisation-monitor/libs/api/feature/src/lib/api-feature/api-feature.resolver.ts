@@ -144,6 +144,15 @@ export class ApiFeatureResolver {
      return resp;
   }
 
+  @Query(()=>[Number])
+  async getNumberOfTeamsOfCompany(@Args("company_name") company_name:string)
+  {
+    const resp= await this.service.getNumberOfTeamsOfCompany(company_name);
+
+    return resp;
+ }
+
+
   /***
    * This function returns an array of UserPerson objects. Use this function
    * To get all pending requests against the argument company.
