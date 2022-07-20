@@ -1432,7 +1432,6 @@ export class DataAccessRepository {
 
           SkillsArray.push(sk);
         }
-        console.log(SkillsArray)
         return SkillsArray;
       }
       else
