@@ -159,7 +159,7 @@ model Project{
 
   completed Boolean @default(false)
 
-  status Status @default(ACTIVE)
+  status Status 
 
   @@map("project")
 }
