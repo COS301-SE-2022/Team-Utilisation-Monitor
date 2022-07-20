@@ -78,7 +78,7 @@ model Team{
   company Company? @relation(name: "memberOf",fields: [company_id],references: [id])
   company_id Int?
 
-  project Project?
+  projects Project [] @relation("workToDo")
 
   @@map("team")
 }
@@ -89,8 +89,6 @@ model Company{
   company_name String @unique
 
   employees Person[] @relation("worksFor")
-
-  projects Project[] @relation("ownsA")
 
   teams Team[] @relation("memberOf")
 
@@ -129,7 +127,7 @@ model Invites{
 
   created DateTime? @default(now())
 
-  expire DateTime //2023-01-01T03:53:00.000Z
+  expire DateTime //2023-01-01T03:53:00.000Z (This has been set in the logic)
 
   @@map("invites")
 }
@@ -149,19 +147,19 @@ model Position{
 
 model Project{
   id Int @id @default(autoincrement())
-  project_name String
 
-  owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id])
-  owner_id Int? //the company that owns the preoject
+  project_name String
 
   workers Person[] @relation("workOn")
 
-  team Team? @relation(fields: [team_id],references: [id])
-  team_id Int? @unique
+  team Team? @relation(name: "workToDo" ,fields: [team_id],references: [id])
+  team_id Int? 
 
   man_hours Int? @default(0)
 
   completed Boolean @default(false)
+
+  status Status @default(ACTIVE)
 
   @@map("project")
 }
@@ -170,16 +168,16 @@ model WeeklyUtilisation{
 
   id Int @id @default(autoincrement())
   
-  week DateTime
+  week DateTime @default(now()) //2023-01-01T03:53:00.000Z
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
   person_id Int 
 
-  hours Float
+  hours Float @default(0)
 
-  utilisation Float
+  utilisation Float @default(0)
 
-  status Status
+  status Status @default(UNDER_UTILISED)
 
   @@map("weeky_utilisation")
 
@@ -194,11 +192,17 @@ enum Role{
 }
 
 enum Status{
+  //for WeeklyUtilisation
   UNDER_UTILISED
   FAIRLY_UTILISED
   HEAVILY_UTILISED
   OVER_UTILISED
+
+  //For Project
+  ACTIVE //
+  INACTIVE
 }
+
 
 //flow model: A company has to be created; Then a project created, then employees
 //who work on it
