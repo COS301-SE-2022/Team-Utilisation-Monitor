@@ -34,7 +34,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
         for(const requests of this.companyData.data.GetCompanyQuery.projects)
         {
           const  obj={} as nameObject;
-          obj.Name=requests.project_name
+          obj.Name=requests.project_name;
           obj.TeamName=requests.team_name;
           this.OutProject.push(obj);
         }
