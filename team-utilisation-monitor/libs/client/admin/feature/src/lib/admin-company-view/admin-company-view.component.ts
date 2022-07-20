@@ -34,6 +34,8 @@ export class AdminCompanyViewComponent implements OnInit {
           type nameObject=
           {
             Name:string
+            Surname:string
+            Email:string
           }
 
 
@@ -47,7 +49,9 @@ export class AdminCompanyViewComponent implements OnInit {
           for(const requests of this.companyData.data.GetCompanyQuery.employees)
           {
             const  obj={} as nameObject;
-            obj.Name=requests.name+" "+requests.surname;
+            obj.Name=requests.name;
+            obj.Surname=requests.surname;
+            obj.Email=requests.email
             this.OutEmployeeName.push(obj);
           }
         }

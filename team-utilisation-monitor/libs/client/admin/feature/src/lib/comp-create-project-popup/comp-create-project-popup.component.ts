@@ -12,6 +12,8 @@ import { AdminService } from '../Admin.service';
 })
 export class CompCreateProjectPopupComponent implements OnInit {
 
+  TeamNames: string[] = ['Team1', 'Team2', 'Team3', 'Team4', 'Team5'];
+
   projectForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
     teamName:new FormControl('',[Validators.required]),
