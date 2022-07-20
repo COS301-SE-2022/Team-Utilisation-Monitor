@@ -145,6 +145,30 @@ export class ApiFeatureResolver {
   }
 
   /***
+   * This function returns the number teams of a company 
+  */
+
+  @Query(()=>[Number])
+  async getNumberOfTeamsOfCompany(@Args("company_name") company_name:string)
+  {
+    const resp= await this.service.getNumberOfTeamsOfCompany(company_name);
+
+    return resp;
+ }
+
+
+   /***
+   * This function returns the stats of members in a team 
+  */
+
+    @Query(()=>[UserStatsEnity])
+    async getAllMembersOfTeam(@Args("team_name") team_name:string)
+    {
+      const resp= await this.service.getAllMembersOfTeam(team_name);
+  
+      return resp;
+   }
+  /***
    * This function returns an array of UserPerson objects. Use this function
    * To get all pending requests against the argument company.
    * In it's current state, the objects will contain id,name,surname and email

@@ -37,11 +37,14 @@ model Person{
 
   skills PersonOnSkills [] //one person can have many skills
 
+  utilisations WeeklyUtilisation [] @relation("utility")
+
   @@map("person")
 
 }
 
 model PersonOnSkills{
+
   id Int @default(autoincrement()) //this is the skill ID.
 
   person Person @relation(fields: [person_id],references: [id]) //person having the skill
@@ -59,7 +62,7 @@ model Skills{
   id Int @id @default(autoincrement())
   skill String @unique
 
-  people PersonOnSkills [] //maultiple people can hold one skill
+  people PersonOnSkills [] //multiple people can hold one skill
 
   @@map("skills")
 }
@@ -69,11 +72,13 @@ model Skills{
 model Team{
 
   id Int @id @default(autoincrement())
+
   team_name String @unique
 
   members Person[] @relation("partOf")
 
   company Company? @relation(name: "memberOf",fields: [company_id],references: [id])
+
   company_id Int?
 
   project Project?
@@ -84,6 +89,7 @@ model Team{
 model Company{
 
   id Int @id @default(autoincrement())
+
   company_name String @unique
 
   employees Person[] @relation("worksFor")
@@ -96,25 +102,9 @@ model Company{
 
   invite Invites?
 
-  utilisations CompanyUtilisations[] @relation("hasUtilisations")
-
   @@map("company")
 }
 
-model CompanyUtilisations{
-
-  id Int @id @default(autoincrement())
-
-  company Company? @relation(name: "hasUtilisations",fields: [company_id],references: [id])
-  company_id Int?
-
-  month String?
-
-  average_utilisation Float?
-
-
-  @@map("company_utilisations")
-}
 
 model Invites{
 
@@ -127,7 +117,7 @@ model Invites{
 
   created DateTime? @default(now())
 
-  expire DateTime //2023-01-01T03:53:00.000Z
+  expire DateTime //2023-01-01T03:53:00.000Z 
 
   @@map("invites")
 }
@@ -146,10 +136,13 @@ model Position{
 //or a project can have many peoples.
 
 model Project{
+
   id Int @id @default(autoincrement())
+
   project_name String
 
   owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id])
+
   owner_id Int? //the company that owns the preoject
 
   workers Person[] @relation("workOn")
@@ -164,6 +157,25 @@ model Project{
   @@map("project")
 }
 
+model WeeklyUtilisation{
+
+  id Int @id @default(autoincrement())
+  
+  week DateTime @default(now()) //2023-01-01T03:53:00.000Z
+
+  person Person @relation(name: "utility",fields: [person_id],references: [id])
+  person_id Int 
+
+  hours Float @default(0)
+
+  utilisation Float @default(0)
+
+  status Status @default(UNDER_UTILISED)
+
+  @@map("weeky_utilisation")
+
+}
+
 //the same skills can be owned by multiple people
 
 
@@ -171,6 +183,19 @@ enum Role{
   ADMIN
   USER
 }
+
+enum Status{
+  //for WeeklyUtilisation
+  UNDER_UTILISED
+  FAIRLY_UTILISED
+  HEAVILY_UTILISED
+  OVER_UTILISED
+
+  //For Project
+  ACTIVE //
+  INACTIVE
+}
+
 
 //flow model: A company has to be created; Then a project created, then employees
 //who work on it

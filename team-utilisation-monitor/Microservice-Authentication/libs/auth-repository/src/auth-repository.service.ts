@@ -88,6 +88,8 @@ export class AuthRepositoryService {
             returnObject.username=new_admin.username;
             returnObject.role=f_role;
             returnObject.token=new_admin.token;
+            returnObject.name=new_admin.name;
+            returnObject.surname=new_admin.surname;
 
             console.log(new_admin);
             console.log(returnObject)
@@ -126,6 +128,8 @@ export class AuthRepositoryService {
             returnObject.username=existing_user.username;
             returnObject.role=existing_user.role;
             returnObject.token=existing_user.token;
+            returnObject.name=existing_user.name;
+            returnObject.surname=existing_user.surname;
 
             return returnObject; //for testing purposes. Remove in production.
         }
@@ -173,6 +177,8 @@ export class AuthRepositoryService {
             returnObject.username=new_admin.username;
             returnObject.role=f_role;
             returnObject.token=new_admin.token;
+            returnObject.name=new_admin.name;
+            returnObject.surname=new_admin.surname;
 
             console.log(new_admin);
             console.log(returnObject)
@@ -216,6 +222,26 @@ export class AuthRepositoryService {
         {
             return null;
         }
+    }
+    
+    /***
+     * This function is used to verify the access token for api calls.
+     * The user should use such tokens in api calls.
+     * Function will return true if the token is 
+     */
+
+    async verifyToken(f_token:string):Promise<Boolean>
+    {
+        const existing_token=await this.prisma.userDetails.findUnique({
+           where:{
+                token:f_token
+           }
+        })
+        
+        if(existing_token)
+            return true;
+        else
+            return false;
     }
 
 

@@ -4,6 +4,7 @@ import { AuthAdminEntity } from 'shared/Entities/api-auth-admin.entity';
 import { RegisterAdminCommand } from './commands/impl/register-admin.command';
 import { RegisterUserCommand } from './commands/impl/register-user.command';
 import { Login } from './queries/impl/login.query';
+import { VerifyToken } from './queries/impl/verifyToken.query';
 
 @Injectable()
 export class ServicesService {
@@ -23,6 +24,11 @@ export class ServicesService {
     async LoginServ(username:string,password:string):Promise<AuthAdminEntity>
     {
         return this.queryBus.execute(new Login(username,password));
+    }
+
+    async verifyToken(token:string):Promise<Boolean>
+    {
+        return this.queryBus.execute(new VerifyToken(token));
     }
 
 

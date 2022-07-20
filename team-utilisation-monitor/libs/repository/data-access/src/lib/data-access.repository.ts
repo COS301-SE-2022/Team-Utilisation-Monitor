@@ -177,6 +177,10 @@ export class DataAccessRepository {
 
     }
 
+    /***
+     * The function returns all projects or teams that belong to a company given as input parameters
+     * Returns null if compnay does not exist
+     */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
@@ -235,9 +239,15 @@ export class DataAccessRepository {
                         return_teams[i].id=all_teams[i].id;
                         return_teams[i].team_name=all_teams[i].team_name;
                         return_teams[i].company_id=all_teams[i].company_id;
-                        return_teams[i].project_name=all_teams[i].project.project_name;
-                        return_teams[i].project_id=all_teams[i].project.id;
-                        return_teams[i].completed=all_teams[i].project.completed;
+
+                        if(all_teams[i].project)
+                        {
+                            return_teams[i].project_name=all_teams[i].project.project_name;
+                            return_teams[i].project_id=all_teams[i].project.id;
+                            return_teams[i].completed=all_teams[i].project.completed;
+                        }
+
+                        
                     }
 
                     return return_teams;
@@ -256,6 +266,11 @@ export class DataAccessRepository {
         else
             return null;
     }
+
+    /***
+     * The function returns the number of teams in a company given as input parameters
+     * Returns null if compnay does not exist
+     */
 
     async getNumberOfTeamsOfCompany(companyName:string):Promise<number>
     {
@@ -285,6 +300,11 @@ export class DataAccessRepository {
         else
             return null;
     }
+
+    /***
+     * The function returns the members of a team given as input parameters
+     * Returns null if team does not exist
+     */
 
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
@@ -1372,6 +1392,7 @@ export class DataAccessRepository {
             }
           }
         })
+        
         return "Team Member DELETED"
     }
 
