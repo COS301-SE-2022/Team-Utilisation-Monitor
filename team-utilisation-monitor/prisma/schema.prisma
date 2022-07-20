@@ -175,6 +175,8 @@ model WeeklyUtilisation{
   person Person @relation(name: "utility",fields: [person_id],references: [id])
   person_id Int @unique
 
+  hours Float
+
   utilisation Float
 
   status Status
