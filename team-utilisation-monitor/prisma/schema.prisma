@@ -172,5 +172,12 @@ enum Role{
   USER
 }
 
+enum Status{
+  UNDER_UTILISED
+  FAIRLY_UTILISED
+  HEAVILY_UTILISED
+  OVER_UTILISED
+}
+
 //flow model: A company has to be created; Then a project created, then employees
 //who work on it
