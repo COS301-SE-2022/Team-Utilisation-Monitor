@@ -52,15 +52,29 @@
       </mat-accordion>
     </div>
 
+    <hr>
+
     <div class="summ">
-      <mat-tab-group mat-align-tabs="center" >
-        <mat-tab label="#Teams"> {{nrOfTeams}} </mat-tab>
-        <mat-tab label="#Projects"> Open: {{nrOfOpenProjects}}, Closed: {{nrOfClosedProjects}} </mat-tab>
+      <mat-tab-group mat-align-tabs="center" dynamicHeight="true">
+        <mat-tab label="#Teams">
+
+          <div class="center">
+          <mat-card class="number-card">
+            <mat-card-title-group >
+              <mat-card-subtitle class="subtitle">Number of Teams joined</mat-card-subtitle>
+            </mat-card-title-group>
+            <mat-card-content>
+             <h2> {{nrOfTeams}} </h2>
+            </mat-card-content>
+          </mat-card>
+          </div>
+
+        </mat-tab>
+
+        <mat-tab label="#Projects" > Open: {{nrOfOpenProjects}}, Closed: {{nrOfClosedProjects}} </mat-tab>
         <mat-tab label="Utilization%">  {{utilizationPercentage}}% Utilized</mat-tab>
         <mat-tab label="#Skills"> {{nrOfSkills}} </mat-tab>
-
       </mat-tab-group>
-
 
 
     </div>

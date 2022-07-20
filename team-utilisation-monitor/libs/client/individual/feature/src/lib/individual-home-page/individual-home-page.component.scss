@@ -46,7 +46,7 @@ mat-progress-bar{
 }
 
 .util{
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 #inline{
   display: flex;
@@ -124,4 +124,13 @@ mat-grid-tile {
 
 .summ{
   margin-bottom: 5%;
+}
+
+.number-card{
+  width: 70%;
+}
+
+.center{
+  display: flex;
+  justify-content: center; /* align horizontal */
 }
