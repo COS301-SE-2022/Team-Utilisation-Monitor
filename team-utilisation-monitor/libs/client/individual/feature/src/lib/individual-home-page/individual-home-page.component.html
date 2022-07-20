@@ -52,8 +52,17 @@
       </mat-accordion>
     </div>
 
-    <div class="container">
-      
+    <div class="summ">
+      <mat-tab-group mat-align-tabs="center" >
+        <mat-tab label="#Teams"> {{nrOfTeams}} </mat-tab>
+        <mat-tab label="#Projects"> Open: {{nrOfOpenProjects}}, Closed: {{nrOfClosedProjects}} </mat-tab>
+        <mat-tab label="Utilization%">  {{utilizationPercentage}}% Utilized</mat-tab>
+        <mat-tab label="#Skills"> {{nrOfSkills}} </mat-tab>
+
+      </mat-tab-group>
+
+
+
     </div>
 
     <div class="container" id="inline">
