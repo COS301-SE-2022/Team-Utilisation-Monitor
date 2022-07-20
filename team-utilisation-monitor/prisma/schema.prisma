@@ -37,6 +37,8 @@ model Person{
 
   skills PersonOnSkills [] //one person can have many skills
 
+  utilisations WeeklyUtilisation [] @relation("utility")
+
   @@map("person")
 
 }
@@ -164,12 +166,36 @@ model Project{
   @@map("project")
 }
 
+model WeeklyUtilisation{
+
+  id Int @id @default(autoincrement())
+  
+  week DateTime
+
+  person Person @relation(name: "utility",fields: [person_id],references: [id])
+  person_id Int @unique
+
+  utilisation Float
+
+  status Status
+
+  @@map("weeky_utilisation")
+
+}
+
 //the same skills can be owned by multiple people
 
 
 enum Role{
   ADMIN
   USER
+}
+
+enum Status{
+  UNDER_UTILISED
+  FAIRLY_UTILISED
+  HEAVILY_UTILISED
+  OVER_UTILISED
 }
 
 //flow model: A company has to be created; Then a project created, then employees
