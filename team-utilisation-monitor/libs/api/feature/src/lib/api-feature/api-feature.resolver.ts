@@ -144,6 +144,10 @@ export class ApiFeatureResolver {
      return resp;
   }
 
+  /***
+   * This function returns the number teams of a company 
+  */
+
   @Query(()=>[Number])
   async getNumberOfTeamsOfCompany(@Args("company_name") company_name:string)
   {
