@@ -60,8 +60,8 @@
 
           <div class="center">
           <mat-card class="number-card">
-            <mat-card-title-group >
-              <mat-card-subtitle class="subtitle">Number of Teams joined</mat-card-subtitle>
+            <mat-card-title-group class="subtitle">
+              <mat-card-subtitle>Number of Teams joined</mat-card-subtitle>
             </mat-card-title-group>
             <mat-card-content>
              <h2> {{nrOfTeams}} </h2>
@@ -71,9 +71,49 @@
 
         </mat-tab>
 
-        <mat-tab label="#Projects" > Open: {{nrOfOpenProjects}}, Closed: {{nrOfClosedProjects}} </mat-tab>
-        <mat-tab label="Utilization%">  {{utilizationPercentage}}% Utilized</mat-tab>
-        <mat-tab label="#Skills"> {{nrOfSkills}} </mat-tab>
+        <mat-tab label="#Projects" >
+
+          <div class="center">
+            <mat-card class="number-card">
+              <mat-card-title-group class="subtitle">
+                <mat-card-subtitle>Number of open Projects</mat-card-subtitle>
+              </mat-card-title-group>
+              <mat-card-content>
+                <h2> {{nrOfOpenProjects}} </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          Closed: {{nrOfClosedProjects}}
+        </mat-tab>
+        <mat-tab label="Utilization%">
+
+          <div class="center">
+            <mat-card class="number-card">
+              <mat-card-title-group class="subtitle">
+                <mat-card-subtitle>Utilization Percentage</mat-card-subtitle>
+              </mat-card-title-group>
+              <mat-card-content>
+                <h2> {{utilizationPercentage}}% </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </mat-tab>
+        <mat-tab label="#Skills">
+
+          <div class="center">
+            <mat-card class="number-card">
+              <mat-card-title-group class="subtitle">
+                <mat-card-subtitle>Number of Skills</mat-card-subtitle>
+              </mat-card-title-group>
+              <mat-card-content>
+                <h2> {{nrOfSkills}}</h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </mat-tab>
       </mat-tab-group>
 
 
