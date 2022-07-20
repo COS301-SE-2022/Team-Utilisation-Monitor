@@ -177,6 +177,10 @@ export class DataAccessRepository {
 
     }
 
+    /***
+     * The function returns all projects or teams that belong to a company given as input parameters
+     * Returns null if compnay does not exist
+     */
 
     async getAllProjectsOrTeamsOfCompany(companyName:string,typeOfContent:number):Promise<ProjectEntity[]>
     {
@@ -263,6 +267,11 @@ export class DataAccessRepository {
             return null;
     }
 
+    /***
+     * The function returns the number of teams in a company given as input parameters
+     * Returns null if compnay does not exist
+     */
+
     async getNumberOfTeamsOfCompany(companyName:string):Promise<number>
     {
         const c_id=await this.getCompanyID(companyName);
@@ -291,6 +300,11 @@ export class DataAccessRepository {
         else
             return null;
     }
+
+    /***
+     * The function returns the members of a team given as input parameters
+     * Returns null if team does not exist
+     */
 
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
