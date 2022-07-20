@@ -235,9 +235,15 @@ export class DataAccessRepository {
                         return_teams[i].id=all_teams[i].id;
                         return_teams[i].team_name=all_teams[i].team_name;
                         return_teams[i].company_id=all_teams[i].company_id;
-                        return_teams[i].project_name=all_teams[i].project.project_name;
-                        return_teams[i].project_id=all_teams[i].project.id;
-                        return_teams[i].completed=all_teams[i].project.completed;
+
+                        if(all_teams[i].project)
+                        {
+                            return_teams[i].project_name=all_teams[i].project.project_name;
+                            return_teams[i].project_id=all_teams[i].project.id;
+                            return_teams[i].completed=all_teams[i].project.completed;
+                        }
+
+                        
                     }
 
                     return return_teams;
