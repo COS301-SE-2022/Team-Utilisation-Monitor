@@ -33,5 +33,12 @@ export class AuthenticationResolversResolver {
         return resp;
     }
 
+    @Query(()=>Boolean)
+    async verifyToken(@Args("token")f_token:string)
+    {
+        const resp=await this.service.verifyToken(f_token);
+        return resp;
+    }
+
     
 }

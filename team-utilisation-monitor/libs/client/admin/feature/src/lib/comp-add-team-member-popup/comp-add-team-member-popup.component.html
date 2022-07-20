@@ -1,10 +1,21 @@
 <form>
-    <h2>Add new Team Member</h2>
+    <h2>Add members to the Team</h2>
     <mat-form-field appearance="fill">
-        <mat-label>Enter Employee Name</mat-label>
-        <input id="Employee_Name" matInput placeholder="Employee Name">
+        <mat-label>Enter Employee Name to filter</mat-label>
+        <input id="Filter_Employee_Name" matInput placeholder="Employee Name">
     </mat-form-field>
     <br>
-    <h4>An Employee can only be added to one Team</h4>
-    <button mat-raised-button color="primary">Add Employee</button>
+    <h4>An Employee can be added to multiple Teams</h4>
 </form>
+
+<h2>Select Employees to add to the Team</h2>
+<mat-selection-list #name>
+    <mat-list-option *ngFor="let name of employeeNames">
+        {{name}}
+    </mat-list-option>
+</mat-selection-list>
+
+<p>
+    Options selected: {{name.selectedOptions.selected.length}}
+</p>
+<button mat-raised-button color="primary">Add Selected Employees to team</button>
