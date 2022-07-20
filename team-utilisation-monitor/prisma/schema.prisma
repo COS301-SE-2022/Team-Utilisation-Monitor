@@ -173,7 +173,7 @@ model WeeklyUtilisation{
   week DateTime
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
-  person_id Int @unique
+  person_id Int 
 
   hours Float
 
