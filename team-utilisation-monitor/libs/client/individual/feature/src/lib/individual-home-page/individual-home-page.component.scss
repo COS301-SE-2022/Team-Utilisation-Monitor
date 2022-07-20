@@ -128,9 +128,16 @@ mat-grid-tile {
 
 .number-card{
   width: 70%;
+  box-shadow: 0px 0px 5px black;
+  margin-bottom: 1%;
 }
 
 .center{
+  display: flex;
+  justify-content: center; /* align horizontal */
+}
+
+.subtitle{
   display: flex;
   justify-content: center; /* align horizontal */
 }
