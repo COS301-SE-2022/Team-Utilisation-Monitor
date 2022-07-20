@@ -43,6 +43,7 @@ import { NgChartsModule } from "ng2-charts";
 import { CompAddSkillsPopupComponent } from './comp-add-skills-popup/comp-add-skills-popup.component';
 import {MatListModule} from '@angular/material/list';
 import { CompAddTeamToProjectPopupComponent } from './comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
+import { CompTeamIndividualComponent } from './comp-team-individual/comp-team-individual.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { CompAddTeamToProjectPopupComponent } from './comp-add-team-to-project-p
     CompGraphCompanyUtilizationComponent,
     CompAddSkillsPopupComponent,
     CompAddTeamToProjectPopupComponent,
+    CompTeamIndividualComponent,
   ],
   exports: [
     AdminRoutingModule,

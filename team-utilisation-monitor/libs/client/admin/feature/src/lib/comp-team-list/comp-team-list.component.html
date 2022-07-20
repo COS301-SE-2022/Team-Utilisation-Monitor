@@ -9,8 +9,8 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <button class="userRequestButton" (click)="onOpenAddTeamMemberClick()" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
-        <team-utilisation-monitor-comp-employee-individual
+        <team-utilisation-monitor-comp-team-individual
         *ngFor="let user of OutEmployeeName"
-        [IndivName] = "user"></team-utilisation-monitor-comp-employee-individual>
+        [IndivName] = "user"></team-utilisation-monitor-comp-team-individual>
     </mat-expansion-panel>
 </mat-accordion>
