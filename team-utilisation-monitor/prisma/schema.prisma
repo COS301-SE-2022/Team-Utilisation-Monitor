@@ -12,7 +12,7 @@ datasource db {
 
 model Person{
   id Int @id @default(autoincrement())
-  name String 
+  name String
   surname String
   email String @unique
   role Role @default(USER)
@@ -20,14 +20,14 @@ model Person{
   utilisation Int @default(0)
   approved Boolean @default(false)
 
-  
-  position Position? 
+
+  position Position?
 
   admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id])
   admin_id Int?
 
   company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
-  company_id Int? 
+  company_id Int?
 
   project Project? @relation(name: "workOn",fields: [project_id],references: [id])
   project_id Int?
@@ -35,21 +35,50 @@ model Person{
   team Team? @relation(name: "partOf",fields: [team_id],references: [id])
   team_id Int?
 
-  skills Skills[] @relation("setOfSkills")
-  
-  
+  skills PersonOnSkills [] //one person can have many skills
+
+  utilisations WeeklyUtilisation [] @relation("utility")
+
   @@map("person")
 
 }
 
+model PersonOnSkills{
+
+  id Int @default(autoincrement()) //this is the skill ID.
+
+  person Person @relation(fields: [person_id],references: [id]) //person having the skill
+  person_id Int
+
+  skill Skills @relation(fields: [skill_id],references: [id]) //skill held by person
+  skill_id Int
+
+  @@id([person_id,skill_id])
+
+}
+
+model Skills{
+
+  id Int @id @default(autoincrement())
+  skill String @unique
+
+  people PersonOnSkills [] //multiple people can hold one skill
+
+  @@map("skills")
+}
+
+
+
 model Team{
 
   id Int @id @default(autoincrement())
+
   team_name String @unique
 
   members Person[] @relation("partOf")
 
   company Company? @relation(name: "memberOf",fields: [company_id],references: [id])
+
   company_id Int?
 
   project Project?
@@ -58,39 +87,24 @@ model Team{
 }
 
 model Company{
-  
+
   id Int @id @default(autoincrement())
+
   company_name String @unique
 
   employees Person[] @relation("worksFor")
 
   projects Project[] @relation("ownsA")
 
-  teams Team[] @relation("memberOf") 
+  teams Team[] @relation("memberOf")
 
   admins Person[] @relation("setOfAdmins")
 
   invite Invites?
 
-  utilisations CompanyUtilisations[] @relation("hasUtilisations")
-
   @@map("company")
 }
 
-model CompanyUtilisations{
-
-  id Int @id @default(autoincrement())
-
-  company Company? @relation(name: "hasUtilisations",fields: [company_id],references: [id])
-  company_id Int?
-
-  month String?
-
-  average_utilisation Float?
-
-
-  @@map("company_utilisations")
-}
 
 model Invites{
 
@@ -98,12 +112,12 @@ model Invites{
 
   invite_code String? @unique
 
-  company Company? @relation(fields: [company_id],references: [id]) 
+  company Company? @relation(fields: [company_id],references: [id])
   company_id Int? @unique
 
   created DateTime? @default(now())
 
-  expire DateTime //2023-01-01T03:53:00.000Z
+  expire DateTime //2023-01-01T03:53:00.000Z 
 
   @@map("invites")
 }
@@ -122,10 +136,13 @@ model Position{
 //or a project can have many peoples.
 
 model Project{
+
   id Int @id @default(autoincrement())
+
   project_name String
 
   owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id])
+
   owner_id Int? //the company that owns the preoject
 
   workers Person[] @relation("workOn")
@@ -135,23 +152,31 @@ model Project{
 
   man_hours Int? @default(0)
 
-  completed Boolean @default(false)  
+  completed Boolean @default(false)
 
   @@map("project")
 }
 
-//the same skills can be owned by multiple people
-
-model Skills{
+model WeeklyUtilisation{
 
   id Int @id @default(autoincrement())
-  skill String
+  
+  week DateTime @default(now()) //2023-01-01T03:53:00.000Z
 
-  person Person @relation(name: "setOfSkills",fields: [person_id],references: [id])
-  person_id Int
+  person Person @relation(name: "utility",fields: [person_id],references: [id])
+  person_id Int 
 
-  @@map("skills")
+  hours Float @default(0)
+
+  utilisation Float @default(0)
+
+  status Status @default(UNDER_UTILISED)
+
+  @@map("weeky_utilisation")
+
 }
+
+//the same skills can be owned by multiple people
 
 
 enum Role{
@@ -159,9 +184,18 @@ enum Role{
   USER
 }
 
-//flow model: A company has to be created; Then a project created, then employees 
+enum Status{
+  //for WeeklyUtilisation
+  UNDER_UTILISED
+  FAIRLY_UTILISED
+  HEAVILY_UTILISED
+  OVER_UTILISED
+
+  //For Project
+  ACTIVE //
+  INACTIVE
+}
+
+
+//flow model: A company has to be created; Then a project created, then employees
 //who work on it
-
-
-
-

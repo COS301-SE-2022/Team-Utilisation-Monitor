@@ -9,7 +9,8 @@ import { GetAllEmployeesOfCompanyHandler } from "./get-all-employees-of-company.
 import { GetAllProjectsOrTeamsOfCompanyHandler } from "./get-all-project-or-teams.handler";
 import {GetInviteCodeHandler} from "./getInviteCode.handler"
 import { GetTeamMembersHandler } from "./getTeamMembers.handler";
+import { GetSkillsHandler } from "./GetSkills.handler";
 
 
 export const QueryHandlers=[GetAllProjectsOrTeamsOfCompanyHandler,GetAllEmployeesOfCompanyHandler,GetCompanyStatsHandler,GetUserIDQueryHandler,
-GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler,GetInviteCodeHandler, GetTeamMembersHandler]
+GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler,GetInviteCodeHandler, GetTeamMembersHandler,GetSkillsHandler]
