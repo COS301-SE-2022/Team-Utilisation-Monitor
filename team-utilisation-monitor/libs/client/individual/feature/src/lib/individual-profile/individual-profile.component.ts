@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
@@ -14,7 +16,7 @@ export class IndividualProfileComponent implements OnInit {
   profileForm=new FormGroup({
     first_name:new FormControl('',[Validators.required]),
     last_name:new FormControl('',[Validators.required]),
-    skill_name:new FormControl('',[Validators.required])
+   // skill_name:new FormControl('',[Validators.required])
   });
 
   constructor(private readonly cookies:CookieService,private readonly service:IndividualService){}
@@ -72,7 +74,14 @@ export class IndividualProfileComponent implements OnInit {
 
   UpdateProfile()
   {
-    //
+    const first_name=this.profileForm.get('first_name')?.value!;
+    const last_name=this.profileForm.get("last_name")?.value!;
+    //const skill_name=this.profileForm.get('')
+    console.log(this.email)
+    this.service.UpdateProfile(this.email,first_name,last_name,"TypeScript").subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
   }
 
 }

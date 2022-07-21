@@ -63,7 +63,7 @@
           <mat-card-content>
             <!--GET THIS DATA AND UPDATE THE USER'S DATA, IN THE TABLE TOO -->
             <div class="form">
-              <form class="example-form">
+              <form class="example-form" [formGroup]="profileForm">
                 <table class="two">
                   <tr>
                     <td>
@@ -89,13 +89,13 @@
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>First Name</mat-label><input matInput placeholder={{fName}} formControlName="first_name">
+                        <mat-label>First Name</mat-label><input matInput value={{fName}} formControlName="first_name">
                       </mat-form-field>
                     </td>
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Last Name</mat-label><input matInput placeholder={{lastName}} formControlName="last_name">
+                        <mat-label>Last Name</mat-label><input matInput value={{lastName}} formControlName="last_name">
                       </mat-form-field>
                     </td>
 
