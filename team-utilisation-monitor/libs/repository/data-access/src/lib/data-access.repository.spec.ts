@@ -1,24 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataAccessRepository } from './data-access.repository';
 
+import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+
 describe('DataAccessRepository', () => {
-  let provider: DataAccessRepository;
+  let controller: DataAccessRepository;
+
+  // beforeEach(async () => {
+  //   const module: TestingModule = await Test.createTestingModule({
+  //     providers: [DataAccessRepository],
+  //   }).compile();
+
+  //   provider = module.get<DataAccessRepository>(DataAccessRepository);
+  // });
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [DataAccessRepository],
-    }).compile();
+  const module: TestingModule = await Test.createTestingModule({
+    controllers : [DataAccessRepository],
+    providers: [PrismaService],
+  }).compile();
 
-    provider = module.get<DataAccessRepository>(DataAccessRepository);
+  controller = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
   it('should be defined', () => {
-    expect(provider).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
-  // to do
-  // it('should be defined', () => {
-  //   expect(provider).getTeam();
-  // });
   
 });
