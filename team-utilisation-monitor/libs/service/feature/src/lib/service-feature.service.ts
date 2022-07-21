@@ -32,7 +32,7 @@ import { AddSkillCommand } from './commands/impl/AddSkill.command';
 @Injectable()
 export class ServiceFeatureService {
 
-    constructor(private readonly queryBus:QueryBus,private readonly commandBus:CommandBus){}
+    constructor(private readonly queryBus:QueryBus, private readonly commandBus:CommandBus){}
 
     async getAllUserPerson():Promise<UserPerson>
     {

@@ -11,7 +11,7 @@ import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access'
 @Injectable()
 export class DataAccessRepository {
 
-    constructor(private readonly prisma: PrismaService){}
+    constructor(private readonly prisma: PrismaService) {}
 
     async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
@@ -740,7 +740,6 @@ export class DataAccessRepository {
     /***
      * Returns one user via their email address.
     */
-
 
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
