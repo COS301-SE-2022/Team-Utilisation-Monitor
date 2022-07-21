@@ -35,10 +35,10 @@ model Person{
 
   skills PersonOnSkills [] //one person can have many skills
 
-  weekly_hours Float
-  assigned_hours Float
+  weekly_hours Float?
+  assigned_hours Float?
   utilisation Int @default(0)
-  status Status
+  status Status?
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
@@ -169,7 +169,7 @@ model HistoricUtilisation{
   week4 Float @default(0) //2023-01-01T03:53:00.000Z
   MonthlyAvg Float @default(0)
 
-  month String
+  month String?
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
   person_id Int
