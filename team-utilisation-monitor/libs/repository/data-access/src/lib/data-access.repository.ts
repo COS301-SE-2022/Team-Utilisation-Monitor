@@ -2,7 +2,7 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -11,7 +11,7 @@ import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access'
 @Injectable()
 export class DataAccessRepository {
 
-    constructor(private readonly prisma:PrismaService, ){}
+    constructor(private readonly prisma: PrismaService){}
 
     async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
     {
