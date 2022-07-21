@@ -17,9 +17,7 @@ model Person{
   email String @unique
   role Role @default(USER)
   suspended Boolean @default(false)
-  utilisation Int @default(0)
   approved Boolean @default(false)
-
 
   position Position?
 
@@ -37,7 +35,11 @@ model Person{
 
   skills PersonOnSkills [] //one person can have many skills
 
-  utilisations WeeklyUtilisation [] @relation("utility")
+  weekly_hours Float
+  assigned_hours Float
+  utilisation Int @default(0)
+  status Status
+  utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
 
@@ -117,7 +119,7 @@ model Invites{
 
   created DateTime? @default(now())
 
-  expire DateTime //2023-01-01T03:53:00.000Z 
+  expire DateTime //2023-01-01T03:53:00.000Z
 
   @@map("invites")
 }
@@ -157,22 +159,22 @@ model Project{
   @@map("project")
 }
 
-model WeeklyUtilisation{
+model HistoricUtilisation{
 
   id Int @id @default(autoincrement())
-  
-  week DateTime @default(now()) //2023-01-01T03:53:00.000Z
+
+  week1 Float @default(0) //2023-01-01T03:53:00.000Z
+  week2 Float @default(0) //2023-01-01T03:53:00.000Z
+  week3 Float @default(0) //2023-01-01T03:53:00.000Z
+  week4 Float @default(0) //2023-01-01T03:53:00.000Z
+  MonthlyAvg Float @default(0)
+
+  month String
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
-  person_id Int 
+  person_id Int
 
-  hours Float @default(0)
-
-  utilisation Float @default(0)
-
-  status Status @default(UNDER_UTILISED)
-
-  @@map("weeky_utilisation")
+  @@map("historic_utilisation")
 
 }
 
