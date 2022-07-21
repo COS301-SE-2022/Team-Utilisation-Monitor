@@ -1,4 +1,4 @@
-import { IQueryHandler,QueryHandler} from '@nestjs/cqrs'
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { GetAllPersonsQuery } from '../impl/get-all-persons.query'
 import { DataAccessRepository } from '@team-utilisation-monitor/repository/data-access'
 
