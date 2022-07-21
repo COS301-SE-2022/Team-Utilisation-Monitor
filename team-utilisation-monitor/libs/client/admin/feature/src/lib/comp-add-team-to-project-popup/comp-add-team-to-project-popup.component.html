@@ -1,0 +1,11 @@
+<h2>Select Teams to add to the Project</h2>
+<mat-selection-list #name>
+    <mat-list-option *ngFor="let name of TeamNames">
+        {{name}}
+    </mat-list-option>
+</mat-selection-list>
+
+<p>
+    Options selected: {{name.selectedOptions.selected.length}}
+</p>
+<button mat-raised-button color="primary">Add Teams</button>

@@ -28,10 +28,17 @@ export class IndividualService {
 
   }
 
-  /*updateProfile(name:string,surname:string):Observable<any>
+  UpdateProfile(email:string,name:string,surname:string,skill_name:string):Observable<any>
   {
-    //
-  }*/
+    const Query='mutation{UpdateProfile(email:"'+email+'",name:"'+name+'",surname:"'+surname+'",skill_name:"'+skill_name+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
 
 
 }

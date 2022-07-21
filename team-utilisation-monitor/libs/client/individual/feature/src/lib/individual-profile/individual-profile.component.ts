@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { IndividualService } from '../Individual.service';
+import {FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-profile',
@@ -10,6 +11,11 @@ import { IndividualService } from '../Individual.service';
 })
 export class IndividualProfileComponent implements OnInit {
 
+  profileForm=new FormGroup({
+    first_name:new FormControl('',[Validators.required]),
+    last_name:new FormControl('',[Validators.required]),
+    skill_name:new FormControl('',[Validators.required])
+  });
 
   constructor(private readonly cookies:CookieService,private readonly service:IndividualService){}
 
@@ -29,12 +35,14 @@ export class IndividualProfileComponent implements OnInit {
   team="none";
 
   noOfProject=this.projects.length;
+  companyName=""
   panelOpenState = false;
 
   ngOnInit(): void {
     console.log();
 
     const email=this.cookies.get("Email");
+    this.companyName=this.cookies.get("CompanyName");
 
     this.result=this.service.getPersonDetails(email).subscribe({
       next:(item)=>{
@@ -56,14 +64,15 @@ export class IndividualProfileComponent implements OnInit {
     })
 
 
-
-
-
-
   }
 
   showInfo(link: string) {
     console.log()
+  }
+
+  UpdateProfile()
+  {
+    //
   }
 
 }

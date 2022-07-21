@@ -16,6 +16,8 @@ import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllEmployeesOfCompany } from './queries/impl/get-all-employees-of-company.query';
+import { GetNumberOfTeamsOfCompany } from './queries/impl/get-number-of-teams-of-company.query';
+import { GetAllMembersOfTeam } from './queries/impl/get-all-members-of-team.query'
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetAllProjectsOrTeamsOfCompany } from './queries/impl/get-all-projects-or-teams.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
@@ -111,6 +113,16 @@ export class ServiceFeatureService {
     async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number)
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
+    }
+
+    async getNumberOfTeamsOfCompany(companyName:string)
+    {
+        return this.queryBus.execute(new GetNumberOfTeamsOfCompany(companyName));
+    }
+
+    async getAllMembersOfTeam(teamName:string)
+    {
+        return this.queryBus.execute(new GetAllMembersOfTeam(teamName));
     }
 
     async GetInviteCode(companyName:string)

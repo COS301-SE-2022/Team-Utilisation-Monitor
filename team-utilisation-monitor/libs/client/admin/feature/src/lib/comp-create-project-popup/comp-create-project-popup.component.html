@@ -5,15 +5,25 @@
         <input id="Project_Name" matInput placeholder="Project" formControlName="projectName">
     </mat-form-field>
     <br>
+
     <mat-form-field appearance="fill">
-      <mat-label>Enter Team name</mat-label>
-      <input id="Team_Name" matInput placeholder="Team Name" formControlName="teamName">
-    </mat-form-field>
-    <br>
-    <mat-form-field appearance="fill">
-      <mat-label>Hours suggested for completion</mat-label>
+      <mat-label>Weekly hours assigned to the project</mat-label>
       <input id="Team_Name" matInput placeholder="Hours" formControlName="manHours">
     </mat-form-field>
-    <h4>Add a team to the Project on the Team/Project View tab</h4>
+    <br>
+
+    <h2>Select Teams assigned to the project</h2>
+    <mat-selection-list #name>
+        <mat-list-option *ngFor="let name of TeamNames">
+            {{name}}
+        </mat-list-option>
+    </mat-selection-list>
+
+    <p>
+        Options selected: {{name.selectedOptions.selected.length}}
+    </p>
+    <p>
+      Teams can also be added to the project via the Team/Project View
+    </p>
     <button type="submit" mat-raised-button color="primary" [disabled]="!projectForm.valid">Create Project</button>
 </form>
