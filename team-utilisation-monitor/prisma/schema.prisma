@@ -35,10 +35,14 @@ model Person{
 
   skills PersonOnSkills [] //one person can have many skills
 
-  weekly_hours Float?
-  assigned_hours Float?
+  weekly_hours Float @default(0)
+
+  assigned_hours Float @default(0)
+
   utilisation Int @default(0)
-  status Status?
+
+  status Status @default(UNDER_UTILISED)
+
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
@@ -91,7 +95,7 @@ model Company{
 
 
 model Invites{
-
+  
   id Int @id @default(autoincrement())
 
   invite_code String? @unique
@@ -125,10 +129,9 @@ model Team{
   members Person[] @relation("partOf")
 
   company Company? @relation(name: "memberOf",fields: [company_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
+  company_id Int?  //company owns muliple teams
 
-  company_id Int?
-
-  project TeamsOnProjects []
+  projects TeamsOnProjects []
 
   @@map("team")
 }
@@ -155,14 +158,13 @@ model Project{
   project_name String
 
   owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
-
   owner_id Int? //the company that owns the preoject
 
   workers Person[] @relation("workOn")
 
-  team TeamsOnProjects []
+  teams TeamsOnProjects []
 
-  man_hours Int? @default(0)
+  man_hours Int @default(0)
 
   completed Boolean @default(false)
 
@@ -173,11 +175,15 @@ model HistoricUtilisation{
 
   id Int @id @default(autoincrement())
 
-  week1 Float @default(0) //2023-01-01T03:53:00.000Z
-  week2 Float @default(0) //2023-01-01T03:53:00.000Z
-  week3 Float @default(0) //2023-01-01T03:53:00.000Z
-  week4 Float @default(0) //2023-01-01T03:53:00.000Z
-  MonthlyAvg Float @default(0)
+  week1 Float @default(0) 
+
+  week2 Float @default(0) 
+
+  week3 Float @default(0) 
+
+  week4 Float @default(0) 
+
+  monthy_avg Float @default(0)
 
   month String?
 
