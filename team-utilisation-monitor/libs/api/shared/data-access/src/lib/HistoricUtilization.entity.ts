@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 
-@ObjectType({description:'Object encapsulating the users details'})
+@ObjectType({description:'Returns the weekly utilization for a particula month'})
 export class Utilization{
   @Field(() => ID)
   id!:number;

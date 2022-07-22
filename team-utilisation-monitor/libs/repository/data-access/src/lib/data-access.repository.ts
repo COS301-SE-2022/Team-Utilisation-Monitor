@@ -6,6 +6,7 @@ import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} fr
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
+import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
 
 
 @Injectable()
@@ -252,7 +253,7 @@ export class DataAccessRepository {
                             //return_teams[i].completed=all_teams[i].projects.completed;
                         }
 
-                        
+
                     }
 
                     return return_teams;
@@ -503,9 +504,9 @@ export class DataAccessRepository {
             return_project.project_name=new_project.project_name;
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
-            
 
-            return return_project; 
+
+            return return_project;
         }
 
     }
@@ -566,7 +567,7 @@ export class DataAccessRepository {
                             connect:{
                                 id:project_id
                             }
-                           } 
+                           }
                         }]
                     }
                 }
@@ -833,18 +834,19 @@ export class DataAccessRepository {
                 include:{
                     teams:true
                 }
-            })  
+            })
 
             if(project)
             {
                 for(let i=0;i<project.teams.length;++i)
                 {
                     const team_object=new TeamEntity();
-                    
+
                     const team_id=project.teams[i].team_id;
 
                     team_object.team_name=(await this.getTeam(team_id)).team_name;
                     team_object.project_name=project.project_name;
+                    team_object.id=team_id;
 
                     return_arr.push(team_object);
                 }
@@ -858,8 +860,54 @@ export class DataAccessRepository {
         }
     }
 
+    /****
+     * This function returns a team's projects i.e all projects the team is working on
+     * returns an empty array if the team has no projects
+     * Returns an array of all projects the team is working on
+    */
 
-    
+    async getAllProjectsOfTheTeam(team_name:string):Promise<ProjectEntity[]>
+    {
+        const t_id=await this.getTeamIDVName(team_name);
+        let return_arr=[]
+
+        if(t_id>0)
+        {
+            const team= await this.prisma.team.findUnique({
+                where:{
+                  id:t_id,  
+                },
+                include:{
+                    projects:true
+                }
+            })
+
+
+            if(team)
+            {
+                for(let i=0;i<team.projects.length;++i)
+                {
+                    const project_object=new ProjectEntity();
+                    const project_id=team.projects[i].project_id;
+
+                    project_object.id=project_id;
+                    project_object.project_name=(await this.getProject(project_id)).project_name;
+                    
+                    return_arr.push(project_object);
+                }
+            }
+
+            return return_arr;
+           
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+
 
     /***
      * Returns an array of all persons on the dataBase
@@ -1378,7 +1426,7 @@ export class DataAccessRepository {
 
         return teams;
 
-        
+
     }
 
     /****
@@ -1581,7 +1629,7 @@ export class DataAccessRepository {
             }
           }
         })
-        
+
         return "Team Member DELETED"
     }
 
@@ -1652,6 +1700,10 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
     {
+      /*if(skillName=="Baby")
+      {
+        //
+      }*/
       const skill=await this.prisma.skills.findUnique(
         {
           where:
@@ -1706,4 +1758,81 @@ export class DataAccessRepository {
           return "Something went wrong when updating"
         }
     }
+
+    async GetUnderUtilizedEmployees(companyName:string)
+    {
+      //
+      const comID=await this.getCompanyID(companyName);
+      let employees_arr:UserPerson[]
+
+      employees_arr=[]
+
+      const compEmployees=await this.prisma.company.findUnique(
+        {
+          where:{
+            id:comID
+          },
+          include:
+          {
+            employees:true
+          }
+        }
+      )
+
+      const Employees=compEmployees.employees;
+
+      for(let i=0;i<Employees.length;i++)
+      {
+        const emp=new UserPerson;
+        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status="FULLY_UTILISED"))
+        {
+            //
+        }
+        else
+        {
+            emp.name=Employees[i].name;
+            emp.surname=Employees[i].surname;
+            emp.email=Employees[i].email;
+            emp.role=Employees[i].role;
+
+            employees_arr.push(emp);
+        }
+      }
+
+      return employees_arr;
+    }
+
+
+    async GetMonthlyUtilization(Email:string)
+    {
+      const utilization=await this.prisma.person.findUnique(
+        {
+          where:{
+            email:Email,
+          },
+          include:
+          {
+            utilisations:true
+          }
+        }
+      )
+
+      let utilization_arr:Utilization[]
+
+      utilization_arr=[]
+
+      for(let i=0;i<utilization.utilisations.length;i++)
+      {
+        const obj=new Utilization()
+        obj.Week1=utilization.utilisations[i].week1
+        obj.Week2=utilization.utilisations[i].week2
+        obj.Week3=utilization.utilisations[i].week3
+        obj.Week4=utilization.utilisations[i].week4
+        obj.Average=utilization.utilisations[i].monthy_avg
+        utilization_arr.push(obj)
+      }
+
+    }
+
+    //async calculateAverage(weekID:)
 }
