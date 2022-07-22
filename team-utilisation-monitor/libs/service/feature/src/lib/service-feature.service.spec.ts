@@ -39,7 +39,7 @@ describe('ServiceFeatureService', () => {
   const mockQueryBus = {
     execute: jest.fn((query: IQuery) => {
       if (query instanceof GetOnePersonQuery) {
-        return 10;
+        return 123;
       }
       const user_person = new UserPerson();
 
@@ -77,13 +77,13 @@ describe('ServiceFeatureService', () => {
     expect(service).toBeDefined();
   });
 
-  describe("getUserIDVEmail", () => {
+  describe("getOnePersonVEmailService", () => {
     it('should return a user', async () => {
       let test = new UserPerson();
       try {
-        test = await service.getUserIDVEmail('rourke@gmail.com');
+        test = await service.getOnePersonVEmailService('rourke@gmail.com');
       } catch (err) { return }
-      expect(test.id).toEqual(123);
+      expect(test).toEqual(123);
       //expect(test.email).toEqual('rourke@gmail.com');
       });
   });
