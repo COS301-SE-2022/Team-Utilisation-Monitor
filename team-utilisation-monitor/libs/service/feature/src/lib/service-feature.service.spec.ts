@@ -36,9 +36,11 @@ import { AddSkillCommand } from './commands/impl/AddSkill.command';
 describe('ServiceFeatureService', () => {
   let service: ServiceFeatureService;
 
-  const mockServiceRepository = {
+  const mockQueryBus = {
     execute: jest.fn((query: IQuery) => {
-
+      if (query instanceof GetOnePersonQuery) {
+        return 10;
+      }
       const user_person = new UserPerson();
 
       user_person.id = 123;
@@ -54,22 +56,19 @@ describe('ServiceFeatureService', () => {
       user_person.company_id = 2;
       user_person.project_id = 6;
       user_person.team_id = 21;
-
+      
+      return user_person;
     })
   }
-
-
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [CqrsModule],
       providers: [
-        ServiceFeatureService
+        ServiceFeatureService,
+        { provide: QueryBus, useValue: mockQueryBus}
       ],
-    })
-      // .overrideProvider(ServiceFeatureService)
-      // .useValue(mockServiceRepository)
-      .compile();
+    }).compile();
 
       service = module.get<ServiceFeatureService>(ServiceFeatureService);
   });
@@ -78,10 +77,15 @@ describe('ServiceFeatureService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return a user', async () => {
-    expect (await service.getUserIDVEmail('foo@bar.com')).toEqual(UserPerson)
-
-    ;
+  describe("getUserIDVEmail", () => {
+    it('should return a user', async () => {
+      let test = new UserPerson();
+      try {
+        test = await service.getUserIDVEmail('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test.id).toEqual(123);
+      //expect(test.email).toEqual('rourke@gmail.com');
+      });
   });
 
 });
