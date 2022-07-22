@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {link} from "fs";
 
 @Component({
   selector: 'team-utilisation-monitor-individual-home-page',
@@ -12,11 +13,11 @@ export class IndividualHomePageComponent implements OnInit {
   opened = true;
   panelOpenState=false;
   boolshow = true;
-  nrOfEmployees = 108;
-  utilizationPersentage = 80;
-  nrOfOpenProjects = 40;
+  utilizationPercentage = 30;
+  nrOfOpenProjects = 40;       //this will be counted from the array ofcours
   nrOfClosedProjects = 50;
-  nrOfTeams = 20;
+  nrOfTeams = 20;     //and this
+  nrOfSkills= 7;
   teams: string[]=['Team A', 'Team B','Team C','Team D','Team D','Team D','Team D','Team E'];
   projects: string[]=['Project1','Project2','Project3','Project4','Project4','Project4','Project4','Project5'];
 

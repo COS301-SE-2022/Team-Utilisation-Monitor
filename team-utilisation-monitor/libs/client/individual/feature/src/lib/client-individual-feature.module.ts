@@ -28,31 +28,33 @@ import {NgChartsModule} from "ng2-charts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import { IndividualExplorePageComponent } from './individual-explore-page/individual-explore-page.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
-  imports: [
-    CommonModule,
+    imports: [
+        CommonModule,
 
-    RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
-    ]),
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    ClientAdminFeatureModule,
-    MatGridListModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatListModule,
-    MatExpansionModule,
-    NgChartsModule,
-    MatButtonToggleModule,
-    MatTabsModule
-  ],
+        RouterModule.forChild([
+            /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+        ]),
+        MatButtonModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        ClientAdminFeatureModule,
+        MatGridListModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatListModule,
+        MatExpansionModule,
+        NgChartsModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatChipsModule
+    ],
   declarations: [
     IndividualHomePageComponent,
     IndividualProfileComponent,
