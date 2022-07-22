@@ -10,12 +10,12 @@
 
 <h2>Select Employees to add to the Team</h2>
 <mat-selection-list #name>
-    <mat-list-option *ngFor="let name of employeeNames">
-        {{name}}
+    <mat-list-option *ngFor="let name of employeeObjects">
+        {{name.Name}} {{name.Surname}} {{name.Email}}
     </mat-list-option>
 </mat-selection-list>
 
 <p>
     Options selected: {{name.selectedOptions.selected.length}}
 </p>
-<button mat-raised-button color="primary">Add Selected Employees to team</button>
+<button mat-raised-button color="primary" >Add Selected Employees to team</button>
