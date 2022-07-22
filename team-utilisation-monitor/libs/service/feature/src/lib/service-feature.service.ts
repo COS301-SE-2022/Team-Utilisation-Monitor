@@ -29,6 +29,7 @@ import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignProjectToTeamCommand } from './commands/impl/assign-project-to-team.command';
+import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-to-team-vname.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -168,6 +169,11 @@ export class ServiceFeatureService {
     async AssignProjectToTeamServ(team_id:number,project_id:number):Promise<string>
     {
       return this.commandBus.execute(new AssignProjectToTeamCommand(team_id,project_id));
+    }
+
+    async AssignProjectToTeamVName(team_name:string,project_name:string):Promise<string>{
+      
+      return this.commandBus.execute(new AssignProjectToTeamVNamesCommand(project_name,team_name))
     }
 
 
