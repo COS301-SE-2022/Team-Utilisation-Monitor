@@ -846,6 +846,7 @@ export class DataAccessRepository {
 
                     team_object.team_name=(await this.getTeam(team_id)).team_name;
                     team_object.project_name=project.project_name;
+                    team_object.id=team_id;
 
                     return_arr.push(team_object);
                 }
@@ -855,6 +856,52 @@ export class DataAccessRepository {
 
         }
         else{ //project does not exist
+            return null;
+        }
+    }
+
+    /****
+     * This function returns a team's projects i.e all projects the team is working on
+     * returns an empty array if the team has no projects
+     * Returns an array of all projects the team is working on
+    */
+
+    async getAllProjectsOfTheTeam(team_name:string):Promise<ProjectEntity[]>
+    {
+        const t_id=await this.getTeamIDVName(team_name);
+        let return_arr=[]
+
+        if(t_id>0)
+        {
+            const team= await this.prisma.team.findUnique({
+                where:{
+                  id:t_id,  
+                },
+                include:{
+                    projects:true
+                }
+            })
+
+
+            if(team)
+            {
+                for(let i=0;i<team.projects.length;++i)
+                {
+                    const project_object=new ProjectEntity();
+                    const project_id=team.projects[i].project_id;
+
+                    project_object.id=project_id;
+                    project_object.project_name=(await this.getProject(project_id)).project_name;
+                    
+                    return_arr.push(project_object);
+                }
+            }
+
+            return return_arr;
+           
+        }
+        else
+        {
             return null;
         }
     }
