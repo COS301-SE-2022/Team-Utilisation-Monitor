@@ -135,7 +135,6 @@
                         <input matInput maxlength="4" type="number" placeholder="1182" min="4">
                       </mat-form-field>
                     </td>
-
                   </tr>
                 </table>
 
@@ -152,16 +151,14 @@
                         </mat-panel-description>
                       </mat-expansion-panel-header>
 
-
                       <div class="setHeight">
-                        <form [formGroup]="skillForm" >
+                        <form [formGroup]="skillForm">
                           <mat-checkbox  class="skillList" formControlName="skill_name"
                                          *ngFor="let link of newSkills"
                                          value="{{link}}"> {{link}}
                           </mat-checkbox>
                         </form>
                       </div>
-
                     </mat-expansion-panel>
                   </mat-accordion>
 
