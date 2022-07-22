@@ -10,10 +10,20 @@ export class ApiFeatureResolver {
 
   constructor(private readonly service: ServiceFeatureService ) {}
 
+  /***
+   * Use this function to get all teams associated with a project. Returns an array []
+   */
+  @Query(()=>[TeamEntity])
+  async getAllTeamsWorkingOnProject(@Args("project_name")project_name:string){
+
+    const resp=await this.service.GetAllTeamsWorkingOnProjectServ(project_name);
+    return resp;
+  }
+
   @Query(() => UserPerson)
   async login(@Args("email") email:string, @Args("password") password:string){
       const resp=await this.service.login(email, password);
-      console.log(resp);
+      
       return resp;
   }
 
@@ -236,7 +246,7 @@ export class ApiFeatureResolver {
   */
 
   @Mutation(()=>String)
-  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name)
+  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name:string)
   {
     const resp=await this.service.AssignProjectToTeamVName(team_name,project_name);
 

@@ -30,6 +30,7 @@ import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignProjectToTeamCommand } from './commands/impl/assign-project-to-team.command';
 import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-to-team-vname.command';
+import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -172,8 +173,13 @@ export class ServiceFeatureService {
     }
 
     async AssignProjectToTeamVName(team_name:string,project_name:string):Promise<string>{
-      
+
       return this.commandBus.execute(new AssignProjectToTeamVNamesCommand(project_name,team_name))
+    }
+
+    async GetAllTeamsWorkingOnProjectServ(project_name:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllTeamsWorkingOnProjectCommand(project_name));
     }
 
 
