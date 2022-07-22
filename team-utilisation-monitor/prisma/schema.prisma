@@ -21,24 +21,28 @@ model Person{
 
   position Position?
 
-  admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id])
+  admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   admin_id Int?
 
-  company Company? @relation(name:"worksFor",fields: [company_id],references: [id])
+  company Company? @relation(name:"worksFor",fields: [company_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   company_id Int?
 
-  project Project? @relation(name: "workOn",fields: [project_id],references: [id])
+  project Project? @relation(name: "workOn",fields: [project_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   project_id Int?
 
-  team Team? @relation(name: "partOf",fields: [team_id],references: [id])
+  team Team? @relation(name: "partOf",fields: [team_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   team_id Int?
 
   skills PersonOnSkills [] //one person can have many skills
 
-  weekly_hours Float?
-  assigned_hours Float?
+  weekly_hours Float @default(0)
+
+  assigned_hours Float @default(0)
+
   utilisation Int @default(0)
-  status Status?
+
+  status Status @default(UNDER_UTILISED)
+
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
@@ -49,10 +53,10 @@ model PersonOnSkills{
 
   id Int @default(autoincrement()) //this is the skill ID.
 
-  person Person @relation(fields: [person_id],references: [id]) //person having the skill
+  person Person @relation(fields: [person_id],references: [id], onDelete: Cascade, onUpdate: Cascade) //person having the skill
   person_id Int
 
-  skill Skills @relation(fields: [skill_id],references: [id]) //skill held by person
+  skill Skills @relation(fields: [skill_id],references: [id], onDelete: Cascade, onUpdate: Cascade) //skill held by person
   skill_id Int
 
   @@id([person_id,skill_id])
@@ -69,24 +73,6 @@ model Skills{
   @@map("skills")
 }
 
-
-
-model Team{
-
-  id Int @id @default(autoincrement())
-
-  team_name String @unique
-
-  members Person[] @relation("partOf")
-
-  company Company? @relation(name: "memberOf",fields: [company_id],references: [id])
-
-  company_id Int?
-
-  project Project?
-
-  @@map("team")
-}
 
 model Company{
 
@@ -109,12 +95,12 @@ model Company{
 
 
 model Invites{
-
+  
   id Int @id @default(autoincrement())
 
   invite_code String? @unique
 
-  company Company? @relation(fields: [company_id],references: [id])
+  company Company? @relation(fields: [company_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   company_id Int? @unique
 
   created DateTime? @default(now())
@@ -128,10 +114,38 @@ model Position{
   id Int @id @default(autoincrement())
   title String @default("newbie")
 
-  person Person? @relation(fields: [person_id],references: [id])
+  person Person? @relation(fields: [person_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   person_id Int? @unique
 
   @@map("position")
+}
+
+model Team{
+
+  id Int @id @default(autoincrement())
+
+  team_name String @unique
+
+  members Person[] @relation("partOf")
+
+  company Company? @relation(name: "memberOf",fields: [company_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
+  company_id Int?  //company owns muliple teams
+
+  projects TeamsOnProjects []
+
+  @@map("team")
+}
+
+model TeamsOnProjects{
+
+  id Int @id @default(autoincrement())
+
+  team Team @relation(fields: [team_id],references: [id])
+  team_id Int
+
+  project Project @relation(fields: [project_id],references: [id])
+  project_id Int
+
 }
 
 //a project can be worked on mutliple users
@@ -143,16 +157,14 @@ model Project{
 
   project_name String
 
-  owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id])
-
+  owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   owner_id Int? //the company that owns the preoject
 
   workers Person[] @relation("workOn")
 
-  team Team? @relation(fields: [team_id],references: [id])
-  team_id Int? @unique
+  teams TeamsOnProjects []
 
-  man_hours Int? @default(0)
+  man_hours Int @default(0)
 
   completed Boolean @default(false)
 
@@ -163,11 +175,15 @@ model HistoricUtilisation{
 
   id Int @id @default(autoincrement())
 
-  week1 Float @default(0) //2023-01-01T03:53:00.000Z
-  week2 Float @default(0) //2023-01-01T03:53:00.000Z
-  week3 Float @default(0) //2023-01-01T03:53:00.000Z
-  week4 Float @default(0) //2023-01-01T03:53:00.000Z
-  MonthlyAvg Float @default(0)
+  week1 Float @default(0) 
+
+  week2 Float @default(0) 
+
+  week3 Float @default(0) 
+
+  week4 Float @default(0) 
+
+  monthy_avg Float @default(0)
 
   month String?
 
@@ -194,10 +210,7 @@ enum Status{
   OVER_UTILISED
 
   //For Project
-  ACTIVE //
+  ACTIVE 
   INACTIVE
 }
 
-
-//flow model: A company has to be created; Then a project created, then employees
-//who work on it
