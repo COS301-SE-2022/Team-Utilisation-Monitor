@@ -213,10 +213,14 @@ div{
 
 .skillList{
   display: block;
+  height:3pc;
+  margin: 0 auto;
 }
 
 .skillList:hover{
   color: rgb(41, 80, 152);
+  background-color: lightgray;
+  position: inherit;
 }
 
 .setHeight{
