@@ -10,10 +10,20 @@ export class ApiFeatureResolver {
 
   constructor(private readonly service: ServiceFeatureService ) {}
 
+  /***
+   * Use this function to get all teams associated with a project. Returns an array []
+   */
+  @Query(()=>[TeamEntity])
+  async getAllTeamsWorkingOnProject(@Args("project_name")project_name:string){
+
+    const resp=await this.service.GetAllTeamsWorkingOnProjectServ(project_name);
+    return resp;
+  }
+
   @Query(() => UserPerson)
   async login(@Args("email") email:string, @Args("password") password:string){
       const resp=await this.service.login(email, password);
-      console.log(resp);
+      
       return resp;
   }
 
@@ -145,6 +155,30 @@ export class ApiFeatureResolver {
   }
 
   /***
+   * This function returns the number teams of a company 
+  */
+
+  @Query(()=>[Number])
+  async getNumberOfTeamsOfCompany(@Args("company_name") company_name:string)
+  {
+    const resp= await this.service.getNumberOfTeamsOfCompany(company_name);
+
+    return resp;
+ }
+
+
+   /***
+   * This function returns the stats of members in a team 
+  */
+
+    @Query(()=>[UserStatsEnity])
+    async getAllMembersOfTeam(@Args("team_name") team_name:string)
+    {
+      const resp= await this.service.getAllMembersOfTeam(team_name);
+  
+      return resp;
+   }
+  /***
    * This function returns an array of UserPerson objects. Use this function
    * To get all pending requests against the argument company.
    * In it's current state, the objects will contain id,name,surname and email
@@ -207,8 +241,30 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * Use this function to assign a project to a team using the project and team's names
+  */
+
+  @Mutation(()=>String)
+  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name:string)
+  {
+    const resp=await this.service.AssignProjectToTeamVName(team_name,project_name);
+
+    return resp;
+  }
 
 
+  /***
+   * Us this function to assign a project to a team
+   */
+
+  @Mutation(()=>String)
+  async assignProjectToTeam(@Args("team_id")team_id:number,@Args("project_id")project_id:number)
+  {
+    const resp=await this.service.AssignProjectToTeamServ(team_id,project_id);
+
+    return resp;
+  }
 
   /***
    * This function is used to create an Admin
@@ -236,30 +292,30 @@ export class ApiFeatureResolver {
 
 
 
-   /***
-   * This function is used to approve requests via email
-   * Returns true if process was successful,false otherwise
-   */
+  /***
+  * This function is used to approve requests via email
+  * Returns true if process was successful,false otherwise
+  */
 
-    @Mutation(()=>Boolean)
-    async approveRequestVEmail(@Args("email") email:string)
-    {
-      const resp=await this.service.approveRequestVEmail(email);
+  @Mutation(()=>Boolean)
+  async approveRequestVEmail(@Args("email") email:string)
+  {
+    const resp=await this.service.approveRequestVEmail(email);
 
-      return resp;
-    }
+    return resp;
+  }
 
-    @Mutation(()=>String)
-    async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
-    {
-      return await this.service.AddTeamMember(teamName,email);
-    }
+  @Mutation(()=>String)
+  async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
+  {
+    return await this.service.AddTeamMember(teamName,email);
+  }
 
-    @Query(()=>[UserPerson])
-    async GetTeamMembers(@Args("team_name") teamName:string)
-    {
-      return await this.service.GetTeamMembers(teamName);
-    }
+  @Query(()=>[UserPerson])
+  async GetTeamMembers(@Args("team_name") teamName:string)
+  {
+    return await this.service.GetTeamMembers(teamName);
+  }
 
 
   @Query(() => String)

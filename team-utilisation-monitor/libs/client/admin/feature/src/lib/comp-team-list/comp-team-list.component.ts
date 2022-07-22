@@ -36,10 +36,10 @@ export class CompTeamListComponent implements OnInit {
         for(const requests of this.TeamData.data.GetTeamMembers)
         {
           const  obj={} as nameObject;
-          obj.Name=requests.name
-          obj.Surname=requests.surname
+          obj.Name=requests.name;
+          obj.Surname=requests.surname;
           obj.Email=requests.email;
-          obj.TeamName=this.TeamName.Name
+          obj.TeamName=this.TeamName.Name;
           this.OutEmployeeName.push(obj);
         }
       })
@@ -51,7 +51,7 @@ export class CompTeamListComponent implements OnInit {
 
   DeleteTeamMember(Name:string)
   {
-    this.OutEmployeeName.includes(Name)
+    this.OutEmployeeName.includes(Name);
   }
 
 }

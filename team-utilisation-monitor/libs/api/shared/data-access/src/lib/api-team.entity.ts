@@ -20,6 +20,9 @@ export class TeamEntity{
     @Field()
     project_name?:string;
 
+    @Field(()=>[ProjectEntity],{nullable:true})
+    projects?:ProjectEntity[] //teams can hold multiple projects
+
     @Field()
     project_id?:number;
 

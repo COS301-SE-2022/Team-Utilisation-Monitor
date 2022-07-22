@@ -22,38 +22,41 @@ export class AdminTeamProjectViewComponent implements OnInit {
     this.companyName=this.cookie.get("CompanyName");
 
     this.adminService.getCompany(this.companyName).subscribe(data=>
+    {
+      this.companyData=data;
+
+      type nameObject={
+        Name:string
+        //TeamName:string
+      }
+
+      for(const requests of this.companyData.data.GetCompanyQuery.projects)
       {
-        this.companyData=data;
+        const  obj={} as nameObject;
+        obj.Name=requests.project_name;
+        //obj.TeamName=requests.team_name; 
+        /**
+         *  Dear Gift and Cornel. Remeber that chris said a project can have multiple teams.
+         *  Thus, the project structure is now too complex. We will need a seperate, something
+         *  to display all the teams working on the project.
+         */
+        this.OutProject.push(obj);
+      }
 
-        type nameObject=
-        {
+      if(this.companyData.data.GetCompanyQuery!=null)
+      {
+        type nameObject2={
           Name:string
-          TeamName:string
         }
 
-        for(const requests of this.companyData.data.GetCompanyQuery.projects)
+        for(const requests of this.companyData.data.GetCompanyQuery.teams)
         {
-          const  obj={} as nameObject;
-          obj.Name=requests.project_name
-          obj.TeamName=requests.team_name;
-          this.OutProject.push(obj);
+          const  obj2={} as nameObject2;
+          obj2.Name=requests.team_name;
+          this.OutTeamNames.push(obj2);
         }
 
-        if(this.companyData.data.GetCompanyQuery!=null)
-        {
-          type nameObject2=
-          {
-            Name:string
-          }
-
-          for(const requests of this.companyData.data.GetCompanyQuery.teams)
-          {
-            const  obj2={} as nameObject2;
-            obj2.Name=requests.team_name;
-            this.OutTeamNames.push(obj2);
-          }
-
-        }
-      })
+      }
+    })
   }
 }

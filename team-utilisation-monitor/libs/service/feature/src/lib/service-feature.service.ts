@@ -16,6 +16,8 @@ import { CreateProjectCommand } from './commands/impl/create-project.command';
 import { CreateTeamCommand } from './commands/impl/create-team.command';
 import { CreateUserCommand } from './commands/impl/create-user.command';
 import { GetAllEmployeesOfCompany } from './queries/impl/get-all-employees-of-company.query';
+import { GetNumberOfTeamsOfCompany } from './queries/impl/get-number-of-teams-of-company.query';
+import { GetAllMembersOfTeam } from './queries/impl/get-all-members-of-team.query'
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetAllProjectsOrTeamsOfCompany } from './queries/impl/get-all-projects-or-teams.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
@@ -26,6 +28,9 @@ import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
+import { AssignProjectToTeamCommand } from './commands/impl/assign-project-to-team.command';
+import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-to-team-vname.command';
+import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -108,12 +113,22 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetAllEmployeesOfCompany(companyName));
     }
 
-    async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number)
+    async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number):Promise<any>
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
 
-    async GetInviteCode(companyName:string)
+    async getNumberOfTeamsOfCompany(companyName:string):Promise<any>
+    {
+        return this.queryBus.execute(new GetNumberOfTeamsOfCompany(companyName));
+    }
+
+    async getAllMembersOfTeam(teamName:string):Promise<any>
+    {
+        return this.queryBus.execute(new GetAllMembersOfTeam(teamName));
+    }
+
+    async GetInviteCode(companyName:string):Promise<any>
     {
       return this.queryBus.execute(new getInviteCode(companyName));
     }
@@ -123,7 +138,7 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AddTeamMemberCommand(teamName,employeeEmail));
     }
 
-    async GetTeamMembers(teamName:string)
+    async GetTeamMembers(teamName:string):Promise<any>
     {
       return this.queryBus.execute(new GetTeamMembersQuery(teamName));
     }
@@ -142,14 +157,29 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AddSkillCommand(skillType));
     }
 
-    async GetSkills()
+    async GetSkills():Promise<any>
     {
       return this.queryBus.execute(new GetSkillsQuery);
     }
 
     async UpdateProfile(Email:string,Name:string,Surname:string,skillName:string)
     {
-      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName))
+      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName));
+    }
+
+    async AssignProjectToTeamServ(team_id:number,project_id:number):Promise<string>
+    {
+      return this.commandBus.execute(new AssignProjectToTeamCommand(team_id,project_id));
+    }
+
+    async AssignProjectToTeamVName(team_name:string,project_name:string):Promise<string>{
+
+      return this.commandBus.execute(new AssignProjectToTeamVNamesCommand(project_name,team_name))
+    }
+
+    async GetAllTeamsWorkingOnProjectServ(project_name:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllTeamsWorkingOnProjectCommand(project_name));
     }
 
 

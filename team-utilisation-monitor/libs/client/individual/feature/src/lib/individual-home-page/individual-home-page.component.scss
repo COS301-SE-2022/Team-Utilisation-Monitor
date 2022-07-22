@@ -98,6 +98,23 @@ mat-progress-bar{
   height:100%;
 }
 
+.mid{
+ margin-top: 2%;
+  float: left;
+  width: 98%;
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+.list{
+  //margin-left:15%;
+  float: left;
+  width: 90%;
+  cursor: pointer;
+ // margin-bottom: 40px;
+
+}
+
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }

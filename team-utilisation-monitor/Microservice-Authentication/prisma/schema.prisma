@@ -17,7 +17,7 @@ model UserDetails{
   surname String
   username String @unique //username is email
   password String @unique
-  token String 
+  token String @unique
   role  Role @default(USER)
 
   @@map("user_details")

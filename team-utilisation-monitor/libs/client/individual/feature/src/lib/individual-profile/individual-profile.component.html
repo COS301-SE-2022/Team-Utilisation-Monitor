@@ -63,20 +63,20 @@
           <mat-card-content>
             <!--GET THIS DATA AND UPDATE THE USER'S DATA, IN THE TABLE TOO -->
             <div class="form">
-              <form class="example-form">
+              <form class="example-form" [formGroup]="profileForm">
                 <table class="two">
                   <tr>
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
                         <!-- CHANGE THE MOCK TO ACTUAL DATA-->
-                        <mat-label>Email</mat-label><input matInput disabled value="fareesa@gmail.com">
+                        <mat-label>Email</mat-label><input matInput disabled value={{email}}>
                       </mat-form-field>
                     </td>
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
                         <!--CALL THE GET COMPANY NAME -->
-                        <mat-label>Company Name</mat-label><input matInput disabled value="EPI Use">
+                        <mat-label>Company Name</mat-label><input matInput disabled value={{companyName}}>
                       </mat-form-field>
 
                     </td>
@@ -89,13 +89,13 @@
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>First Name</mat-label><input matInput >
+                        <mat-label>First Name</mat-label><input matInput value={{fName}} formControlName="first_name">
                       </mat-form-field>
                     </td>
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Last Name</mat-label><input matInput >
+                        <mat-label>Last Name</mat-label><input matInput value={{lastName}} formControlName="last_name">
                       </mat-form-field>
                     </td>
 
@@ -167,7 +167,7 @@
 
                 <br><br>
                 <div class="button">
-                  <button mat-raised-button color="primary">Update</button>
+                  <button mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
                 </div>
 
               </form>
