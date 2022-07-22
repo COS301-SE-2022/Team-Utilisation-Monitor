@@ -24,7 +24,7 @@ export class UserStatsEnity{
     numberOfTeams?:number;
     
     @Field({nullable:true})
-    status?:Status
+    status?:string
 
 
 }
