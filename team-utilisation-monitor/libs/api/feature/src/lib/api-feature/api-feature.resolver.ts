@@ -231,8 +231,17 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * Us this function to assign a project to a team
+   */
 
+  @Mutation(()=>String)
+  async assignProjectToTeam(@Args("team_id")team_id:number,@Args("project_id")project_id:number)
+  {
+    const resp=await this.service.AssignProjectToTeamServ(team_id,project_id);
 
+    return resp;
+  }
 
   /***
    * This function is used to create an Admin

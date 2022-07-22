@@ -22,7 +22,7 @@ export class ProjectEntity{
     @Field()
     team_id?:number;
 
-    @Field()
+    @Field({nullable:true})
     team_name?:string;
 
     @Field({nullable:true})
