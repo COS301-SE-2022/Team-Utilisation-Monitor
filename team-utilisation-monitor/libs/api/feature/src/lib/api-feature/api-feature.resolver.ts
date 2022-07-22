@@ -232,6 +232,19 @@ export class ApiFeatureResolver {
   }
 
   /***
+   * Use this function to assign a project to a team using the project and team's names
+  */
+
+  @Mutation(()=>String)
+  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name)
+  {
+    const resp=await this.service.AssignProjectToTeamVName(team_name,project_name);
+
+    return resp;
+  }
+
+
+  /***
    * Us this function to assign a project to a team
    */
 
@@ -269,30 +282,30 @@ export class ApiFeatureResolver {
 
 
 
-   /***
-   * This function is used to approve requests via email
-   * Returns true if process was successful,false otherwise
-   */
+  /***
+  * This function is used to approve requests via email
+  * Returns true if process was successful,false otherwise
+  */
 
-    @Mutation(()=>Boolean)
-    async approveRequestVEmail(@Args("email") email:string)
-    {
-      const resp=await this.service.approveRequestVEmail(email);
+  @Mutation(()=>Boolean)
+  async approveRequestVEmail(@Args("email") email:string)
+  {
+    const resp=await this.service.approveRequestVEmail(email);
 
-      return resp;
-    }
+    return resp;
+  }
 
-    @Mutation(()=>String)
-    async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
-    {
-      return await this.service.AddTeamMember(teamName,email);
-    }
+  @Mutation(()=>String)
+  async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
+  {
+    return await this.service.AddTeamMember(teamName,email);
+  }
 
-    @Query(()=>[UserPerson])
-    async GetTeamMembers(@Args("team_name") teamName:string)
-    {
-      return await this.service.GetTeamMembers(teamName);
-    }
+  @Query(()=>[UserPerson])
+  async GetTeamMembers(@Args("team_name") teamName:string)
+  {
+    return await this.service.GetTeamMembers(teamName);
+  }
 
 
   @Query(() => String)
