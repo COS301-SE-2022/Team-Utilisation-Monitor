@@ -73,9 +73,16 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-
-
-
+  GetUnderUtilizedEmps(cName:string):Observable<any>
+  {
+    const Query='query{GetUnderUtilizedEmployees(company_name:"'+cName+'"){name,surname,email,role}}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
 
 
   //MUTATIONS
