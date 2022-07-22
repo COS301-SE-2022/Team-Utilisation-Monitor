@@ -483,11 +483,11 @@ export class DataAccessRepository {
             return_project.project_name=new_project.project_name;
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
-            return_project.team_name=teamName;
+            return_project.teams=await this.getAllTeamsWorkingOnProject(projectName);
 
             return return_project;
         }
-        else 
+        else //project is being created in isolation
         {
             const new_project=await this.prisma.project.create({
                 data:{
@@ -503,7 +503,7 @@ export class DataAccessRepository {
             return_project.project_name=new_project.project_name;
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
-            return_project.team_name="none";
+            
 
             return return_project; 
         }
@@ -811,9 +811,59 @@ export class DataAccessRepository {
 
     }
 
+    /****
+     * This function returns all teams associated with the project
+     * The functin takes in the project's name
+     * Returns null if project doesn't exist.
+     * Returns an array of [TeamEntity] objects
+    */
+    async getAllTeamsWorkingOnProject(project_name:string):Promise<TeamEntity[]>
+    {
+
+        const p_id=await this.getProjectID(project_name);
+        let return_arr=[];
+
+
+        if(p_id>0) //project does exist
+        {
+            const project=await this.prisma.project.findUnique({
+                where:{
+                    id:p_id
+                },
+                include:{
+                    teams:true
+                }
+            })  
+
+            if(project)
+            {
+                for(let i=0;i<project.teams.length;++i)
+                {
+                    const team_object=new TeamEntity();
+                    
+                    const team_id=project.teams[i].team_id;
+
+                    team_object.team_name=(await this.getTeam(team_id)).team_name;
+                    team_object.project_name=project.project_name;
+
+                    return_arr.push(team_object);
+                }
+            }
+
+            return return_arr; //[] means that there are no teams
+
+        }
+        else{ //project does not exist
+            return null;
+        }
+    }
+
+
+    
+
     /***
      * Returns an array of all persons on the dataBase
-     */
+    */
 
     async getAllPersons():Promise<UserPerson[]>
     {
