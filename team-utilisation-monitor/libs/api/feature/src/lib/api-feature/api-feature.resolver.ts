@@ -1,5 +1,4 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { Role } from '@prisma/client';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
@@ -12,11 +11,24 @@ export class ApiFeatureResolver {
 
   /***
    * Use this function to get all teams associated with a project. Returns an array []
-   */
+  */
+
   @Query(()=>[TeamEntity])
   async getAllTeamsWorkingOnProject(@Args("project_name")project_name:string){
 
     const resp=await this.service.GetAllTeamsWorkingOnProjectServ(project_name);
+    return resp;
+  }
+
+  
+  /****
+   * This function gets all the projects of a team 
+  */
+
+  @Query(()=>[ProjectEntity])
+  async getAllProjectsOfATeam(@Args("team_name")team_name:string)
+  { 
+    const resp=await this.service.GetAllProjectsOfATeamServ(team_name);
     return resp;
   }
 
@@ -146,12 +158,12 @@ export class ApiFeatureResolver {
    * The 1 indicates that you want a teams, not teams
   */
 
-   @Query(()=>[TeamEntity])
-   async getAllTeamsOfACompany(@Args("company_name") company_name:string)
-   {
-     const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
+  @Query(()=>[TeamEntity])
+  async getAllTeamsOfACompany(@Args("company_name") company_name:string)
+  {
+    const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
 
-     return resp;
+    return resp;
   }
 
   /***
@@ -164,20 +176,21 @@ export class ApiFeatureResolver {
     const resp= await this.service.getNumberOfTeamsOfCompany(company_name);
 
     return resp;
- }
+  }
 
 
-   /***
+  /***
    * This function returns the stats of members in a team 
   */
 
-    @Query(()=>[UserStatsEnity])
-    async getAllMembersOfTeam(@Args("team_name") team_name:string)
-    {
-      const resp= await this.service.getAllMembersOfTeam(team_name);
+  @Query(()=>[UserStatsEnity])
+  async getAllMembersOfTeam(@Args("team_name") team_name:string)
+  {
+    const resp= await this.service.getAllMembersOfTeam(team_name);
   
-      return resp;
-   }
+    return resp;
+  }
+
   /***
    * This function returns an array of UserPerson objects. Use this function
    * To get all pending requests against the argument company.
