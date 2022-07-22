@@ -37,9 +37,9 @@
           <mat-card-content class="mid">
             <mat-nav-list class="list">
               <mat-list-item *ngFor="let link of currSkills">
-                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
+                <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <!-- <button mat-icon-button (click)="showInfo(link)">
+                </button> -->
               </mat-list-item>
             </mat-nav-list>
           </mat-card-content>
@@ -154,13 +154,12 @@
 
 
                       <div class="setHeight">
-                      <!-- <mat-selection-list #skill>
-                        <mat-list-option *ngFor="let skill of skills">
-                          {{skill}}
-                        </mat-list-option>
-                      </mat-selection-list> -->
-
-
+                        <form [formGroup]="skillForm">
+                          <mat-checkbox  formControlName="skill_name"
+                                         *ngFor="let link of newSkills"
+                                         value="{{link}}"> {{link}}
+                          </mat-checkbox>
+                        </form>
                       </div>
 
                     </mat-expansion-panel>

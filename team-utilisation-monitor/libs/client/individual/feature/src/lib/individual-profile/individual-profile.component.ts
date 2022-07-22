@@ -19,6 +19,12 @@ export class IndividualProfileComponent implements OnInit {
    // skill_name:new FormControl('',[Validators.required])
   });
 
+  //The requested form control for skills
+  skillForm=new FormGroup({
+    skill_name: new FormControl('', [Validators.required])
+    }
+  );
+
   constructor(private readonly cookies:CookieService,private readonly service:IndividualService){}
 
   events: string[] = [];
@@ -29,7 +35,7 @@ export class IndividualProfileComponent implements OnInit {
 
   boolshow = true;
   currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
-  skills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
+  newSkills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
   projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
