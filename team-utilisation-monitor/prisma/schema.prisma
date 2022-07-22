@@ -95,7 +95,7 @@ model Company{
 
 
 model Invites{
-  
+
   id Int @id @default(autoincrement())
 
   invite_code String? @unique
@@ -175,13 +175,13 @@ model HistoricUtilisation{
 
   id Int @id @default(autoincrement())
 
-  week1 Float @default(0) 
+  week1 Float @default(0)
 
-  week2 Float @default(0) 
+  week2 Float @default(0)
 
-  week3 Float @default(0) 
+  week3 Float @default(0)
 
-  week4 Float @default(0) 
+  week4 Float @default(0)
 
   monthy_avg Float @default(0)
 
@@ -207,11 +207,12 @@ enum Status{
   UNDER_UTILISED
   FAIRLY_UTILISED
   HEAVILY_UTILISED
+  FULLY_UTILISED
   OVER_UTILISED
 
 
   //For Project
-  ACTIVE 
+  ACTIVE
   INACTIVE
 }
 

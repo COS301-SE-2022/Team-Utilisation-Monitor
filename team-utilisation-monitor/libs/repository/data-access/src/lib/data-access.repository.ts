@@ -1759,6 +1759,50 @@ export class DataAccessRepository {
         }
     }
 
+    async GetUnderUtilizedEmployees(companyName:string)
+    {
+      //
+      const comID=await this.getCompanyID(companyName);
+      let employees_arr:UserPerson[]
+
+      employees_arr=[]
+
+      const compEmployees=await this.prisma.company.findUnique(
+        {
+          where:{
+            id:comID
+          },
+          include:
+          {
+            employees:true
+          }
+        }
+      )
+
+      const Employees=compEmployees.employees;
+
+      for(let i=0;i<Employees.length;i++)
+      {
+        const emp=new UserPerson;
+        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status="FULLY_UTILISED"))
+        {
+            //
+        }
+        else
+        {
+            emp.name=Employees[i].name;
+            emp.surname=Employees[i].surname;
+            emp.email=Employees[i].email;
+            emp.role=Employees[i].role;
+
+            employees_arr.push(emp);
+        }
+      }
+
+      return employees_arr;
+    }
+
+
     async GetMonthlyUtilization(Email:string)
     {
       const utilization=await this.prisma.person.findUnique(
