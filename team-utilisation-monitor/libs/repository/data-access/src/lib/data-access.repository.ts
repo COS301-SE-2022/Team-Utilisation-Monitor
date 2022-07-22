@@ -504,9 +504,9 @@ export class DataAccessRepository {
             return_project.project_name=new_project.project_name;
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
-            
 
-            return return_project; 
+
+            return return_project;
         }
 
     }
@@ -567,7 +567,7 @@ export class DataAccessRepository {
                             connect:{
                                 id:project_id
                             }
-                           } 
+                           }
                         }]
                     }
                 }
@@ -834,14 +834,14 @@ export class DataAccessRepository {
                 include:{
                     teams:true
                 }
-            })  
+            })
 
             if(project)
             {
                 for(let i=0;i<project.teams.length;++i)
                 {
                     const team_object=new TeamEntity();
-                    
+
                     const team_id=project.teams[i].team_id;
 
                     team_object.team_name=(await this.getTeam(team_id)).team_name;
@@ -860,7 +860,7 @@ export class DataAccessRepository {
     }
 
 
-    
+
 
     /***
      * Returns an array of all persons on the dataBase
@@ -1379,7 +1379,7 @@ export class DataAccessRepository {
 
         return teams;
 
-        
+
     }
 
     /****
@@ -1737,7 +1737,7 @@ export class DataAccessRepository {
         obj.Week2=utilization.utilisations[i].week2
         obj.Week3=utilization.utilisations[i].week3
         obj.Week4=utilization.utilisations[i].week4
-        obj.Average=utilization.utilisations[i].MonthlyAvg
+        obj.Average=utilization.utilisations[i].monthy_avg
         utilization_arr.push(obj)
       }
 
