@@ -44,16 +44,16 @@ describe('ServiceFeatureService', () => {
       user_person.id = 123;
       user_person.name = "Rourke";
       user_person.surname = "Amiss";
-      user_person.email =email;
-      user_person.role =role;
-      user_person.suspended =suspended;
-      user_person.position =position;
-      user_person.company_name =company;
-      user_person.project_name =project;
-      user_person.team_name =team;
-      user_person.company_id =company_id;
-      user_person.project_id =project_id;
-      user_person.team_id = team_id;
+      user_person.email = "rourke@gmail.com";
+      user_person.role = "intern";
+      user_person.suspended = false;
+      user_person.position = "team lead";
+      user_person.company_name = "icreatesoftware";
+      user_person.project_name = "tum";
+      user_person.team_name = "team";
+      user_person.company_id = 2;
+      user_person.project_id = 6;
+      user_person.team_id = 21;
 
     })
   }
