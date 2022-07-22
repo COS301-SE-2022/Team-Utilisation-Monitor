@@ -7,7 +7,7 @@ import { GetUserIDQueryHandler } from "./get-user-id.handler";
 import { GetCompanyStatsHandler } from "./get-company-stats.handler";
 import { GetAllEmployeesOfCompanyHandler } from "./get-all-employees-of-company.handler";
 import { GetAllProjectsOrTeamsOfCompanyHandler } from "./get-all-project-or-teams.handler";
-import {GetInviteCodeHandler} from "./getInviteCode.handler"
+import { GetInviteCodeHandler} from "./getInviteCode.handler"
 import { GetTeamMembersHandler } from "./getTeamMembers.handler";
 import { GetSkillsHandler } from "./GetSkills.handler";
 
