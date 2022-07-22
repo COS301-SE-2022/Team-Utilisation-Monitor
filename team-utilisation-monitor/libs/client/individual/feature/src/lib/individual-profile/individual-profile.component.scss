@@ -211,11 +211,20 @@ div{
   cursor: pointer;
 }
 
+.skillList{
+  display: block;
+}
+
+.skillList:hover{
+  color: rgb(41, 80, 152);
+}
+
 .setHeight{
   height: 10em;
   width: 70%;
   margin: 0 auto;
   overflow-y: auto;
+  align-content: initial;
 }
 mat-list-item:hover {
   color: rgb(41, 80, 152);
