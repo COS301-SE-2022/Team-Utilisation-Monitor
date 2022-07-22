@@ -84,7 +84,7 @@ export class IndividualProfileComponent implements OnInit {
     const last_name=this.profileForm.get("last_name")?.value!;
     //const skill_name=this.profileForm.get('')
     console.log(this.email)
-    this.service.UpdateProfile(this.email,first_name,last_name,"TypeScript").subscribe(Result=>
+    this.service.UpdateProfile(this.email,first_name,last_name,"Driving").subscribe(Result=>
       {
         console.log(Result.data)
       })

@@ -2,13 +2,13 @@
     <mat-card class="Mat-Individual">
         <mat-card-content class="InvdividualBox">
                 <p class="InvdividualName">{{IndivName.Name}} {{IndivName.Surname}}<span id="emailText"> {{IndivName.Email}} </span></p>
-                
+
                 <span class="example-spacer"></span>
                 <button mat-button class="InvdividualButton" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>{{menueOption}}</button>
                     </mat-menu>
-                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteMember(IndivName.TeamName,IndivName.Email)">
+                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(IndivName.Email)">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
         </mat-card-content>
