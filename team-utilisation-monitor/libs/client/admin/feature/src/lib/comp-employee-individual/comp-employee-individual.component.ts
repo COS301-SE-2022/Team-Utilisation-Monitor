@@ -16,20 +16,21 @@ export class CompEmployeeIndividualComponent implements OnInit {
   add an if statement
     if (user == admin) menueOption = "Demote to Employee"
     if (user == employee) menueOption = "Promote to Admin"
-  
+
   */
   menueOption = "Promote to admin"
 
-  @Input() IndivName!: { Name: string ,Surname:string,Email:string,TeamName:string};
+  @Input() IndivName!: { Name: string ,Surname:string,Email:string,Role:string};
 
   ngOnInit(): void {
     console.log();
   }
 
-  DeleteMember(teamName:string,email:string)
+  DeleteEmployee(email:string)
   {
-    this.service.DeleteTeamMember(teamName,email).subscribe(data=>{
-      console.log(data.data)
+    console.log(this.IndivName.Email);
+    this.service.DeleteEmployee(email).subscribe(data=>{
+      alert(data.data.DeleteEmployee.name+" Removed from Company")
     })
   }
 }
