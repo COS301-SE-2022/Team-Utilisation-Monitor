@@ -15,7 +15,8 @@ import { CommandHandlers } from './commands/handlers';
     ...QueryHandlers,
     ...CommandHandlers,
     DataAccessRepository,
-    PrismaService],
+    PrismaService,
+    ],
   exports: [ServiceFeatureService],
 })
 export class ServiceFeatureModule {}
