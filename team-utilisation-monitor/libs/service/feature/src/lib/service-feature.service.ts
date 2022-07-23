@@ -28,6 +28,11 @@ import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
+import { AssignProjectToTeamCommand } from './commands/impl/assign-project-to-team.command';
+import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-to-team-vname.command';
+import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
+import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
+import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmployees.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -110,22 +115,22 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetAllEmployeesOfCompany(companyName));
     }
 
-    async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number)
+    async getAllProjectsAndTeamsOfCompany(companyName:string,contentType:number):Promise<any>
     {
         return this.queryBus.execute(new GetAllProjectsOrTeamsOfCompany(companyName,contentType));
     }
 
-    async getNumberOfTeamsOfCompany(companyName:string)
+    async getNumberOfTeamsOfCompany(companyName:string):Promise<any>
     {
         return this.queryBus.execute(new GetNumberOfTeamsOfCompany(companyName));
     }
 
-    async getAllMembersOfTeam(teamName:string)
+    async getAllMembersOfTeam(teamName:string):Promise<any>
     {
         return this.queryBus.execute(new GetAllMembersOfTeam(teamName));
     }
 
-    async GetInviteCode(companyName:string)
+    async GetInviteCode(companyName:string):Promise<any>
     {
       return this.queryBus.execute(new getInviteCode(companyName));
     }
@@ -135,7 +140,7 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AddTeamMemberCommand(teamName,employeeEmail));
     }
 
-    async GetTeamMembers(teamName:string)
+    async GetTeamMembers(teamName:string):Promise<any>
     {
       return this.queryBus.execute(new GetTeamMembersQuery(teamName));
     }
@@ -154,15 +159,38 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AddSkillCommand(skillType));
     }
 
-    async GetSkills()
+    async GetSkills():Promise<any>
     {
       return this.queryBus.execute(new GetSkillsQuery);
     }
 
     async UpdateProfile(Email:string,Name:string,Surname:string,skillName:string)
     {
-      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName))
+      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName));
     }
 
+    async AssignProjectToTeamServ(team_id:number,project_id:number):Promise<string>
+    {
+      return this.commandBus.execute(new AssignProjectToTeamCommand(team_id,project_id));
+    }
 
+    async AssignProjectToTeamVName(team_name:string,project_name:string):Promise<string>{
+
+      return this.commandBus.execute(new AssignProjectToTeamVNamesCommand(project_name,team_name))
+    }
+
+    async GetAllTeamsWorkingOnProjectServ(project_name:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllTeamsWorkingOnProjectCommand(project_name));
+    }
+
+    async GetAllProjectsOfATeamServ(team_name:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllProjectsOfTeamsQuery(team_name));
+    }
+
+    async GetUnderUtilizedEmps(cName:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetUtilizedEmployeesQuery(cName))
+    }
 }

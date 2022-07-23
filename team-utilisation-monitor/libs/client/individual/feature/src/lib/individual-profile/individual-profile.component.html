@@ -37,9 +37,9 @@
           <mat-card-content class="mid">
             <mat-nav-list class="list">
               <mat-list-item *ngFor="let link of currSkills">
-                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
+                <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                <!-- <button mat-icon-button (click)="showInfo(link)">
+                </button> -->
               </mat-list-item>
             </mat-nav-list>
           </mat-card-content>
@@ -63,20 +63,20 @@
           <mat-card-content>
             <!--GET THIS DATA AND UPDATE THE USER'S DATA, IN THE TABLE TOO -->
             <div class="form">
-              <form class="example-form">
+              <form class="example-form" [formGroup]="profileForm">
                 <table class="two">
                   <tr>
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
                         <!-- CHANGE THE MOCK TO ACTUAL DATA-->
-                        <mat-label>Email</mat-label><input matInput disabled value="fareesa@gmail.com">
+                        <mat-label>Email</mat-label><input matInput disabled value={{email}}>
                       </mat-form-field>
                     </td>
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
                         <!--CALL THE GET COMPANY NAME -->
-                        <mat-label>Company Name</mat-label><input matInput disabled value="EPI Use">
+                        <mat-label>Company Name</mat-label><input matInput disabled value={{companyName}}>
                       </mat-form-field>
 
                     </td>
@@ -89,13 +89,13 @@
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>First Name</mat-label><input matInput >
+                        <mat-label>First Name</mat-label><input matInput value={{fName}} formControlName="first_name">
                       </mat-form-field>
                     </td>
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Last Name</mat-label><input matInput >
+                        <mat-label>Last Name</mat-label><input matInput value={{lastName}} formControlName="last_name">
                       </mat-form-field>
                     </td>
 
@@ -135,7 +135,6 @@
                         <input matInput maxlength="4" type="number" placeholder="1182" min="4">
                       </mat-form-field>
                     </td>
-
                   </tr>
                 </table>
 
@@ -153,13 +152,13 @@
                       </mat-expansion-panel-header>
 
                       <div class="setHeight">
-                      <mat-selection-list #skill>
-                        <mat-list-option *ngFor="let skill of skills">
-                          {{skill}}
-                        </mat-list-option>
-                      </mat-selection-list>
+                        <form [formGroup]="skillForm">
+                          <mat-checkbox  class="skillList" formControlName="skill_name"
+                                         *ngFor="let link of newSkills"
+                                         value="{{link}}"> {{link}}
+                          </mat-checkbox>
+                        </form>
                       </div>
-
                     </mat-expansion-panel>
                   </mat-accordion>
 
@@ -167,7 +166,7 @@
 
                 <br><br>
                 <div class="button">
-                  <button mat-raised-button color="primary">Update</button>
+                  <button mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
                 </div>
 
               </form>

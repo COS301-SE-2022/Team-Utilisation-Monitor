@@ -44,10 +44,12 @@ import { CompAddSkillsPopupComponent } from './comp-add-skills-popup/comp-add-sk
 import {MatListModule} from '@angular/material/list';
 import { CompAddTeamToProjectPopupComponent } from './comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompTeamIndividualComponent } from './comp-team-individual/comp-team-individual.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatButtonModule,

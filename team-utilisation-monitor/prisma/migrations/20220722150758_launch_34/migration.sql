@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Status" ADD VALUE 'FULLY_UTILISED';

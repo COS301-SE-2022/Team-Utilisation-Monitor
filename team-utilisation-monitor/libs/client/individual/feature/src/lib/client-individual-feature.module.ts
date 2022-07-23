@@ -6,6 +6,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FormGroup} from "@angular/forms";
 
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
@@ -28,31 +30,34 @@ import {NgChartsModule} from "ng2-charts";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTabsModule} from "@angular/material/tabs";
 import { IndividualExplorePageComponent } from './individual-explore-page/individual-explore-page.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
-  imports: [
-    CommonModule,
+    imports: [
+        CommonModule,
 
-    RouterModule.forChild([
-      /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
-    ]),
-    MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    ClientAdminFeatureModule,
-    MatGridListModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatListModule,
-    MatExpansionModule,
-    NgChartsModule,
-    MatButtonToggleModule,
-    MatTabsModule
-  ],
+        RouterModule.forChild([
+            /* {path: '', pathMatch: 'full', component: InsertYourComponentHere} */
+        ]),
+        MatButtonModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        ClientAdminFeatureModule,
+        MatGridListModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatListModule,
+        MatExpansionModule,
+        NgChartsModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatChipsModule,
+      MatCheckboxModule
+    ],
   declarations: [
     IndividualHomePageComponent,
     IndividualProfileComponent,

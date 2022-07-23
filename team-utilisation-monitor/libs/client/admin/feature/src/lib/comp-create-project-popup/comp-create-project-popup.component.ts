@@ -1,7 +1,7 @@
 import { CookieService } from 'ngx-cookie-service';
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../Admin.service';
 
@@ -12,37 +12,68 @@ import { AdminService } from '../Admin.service';
 })
 export class CompCreateProjectPopupComponent implements OnInit {
 
-  TeamNames: string[] = ['Team1', 'Team2', 'Team3', 'Team4', 'Team5'];
+  TeamNames: string[] = [];
+  selectedTeams:string[]=[]; //all the teams selected will be here
+  teams:any;
 
   projectForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
-    teamName:new FormControl('',[Validators.required]),
-    manHours:new FormControl('',[Validators.required])
+    manHours:new FormControl('',[Validators.required]),
   })
 
-  companyName=''
+  companyName='';
+  
+
   constructor(private adminService:AdminService,private cookie:CookieService) {}
 
+  
   ngOnInit(): void {
-    console.log()
+    this.companyName=this.cookie.get("CompanyName");
+    this.adminService.getAllTeamsOfACompany(this.companyName).subscribe(data=>{
+      
+      this.teams=data;
+
+      //console.log(this.projects.data.getAllProjectsOfACompany.length);
+
+      for(let i=0;i<this.teams.data.getAllTeamsOfACompany.length;++i)
+      {
+        //get each individual element
+        this.TeamNames.push(this.teams.data.getAllTeamsOfACompany[i].team_name)
+      }
+
+    })
+  }
+
+  onGroupsChange(f_selectedTeams: string[]) {
+    console.log(f_selectedTeams);
   }
 
   onSubmit()
   {
-    this.companyName=this.cookie.get("CompanyName");
+    
     if(this.projectForm.valid)
     {
       const projectName=this.projectForm.get('projectName')?.value!;
-      const teamName=this.projectForm.get('teamName')?.value!;
+      //const teamName=this.projectForm.get('teamName')?.value!;
       const projectHours=this.projectForm.get('manHours')?.value!;
 
+      //create the project in isolation
+      this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
+        data=>{
+            //assign the project to the selected teams
 
-      this.adminService.createProject(projectName,this.companyName,teamName,Number(projectHours)).subscribe(
-        ()=>{
-          alert("Project "+projectName+" has been created")
-        }
-      )
-
+          for(let i=0;i<this.selectedTeams.length;++i)
+          {
+            //console.log(this.selectedTeams[i]);
+        
+            this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
+            data=>{
+            //
+          });
+          }
+        })
+      
+      alert("Project "+projectName+" has been created ");
     }
   }
 }

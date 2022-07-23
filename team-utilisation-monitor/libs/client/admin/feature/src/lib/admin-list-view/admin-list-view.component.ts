@@ -1,3 +1,4 @@
+import { Role } from '@prisma/client';
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
@@ -31,6 +32,7 @@ export class AdminListViewComponent implements OnInit {
             Name:string
             Surname:string
             Email:string
+            Role:string
           }
 
           for(const requests of this.employeeData.data.GetCompanyQuery.employees)
@@ -39,6 +41,8 @@ export class AdminListViewComponent implements OnInit {
             obj.Name=requests.name
             obj.Surname=requests.surname;
             obj.Email=requests.email;
+            //console.log(obj.Email)
+            obj.Role=requests.role;
             this.OutEmployeeName.push(obj);
           }
         }

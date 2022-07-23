@@ -40,20 +40,41 @@ mat-progress-bar{
   background-color: lightgray;
 }
 .mat{
-  height: 85%;
+  height: fit-content;
   margin: 1%;
-  //display: flex;
   background-color: transparent;
+}
+
+.util{
+  margin-bottom: 3%;
+}
+#inline{
+  display: flex;
+  align-content: space-evenly;
+}
+.mat-card1{
+  margin: auto;
+  text-align: center;
+  width:406px;
+  min-width: fit-content;
+  height: 25em;
+  //height: fit-content;
+  box-shadow: 0px 0px 25px black;
+}
+.mid{
+  margin-top: 2%;
+  float: left;
+  width: 98%;
+  max-height: 90%;
+  overflow-y: auto;
 
 }
 
-.mat-card1{
-  margin-top: 10%;
-  text-align: center;
-  width:406px;
-  height: fit-content;
-  box-shadow: 0px 0px 25px black;
-  overflow: hidden;
+.list{
+  float: left;
+  width: 90%;
+  cursor: pointer;
+
 }
 
 .smc {
@@ -68,22 +89,20 @@ mat-progress-bar{
 }
 
 .tc .smc{
-height: 20%;
+  height: 20%;
   width: 96%;
   box-shadow: 0px 0px 25px black;
-
 }
 
 .tc{
   height:100%;
-
 }
 
 .mid{
  margin-top: 2%;
   float: left;
   width: 98%;
-  max-height: 100%;
+  max-height: 90%;
   overflow-y: auto;
 }
 
@@ -95,13 +114,13 @@ height: 20%;
  // margin-bottom: 40px;
 
 }
+
 .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }
 mat-list-item:hover {
   color: rgb(41, 80, 152);
   font-size: large;
-
 }
 
 mat-grid-tile {
@@ -110,7 +129,6 @@ mat-grid-tile {
 }
 
 .middleT{
-
   position: center;
   text-align: center;
 }
@@ -119,5 +137,25 @@ mat-grid-tile {
   margin:auto;
   position: center;
   text-align: center;
+  align-content: center;
+}
+
+.summ{
+  margin-bottom: 5%;
+}
+
+.number-card{
+  width: 70%;
+  box-shadow: 0px 0px 5px black;
+  margin-bottom: 1%;
+}
+
+.center{
+  display: flex;
+  justify-content: center; /* align horizontal */
+}
+
+.subtitle{
+  justify-content: center;
 }
 
