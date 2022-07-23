@@ -14,7 +14,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
-  projects:any;
+  teams:any;
 
   projectForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
@@ -29,23 +29,23 @@ export class CompCreateProjectPopupComponent implements OnInit {
   
   ngOnInit(): void {
     this.companyName=this.cookie.get("CompanyName");
-    this.adminService.getAllProjectsOfACompany(this.companyName).subscribe(data=>{
+    this.adminService.getAllTeamsOfACompany(this.companyName).subscribe(data=>{
       
-      this.projects=data;
+      this.teams=data;
 
       //console.log(this.projects.data.getAllProjectsOfACompany.length);
 
-      for(let i=0;i<this.projects.data.getAllProjectsOfACompany.length;++i)
+      for(let i=0;i<this.teams.data.getAllTeamsOfACompany.length;++i)
       {
         //get each individual element
-        this.TeamNames.push(this.projects.data.getAllProjectsOfACompany[i].project_name)
+        this.TeamNames.push(this.teams.data.getAllTeamsOfACompany[i].team_name)
       }
 
     })
   }
 
-  onGroupsChange(selectedPizzas: string[]) {
-    console.log(selectedPizzas);
+  onGroupsChange(f_selectedTeams: string[]) {
+    console.log(f_selectedTeams);
   }
 
   onSubmit()
@@ -54,20 +54,20 @@ export class CompCreateProjectPopupComponent implements OnInit {
     if(this.projectForm.valid)
     {
       const projectName=this.projectForm.get('projectName')?.value!;
-      const teamName=this.projectForm.get('teamName')?.value!;
+      //const teamName=this.projectForm.get('teamName')?.value!;
       const projectHours=this.projectForm.get('manHours')?.value!;
 
+      //create the project in isolation
+      this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
+        data=>{
+          //
+        }
+      )
+
+      //assign the project to the selected teams
+
       
-
-      /*
-        this.adminService.createProject(projectName,this.companyName,teamName,Number(projectHours)).subscribe(
-          ()=>{
-            alert("Project "+projectName+" has been created")
-          }
-        )*/
-
-      this.adminService.bridgeCreateProject(projectName,this.companyName,Number(projectHours),this.selectedTeams);
-
+      alert("Project "+projectName+" has been created ");
     }
   }
 }

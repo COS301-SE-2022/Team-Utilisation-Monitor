@@ -202,6 +202,20 @@ export class AdminService {
 
   }
 
+  getAllTeamsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
   //BridgeFunctions
 
   /***
@@ -212,7 +226,20 @@ export class AdminService {
   bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
   {
     console.log("In bridgeCreateProject()")
-    console.log(teams);
+    
+    if(teams.length>0)
+    {
+      for(let i=0;i<teams.length;++i)
+      {
+        this.createProject(projectName,companyName,teams[i],projectHours);
+      }
+    }
+    else //create it in isolation
+    {
+      this.createProject(projectName,companyName,"null",projectHours);
+    }
+
+    
   }
 
 
