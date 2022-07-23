@@ -875,7 +875,7 @@ export class DataAccessRepository {
         {
             const team= await this.prisma.team.findUnique({
                 where:{
-                  id:t_id,  
+                  id:t_id,
                 },
                 include:{
                     projects:true
@@ -892,13 +892,13 @@ export class DataAccessRepository {
 
                     project_object.id=project_id;
                     project_object.project_name=(await this.getProject(project_id)).project_name;
-                    
+
                     return_arr.push(project_object);
                 }
             }
 
             return return_arr;
-           
+
         }
         else
         {
@@ -1784,9 +1784,10 @@ export class DataAccessRepository {
       for(let i=0;i<Employees.length;i++)
       {
         const emp=new UserPerson;
-        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status=="FULLY_UTILISED"))
+        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
         {
             //
+            console.log("I got in")
         }
         else
         {

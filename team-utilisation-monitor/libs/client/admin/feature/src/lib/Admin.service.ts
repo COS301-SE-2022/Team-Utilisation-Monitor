@@ -74,23 +74,16 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-
-  getAllProjectsOfACompany(companyName:string):Observable<any>
+  GetUnderUtilizedEmps(cName:string):Observable<any>
   {
-    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
-
+    const Query='query{GetUnderUtilizedEmployees(company_name:"'+cName+'"){name,surname,email,role}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
   }
-
-
-
-
 
 
   //MUTATIONS
@@ -193,6 +186,19 @@ export class AdminService {
       })
     }
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  getAllProjectsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 

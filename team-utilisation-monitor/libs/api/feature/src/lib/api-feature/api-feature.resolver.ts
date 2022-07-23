@@ -20,14 +20,14 @@ export class ApiFeatureResolver {
     return resp;
   }
 
-  
+
   /****
-   * This function gets all the projects of a team 
+   * This function gets all the projects of a team
   */
 
   @Query(()=>[ProjectEntity])
   async getAllProjectsOfATeam(@Args("team_name")team_name:string)
-  { 
+  {
     const resp=await this.service.GetAllProjectsOfATeamServ(team_name);
     return resp;
   }
@@ -35,7 +35,7 @@ export class ApiFeatureResolver {
   @Query(() => UserPerson)
   async login(@Args("email") email:string, @Args("password") password:string){
       const resp=await this.service.login(email, password);
-      
+
       return resp;
   }
 
@@ -167,7 +167,7 @@ export class ApiFeatureResolver {
   }
 
   /***
-   * This function returns the number teams of a company 
+   * This function returns the number teams of a company
   */
 
   @Query(()=>[Number])
@@ -180,14 +180,14 @@ export class ApiFeatureResolver {
 
 
   /***
-   * This function returns the stats of members in a team 
+   * This function returns the stats of members in a team
   */
 
   @Query(()=>[UserStatsEnity])
   async getAllMembersOfTeam(@Args("team_name") team_name:string)
   {
     const resp= await this.service.getAllMembersOfTeam(team_name);
-  
+
     return resp;
   }
 
@@ -364,6 +364,12 @@ export class ApiFeatureResolver {
   async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
   {
     return await this.service.UpdateProfile(Email,Name,Surname,skillName);
+  }
+
+  @Query(()=>[UserPerson])
+  async GetUnderUtilizedEmployees(@Args("company_name") cName:string)
+  {
+    return await this.service.GetUnderUtilizedEmps(cName)
   }
 
   /*@Mutation(() => UserPerson)

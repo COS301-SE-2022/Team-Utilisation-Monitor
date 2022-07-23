@@ -211,6 +211,22 @@ div{
   cursor: pointer;
 }
 
+.skillList{
+  display: block;
+  height:2pc;
+  margin: 0 auto;
+}
+.align{
+  align-content: flex-start;
+  position: relative;
+  bottom: 1px;
+}
+
+.skillList:hover{
+  color: rgb(41, 80, 152);
+
+}
+
 .setHeight{
   height: 10em;
   width: 70%;
@@ -223,4 +239,6 @@ mat-list-item:hover {
   position: center;
 }
 
-
+mat-checkbox{
+  vertical-align: sub;
+}
