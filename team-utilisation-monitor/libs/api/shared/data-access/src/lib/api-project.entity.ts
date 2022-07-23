@@ -11,8 +11,8 @@ export class ProjectEntity{
     @Field()
     project_name!:string;
 
-    @Field()
-    ownwer_id!:number;
+    @Field({nullable:true})
+    ownwer_id?:number;
 
     @Field(()=>[UserPerson],{nullable:true})
     workers?:UserPerson[];

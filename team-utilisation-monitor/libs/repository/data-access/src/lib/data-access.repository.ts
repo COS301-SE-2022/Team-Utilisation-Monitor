@@ -213,7 +213,7 @@ export class DataAccessRepository {
                         return_projects[i].project_name=all_projects[i].project_name;
                         return_projects[i].owner_id=all_projects[i].owner_id;
                         return_projects[i].man_hours=all_projects[i].man_hours;
-                        return_projects[i].hoursToComplete=all_projects[i].completed;
+                        return_projects[i].completed=all_projects[i].completed;
 
                         //set all the teams working on the project. Remember that two or more teams can work on the same project
 
@@ -1784,7 +1784,7 @@ export class DataAccessRepository {
       for(let i=0;i<Employees.length;i++)
       {
         const emp=new UserPerson;
-        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status="FULLY_UTILISED"))
+        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status=="FULLY_UTILISED"))
         {
             //
         }
