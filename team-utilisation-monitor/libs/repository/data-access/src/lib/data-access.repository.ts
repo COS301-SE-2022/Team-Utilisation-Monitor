@@ -14,7 +14,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,company_id:number)
     {
         const user_person=new UserPerson();
 
@@ -26,11 +26,8 @@ export class DataAccessRepository {
         user_person.suspended=suspended;
         user_person.position=position;
         user_person.company_name=company;
-        user_person.project_name=project;
-        user_person.team_name=team;
         user_person.company_id=company_id;
-        user_person.project_id=project_id;
-        user_person.team_id=team_id;
+        
 
 
         return user_person;
@@ -193,9 +190,9 @@ export class DataAccessRepository {
         let return_teams=[];
         let default_arr=[];
 
-        if(c_id>0) //company exists
+        if(c_id>0) //company exists 
         {
-            if(typeOfContent===0)
+            if(typeOfContent===0) //get projects
             {
                 const all_projects=await this.prisma.project.findMany({
                     where:{
@@ -244,16 +241,6 @@ export class DataAccessRepository {
                         return_teams[i].id=all_teams[i].id;
                         return_teams[i].team_name=all_teams[i].team_name;
                         return_teams[i].company_id=all_teams[i].company_id;
-
-                        if(all_teams[i].projects)
-                        {
-                            //work in progress
-                            //return_teams[i].project_name=all_teams[i].projects.project_name;
-                            //return_teams[i].project_id=all_teams[i].projects.id;
-                            //return_teams[i].completed=all_teams[i].projects.completed;
-                        }
-
-
                     }
 
                     return return_teams;
@@ -273,12 +260,6 @@ export class DataAccessRepository {
             return null;
     }
 
-
-
-    /****
-     * This function returns all the teams that are working on a project, given the project's ID
-     * The teams are returned as an array of TeamEntityObjects
-    */
 
     /***
      * The function returns the number of teams in a company given as input parameters
@@ -317,7 +298,7 @@ export class DataAccessRepository {
     /***
      * The function returns the members of a team given as input parameters
      * Returns null if team does not exist
-     */
+    */
 
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
@@ -342,16 +323,7 @@ export class DataAccessRepository {
                 {
                     for(let i=0;i<team.members.length;++i)
                     {
-                        const user=new UserPerson();
-
-                        user.id=team.members[i].id;
-                        user.name=team.members[i].name;
-                        user.surname=team.members[i].surname;
-                        user.email=team.members[i].email;
-                        user.role=team.members[i].role;
-                        user.suspended=team.members[i].suspended;
-
-                        return_arr.push(user);
+                        return_arr.push(this.getPersonVID(team.members[i].person_id));
                     }
                     return return_arr;
                 }
@@ -750,13 +722,6 @@ export class DataAccessRepository {
             console.error("getPendingRequests() failed to resolve the requery")
     }
 
-    /***
-     * This function is used to approve requests via id of the user.
-     * Returns true if application is successful
-     */
-
-
-
 
     /***
      * This function is used to approve requests via id of the user.
@@ -784,7 +749,7 @@ export class DataAccessRepository {
      * This function returns an object CompanyStats, that packages stats of the
      * company like number of projects, teams,employees and Admins
      * Returns null if company doesn't exist
-     */
+    */
 
     async getCompanyStats(companyName:string):Promise<CompanyStatsEntity>
     {
@@ -919,8 +884,6 @@ export class DataAccessRepository {
     }
 
 
-
-
     /***
      * Returns an array of all persons on the dataBase
     */
@@ -933,8 +896,6 @@ export class DataAccessRepository {
             include:{
                 position:true,
                 company:true,
-                project:true,
-                team:true
             }
         });
 
@@ -946,7 +907,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].company_id));
             }
         }
         else
@@ -971,7 +932,6 @@ export class DataAccessRepository {
                 position:true,
                 company:true,
                 project:true,
-                team:true,
             }
         })
 
@@ -981,7 +941,6 @@ export class DataAccessRepository {
         {
             let local_project:string;
             let local_company:string;
-            let local_team:string;
             let title:string;
 
 
@@ -1004,13 +963,7 @@ export class DataAccessRepository {
                   title=person.position.title;
 
 
-            if(person.team==null)
-                local_team=null;
-            else
-                local_team=person.team.team_name;
-
-
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
@@ -1146,7 +1099,6 @@ export class DataAccessRepository {
                     team.id=company.teams[i].id;
                     team.team_name=company.teams[i].team_name;
                     team.company_id=company.teams[i].company_id;
-                    //return a function that returns project_id based on teams_id
 
                     teams_arr.push(team);
                 }
@@ -1287,7 +1239,7 @@ export class DataAccessRepository {
                     user.utilisation=company.employees[i].utilisation;
                     /**
                      * What's missing is the project, team name and project,team id field
-                     */
+                    */
 
                     employees_arr.push(user);
                 }
@@ -1317,10 +1269,6 @@ export class DataAccessRepository {
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;
                         user.company_id=company.id;
-
-                        /**
-                         * What's missing is the project, team name and project,team id field
-                        */
 
                         workers_arr.push(user);
                     }
@@ -1393,6 +1341,36 @@ export class DataAccessRepository {
         else
             return null
     }
+
+    /***
+     * This function returns a person via ID.
+     * Returns null if the user doesn't exist in the database
+    */
+
+     async getPersonVID(person_id:number):Promise<UserPerson[]>
+     {
+        const person=await this.prisma.person.findUnique({
+            where:{
+                id:person_id
+            }
+        })
+
+        if(person){
+            const return_user=new UserPerson();
+
+            return_user.id=person.id;
+            return_user.name=person.name;
+            return_user.surname=person.surname;
+            return_user.email=person.email;
+            return_user.role=person.role;
+            return_user.suspended=person.suspended;
+            return_user.approved=person.approved;
+        }
+        else
+        {
+            return null
+        }
+     }
 
 
     /***

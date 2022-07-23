@@ -1,6 +1,8 @@
 import { AdminService } from './../Admin.service';
 import { Component, OnInit ,Input } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validate } from 'graphql';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-team-member-popup',
@@ -14,14 +16,16 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
   //employeeNames: string[] =[] //['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
   employeeObjects: any[] =[]
   employeeData:any
+  selectedEmployees:string[]=[]
 
   @Input() TeamName!: { Name: string };
 
-  AddTeamMember(teamName:string,EmployeeEmail:string)
-  {
-    this.service.AddTeamMember(teamName,EmployeeEmail).subscribe(data=>{
-      alert(data.data.AddTeamMember)
-    })
+  membersForm=new FormGroup({
+    filterEmployees:new FormControl,
+  })
+
+  addTeamMembers(){
+    console.log(this.selectedEmployees);
   }
 
   ngOnInit(): void {
