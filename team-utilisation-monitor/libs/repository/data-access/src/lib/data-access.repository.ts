@@ -1913,7 +1913,7 @@ export class DataAccessRepository {
         }
         else
         {
-          return "Something went wrong when updating"
+          return "Something went wrong"
         }
     }
 
