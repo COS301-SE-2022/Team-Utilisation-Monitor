@@ -1,16 +1,16 @@
-<form>
+<form [formGroup]="membersForm">
     <h2>Add members to the Team</h2>
     <mat-form-field appearance="fill">
         <mat-label>Enter Employee Name to filter</mat-label>
-        <input id="Filter_Employee_Name" matInput placeholder="Employee Name">
+        <input id="Filter_Employee_Name" matInput placeholder="Jared Kushnar" formControlName="filterEmployees">
     </mat-form-field>
     <br>
     <h4>An Employee can be added to multiple Teams</h4>
 </form>
 
 <h2>Select Employees to add to the Team</h2>
-<mat-selection-list #name>
-    <mat-list-option *ngFor="let name of employeeObjects">
+<mat-selection-list #name [(ngModel)]="selectedEmployees" [ngModelOptions]="{standalone: true}" ngDefaultControl>
+    <mat-list-option *ngFor="let name of employeeObjects" [value]="name.Email">
         {{name.Name}} {{name.Surname}} {{name.Email}}
     </mat-list-option>
 </mat-selection-list>
@@ -18,4 +18,4 @@
 <p>
     Options selected: {{name.selectedOptions.selected.length}}
 </p>
-<button mat-raised-button color="primary" >Add Selected Employees to team</button>
+<button mat-raised-button color="primary" (click)="addTeamMembers()" >Add Selected Employees to team</button>
