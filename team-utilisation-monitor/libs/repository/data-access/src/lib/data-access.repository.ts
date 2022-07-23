@@ -1,8 +1,7 @@
-//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -27,7 +26,7 @@ export class DataAccessRepository {
         user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
-        
+
 
 
         return user_person;
@@ -190,7 +189,7 @@ export class DataAccessRepository {
         let return_teams=[];
         let default_arr=[];
 
-        if(c_id>0) //company exists 
+        if(c_id>0) //company exists
         {
             if(typeOfContent===0) //get projects
             {
@@ -306,27 +305,20 @@ export class DataAccessRepository {
 
         if(t_id>0) //team exists
         {
-            const team=await this.prisma.team.findUnique({
+            const Team=await this.prisma.personOnTeams.findMany({
                 where:{
-                    id:t_id,
-                },
-                include:{
-                    members:true,
+                    team_id:t_id,
                 }
             })
 
-            if(team)
+            if(Team)
             {
                 let return_arr=[];
-
-                if(team.members!=null)
-                {
-                    for(let i=0;i<team.members.length;++i)
+                    for(let i=0;i<Team.length;++i)
                     {
-                        return_arr.push(this.getPersonVID(team.members[i].person_id));
+                        return_arr.push(await this.getPersonVID(Team[i].person_id))
                     }
                     return return_arr;
-                }
 
             }
         }
@@ -1800,25 +1792,17 @@ export class DataAccessRepository {
         team_arr=[]
 
         //Return all teams that have this user as a member
-        const Teams=(await this.prisma.team.findMany({
+        const Teams=(await this.prisma.personOnTeams.findMany({
             where:
             {
-                members:
-                {
-                    some:
-                    {
-                        id:userId
-                    }
-                }
+                person_id:userId
             }
         }))
 
         for(let i=0;i<Teams.length;i++)
         {
-            const obj=new TeamEntity();
-            obj.id=Teams[i].id;
-            obj.team_name=Teams[i].team_name;
-            team_arr.push(obj);
+            //const obj=new TeamEntity();
+            team_arr.push(await this.getTeam(Teams[i].team_id));
         }
 
         return team_arr;
@@ -1895,9 +1879,59 @@ export class DataAccessRepository {
         }
     }
 
-    async GetIndividualsStats(UserEmail:string)
+    async GetSkillVID(skillID:number)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            id:skillID
+          }
+        }
+      )
+
+      const skillObjs=new Skill()
+      skillObjs.id=skillID;
+      skillObjs.skill=skill.skill
+
+      return skillObjs
+    }
+
+    async GetUserSkills(UserEmail:string)
     {
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      let skill_Arr:string[]
+      skill_Arr=[]
+
+      const Skills=await this.prisma.personOnSkills.findMany(
+        {
+          where:
+          {
+            person_id:userId
+          }
+        }
+      )
+
+      for(let i=0;i<Skills.length;i++)
+      {
+        skill_Arr.push((await this.GetSkillVID(Skills[i].skill_id)).skill);
+      }
+
+      return skill_Arr
+
+    }
+
+
+    async GetIndividualsStats(UserEmail:string)
+    {
+      //const userId=(await this.getUserIDVEmail(UserEmail)).id;
+
+      const UserStats=new UserStatsEntity
+      UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
+      UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
+      UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
+
+      return UserStats
 
     }
 }
