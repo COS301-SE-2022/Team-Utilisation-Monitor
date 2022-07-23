@@ -32,6 +32,7 @@ import { AssignProjectToTeamCommand } from './commands/impl/assign-project-to-te
 import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-to-team-vname.command';
 import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
+import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmployees.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -188,5 +189,8 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetAllProjectsOfTeamsQuery(team_name));
     }
 
-
+    async GetUnderUtilizedEmps(cName:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetUtilizedEmployeesQuery(cName))
+    }
 }

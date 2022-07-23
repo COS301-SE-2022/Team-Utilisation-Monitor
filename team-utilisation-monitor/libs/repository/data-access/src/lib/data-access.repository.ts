@@ -213,7 +213,7 @@ export class DataAccessRepository {
                         return_projects[i].project_name=all_projects[i].project_name;
                         return_projects[i].owner_id=all_projects[i].owner_id;
                         return_projects[i].man_hours=all_projects[i].man_hours;
-                        return_projects[i].hoursToComplete=all_projects[i].completed;
+                        return_projects[i].completed=all_projects[i].completed;
 
                         //set all the teams working on the project. Remember that two or more teams can work on the same project
 
@@ -451,6 +451,15 @@ export class DataAccessRepository {
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
+        const existing_project=await this.prisma.project.findUnique({
+            where:{
+                project_name:projectName
+            }
+        })
+
+        if(existing_project) //project already in the db
+            return null; //project already exists
+
         const c_id=await this.getCompanyID(companyName); //company_id
 
         let t_id=0;
@@ -515,11 +524,14 @@ export class DataAccessRepository {
      * Use this function to assign a team to a project using the Team's and project's names.
     */
 
-    async AssignProjectToTeamVNames(team_name:string,project_name:string):Promise<string>
+    async AssignProjectToTeamVNames(teamName:string,projectName:string):Promise<string>
     {
-        const team_id=await this.getTeamIDVName(team_name);
+        const team_id=await this.getTeamIDVName(teamName);
 
-        const project_id=await this.getProjectID(project_name);
+        const project_id=await this.getProjectID(projectName);
+
+        console.log(team_id+" "+teamName);
+        console.log(project_id+" "+projectName);
 
         if(team_id>0 && project_id>0)
             return await this.AssignProjectToTeam(team_id,project_id);
@@ -875,7 +887,7 @@ export class DataAccessRepository {
         {
             const team= await this.prisma.team.findUnique({
                 where:{
-                  id:t_id,  
+                  id:t_id,
                 },
                 include:{
                     projects:true
@@ -892,13 +904,13 @@ export class DataAccessRepository {
 
                     project_object.id=project_id;
                     project_object.project_name=(await this.getProject(project_id)).project_name;
-                    
+
                     return_arr.push(project_object);
                 }
             }
 
             return return_arr;
-           
+
         }
         else
         {
@@ -1458,15 +1470,15 @@ export class DataAccessRepository {
 
     async getProjectID(p_name:string):Promise<number>
     {
-        const project=await this.prisma.project.findMany({
+        const project=await this.prisma.project.findUnique({
             where:{
-                project_name:p_name
+                project_name:p_name,   
             }
         })
 
         if(project)
         {
-            return project[0].id;
+            return project.id;
         }
         else
             return -1;
@@ -1784,9 +1796,10 @@ export class DataAccessRepository {
       for(let i=0;i<Employees.length;i++)
       {
         const emp=new UserPerson;
-        if(Employees[i].status=="OVER_UTILISED" || (Employees[i].status="FULLY_UTILISED"))
+        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
         {
             //
+            console.log("I got in")
         }
         else
         {
