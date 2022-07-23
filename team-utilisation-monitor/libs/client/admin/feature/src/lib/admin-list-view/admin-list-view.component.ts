@@ -41,7 +41,7 @@ export class AdminListViewComponent implements OnInit {
             obj.Name=requests.name
             obj.Surname=requests.surname;
             obj.Email=requests.email;
-            console.log(obj.Email)
+            //console.log(obj.Email)
             obj.Role=requests.role;
             this.OutEmployeeName.push(obj);
           }

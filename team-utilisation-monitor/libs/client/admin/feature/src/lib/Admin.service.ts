@@ -40,6 +40,7 @@ export class AdminService {
 
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
+
   getPendingRequests(companyName:string):Observable<any>
   {
     const query='query{getPendingRequests(company_name:"'+companyName+'"){name,surname,email}}'
@@ -99,9 +100,22 @@ export class AdminService {
 
   //MUTATIONS
 
+  assignProjectToTeams(teamName:string,projectName:string):Observable<any>
+  {
+    const query='mutation{assignProjectToTeamVName(team_name:"'+teamName+'",project_name:"'+projectName+'")}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+
+  }
+
   createTeam(teamName:string,companyName:string):Observable<any>
   {
-    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'"){members{name}}}'
+    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'"){members{id,name}}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -187,6 +201,61 @@ export class AdminService {
     }
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
+
+
+  getAllProjectsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  getAllTeamsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  //BridgeFunctions
+
+  /***
+   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established 
+   * functions
+  */
+
+  bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
+  {
+    console.log("In bridgeCreateProject()")
+    
+    if(teams.length>0)
+    {
+      for(let i=0;i<teams.length;++i)
+      {
+        this.createProject(projectName,companyName,teams[i],projectHours);
+      }
+    }
+    else //create it in isolation
+    {
+      this.createProject(projectName,companyName,"null",projectHours);
+    }
+
+    
+  }
+
 
 
 }
