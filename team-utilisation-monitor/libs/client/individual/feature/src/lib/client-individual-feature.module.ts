@@ -6,6 +6,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FormGroup} from "@angular/forms";
 
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";
@@ -53,7 +55,8 @@ import {MatChipsModule} from "@angular/material/chips";
         NgChartsModule,
         MatButtonToggleModule,
         MatTabsModule,
-        MatChipsModule
+        MatChipsModule,
+      MatCheckboxModule
     ],
   declarations: [
     IndividualHomePageComponent,
