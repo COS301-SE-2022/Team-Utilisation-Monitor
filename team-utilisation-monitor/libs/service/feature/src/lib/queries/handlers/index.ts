@@ -14,11 +14,12 @@ import { GetAllTeamsWorkingOnProjectHandler } from "./get-all-teams-working-on-p
 import { GetUtilizedEmployeesHandler } from "./GetUnderUtilizedEmployees.handler";
 import { GetAllProjectsOfTeamsHandler } from "./get-all-projects-of-teams.handler";
 import { GetAllocatedTeamsHandler } from "./GetAllocatedTeams.handler";
+import { GetAllocatedProjectsHandler } from "./getAllocatedProjects.handler";
 
 
 export const QueryHandlers=[
     GetAllProjectsOrTeamsOfCompanyHandler,GetAllEmployeesOfCompanyHandler,GetCompanyStatsHandler,GetUserIDQueryHandler,
     GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler,GetInviteCodeHandler, GetTeamMembersHandler,GetSkillsHandler,
     GetAllTeamsWorkingOnProjectHandler,GetUtilizedEmployeesHandler,
-    GetAllTeamsWorkingOnProjectHandler,GetAllProjectsOfTeamsHandler,GetAllocatedTeamsHandler
+    GetAllTeamsWorkingOnProjectHandler,GetAllProjectsOfTeamsHandler,GetAllocatedTeamsHandler,GetAllocatedProjectsHandler
 ]

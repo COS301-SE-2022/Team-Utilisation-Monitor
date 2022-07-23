@@ -1710,20 +1710,8 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
     {
-      /*if(skillName=="Baby")
-      {
-        //
-      }*/
-      const skill=await this.prisma.skills.findUnique(
-        {
-          where:
-          {
-            skill:skillName
-          }
-        }
-      )
 
       const empID=await this.prisma.person.update(
         {
@@ -1739,36 +1727,14 @@ export class DataAccessRepository {
         }
       )
 
-
-        const PersonSkill=await this.prisma.personOnSkills.create(
-          {
-            data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:empID.id
-                }
-              }
-            }
-          }
-        )
-
-        if(PersonSkill)
-        {
-          return "User Profile Updated"
-        }
-        else
-        {
-          return "Something went wrong when updating"
-        }
+      if(empID)
+      {
+        return "UserProfileUpdated"
+      }
+      else
+      {
+        return "User Profile Update Failed"
+      }
     }
 
     async GetUnderUtilizedEmployees(companyName:string)
@@ -1901,10 +1867,59 @@ export class DataAccessRepository {
 
         for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
         {
-          projects_arr.push(await this.getProject(Projects[i].id));  //Get the projects using the projects IDs
+          projects_arr.push(await this.getProject(Projects[j].project_id));  //Get the projects using the projects IDs
         }
       }
 
       return projects_arr;
+    }
+
+    async UpdateSkill(UserEmail:string,skillType:string)
+    {
+
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillType
+          }
+        }
+      )
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:userId
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Skill Added"
+        }
+        else
+        {
+          return "Something went wrong when updating"
+        }
+    }
+
+    async GetIndividualsStats(UserEmail:string)
+    {
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+
     }
 }

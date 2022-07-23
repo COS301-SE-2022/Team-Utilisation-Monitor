@@ -1,3 +1,4 @@
+import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
@@ -198,5 +199,10 @@ export class ServiceFeatureService {
     async GetAllocatedTeams(UserEmail:string):Promise<any>
     {
       return this.queryBus.execute(new GetAllocatedTeamsQuery(UserEmail))
+    }
+
+    async GetAllocatedProjects(UserEmail:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllocatedProjectsQuery(UserEmail));
     }
 }
