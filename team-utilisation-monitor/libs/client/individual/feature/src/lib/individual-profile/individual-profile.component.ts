@@ -31,6 +31,9 @@ export class IndividualProfileComponent implements OnInit {
   address="string";
   result = <unknown> Observable;
 
+  selectedSkill:string[]=[];
+  skillN:string[]=[];
+
 
   boolshow = true;
   currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
@@ -90,9 +93,48 @@ export class IndividualProfileComponent implements OnInit {
   {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
-    //const skill_name=this.profileForm.get('')
+    const skill_name=this.profileForm.get("skill_name")?.value!;
+
+    if(first_name==null )
+    {
+      this.service.UpdateProfile(this.email,this.fName,last_name,skill_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+
+    }
+
+    if(last_name==null )
+    {
+      this.service.UpdateProfile(this.email,first_name,this.lastName,skill_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+
+    }
+
+    //check for skills
+
+//checks for everything
+    if(first_name==null && last_name==null){
+      //call the function for skills only
+      this.service.UpdateProfile(this.email,this.fName,this.lastName,skill_name).subscribe(Result=>
+        {
+          console.log(Result.data)
+        })
+    }
+
+   const skill = document.getElementById(
+      'skillID',
+    ) as HTMLInputElement | null;
+
+    if(skill?.checked){
+      this.skillN.concat();
+    }
+
     console.log(this.email)
-    this.service.UpdateProfile(this.email,first_name,last_name,"Driving").subscribe(Result=>
+
+    this.service.UpdateProfile(this.email,first_name,last_name,skill_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
