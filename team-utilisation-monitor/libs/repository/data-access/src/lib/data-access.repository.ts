@@ -1057,7 +1057,7 @@ export class DataAccessRepository {
         const project=new ProjectEntity();
         project.id=Project.id;
         project.project_name=Project.project_name;
-        project.ownwer_id=Project.owner_id;
+        //project.ownwer_id=Project.owner_id;
         project.man_hours=Project.man_hours;
 
         return project;
@@ -1853,6 +1853,7 @@ export class DataAccessRepository {
     {
         const userId=(await this.getUserIDVEmail(UserEmail)).id;
         let team_arr:TeamEntity[]
+        team_arr=[]
 
         //Return all teams that have this user as a member
         const Teams=(await this.prisma.team.findMany({
@@ -1878,5 +1879,32 @@ export class DataAccessRepository {
 
         return team_arr;
 
+    }
+
+    async getAllocatedProjects(userEmail:string)
+    {
+      const teams=await this.getAllocatedTeams(userEmail);
+      let projects_arr:ProjectEntity[]
+      projects_arr=[]
+
+      for(let i=0;i<teams.length;i++)  //For every team that our employee is  a part of ,we check that team's projects
+      {
+        const Team_id=teams[i].id;
+        const Projects=await this.prisma.teamsOnProjects.findMany(
+          {
+            where:
+            {
+              team_id:Team_id
+            }
+          }
+        )
+
+        for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
+        {
+          projects_arr.push(await this.getProject(Projects[i].id));  //Get the projects using the projects IDs
+        }
+      }
+
+      return projects_arr;
     }
 }

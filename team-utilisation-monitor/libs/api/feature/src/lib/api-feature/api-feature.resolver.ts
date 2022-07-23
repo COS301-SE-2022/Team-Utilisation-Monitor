@@ -372,6 +372,12 @@ export class ApiFeatureResolver {
     return await this.service.GetUnderUtilizedEmps(cName)
   }
 
+  @Query(()=>[TeamEntity])
+  async GetAllocatedTeams(@Args("email") uEmail:string)
+  {
+    return await this.service.GetAllocatedTeams(uEmail);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
