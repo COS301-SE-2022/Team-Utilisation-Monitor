@@ -14,7 +14,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number)
     {
         const user_person=new UserPerson();
 
@@ -30,7 +30,6 @@ export class DataAccessRepository {
         user_person.team_name=team;
         user_person.company_id=company_id;
         user_person.project_id=project_id;
-        user_person.team_id=team_id;
 
 
         return user_person;
@@ -317,7 +316,7 @@ export class DataAccessRepository {
     /***
      * The function returns the members of a team given as input parameters
      * Returns null if team does not exist
-     */
+    */
 
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
@@ -946,7 +945,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id));
             }
         }
         else
@@ -1010,7 +1009,7 @@ export class DataAccessRepository {
                 local_team=person.team.team_name;
 
 
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
@@ -1287,7 +1286,7 @@ export class DataAccessRepository {
                     user.utilisation=company.employees[i].utilisation;
                     /**
                      * What's missing is the project, team name and project,team id field
-                     */
+                    */
 
                     employees_arr.push(user);
                 }
