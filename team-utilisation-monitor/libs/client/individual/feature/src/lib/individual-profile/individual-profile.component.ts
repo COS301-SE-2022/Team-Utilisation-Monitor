@@ -81,8 +81,10 @@ export class IndividualProfileComponent implements OnInit {
       this.newSkills.push(request.skill)
     }
   })
+  }
 
-
+  onGroupsChange(f_selectedTeams: string[]) {
+    console.log(f_selectedTeams);
   }
 
   showInfo(link: string) {
@@ -113,6 +115,15 @@ export class IndividualProfileComponent implements OnInit {
 
     }
 
+    for(let i=0;i<this.selectedSkill.length;++i) {
+      //console.log(this.selectedTeams[i]);
+
+      //this.service.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
+      //  data=>{
+      //
+      //  });
+    }
+
     //check for skills
 
 //checks for everything
@@ -124,20 +135,23 @@ export class IndividualProfileComponent implements OnInit {
         })
     }
 
+    if( first_name!==null && last_name!==null){
+      this.service.UpdateProfile(this.email,first_name,last_name,skill_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+    }
+
    const skill = document.getElementById(
       'skillID',
     ) as HTMLInputElement | null;
 
     if(skill?.checked){
-      this.skillN.concat();
+      //
     }
 
     console.log(this.email)
 
-    this.service.UpdateProfile(this.email,first_name,last_name,skill_name).subscribe(Result=>
-      {
-        console.log(Result.data)
-      })
   }
 
 }

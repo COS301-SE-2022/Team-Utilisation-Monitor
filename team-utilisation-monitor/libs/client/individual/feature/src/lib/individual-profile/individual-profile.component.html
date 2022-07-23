@@ -152,12 +152,12 @@
                       </mat-expansion-panel-header>
 
                       <div class="setHeight">
-                        <form [formGroup]="skillForm">
-                          <mat-checkbox class="skillList" formControlName="skill_name"
-                                         *ngFor="let link of newSkills"
-                                         value="link"> {{link}}
-                          </mat-checkbox>
-                        </form>
+
+                        <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
+                          <mat-list-option *ngFor="let name of newSkills" [value]="name">
+                            {{name}}
+                          </mat-list-option>
+                        </mat-selection-list>
                       </div>
                     </mat-expansion-panel>
                   </mat-accordion>
