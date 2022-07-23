@@ -166,9 +166,9 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetSkillsQuery);
     }
 
-    async UpdateProfile(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdateProfile(Email:string,Name:string,Surname:string)
     {
-      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName));
+      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname));
     }
 
     async AssignProjectToTeamServ(team_id:number,project_id:number):Promise<string>

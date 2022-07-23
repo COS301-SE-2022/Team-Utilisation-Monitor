@@ -361,9 +361,9 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
+  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname,skillName);
+    return await this.service.UpdateProfile(Email,Name,Surname);
   }
 
   @Query(()=>[UserPerson])
