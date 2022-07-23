@@ -88,9 +88,22 @@ export class AdminService {
 
   //MUTATIONS
 
+  assignProjectToTeams(teamName:string,projectName:string):Observable<any>
+  {
+    const query='mutation{assignProjectToTeamVName(team_name:"'+teamName+'",project_name:"'+projectName+'")}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+
+  }
+
   createTeam(teamName:string,companyName:string):Observable<any>
   {
-    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'"){members{name}}}'
+    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'"){members{id,name}}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

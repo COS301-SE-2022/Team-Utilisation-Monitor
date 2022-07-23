@@ -451,6 +451,15 @@ export class DataAccessRepository {
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
+        const existing_project=await this.prisma.project.findUnique({
+            where:{
+                project_name:projectName
+            }
+        })
+
+        if(existing_project) //project already in the db
+            return null; //project already exists
+
         const c_id=await this.getCompanyID(companyName); //company_id
 
         let t_id=0;
@@ -515,11 +524,14 @@ export class DataAccessRepository {
      * Use this function to assign a team to a project using the Team's and project's names.
     */
 
-    async AssignProjectToTeamVNames(team_name:string,project_name:string):Promise<string>
+    async AssignProjectToTeamVNames(teamName:string,projectName:string):Promise<string>
     {
-        const team_id=await this.getTeamIDVName(team_name);
+        const team_id=await this.getTeamIDVName(teamName);
 
-        const project_id=await this.getProjectID(project_name);
+        const project_id=await this.getProjectID(projectName);
+
+        console.log(team_id+" "+teamName);
+        console.log(project_id+" "+projectName);
 
         if(team_id>0 && project_id>0)
             return await this.AssignProjectToTeam(team_id,project_id);
@@ -1458,15 +1470,15 @@ export class DataAccessRepository {
 
     async getProjectID(p_name:string):Promise<number>
     {
-        const project=await this.prisma.project.findMany({
+        const project=await this.prisma.project.findUnique({
             where:{
-                project_name:p_name
+                project_name:p_name,   
             }
         })
 
         if(project)
         {
-            return project[0].id;
+            return project.id;
         }
         else
             return -1;

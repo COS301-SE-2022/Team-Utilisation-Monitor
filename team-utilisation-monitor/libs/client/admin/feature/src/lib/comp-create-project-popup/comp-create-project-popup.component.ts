@@ -60,12 +60,18 @@ export class CompCreateProjectPopupComponent implements OnInit {
       //create the project in isolation
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data=>{
-          //
-        }
-      )
+            //assign the project to the selected teams
 
-      //assign the project to the selected teams
-
+          for(let i=0;i<this.selectedTeams.length;++i)
+          {
+            //console.log(this.selectedTeams[i]);
+        
+            this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
+            data=>{
+            //
+          });
+          }
+        })
       
       alert("Project "+projectName+" has been created ");
     }

@@ -155,7 +155,7 @@ model Project{
 
   id Int @id @default(autoincrement())
 
-  project_name String
+  project_name String @unique
 
   owners Company? @relation(name: "ownsA",fields: [owner_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   owner_id Int? //the company that owns the preoject
