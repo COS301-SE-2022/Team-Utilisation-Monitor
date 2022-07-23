@@ -34,7 +34,8 @@ export class IndividualProfileComponent implements OnInit {
 
   boolshow = true;
   currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
-  newSkills: string[]=['C++', 'Debugger','Front-end','Backend','C#','Database'];
+
+  newSkills: string[]=[]//['C++', 'Debugger','Front-end','Backend','C#','Database'];
   projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
@@ -69,6 +70,14 @@ export class IndividualProfileComponent implements OnInit {
       },
       error: (err) => { console.log(err); }
     })
+
+  this.service.getSkills().subscribe(data=>{
+    //
+    for(const request of data.data.GetSkill)
+    {
+      this.newSkills.push(request.skill)
+    }
+  })
 
 
   }

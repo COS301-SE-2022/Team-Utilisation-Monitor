@@ -12,6 +12,7 @@ export class IndividualService {
 
   constructor(private client:HttpClient){}
 
+  //QUERIES
   getPersonDetails(email:string):Observable<any>
   {
     const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role,approved,team_name}}';
@@ -28,6 +29,20 @@ export class IndividualService {
 
   }
 
+  getSkills():Observable<any>
+  {
+    const Query='query{GetSkill{skill}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+
+  //Mutations
   UpdateProfile(email:string,name:string,surname:string,skill_name:string):Observable<any>
   {
     const Query='mutation{UpdateProfile(email:"'+email+'",name:"'+name+'",surname:"'+surname+'",skill_name:"'+skill_name+'")}'

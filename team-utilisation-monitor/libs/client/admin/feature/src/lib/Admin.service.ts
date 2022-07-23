@@ -85,6 +85,18 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  getSkills():Observable<any>
+  {
+    const Query='query{GetSkill{skill}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
 
   //MUTATIONS
 
@@ -190,17 +202,6 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-  getSkills():Observable<any>
-  {
-    const Query='query{GetSkill{skill}}'
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
-  }
 
   getAllProjectsOfACompany(companyName:string):Observable<any>
   {
