@@ -1472,7 +1472,7 @@ export class DataAccessRepository {
     {
         const project=await this.prisma.project.findUnique({
             where:{
-                project_name:p_name,   
+                project_name:p_name,
             }
         })
 
@@ -1848,4 +1848,35 @@ export class DataAccessRepository {
     }
 
     //async calculateAverage(weekID:)
+
+    async getAllocatedTeams(UserEmail:string)
+    {
+        const userId=(await this.getUserIDVEmail(UserEmail)).id;
+        let team_arr:TeamEntity[]
+
+        //Return all teams that have this user as a member
+        const Teams=(await this.prisma.team.findMany({
+            where:
+            {
+                members:
+                {
+                    some:
+                    {
+                        id:userId
+                    }
+                }
+            }
+        }))
+
+        for(let i=0;i<Teams.length;i++)
+        {
+            const obj=new TeamEntity();
+            obj.id=Teams[i].id;
+            obj.team_name=Teams[i].team_name;
+            team_arr.push(obj);
+        }
+
+        return team_arr;
+
+    }
 }
