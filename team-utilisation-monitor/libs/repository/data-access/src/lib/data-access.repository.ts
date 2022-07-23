@@ -14,7 +14,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,company_id:number,project_id:number)
     {
         const user_person=new UserPerson();
 
@@ -27,7 +27,6 @@ export class DataAccessRepository {
         user_person.position=position;
         user_person.company_name=company;
         user_person.project_name=project;
-        user_person.team_name=team;
         user_person.company_id=company_id;
         user_person.project_id=project_id;
 
@@ -342,13 +341,15 @@ export class DataAccessRepository {
                     for(let i=0;i<team.members.length;++i)
                     {
                         const user=new UserPerson();
-
+                        /*
+                        work in progress
+                        
                         user.id=team.members[i].id;
                         user.name=team.members[i].name;
                         user.surname=team.members[i].surname;
                         user.email=team.members[i].email;
                         user.role=team.members[i].role;
-                        user.suspended=team.members[i].suspended;
+                        user.suspended=team.members[i].suspended;*/
 
                         return_arr.push(user);
                     }
@@ -933,7 +934,7 @@ export class DataAccessRepository {
                 position:true,
                 company:true,
                 project:true,
-                team:true
+                teams:true
             }
         });
 
@@ -945,7 +946,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].company_id,people[i].project_id));
             }
         }
         else
@@ -970,7 +971,6 @@ export class DataAccessRepository {
                 position:true,
                 company:true,
                 project:true,
-                team:true,
             }
         })
 
@@ -980,7 +980,6 @@ export class DataAccessRepository {
         {
             let local_project:string;
             let local_company:string;
-            let local_team:string;
             let title:string;
 
 
@@ -1003,13 +1002,7 @@ export class DataAccessRepository {
                   title=person.position.title;
 
 
-            if(person.team==null)
-                local_team=null;
-            else
-                local_team=person.team.team_name;
-
-
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,person.company_id,person.project_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
