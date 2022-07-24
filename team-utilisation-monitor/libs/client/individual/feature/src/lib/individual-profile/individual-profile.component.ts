@@ -33,16 +33,17 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[]//['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
   newSkills: string[]=[]//['C++', 'Debugger','Front-end','Backend','C#','Database'];
-  projects: string[]=['Taint C&S', 'Community', 'WebDev'];
+  //projects: string[]=['Taint C&S', 'Community', 'WebDev'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
   team="none";
+  utilization=0;
 
-  noOfProject=this.projects.length;
+  noOfProject=0//this.projects.length;
   companyName=""
   panelOpenState = false;
 
@@ -78,6 +79,20 @@ export class IndividualProfileComponent implements OnInit {
       this.newSkills.push(request.skill)
     }
   })
+
+  this.service.getUserSkills(email).subscribe(Data=>
+    {
+      for(const req of Data.data.GetUserSkills)
+      {
+        this.currSkills.push(req)
+      }
+    })
+
+    this.service.getUserStats(email).subscribe(Data=>
+      {
+        this.noOfProject=Data.data.GetUserStats.numberOfProjects
+        this.utilization=Data.data.GetUserStats.utilisation
+      })
 
 
   }
