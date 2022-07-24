@@ -1,3 +1,8 @@
+import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
+import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
+import { UpdateUserSkillCommand } from './commands/impl/UpdateUserSkill.command';
+import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
+import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
 import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
@@ -164,9 +169,9 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetSkillsQuery);
     }
 
-    async UpdateProfile(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdateProfile(Email:string,Name:string,Surname:string)
     {
-      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname,skillName));
+      return this.commandBus.execute(new UpdateProfileCommand(Email,Name,Surname));
     }
 
     async AssignProjectToTeamServ(team_id:number,project_id:number):Promise<string>
@@ -192,5 +197,30 @@ export class ServiceFeatureService {
     async GetUnderUtilizedEmps(cName:string):Promise<any>
     {
       return this.queryBus.execute(new GetUtilizedEmployeesQuery(cName))
+    }
+
+    async GetAllocatedTeams(UserEmail:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllocatedTeamsQuery(UserEmail))
+    }
+
+    async GetAllocatedProjects(UserEmail:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetAllocatedProjectsQuery(UserEmail));
+    }
+
+    async UpdateUserSkill(UserEmail:string,skillName:string)
+    {
+      return this.commandBus.execute(new UpdateUserSkillCommand(UserEmail,skillName))
+    }
+
+    async GetUserSkills(UserEmail:string)
+    {
+      return this.queryBus.execute(new GetUserSkillsQuery(UserEmail));
+    }
+
+    async GetUserStats(UserEmail:string)
+    {
+      return this.queryBus.execute(new GetUserStatsQuery(UserEmail));
     }
 }

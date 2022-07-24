@@ -41,6 +41,17 @@ export class IndividualService {
 
   }
 
+  getAllocatedTeams(email:string):Observable<any>
+  {
+    const Query='query{GetAllocatedTeams(email:"'+email+'"){team_name}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
 
   //Mutations
   UpdateProfile(email:string,name:string,surname:string,skill_name:string):Observable<any>

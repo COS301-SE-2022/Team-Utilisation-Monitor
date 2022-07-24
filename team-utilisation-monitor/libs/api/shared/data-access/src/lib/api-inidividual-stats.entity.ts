@@ -3,7 +3,7 @@ import { Status } from "@prisma/client";
 import { UserPerson } from "./api-user-person.entity";
 
 @ObjectType({description:'This object holds the user stats e.g team members'})
-export class UserStatsEnity{
+export class UserStatsEntity{
 
     @Field(()=>[UserPerson],{nullable:true})
     teamMembers?:UserPerson[];
@@ -22,9 +22,12 @@ export class UserStatsEnity{
 
     @Field({nullable:true})
     numberOfTeams?:number;
-    
+
     @Field({nullable:true})
     status?:string
+
+    @Field({nullable:true})
+    numberOfSkills?:number
 
 
 }

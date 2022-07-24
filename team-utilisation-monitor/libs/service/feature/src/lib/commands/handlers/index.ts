@@ -12,9 +12,11 @@ import { AddSkillHandler } from './AddSkill.handler';
 import { UpdateProfileHandler } from './UpdateProfile.handler';
 import { AssignProjectToTeamHandler } from './assign-project-to-team.handler';
 import { AssignProjectToTeamVNamesHandler } from './assign-project-to-team-vname.handler';
+import { UpdateUserSkillHandler } from './UpdateUserSkill.handler';
 
 export const CommandHandlers=[
   ApproveRequestVEmailHandler,CreateAdminHandler,CreateTeamHandler,CreateProjectHandler,
   CreateCompanyHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler,
   DeleteEmployeeHandler,AddSkillHandler,UpdateProfileHandler,AssignProjectToTeamHandler,AssignProjectToTeamVNamesHandler,
+  UpdateUserSkillHandler
 ];

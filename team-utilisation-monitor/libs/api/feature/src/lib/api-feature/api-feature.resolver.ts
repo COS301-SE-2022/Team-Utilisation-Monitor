@@ -1,5 +1,5 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -183,7 +183,7 @@ export class ApiFeatureResolver {
    * This function returns the stats of members in a team
   */
 
-  @Query(()=>[UserStatsEnity])
+  @Query(()=>[UserStatsEntity])
   async getAllMembersOfTeam(@Args("team_name") team_name:string)
   {
     const resp= await this.service.getAllMembersOfTeam(team_name);
@@ -361,15 +361,45 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
+  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname,skillName);
+    return await this.service.UpdateProfile(Email,Name,Surname);
   }
 
   @Query(()=>[UserPerson])
   async GetUnderUtilizedEmployees(@Args("company_name") cName:string)
   {
     return await this.service.GetUnderUtilizedEmps(cName)
+  }
+
+  @Query(()=>[TeamEntity])
+  async GetAllocatedTeams(@Args("email") uEmail:string)
+  {
+    return await this.service.GetAllocatedTeams(uEmail);
+  }
+
+  @Query(()=>[ProjectEntity])
+  async GetAllocateProjects(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetAllocatedProjects(UserEmail);
+  }
+
+  @Mutation(()=>String)
+  async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string)
+  {
+    return await this.service.UpdateUserSkill(UserEmail,skillName)
+  }
+
+  @Query(()=>[String])
+  async GetUserSkills(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserSkills(UserEmail)
+  }
+
+  @Query(()=>UserStatsEntity)
+  async GetUserStats(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserStats(UserEmail);
   }
 
   /*@Mutation(() => UserPerson)
