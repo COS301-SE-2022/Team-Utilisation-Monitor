@@ -1,3 +1,5 @@
+import { CookieService } from 'ngx-cookie-service';
+import { IndividualService } from './../Individual.service';
 import { Component, OnInit } from '@angular/core';
 import {link} from "fs";
 
@@ -7,6 +9,7 @@ import {link} from "fs";
   styleUrls: ['./individual-home-page.component.scss']
 })
 export class IndividualHomePageComponent implements OnInit {
+  constructor(private service:IndividualService,private cookie:CookieService){}
 
 
   events: string[] = [];
@@ -23,6 +26,15 @@ export class IndividualHomePageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log();
+    const Email=this.cookie.get("Email");
+    console.log(Email)
+    this.service.getUserStats(Email).subscribe(Data=>
+      {
+        this.nrOfOpenProjects=Data.data.GetUserStats.numberOfProjects
+        this.nrOfSkills=Data.data.GetUserStats.numberOfSkills
+        this.nrOfTeams=Data.data.GetUserStats.numberOfTeams
+        this.utilizationPercentage=Data.data.GetUserStats.utilisation
+      })
   }
 
   showInfo(link: string) {
