@@ -99,5 +99,16 @@ export class IndividualService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  UpdateUserSkill(email:string,skill_name:string):Observable<any>
+  {
+    const Query='mutation{UpdateUserSkill(email:"'+email+'",skillName:"'+skill_name+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
 
 }
