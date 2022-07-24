@@ -61,7 +61,18 @@ describe('ServiceFeatureService', () => {
         return user_person;
 
       } else if (query instanceof GetCompanyQuery) {
-        return 123;
+
+        const user_company = new UserCompany();
+
+        user_company.id = 28;
+        user_company.company_name = "icreate"
+        user_company.admins = null;
+        user_company.employees = null;
+        user_company.projects = null;
+        user_company.teams = null;
+        user_company.invite_code = "hvuwuwbv12"
+
+        return user_company;
       }
 
       return 10;
@@ -100,7 +111,7 @@ describe('ServiceFeatureService', () => {
       try {
         test = await service.getCompany('icreate');
       } catch (err) { return }
-      expect(test).toEqual(123);
+      expect(test.invite_code).toEqual("hvuwuwbv12");
       });
   });
 
