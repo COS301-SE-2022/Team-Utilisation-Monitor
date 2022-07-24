@@ -1787,8 +1787,9 @@ export class DataAccessRepository {
       return HoursPerMember;
     } 
 
-    async CalculateUtilizationVProject(projectId:number)
+    async CalculateUtilizationVProject(projectName:string)
     {
+      const projectId=await this.getProjectID(projectName);
       const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
         {
           where:

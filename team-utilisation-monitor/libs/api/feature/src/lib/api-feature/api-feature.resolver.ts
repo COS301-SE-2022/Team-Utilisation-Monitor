@@ -408,6 +408,12 @@ export class ApiFeatureResolver {
     return await this.service.AssignHours(UserEmail,hours);
   }
 
+  @Mutation(()=>String)
+  async CalculateUtilization(@Args("project_Name") projectName:string)
+  {
+    return await this.service.CalculateUtilization(projectName);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
