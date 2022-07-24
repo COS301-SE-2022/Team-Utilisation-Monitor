@@ -125,21 +125,21 @@ export class IndividualProfileComponent implements OnInit {
     const last_name=this.profileForm.get("last_name")?.value!;
     const skill_name=this.profileForm.get("skill_name")?.value!;
 
-    if(first_name=="" && last_name !="")
+    if(first_name==="" && last_name !=="")
     {
       this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-    else if(last_name=="" && first_name !="")
+    else if(last_name==="" && first_name !=="")
     {
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-    else if(first_name=="" && last_name==""){
+    else if(first_name==="" && last_name===""){
       //call the function for skills only
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
@@ -147,7 +147,7 @@ export class IndividualProfileComponent implements OnInit {
         })
     }
 
-    if( first_name!==null && last_name!==null){
+    if( first_name!=="" && last_name!=""){
       this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
       {
         console.log(Result.data)
