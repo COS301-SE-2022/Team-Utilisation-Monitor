@@ -138,7 +138,7 @@ describe('ServiceFeatureService', () => {
       try {
         test = await service.getCompany('12');
       } catch (err) { return }
-      expect(test).toEqual(UserCompany);
+      expect(test).toBeInstanceOf(UserCompany);
       });
   });
 
