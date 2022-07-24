@@ -1555,7 +1555,7 @@ export class DataAccessRepository {
 
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
-      
+
       const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -1945,5 +1945,31 @@ export class DataAccessRepository {
       )).utilisation
       //Add Utilization
       return UserStats
+    }
+
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    {
+      //
+      const result=await this.prisma.person.update(
+        {
+          where:
+          {
+            email:UserEmail
+          },
+          data:
+          {
+            weekly_hours:WeeklyHours
+          }
+        }
+      )
+
+      if(result)
+      {
+        return "WeeklyHours Updated"
+      }
+      else
+      {
+        return "Something went wrong with the Update"
+      }
     }
 }
