@@ -1,3 +1,4 @@
+import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
@@ -1557,7 +1558,7 @@ export class DataAccessRepository {
 
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
-      
+
       const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -1759,6 +1760,85 @@ export class DataAccessRepository {
     }
 
 
+    //UTILIZATION Helper fUNCTIONS
+    async Project_Hours_Per_team(projectID:number)
+    {
+      const NumberOfTeams=await this.prisma.teamsOnProjects.count(
+        {
+          where:
+          {
+            project_id:projectID
+          }
+        }
+      )
+      
+      //Project manHours/Numberofeams
+      const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
+
+      return HoursPerTeam;
+    }
+
+    async HoursPerTeamMemberOnProject(teamId:number,projectId:number)
+    {
+      //Get the number of members in the team
+      const No_oF_Members=(await this.getTeam(teamId)).members.length
+
+      //Hours per Team member=Project hours for a team/Number of team members
+      const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
+      
+      return HoursPerMember;
+    } 
+
+    async CalculateUtilizationVProject(projectName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        //
+        const Team=(await this.getTeam(TeamsOnProject[i].team_id)).members;
+        for(let j=0;j<Team.length;j++)
+        {
+
+          const PersonObj=(await this.prisma.person.findUnique(
+            {
+              where:
+              {
+                id:Team[j].id
+              }
+            }
+          ))
+
+          let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
+          let WeeklyHours=PersonObj.weekly_hours;
+          let Utilization=(AssignedHours/WeeklyHours)*100;
+
+          await this.prisma.person.update(
+            {
+              where:
+              {
+                id:Team[j].id
+              },
+              data:
+              {
+                assigned_hours: AssignedHours,
+                utilisation:Utilization
+              }
+            }
+          )
+        }
+
+      }
+    }
+
     async GetMonthlyUtilization(Email:string)
     {
       const utilization=await this.prisma.person.findUnique(
@@ -1788,6 +1868,7 @@ export class DataAccessRepository {
         utilization_arr.push(obj)
       }
 
+      return utilization_arr;
     }
 
     //async calculateAverage(weekID:)
@@ -1973,6 +2054,31 @@ export class DataAccessRepository {
       
     }
 
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    {
+      //
+      const result=await this.prisma.person.update(
+        {
+          where:
+          {
+            email:UserEmail
+          },
+          data:
+          {
+            weekly_hours:WeeklyHours
+          }
+        }
+      )
+
+      if(result)
+      {
+        return "WeeklyHours Updated"
+      }
+      else
+      {
+        return "Something went wrong with the Update"
+      }
+    }
     /**
      * Use this function to get the number of members in a team. 
      * Will return a -1 if team doesn't exist.

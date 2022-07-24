@@ -1,3 +1,5 @@
+import { CalculateUtilizationCommand } from './commands/impl/CalculateUtilization.command';
+import { AssignHoursCommand } from './commands/impl/AssignHours.command';
 import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
 import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
 import { UpdateUserSkillCommand } from './commands/impl/UpdateUserSkill.command';
@@ -223,5 +225,13 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetUserStatsQuery(UserEmail));
     }
 
+    async AssignHours(UserEmail:string,Hours:number)
+    {
+      return this.commandBus.execute(new AssignHoursCommand(UserEmail,Hours));
+    }
     
+    async CalculateUtilization(projectName:string)
+    {
+      return this.commandBus.execute(new CalculateUtilizationCommand(projectName));
+    }
 }
