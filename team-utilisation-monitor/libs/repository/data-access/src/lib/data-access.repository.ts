@@ -1551,7 +1551,9 @@ export class DataAccessRepository {
       return invite.invite_code;
     }
 
-
+    /***
+     * This function is used to add the Team members to the team.
+     */
 
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
@@ -1902,6 +1904,11 @@ export class DataAccessRepository {
       return skillObjs
     }
 
+    /***
+     * The function is used to get the skills of a user. The function takes
+     * in a userEmail.
+     */
+
     async GetUserSkills(UserEmail:string)
     {
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
@@ -1926,24 +1933,77 @@ export class DataAccessRepository {
 
     }
 
+    /***
+     * Use this function to get the statistics of the individual.
+     * Returns null if the user doesn't exist.
+     */
 
-    async GetIndividualsStats(UserEmail:string)
+
+    async GetIndividualsStats(UserEmail:string):Promise<UserStatsEntity>
     {
       //const userId=(await this.getUserIDVEmail(UserEmail)).id;
 
-      const UserStats=new UserStatsEntity
-      UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
-      UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
-      UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
-      UserStats.utilisation=(await this.prisma.person.findUnique(
-        {
-          where:
-          {
+      const user= await this.prisma.person.findUnique({
+        where:{
             email:UserEmail
-          }
         }
-      )).utilisation
-      //Add Utilization
-      return UserStats
+      })
+
+      if(user){ //user does exist.
+
+        const UserStats=new UserStatsEntity
+
+        UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
+  
+        UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
+  
+        UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
+
+        //@Gift i need these fuunctions for utilisation. Sorry.
+        UserStats.utilisation=user.utilisation;
+        UserStats.status=user.status;
+        UserStats.assignedHours=user.assigned_hours;
+        UserStats.weeklyHours=user.weekly_hours;
+    
+        return UserStats
+
+      }
+      else
+        return null;
+      
     }
+
+    /**
+     * Use this function to get the number of members in a team. 
+     * Will return a -1 if team doesn't exist.
+     * Remeber that a team can have 0 members.
+    */
+
+
+    async getNumberOfMembersInATeam(team_name:string):Promise<number>
+    {
+        const t_id=await this.getTeamIDVName(team_name);
+
+        if(t_id>0){
+
+            const existing_team= await this.prisma.team.findUnique({
+                where:{
+                    id:t_id
+                },
+                include:{
+                    members:true,
+                }
+            })
+
+            if(existing_team){
+               return existing_team.members.length; 
+            }
+
+        }
+        else
+            return -1;
+    }
+
+
+    
 }
