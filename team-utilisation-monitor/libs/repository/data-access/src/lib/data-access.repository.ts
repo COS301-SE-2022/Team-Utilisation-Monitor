@@ -1756,6 +1756,8 @@ export class DataAccessRepository {
       return employees_arr;
     }
 
+
+    //UTILIZATION Helper fUNCTIONS
     async Project_Hours_Per_team(projectID:number)
     {
       const NumberOfTeams=await this.prisma.teamsOnProjects.count(
@@ -1771,6 +1773,35 @@ export class DataAccessRepository {
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
 
       return HoursPerTeam;
+    }
+
+    async HoursPerTeamMemberOnProject(teamId:number,projectId:number)
+    {
+      //Get the number of members in the team
+      const No_oF_Members=(await this.getTeam(teamId)).members.length
+
+      //Hours per Team member=Project hours for a team/Number of team members
+      const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
+      
+      return HoursPerMember;
+    } 
+
+    async CalculateUtilizationVProject(projectId:number)
+    {
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        //
+
+      }
     }
 
     async GetMonthlyUtilization(Email:string)
@@ -1803,7 +1834,6 @@ export class DataAccessRepository {
       }
 
       return utilization_arr;
-
     }
 
     //async calculateAverage(weekID:)
