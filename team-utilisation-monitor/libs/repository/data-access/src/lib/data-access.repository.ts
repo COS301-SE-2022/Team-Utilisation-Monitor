@@ -1563,25 +1563,30 @@ export class DataAccessRepository {
 
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
-      //
-      const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
+      
+      const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      await this.prisma.team.update(
-        {
-          where:{
-            id:teamID
-          },
-          data:
-          {
-            members:{
-              connect:{
-                id:empl_id
-              }
+      if(empl_id>0 && teamID>0)
+      {
+        const new_member=await this.prisma.team.update({
+            where:{
+                id:teamID
+            },
+            data:{
+                members:{
+                    create:[{
+                        members:{
+                            connect:{
+                                id:empl_id
+                            }
+                        }
+                    }]
+                }
             }
-          }
         })
-        return "Team Member added"
+            return "Team Member added"
+        }
 
     }
 
