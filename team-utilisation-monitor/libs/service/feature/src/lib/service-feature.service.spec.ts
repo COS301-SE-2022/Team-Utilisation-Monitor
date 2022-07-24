@@ -73,6 +73,22 @@ describe('ServiceFeatureService', () => {
         user_company.invite_code = "hvuwuwbv12"
 
         return user_company;
+
+      } else if (query instanceof GetTeamMembersQuery) {
+
+        const team_entity = new TeamEntity();
+
+        team_entity.id = 13;
+        team_entity.team_name = "chelsea"
+        team_entity.members = null;
+        team_entity.company_id = 10;
+        team_entity.project_name = "w2k"
+        team_entity.projects = null;
+        team_entity.project_id = 9;
+        team_entity.completed = 77;
+
+        return team_entity;
+
       }
 
       return 10;
@@ -106,12 +122,34 @@ describe('ServiceFeatureService', () => {
   });
 
   describe("getCompanyVName", () => {
-    it('should return a Company', async () => {
+    it('should return a UserCompany', async () => {
       let test = new UserCompany();
       try {
         test = await service.getCompany('icreate');
       } catch (err) { return }
       expect(test.invite_code).toEqual("hvuwuwbv12");
+      });
+  });
+
+  // needs to be implemented in service layer
+  // describe("getCompanyVID", () => {
+  //   it('should return a UserCompany', async () => {
+  //     let test = new UserCompany();
+  //     try {
+  //       test = await service.getCompanyVID(12);
+  //     } catch (err) { return }
+  //     expect(test.invite_code).toEqual("hvuwuwbv12");
+  //     });
+  // });
+
+  //needs to be implemented in service layer
+  describe("getTeam", () => {
+    it('should return a TeamEntity', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetTeamMembers('icreate');
+      } catch (err) { return }
+      expect(test.team_name).toEqual("chelsea");
       });
   });
 
