@@ -89,8 +89,11 @@ export class IndividualProfileComponent implements OnInit {
         this.currSkills.push(req)
       }
 
-      for(let i=0, v=0;i<this.selectedSkill.length, v<this.currSkills.length;++i, ++v){
-        //
+      for(let i=0, v=0;i<this.newSkills.length, v<this.currSkills.length;++i, ++v){
+        if(this.currSkills[v] == this.newSkills[i])
+        {
+          //then pop
+        }
       }
     })
 
