@@ -36,10 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=[]//['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[]; //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=[]//['C++', 'Debugger','Front-end','Backend','C#','Database'];
-  //projects: string[]=['Taint C&S', 'Community', 'WebDev'];
+  newSkills: string[]=[]; //['C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
@@ -134,12 +133,11 @@ export class IndividualProfileComponent implements OnInit {
     }
 
     for(let i=0;i<this.selectedSkill.length;++i) {
-      //console.log(this.selectedSkills[i]);
 
-      //this.service.assignProjectToTeams(this.selectedSkills[i],projectName).subscribe(
-      //  data=>{
-      //
-      //  });
+     this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
+      {
+            console.log(Result.data);
+       });
     }
 
     //check for skills
