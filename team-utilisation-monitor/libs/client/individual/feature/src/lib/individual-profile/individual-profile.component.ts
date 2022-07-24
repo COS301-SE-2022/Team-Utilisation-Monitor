@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { IndividualService } from '../Individual.service';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-profile',
@@ -14,8 +14,8 @@ import {FormGroup, FormControl} from '@angular/forms';
 export class IndividualProfileComponent implements OnInit {
 
   profileForm=new FormGroup({
-    first_name:new FormControl(''),
-    last_name:new FormControl(''),
+    first_name:new FormControl('',[Validators.nullValidator]),
+    last_name:new FormControl('',[Validators.nullValidator]),
   });
 
   //The requested form control for skills
