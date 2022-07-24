@@ -1756,6 +1756,22 @@ export class DataAccessRepository {
       return employees_arr;
     }
 
+    async Project_Hours_Per_team(projectID:number)
+    {
+      const NumberOfTeams=await this.prisma.teamsOnProjects.count(
+        {
+          where:
+          {
+            project_id:projectID
+          }
+        }
+      )
+      
+      //Project manHours/Numberofeams
+      const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
+
+      return HoursPerTeam;
+    }
 
     async GetMonthlyUtilization(Email:string)
     {
@@ -1785,6 +1801,8 @@ export class DataAccessRepository {
         obj.Average=utilization.utilisations[i].monthy_avg
         utilization_arr.push(obj)
       }
+
+      return utilization_arr;
 
     }
 
