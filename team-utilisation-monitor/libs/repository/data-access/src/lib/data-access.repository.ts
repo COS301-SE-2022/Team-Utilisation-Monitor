@@ -1,8 +1,7 @@
-//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -27,7 +26,7 @@ export class DataAccessRepository {
         user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
-        
+
 
 
         return user_person;
@@ -190,7 +189,7 @@ export class DataAccessRepository {
         let return_teams=[];
         let default_arr=[];
 
-        if(c_id>0) //company exists 
+        if(c_id>0) //company exists
         {
             if(typeOfContent===0) //get projects
             {
@@ -306,27 +305,20 @@ export class DataAccessRepository {
 
         if(t_id>0) //team exists
         {
-            const team=await this.prisma.team.findUnique({
+            const Team=await this.prisma.personOnTeams.findMany({
                 where:{
-                    id:t_id,
-                },
-                include:{
-                    members:true,
+                    team_id:t_id,
                 }
             })
 
-            if(team)
+            if(Team)
             {
                 let return_arr=[];
-
-                if(team.members!=null)
-                {
-                    for(let i=0;i<team.members.length;++i)
+                    for(let i=0;i<Team.length;++i)
                     {
-                        return_arr.push(this.getPersonVID(team.members[i].person_id));
+                        return_arr.push(await this.getPersonVID(Team[i].person_id))
                     }
                     return return_arr;
-                }
 
             }
         }
@@ -1010,7 +1002,7 @@ export class DataAccessRepository {
         const project=new ProjectEntity();
         project.id=Project.id;
         project.project_name=Project.project_name;
-        project.ownwer_id=Project.owner_id;
+        //project.ownwer_id=Project.owner_id;
         project.man_hours=Project.man_hours;
 
         return project;
@@ -1450,7 +1442,7 @@ export class DataAccessRepository {
     {
         const project=await this.prisma.project.findUnique({
             where:{
-                project_name:p_name,   
+                project_name:p_name,
             }
         })
 
@@ -1693,20 +1685,8 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
     {
-      /*if(skillName=="Baby")
-      {
-        //
-      }*/
-      const skill=await this.prisma.skills.findUnique(
-        {
-          where:
-          {
-            skill:skillName
-          }
-        }
-      )
 
       const empID=await this.prisma.person.update(
         {
@@ -1722,36 +1702,14 @@ export class DataAccessRepository {
         }
       )
 
-
-        const PersonSkill=await this.prisma.personOnSkills.create(
-          {
-            data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:empID.id
-                }
-              }
-            }
-          }
-        )
-
-        if(PersonSkill)
-        {
-          return "User Profile Updated"
-        }
-        else
-        {
-          return "Something went wrong when updating"
-        }
+      if(empID)
+      {
+        return "UserProfileUpdated"
+      }
+      else
+      {
+        return "User Profile Update Failed"
+      }
     }
 
     async GetUnderUtilizedEmployees(companyName:string)
@@ -1831,4 +1789,161 @@ export class DataAccessRepository {
     }
 
     //async calculateAverage(weekID:)
+
+    async getAllocatedTeams(UserEmail:string)
+    {
+        const userId=(await this.getUserIDVEmail(UserEmail)).id;
+        let team_arr:TeamEntity[]
+        team_arr=[]
+
+        //Return all teams that have this user as a member
+        const Teams=(await this.prisma.personOnTeams.findMany({
+            where:
+            {
+                person_id:userId
+            }
+        }))
+
+        for(let i=0;i<Teams.length;i++)
+        {
+            //const obj=new TeamEntity();
+            team_arr.push(await this.getTeam(Teams[i].team_id));
+        }
+
+        return team_arr;
+
+    }
+
+    async getAllocatedProjects(userEmail:string)
+    {
+      const teams=await this.getAllocatedTeams(userEmail);
+      let projects_arr:ProjectEntity[]
+      projects_arr=[]
+
+      for(let i=0;i<teams.length;i++)  //For every team that our employee is  a part of ,we check that team's projects
+      {
+        const Team_id=teams[i].id;
+        const Projects=await this.prisma.teamsOnProjects.findMany(
+          {
+            where:
+            {
+              team_id:Team_id
+            }
+          }
+        )
+
+        for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
+        {
+          projects_arr.push(await this.getProject(Projects[j].project_id));  //Get the projects using the projects IDs
+        }
+      }
+
+      return projects_arr;
+    }
+
+    async UpdateSkill(UserEmail:string,skillType:string)
+    {
+
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillType
+          }
+        }
+      )
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:userId
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Skill Added"
+        }
+        else
+        {
+          return "Something went wrong"
+        }
+    }
+
+    async GetSkillVID(skillID:number)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            id:skillID
+          }
+        }
+      )
+
+      const skillObjs=new Skill()
+      skillObjs.id=skillID;
+      skillObjs.skill=skill.skill
+
+      return skillObjs
+    }
+
+    async GetUserSkills(UserEmail:string)
+    {
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      let skill_Arr:string[]
+      skill_Arr=[]
+
+      const Skills=await this.prisma.personOnSkills.findMany(
+        {
+          where:
+          {
+            person_id:userId
+          }
+        }
+      )
+
+      for(let i=0;i<Skills.length;i++)
+      {
+        skill_Arr.push((await this.GetSkillVID(Skills[i].skill_id)).skill);
+      }
+
+      return skill_Arr
+
+    }
+
+
+    async GetIndividualsStats(UserEmail:string)
+    {
+      //const userId=(await this.getUserIDVEmail(UserEmail)).id;
+
+      const UserStats=new UserStatsEntity
+      UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
+      UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
+      UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
+      UserStats.utilisation=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:UserEmail
+          }
+        }
+      )).utilisation
+      //Add Utilization
+      return UserStats
+    }
 }
