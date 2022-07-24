@@ -14,8 +14,8 @@ import {FormGroup, FormControl, Validators} from '@angular/forms';
 export class IndividualProfileComponent implements OnInit {
 
   profileForm=new FormGroup({
-    first_name:new FormControl('',[Validators.nullValidator]),
-    last_name:new FormControl('',[Validators.nullValidator]),
+    first_name:new FormControl(''),
+    last_name:new FormControl(''),
   });
 
   //The requested form control for skills
