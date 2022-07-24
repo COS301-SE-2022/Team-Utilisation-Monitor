@@ -131,16 +131,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
-  // needs to be implemented in service layer
-  // describe("getCompanyVID", () => {
-  //   it('should return a UserCompany', async () => {
-  //     let test = new UserCompany();
-  //     try {
-  //       test = await service.getCompanyVID(12);
-  //     } catch (err) { return }
-  //     expect(test.invite_code).toEqual("hvuwuwbv12");
-  //     });
-  // });
+  //needs to be implemented in service layer
+  describe("getCompanyVID", () => {
+    it('should return a UserCompany', async () => {
+      let test = new UserCompany();
+      try {
+        test = await service.getCompany('12');
+      } catch (err) { return }
+      expect(test).toEqual(UserCompany);
+      });
+  });
 
   //needs to be implemented in service layer
   describe("getTeam", () => {
