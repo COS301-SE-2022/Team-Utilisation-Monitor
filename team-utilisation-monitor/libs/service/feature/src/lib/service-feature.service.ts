@@ -222,4 +222,6 @@ export class ServiceFeatureService {
     {
       return this.queryBus.execute(new GetUserStatsQuery(UserEmail));
     }
+
+    
 }
