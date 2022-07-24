@@ -3,7 +3,9 @@ import { ServiceFeatureService } from './service-feature.service';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CommandBus, IQuery, QueryBus } from "@nestjs/cqrs";
 
-import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/data-access';
+import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
+
 import { Company } from '@prisma/client';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
@@ -58,9 +60,11 @@ describe('ServiceFeatureService', () => {
         
         return user_person;
 
+      } else if (query instanceof GetCompanyQuery) {
+        return 123;
       }
 
-      return 123;
+      return 10;
     })
   }
 
@@ -81,13 +85,22 @@ describe('ServiceFeatureService', () => {
   });
 
   describe("getOnePersonVEmailService", () => {
-    it('should return a user', async () => {
+    it('should return a UserPerson', async () => {
       let test = new UserPerson();
       try {
         test = await service.getOnePersonVEmailService('rourke@gmail.com');
       } catch (err) { return }
       expect(test.id).toEqual(123);
-      //expect(test.email).toEqual('rourke@gmail.com');
+      });
+  });
+
+  describe("getCompanyVName", () => {
+    it('should return a Company', async () => {
+      let test = new UserCompany();
+      try {
+        test = await service.getCompany('icreate');
+      } catch (err) { return }
+      expect(test).toEqual(123);
       });
   });
 
