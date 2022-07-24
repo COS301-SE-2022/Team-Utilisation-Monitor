@@ -31,6 +31,9 @@ export class IndividualProfileComponent implements OnInit {
   address="string";
   result = <unknown> Observable;
 
+  selectedSkill:string[]=[];
+  skillN:string[]=[];
+
 
   boolshow = true;
   currSkills: string[]=[]//['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
@@ -79,6 +82,7 @@ export class IndividualProfileComponent implements OnInit {
       this.newSkills.push(request.skill)
     }
   })
+  }
 
   this.service.getUserSkills(email).subscribe(Data=>
     {
@@ -93,8 +97,6 @@ export class IndividualProfileComponent implements OnInit {
         this.noOfProject=Data.data.GetUserStats.numberOfProjects
         this.utilization=Data.data.GetUserStats.utilisation
       })
-
-
   }
 
   showInfo(link: string) {
@@ -105,12 +107,63 @@ export class IndividualProfileComponent implements OnInit {
   {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
-    //const skill_name=this.profileForm.get('')
-    console.log(this.email)
-    this.service.UpdateProfile(this.email,first_name,last_name,"Driving").subscribe(Result=>
+    const skill_name=this.profileForm.get("skill_name")?.value!;
+
+    if(first_name==null )
+    {
+      this.service.UpdateProfile(this.email,this.fName,last_name,skill_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
+
+    }
+
+    if(last_name==null )
+    {
+      this.service.UpdateProfile(this.email,first_name,this.lastName,skill_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+
+    }
+
+    for(let i=0;i<this.selectedSkill.length;++i) {
+      //console.log(this.selectedSkills[i]);
+
+      //this.service.assignProjectToTeams(this.selectedSkills[i],projectName).subscribe(
+      //  data=>{
+      //
+      //  });
+    }
+
+    //check for skills
+
+//checks for everything
+    if(first_name==null && last_name==null){
+      //call the function for skills only
+      this.service.UpdateProfile(this.email,this.fName,this.lastName,skill_name).subscribe(Result=>
+        {
+          console.log(Result.data)
+        })
+    }
+
+    if( first_name!==null && last_name!==null){
+      this.service.UpdateProfile(this.email,first_name,last_name,skill_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+    }
+
+   const skill = document.getElementById(
+      'skillID',
+    ) as HTMLInputElement | null;
+
+    if(skill?.checked){
+      //
+    }
+
+    console.log(this.email)
+
   }
 
 }
