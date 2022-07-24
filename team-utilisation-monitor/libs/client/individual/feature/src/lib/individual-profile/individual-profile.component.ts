@@ -88,6 +88,10 @@ export class IndividualProfileComponent implements OnInit {
       {
         this.currSkills.push(req)
       }
+
+      for(let i=0, v=0;i<this.selectedSkill.length, v<this.currSkills.length;++i, ++v){
+        //
+      }
     })
 
     this.service.getUserStats(email).subscribe(Data=>
@@ -135,7 +139,7 @@ export class IndividualProfileComponent implements OnInit {
         })
     }
 
-    if( first_name!==null && last_name!==null){
+    if( first_name!=null && last_name!=null){
       this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
       {
         console.log(Result.data)
