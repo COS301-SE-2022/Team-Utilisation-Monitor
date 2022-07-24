@@ -89,6 +89,48 @@ describe('ServiceFeatureService', () => {
 
         return team_entity;
 
+      } else if (query instanceof GetAllEmployeesOfCompany) {
+
+        const team = [];
+
+        let user_person = new UserPerson();
+
+        user_person.id = 123;
+        user_person.name = "Rourke";
+        user_person.surname = "Amiss";
+        user_person.email = "rourke@gmail.com";
+        user_person.role = "intern";
+        user_person.suspended = false;
+        user_person.position = "team lead";
+        user_person.company_name = "icreatesoftware";
+        user_person.project_name = "tum";
+        user_person.team_name = "team";
+        user_person.company_id = 2;
+        user_person.project_id = 6;
+        user_person.team_id = 21;
+
+        team[0] = user_person;
+
+        user_person = new UserPerson();
+
+        user_person.id = 66;
+        user_person.name = "Sam";
+        user_person.surname = "Smith";
+        user_person.email = "ssmith@gmail.com";
+        user_person.role = "developer";
+        user_person.suspended = false;
+        user_person.position = "admin";
+        user_person.company_name = "icreatesoftware";
+        user_person.project_name = "tum";
+        user_person.team_name = "team";
+        user_person.company_id = 2;
+        user_person.project_id = 6;
+        user_person.team_id = 21;
+
+        team[1] = user_person;
+
+        return team;
+
       }
 
       return 10;
@@ -150,6 +192,16 @@ describe('ServiceFeatureService', () => {
         test = await service.GetTeamMembers('icreate');
       } catch (err) { return }
       expect(test.team_name).toEqual("chelsea");
+      });
+  });
+
+  describe("getEmployeesOfCompany", () => {
+    it('should return a UserPerson[]', async () => {
+      let test = [];
+      try {
+        test = await service.getAllEmployees('icreate');
+      } catch (err) { return }
+      expect(test[1]).toBeInstanceOf(UserPerson);
       });
   });
 
