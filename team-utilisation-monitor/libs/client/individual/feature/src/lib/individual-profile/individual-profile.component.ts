@@ -36,9 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=[]; //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=[]; //['C++', 'Debugger','Front-end','Backend','C#','Database'];
+  newSkills: string[]=['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
@@ -103,9 +103,7 @@ export class IndividualProfileComponent implements OnInit {
   }
 
   onGroupsChange(f_selectedSkills: string[]) {
-
     console.log(f_selectedSkills);
-
   }
 
   UpdateProfile()
@@ -120,7 +118,6 @@ export class IndividualProfileComponent implements OnInit {
       {
         console.log(Result.data)
       })
-
     }
 
     if(last_name==null )
@@ -129,17 +126,14 @@ export class IndividualProfileComponent implements OnInit {
       {
         console.log(Result.data)
       })
-
     }
 
     for(let i=0;i<this.selectedSkill.length;++i) {
-
      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
       {
-            console.log(Result.data);
+            console.log(Result.data)
        });
     }
-
     //check for skills
 
 //checks for everything
@@ -157,9 +151,8 @@ export class IndividualProfileComponent implements OnInit {
         console.log(Result.data)
       })
     }
-    
+
     console.log(this.email)
 
   }
-
 }
