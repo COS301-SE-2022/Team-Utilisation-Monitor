@@ -89,8 +89,10 @@
 
                     <td>
                       <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label for="name">First Name</mat-label><input matInput value={{fName}} formControlName="first_name">
+                        <mat-label for="name">First Name</mat-label>
+                        <input type="text" required minlength="4" appForbiddenName="bob" matInput value={{fName}} formControlName="first_name">
                       </mat-form-field>
+
                     </td>
 
                     <td>
