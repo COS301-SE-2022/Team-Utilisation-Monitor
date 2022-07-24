@@ -9,6 +9,7 @@ import { AdminService } from '../Admin.service';
 })
 export class AdminTeamProjectViewComponent implements OnInit {
   constructor(private adminService:AdminService,private cookie:CookieService) {}
+  
   boolshow = true;
   panelOpenState = false;
 
@@ -35,11 +36,6 @@ export class AdminTeamProjectViewComponent implements OnInit {
         const  obj={} as nameObject;
         obj.Name=requests.project_name;
         //obj.TeamName=requests.team_name; 
-        /**
-         *  Dear Gift and Cornel. Remeber that chris said a project can have multiple teams.
-         *  Thus, the project structure is now too complex. We will need a seperate, something
-         *  to display all the teams working on the project.
-         */
         this.OutProject.push(obj);
       }
 
