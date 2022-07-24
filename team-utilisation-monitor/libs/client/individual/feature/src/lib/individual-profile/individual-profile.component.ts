@@ -82,7 +82,6 @@ export class IndividualProfileComponent implements OnInit {
     }
   })
 
-
   this.service.getUserSkills(email).subscribe(Data=>
     {
       for(const req of Data.data.GetUserSkills)
@@ -128,15 +127,6 @@ export class IndividualProfileComponent implements OnInit {
       })
     }
 
-    for(let i=0;i<this.selectedSkill.length;++i) {
-     this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
-      {
-            console.log(Result.data)
-       });
-    }
-    //check for skills
-
-//checks for everything
     if(first_name==null && last_name==null){
       //call the function for skills only
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
@@ -151,5 +141,12 @@ export class IndividualProfileComponent implements OnInit {
         console.log(Result.data)
       })
     }
+
+    for(let i=0;i<this.selectedSkill.length;++i) {
+      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
+       {
+             console.log(Result.data)
+        });
+     }
   }
 }
