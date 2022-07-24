@@ -1930,8 +1930,15 @@ export class DataAccessRepository {
       UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
       UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
       UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
-
+      UserStats.utilisation=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:UserEmail
+          }
+        }
+      )).utilisation
+      //Add Utilization
       return UserStats
-
     }
 }

@@ -396,6 +396,12 @@ export class ApiFeatureResolver {
     return await this.service.GetUserSkills(UserEmail)
   }
 
+  @Query(()=>UserStatsEntity)
+  async GetUserStats(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserStats(UserEmail);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');

@@ -1,3 +1,4 @@
+import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
 import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
 import { UpdateUserSkillCommand } from './commands/impl/UpdateUserSkill.command';
 import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
@@ -216,5 +217,10 @@ export class ServiceFeatureService {
     async GetUserSkills(UserEmail:string)
     {
       return this.queryBus.execute(new GetUserSkillsQuery(UserEmail));
+    }
+
+    async GetUserStats(UserEmail:string)
+    {
+      return this.queryBus.execute(new GetUserStatsQuery(UserEmail));
     }
 }
