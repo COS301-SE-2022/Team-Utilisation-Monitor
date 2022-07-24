@@ -74,22 +74,31 @@ export class IndividualProfileComponent implements OnInit {
       error: (err) => { console.log(err); }
     })
 
+    this.service.getUserSkills(email).subscribe(Data=>
+      {
+        for(const req of Data.data.GetUserSkills)
+        {
+          this.currSkills.push(req)
+        }
+      })
+
   this.service.getSkills().subscribe(data=>{
     //
     for(const request of data.data.GetSkill)
     {
-      this.newSkills.push(request.skill)
+      for(let i=0;i<this.currSkills.length;++i)
+      {
+        if(request != this.currSkills[i])
+        {
+          this.newSkills.push(request.skill)
+          break
+        }
+      }
     }
   })
 
 
-  this.service.getUserSkills(email).subscribe(Data=>
-    {
-      for(const req of Data.data.GetUserSkills)
-      {
-        this.currSkills.push(req)
-      }
-    })
+
 
     this.service.getUserStats(email).subscribe(Data=>
       {
