@@ -1,8 +1,7 @@
-//import { Person, Skills } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -14,7 +13,7 @@ export class DataAccessRepository {
 
     constructor(private readonly prisma:PrismaService, ){}
 
-    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,project:string,team:string,company_id:number,project_id:number,team_id:number)
+    async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,company_id:number)
     {
         const user_person=new UserPerson();
 
@@ -26,11 +25,8 @@ export class DataAccessRepository {
         user_person.suspended=suspended;
         user_person.position=position;
         user_person.company_name=company;
-        user_person.project_name=project;
-        user_person.team_name=team;
         user_person.company_id=company_id;
-        user_person.project_id=project_id;
-        user_person.team_id=team_id;
+
 
 
         return user_person;
@@ -195,7 +191,7 @@ export class DataAccessRepository {
 
         if(c_id>0) //company exists
         {
-            if(typeOfContent===0)
+            if(typeOfContent===0) //get projects
             {
                 const all_projects=await this.prisma.project.findMany({
                     where:{
@@ -244,16 +240,6 @@ export class DataAccessRepository {
                         return_teams[i].id=all_teams[i].id;
                         return_teams[i].team_name=all_teams[i].team_name;
                         return_teams[i].company_id=all_teams[i].company_id;
-
-                        if(all_teams[i].projects)
-                        {
-                            //work in progress
-                            //return_teams[i].project_name=all_teams[i].projects.project_name;
-                            //return_teams[i].project_id=all_teams[i].projects.id;
-                            //return_teams[i].completed=all_teams[i].projects.completed;
-                        }
-
-
                     }
 
                     return return_teams;
@@ -273,12 +259,6 @@ export class DataAccessRepository {
             return null;
     }
 
-
-
-    /****
-     * This function returns all the teams that are working on a project, given the project's ID
-     * The teams are returned as an array of TeamEntityObjects
-    */
 
     /***
      * The function returns the number of teams in a company given as input parameters
@@ -317,7 +297,7 @@ export class DataAccessRepository {
     /***
      * The function returns the members of a team given as input parameters
      * Returns null if team does not exist
-     */
+    */
 
     async getAllMemebrsOfTeam(teamName:string):Promise<UserPerson[]>
     {
@@ -325,36 +305,20 @@ export class DataAccessRepository {
 
         if(t_id>0) //team exists
         {
-            const team=await this.prisma.team.findUnique({
+            const Team=await this.prisma.personOnTeams.findMany({
                 where:{
-                    id:t_id,
-                },
-                include:{
-                    members:true,
+                    team_id:t_id,
                 }
             })
 
-            if(team)
+            if(Team)
             {
                 let return_arr=[];
-
-                if(team.members!=null)
-                {
-                    for(let i=0;i<team.members.length;++i)
+                    for(let i=0;i<Team.length;++i)
                     {
-                        const user=new UserPerson();
-
-                        user.id=team.members[i].id;
-                        user.name=team.members[i].name;
-                        user.surname=team.members[i].surname;
-                        user.email=team.members[i].email;
-                        user.role=team.members[i].role;
-                        user.suspended=team.members[i].suspended;
-
-                        return_arr.push(user);
+                        return_arr.push(await this.getPersonVID(Team[i].person_id))
                     }
                     return return_arr;
-                }
 
             }
         }
@@ -750,13 +714,6 @@ export class DataAccessRepository {
             console.error("getPendingRequests() failed to resolve the requery")
     }
 
-    /***
-     * This function is used to approve requests via id of the user.
-     * Returns true if application is successful
-     */
-
-
-
 
     /***
      * This function is used to approve requests via id of the user.
@@ -784,7 +741,7 @@ export class DataAccessRepository {
      * This function returns an object CompanyStats, that packages stats of the
      * company like number of projects, teams,employees and Admins
      * Returns null if company doesn't exist
-     */
+    */
 
     async getCompanyStats(companyName:string):Promise<CompanyStatsEntity>
     {
@@ -919,8 +876,6 @@ export class DataAccessRepository {
     }
 
 
-
-
     /***
      * Returns an array of all persons on the dataBase
     */
@@ -933,8 +888,6 @@ export class DataAccessRepository {
             include:{
                 position:true,
                 company:true,
-                project:true,
-                team:true
             }
         });
 
@@ -946,7 +899,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].project.project_name,people[i].team.team_name,people[i].company_id,people[i].project_id,people[i].team_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].company_id));
             }
         }
         else
@@ -971,7 +924,6 @@ export class DataAccessRepository {
                 position:true,
                 company:true,
                 project:true,
-                team:true,
             }
         })
 
@@ -981,7 +933,6 @@ export class DataAccessRepository {
         {
             let local_project:string;
             let local_company:string;
-            let local_team:string;
             let title:string;
 
 
@@ -1004,13 +955,7 @@ export class DataAccessRepository {
                   title=person.position.title;
 
 
-            if(person.team==null)
-                local_team=null;
-            else
-                local_team=person.team.team_name;
-
-
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,local_project,local_team,person.company_id,person.project_id,person.team_id);
+            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
@@ -1057,7 +1002,7 @@ export class DataAccessRepository {
         const project=new ProjectEntity();
         project.id=Project.id;
         project.project_name=Project.project_name;
-        project.ownwer_id=Project.owner_id;
+        //project.ownwer_id=Project.owner_id;
         project.man_hours=Project.man_hours;
 
         return project;
@@ -1146,7 +1091,6 @@ export class DataAccessRepository {
                     team.id=company.teams[i].id;
                     team.team_name=company.teams[i].team_name;
                     team.company_id=company.teams[i].company_id;
-                    //return a function that returns project_id based on teams_id
 
                     teams_arr.push(team);
                 }
@@ -1287,7 +1231,7 @@ export class DataAccessRepository {
                     user.utilisation=company.employees[i].utilisation;
                     /**
                      * What's missing is the project, team name and project,team id field
-                     */
+                    */
 
                     employees_arr.push(user);
                 }
@@ -1317,10 +1261,6 @@ export class DataAccessRepository {
                         user.suspended=company.employees[i].suspended;
                         user.company_name=company.company_name;
                         user.company_id=company.id;
-
-                        /**
-                         * What's missing is the project, team name and project,team id field
-                        */
 
                         workers_arr.push(user);
                     }
@@ -1393,6 +1333,36 @@ export class DataAccessRepository {
         else
             return null
     }
+
+    /***
+     * This function returns a person via ID.
+     * Returns null if the user doesn't exist in the database
+    */
+
+     async getPersonVID(person_id:number):Promise<UserPerson[]>
+     {
+        const person=await this.prisma.person.findUnique({
+            where:{
+                id:person_id
+            }
+        })
+
+        if(person){
+            const return_user=new UserPerson();
+
+            return_user.id=person.id;
+            return_user.name=person.name;
+            return_user.surname=person.surname;
+            return_user.email=person.email;
+            return_user.role=person.role;
+            return_user.suspended=person.suspended;
+            return_user.approved=person.approved;
+        }
+        else
+        {
+            return null
+        }
+     }
 
 
     /***
@@ -1472,7 +1442,7 @@ export class DataAccessRepository {
     {
         const project=await this.prisma.project.findUnique({
             where:{
-                project_name:p_name,   
+                project_name:p_name,
             }
         })
 
@@ -1585,25 +1555,30 @@ export class DataAccessRepository {
 
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
-      //
-      const empl_id=await (await this.getUserIDVEmail(EmplooyeEmail)).id;
+      
+      const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      await this.prisma.team.update(
-        {
-          where:{
-            id:teamID
-          },
-          data:
-          {
-            members:{
-              connect:{
-                id:empl_id
-              }
+      if(empl_id>0 && teamID>0)
+      {
+        const new_member=await this.prisma.team.update({
+            where:{
+                id:teamID
+            },
+            data:{
+                members:{
+                    create:[{
+                        members:{
+                            connect:{
+                                id:empl_id
+                            }
+                        }
+                    }]
+                }
             }
-          }
         })
-        return "Team Member added"
+            return "Team Member added"
+        }
 
     }
 
@@ -1710,20 +1685,8 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string,skillName:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
     {
-      /*if(skillName=="Baby")
-      {
-        //
-      }*/
-      const skill=await this.prisma.skills.findUnique(
-        {
-          where:
-          {
-            skill:skillName
-          }
-        }
-      )
 
       const empID=await this.prisma.person.update(
         {
@@ -1739,36 +1702,14 @@ export class DataAccessRepository {
         }
       )
 
-
-        const PersonSkill=await this.prisma.personOnSkills.create(
-          {
-            data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:empID.id
-                }
-              }
-            }
-          }
-        )
-
-        if(PersonSkill)
-        {
-          return "User Profile Updated"
-        }
-        else
-        {
-          return "Something went wrong when updating"
-        }
+      if(empID)
+      {
+        return "UserProfileUpdated"
+      }
+      else
+      {
+        return "User Profile Update Failed"
+      }
     }
 
     async GetUnderUtilizedEmployees(companyName:string)
@@ -1848,4 +1789,161 @@ export class DataAccessRepository {
     }
 
     //async calculateAverage(weekID:)
+
+    async getAllocatedTeams(UserEmail:string)
+    {
+        const userId=(await this.getUserIDVEmail(UserEmail)).id;
+        let team_arr:TeamEntity[]
+        team_arr=[]
+
+        //Return all teams that have this user as a member
+        const Teams=(await this.prisma.personOnTeams.findMany({
+            where:
+            {
+                person_id:userId
+            }
+        }))
+
+        for(let i=0;i<Teams.length;i++)
+        {
+            //const obj=new TeamEntity();
+            team_arr.push(await this.getTeam(Teams[i].team_id));
+        }
+
+        return team_arr;
+
+    }
+
+    async getAllocatedProjects(userEmail:string)
+    {
+      const teams=await this.getAllocatedTeams(userEmail);
+      let projects_arr:ProjectEntity[]
+      projects_arr=[]
+
+      for(let i=0;i<teams.length;i++)  //For every team that our employee is  a part of ,we check that team's projects
+      {
+        const Team_id=teams[i].id;
+        const Projects=await this.prisma.teamsOnProjects.findMany(
+          {
+            where:
+            {
+              team_id:Team_id
+            }
+          }
+        )
+
+        for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
+        {
+          projects_arr.push(await this.getProject(Projects[j].project_id));  //Get the projects using the projects IDs
+        }
+      }
+
+      return projects_arr;
+    }
+
+    async UpdateSkill(UserEmail:string,skillType:string)
+    {
+
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillType
+          }
+        }
+      )
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:userId
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Skill Added"
+        }
+        else
+        {
+          return "Something went wrong"
+        }
+    }
+
+    async GetSkillVID(skillID:number)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            id:skillID
+          }
+        }
+      )
+
+      const skillObjs=new Skill()
+      skillObjs.id=skillID;
+      skillObjs.skill=skill.skill
+
+      return skillObjs
+    }
+
+    async GetUserSkills(UserEmail:string)
+    {
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      let skill_Arr:string[]
+      skill_Arr=[]
+
+      const Skills=await this.prisma.personOnSkills.findMany(
+        {
+          where:
+          {
+            person_id:userId
+          }
+        }
+      )
+
+      for(let i=0;i<Skills.length;i++)
+      {
+        skill_Arr.push((await this.GetSkillVID(Skills[i].skill_id)).skill);
+      }
+
+      return skill_Arr
+
+    }
+
+
+    async GetIndividualsStats(UserEmail:string)
+    {
+      //const userId=(await this.getUserIDVEmail(UserEmail)).id;
+
+      const UserStats=new UserStatsEntity
+      UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
+      UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
+      UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
+      UserStats.utilisation=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:UserEmail
+          }
+        }
+      )).utilisation
+      //Add Utilization
+      return UserStats
+    }
 }

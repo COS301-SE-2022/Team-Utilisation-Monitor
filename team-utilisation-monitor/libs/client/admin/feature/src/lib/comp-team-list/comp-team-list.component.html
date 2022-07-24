@@ -8,9 +8,11 @@
                 <mat-progress-bar mode="determinate" [value]="value"></mat-progress-bar>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <button class="userRequestButton" (click)="onOpenAddTeamMemberClick()" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
+        <button class="userRequestButton" (click)="onOpenAddTeamMemberClick(TeamName.Name)" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
         <team-utilisation-monitor-comp-team-individual
         *ngFor="let user of OutEmployeeName"
         [IndivName] = "user"></team-utilisation-monitor-comp-team-individual>
     </mat-expansion-panel>
 </mat-accordion>
+<!---TeamName.Name is a parent variable i.e inherited from the parent. I'm putting it in the cook
+cookie to pass it to the pop-up-->
