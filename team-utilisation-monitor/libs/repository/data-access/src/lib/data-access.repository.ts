@@ -1,3 +1,4 @@
+import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
@@ -1800,6 +1801,37 @@ export class DataAccessRepository {
       for(let i=0;i<TeamsOnProject.length;i++)
       {
         //
+        const Team=(await this.getTeam(TeamsOnProject[i].team_id)).members;
+        for(let j=0;j<Team.length;j++)
+        {
+
+          const PersonObj=(await this.prisma.person.findUnique(
+            {
+              where:
+              {
+                id:Team[j].id
+              }
+            }
+          ))
+
+          let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
+          let WeeklyHours=PersonObj.weekly_hours;
+          let Utilization=(AssignedHours/WeeklyHours)*100;
+
+          await this.prisma.person.update(
+            {
+              where:
+              {
+                id:Team[j].id
+              },
+              data:
+              {
+                assigned_hours: AssignedHours,
+                utilisation:Utilization
+              }
+            }
+          )
+        }
 
       }
     }
