@@ -52,6 +52,39 @@ export class IndividualService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  getAllocatedProjects(email:string):Observable<any>
+  {
+    const Query='query{GetAllocateProjects(email:"'+email+'"){project_name}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  getUserSkills(email:string):Observable<any>
+  {
+    const Query='query{GetUserSkills(email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  getUserStats(email:string):Observable<any>
+  {
+    const Query='query{GetUserStats(email:"'+email+'"){numberOfTeams,numberOfSkills,numberOfProjects,utilisation}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
 
   //Mutations
   UpdateProfile(email:string,name:string,surname:string,skill_name:string):Observable<any>
