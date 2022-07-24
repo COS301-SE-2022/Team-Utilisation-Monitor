@@ -98,6 +98,7 @@ export class IndividualProfileComponent implements OnInit {
             console.log(index);
 
             this.newSkills.splice(index, 1);
+            break
           }
         }
       }
