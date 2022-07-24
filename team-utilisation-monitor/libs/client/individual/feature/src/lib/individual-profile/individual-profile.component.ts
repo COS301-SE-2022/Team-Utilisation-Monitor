@@ -36,9 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[] //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
+  newSkills: string[]=[] //['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
@@ -89,8 +89,8 @@ export class IndividualProfileComponent implements OnInit {
         this.currSkills.push(req)
       }
 
-      for(let i=0;i<this.newSkills.length;++i){
-        for(let v=0; v<this.currSkills.length; ++v)
+      for(let i=0;i<this.newSkills.length;i++){
+        for(let v=0; v<this.currSkills.length; v++)
         {
           if(this.currSkills[v] === this.newSkills[i])
           {
@@ -125,23 +125,21 @@ export class IndividualProfileComponent implements OnInit {
     const last_name=this.profileForm.get("last_name")?.value!;
     const skill_name=this.profileForm.get("skill_name")?.value!;
 
-    if(first_name===null )
+    if(first_name=="" && last_name !="")
     {
       this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-
-    if(last_name===null )
+    else if(last_name=="" && first_name !="")
     {
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-
-    if(first_name===null && last_name===null){
+    else if(first_name=="" && last_name==""){
       //call the function for skills only
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
