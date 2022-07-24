@@ -10,12 +10,26 @@ import { Chart } from 'chart.js';
 export class CompGraphCompanyUtilizationComponent implements OnInit {  
   constructor() { }
 
+  //gets the (nrOfMonths) of months and returns it as a String array
+  setDates(nrOfMonths:number){
+    var currDate = new Date();
+    var outArray:Array<String> = [];
+    for (let index = 0; index < nrOfMonths; index++) {
+        currDate.setDate(1);
+        const month = currDate.toLocaleString('default', { month: 'long' });
+        outArray.push(month);
+        currDate.setMonth(currDate.getMonth()-1);  
+    }
+    return outArray.reverse();
+  }
+
   ngOnInit(): void {
+    var myArr:Array<String> = this.setDates(6);
     console.log();
     const myChart = new Chart("HomeChart", {
       type: 'bar',
       data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: myArr,
           datasets: [{
               label: 'Utilization %',
               data: [40, 45, 53, 68, 77, 85, 93],
