@@ -105,7 +105,6 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetUserIDQuery(email));
     }
 
-
     async approveRequestVEmail(email:string)
     {
         return this.commandBus.execute(new ApproveRequestVEmailCommand(email));
@@ -229,4 +228,5 @@ export class ServiceFeatureService {
     {
       return this.commandBus.execute(new AssignHoursCommand(UserEmail,Hours));
     }
+    
 }

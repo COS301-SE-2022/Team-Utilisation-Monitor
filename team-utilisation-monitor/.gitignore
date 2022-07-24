@@ -7,8 +7,7 @@
 
 # dependencies
 node_modules
-/.env
-/docker-compose.yml
+
 # IDEs and editors
 /.idea
 .project

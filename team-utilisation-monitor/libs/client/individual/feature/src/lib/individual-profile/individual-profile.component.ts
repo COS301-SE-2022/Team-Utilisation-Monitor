@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { IndividualService } from '../Individual.service';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-profile',
@@ -36,9 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=[]; //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[] //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=[]; //['C++', 'Debugger','Front-end','Backend','C#','Database'];
+  newSkills: string[]=[] //['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
@@ -99,6 +99,25 @@ export class IndividualProfileComponent implements OnInit {
 
 
 
+  this.service.getUserSkills(email).subscribe(Data=>
+    {
+      for(const req of Data.data.GetUserSkills)
+      {
+        this.currSkills.push(req)
+      }
+
+      for(let i=0;i<this.newSkills.length;i++){
+        for(let v=0; v<this.currSkills.length; v++)
+        {
+          if(this.currSkills[v] === this.newSkills[i])
+          {
+            const index = this.newSkills.indexOf(this.newSkills[v])
+            this.newSkills.splice(index, 1)
+            break
+          }
+        }
+      }
+    })
 
     this.service.getUserStats(email).subscribe(Data=>
       {
@@ -112,71 +131,48 @@ export class IndividualProfileComponent implements OnInit {
   }
 
   onGroupsChange(f_selectedSkills: string[]) {
-
     console.log(f_selectedSkills);
-
   }
 
   UpdateProfile()
   {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
-    const skill_name=this.profileForm.get("skill_name")?.value!;
 
-    if(first_name==null )
+    if(first_name=="" && last_name !=="")
     {
       this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
-
     }
-
-    if(last_name==null )
+     if(last_name=="" && first_name !=="")
     {
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
       {
         console.log(Result.data)
       })
-
     }
+   if(first_name=="" && last_name==""){
 
-    for(let i=0;i<this.selectedSkill.length;++i) {
-
-     this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
-      {
-            console.log(Result.data);
-       });
-    }
-
-    //check for skills
-
-//checks for everything
-    if(first_name==null && last_name==null){
-      //call the function for skills only
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
           console.log(Result.data)
         })
     }
 
-    if( first_name!==null && last_name!==null){
+    if( first_name!="" && last_name!=""){
       this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
 
-   const skill = document.getElementById(
-      'skillID',
-    ) as HTMLInputElement | null;
-
-    if(skill?.checked){
-      //
-    }
-
-    console.log(this.email)
-
+    for(let i=0;i<this.selectedSkill.length;++i) {
+      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
+       {
+             console.log(Result.data)
+        });
+     }
   }
-
 }
