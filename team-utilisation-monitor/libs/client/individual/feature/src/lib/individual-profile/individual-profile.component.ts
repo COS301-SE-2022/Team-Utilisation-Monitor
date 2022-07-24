@@ -151,8 +151,5 @@ export class IndividualProfileComponent implements OnInit {
         console.log(Result.data)
       })
     }
-
-    console.log(this.email)
-
   }
 }
