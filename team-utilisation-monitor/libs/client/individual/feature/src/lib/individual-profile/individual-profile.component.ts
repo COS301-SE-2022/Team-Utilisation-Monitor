@@ -82,7 +82,7 @@ export class IndividualProfileComponent implements OnInit {
       this.newSkills.push(request.skill)
     }
   })
-  }
+
 
   this.service.getUserSkills(email).subscribe(Data=>
     {
@@ -103,6 +103,12 @@ export class IndividualProfileComponent implements OnInit {
     console.log()
   }
 
+  onGroupsChange(f_selectedSkills: string[]) {
+
+    console.log(f_selectedSkills);
+
+  }
+
   UpdateProfile()
   {
     const first_name=this.profileForm.get('first_name')?.value!;
@@ -111,7 +117,7 @@ export class IndividualProfileComponent implements OnInit {
 
     if(first_name==null )
     {
-      this.service.UpdateProfile(this.email,this.fName,last_name,skill_name).subscribe(Result=>
+      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
@@ -120,7 +126,7 @@ export class IndividualProfileComponent implements OnInit {
 
     if(last_name==null )
     {
-      this.service.UpdateProfile(this.email,first_name,this.lastName,skill_name).subscribe(Result=>
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
       {
         console.log(Result.data)
       })
@@ -140,14 +146,14 @@ export class IndividualProfileComponent implements OnInit {
 //checks for everything
     if(first_name==null && last_name==null){
       //call the function for skills only
-      this.service.UpdateProfile(this.email,this.fName,this.lastName,skill_name).subscribe(Result=>
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
           console.log(Result.data)
         })
     }
 
     if( first_name!==null && last_name!==null){
-      this.service.UpdateProfile(this.email,first_name,last_name,skill_name).subscribe(Result=>
+      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
