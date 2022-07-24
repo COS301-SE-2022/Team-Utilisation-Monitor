@@ -157,15 +157,7 @@ export class IndividualProfileComponent implements OnInit {
         console.log(Result.data)
       })
     }
-
-   const skill = document.getElementById(
-      'skillID',
-    ) as HTMLInputElement | null;
-
-    if(skill?.checked){
-      //
-    }
-
+    
     console.log(this.email)
 
   }
