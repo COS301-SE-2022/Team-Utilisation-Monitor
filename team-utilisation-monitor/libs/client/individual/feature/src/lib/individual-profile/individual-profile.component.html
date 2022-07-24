@@ -24,7 +24,7 @@
               <h3>Surname: {{lastName}}</h3> <!-- {{CurrentUserSurname}} -->
               <h3>Email: {{email}}</h3>
               <h3>Allocated Projects: {{noOfProject}}</h3> <!-- {{Number of allocated projects}} -->
-              <h3>Current running utilization: </h3>
+              <h3>Current running utilization: {{utilization}}</h3>
             </div>
           </mat-card-content>
         </mat-card>
@@ -152,12 +152,12 @@
                       </mat-expansion-panel-header>
 
                       <div class="setHeight">
-                        <form [formGroup]="skillForm">
-                          <mat-checkbox  class="skillList" formControlName="skill_name"
-                                         *ngFor="let link of newSkills"
-                                         value="{{link}}"> {{link}}
-                          </mat-checkbox>
-                        </form>
+
+                        <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
+                          <mat-list-option *ngFor="let name of newSkills" [value]="name">
+                            {{name}}
+                          </mat-list-option>
+                        </mat-selection-list>
                       </div>
                     </mat-expansion-panel>
                   </mat-accordion>

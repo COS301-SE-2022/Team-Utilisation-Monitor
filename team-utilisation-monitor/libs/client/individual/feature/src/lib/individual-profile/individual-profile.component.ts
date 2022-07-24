@@ -31,18 +31,21 @@ export class IndividualProfileComponent implements OnInit {
   address="string";
   result = <unknown> Observable;
 
+  selectedSkill:string[]=[];
+  skillN:string[]=[];
+
 
   boolshow = true;
-  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[]; //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=[]//['C++', 'Debugger','Front-end','Backend','C#','Database'];
-  projects: string[]=['Taint C&S', 'Community', 'WebDev'];
+  newSkills: string[]=[]; //['C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
   team="none";
+  utilization=0;
 
-  noOfProject=this.projects.length;
+  noOfProject=0//this.projects.length;
   companyName=""
   panelOpenState = false;
 
@@ -80,22 +83,91 @@ export class IndividualProfileComponent implements OnInit {
   })
 
 
+  this.service.getUserSkills(email).subscribe(Data=>
+    {
+      for(const req of Data.data.GetUserSkills)
+      {
+        this.currSkills.push(req)
+      }
+    })
+
+    this.service.getUserStats(email).subscribe(Data=>
+      {
+        this.noOfProject=Data.data.GetUserStats.numberOfProjects
+        this.utilization=Data.data.GetUserStats.utilisation
+      })
   }
 
   showInfo(link: string) {
     console.log()
   }
 
+  onGroupsChange(f_selectedSkills: string[]) {
+
+    console.log(f_selectedSkills);
+
+  }
+
   UpdateProfile()
   {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
-    //const skill_name=this.profileForm.get('')
-    console.log(this.email)
-    this.service.UpdateProfile(this.email,first_name,last_name,"Driving").subscribe(Result=>
+    const skill_name=this.profileForm.get("skill_name")?.value!;
+
+    if(first_name==null )
+    {
+      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
+
+    }
+
+    if(last_name==null )
+    {
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+
+    }
+
+    for(let i=0;i<this.selectedSkill.length;++i) {
+
+     this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
+      {
+            console.log(Result.data);
+       });
+    }
+
+    //check for skills
+
+//checks for everything
+    if(first_name==null && last_name==null){
+      //call the function for skills only
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
+        {
+          console.log(Result.data)
+        })
+    }
+
+    if( first_name!==null && last_name!==null){
+      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
+      {
+        console.log(Result.data)
+      })
+    }
+
+   const skill = document.getElementById(
+      'skillID',
+    ) as HTMLInputElement | null;
+
+    if(skill?.checked){
+      //
+    }
+
+    console.log(this.email)
+
   }
 
 }

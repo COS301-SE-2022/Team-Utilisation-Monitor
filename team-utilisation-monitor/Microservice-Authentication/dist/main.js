@@ -1499,6 +1499,8 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.username = new_admin.username;
             returnObject.role = f_role;
             returnObject.token = new_admin.token;
+            returnObject.name = new_admin.name;
+            returnObject.surname = new_admin.surname;
             console.log(new_admin);
             console.log(returnObject);
             return returnObject;
@@ -1518,6 +1520,8 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.username = existing_user.username;
             returnObject.role = existing_user.role;
             returnObject.token = existing_user.token;
+            returnObject.name = existing_user.name;
+            returnObject.surname = existing_user.surname;
             return returnObject;
         }
         else {
@@ -1546,6 +1550,8 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.username = new_admin.username;
             returnObject.role = f_role;
             returnObject.token = new_admin.token;
+            returnObject.name = new_admin.name;
+            returnObject.surname = new_admin.surname;
             console.log(new_admin);
             console.log(returnObject);
             return returnObject;
