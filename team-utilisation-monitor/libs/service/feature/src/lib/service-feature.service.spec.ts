@@ -39,25 +39,28 @@ describe('ServiceFeatureService', () => {
   const mockQueryBus = {
     execute: jest.fn((query: IQuery) => {
       if (query instanceof GetOnePersonQuery) {
-        return 123;
-      }
-      const user_person = new UserPerson();
 
-      user_person.id = 123;
-      user_person.name = "Rourke";
-      user_person.surname = "Amiss";
-      user_person.email = "rourke@gmail.com";
-      user_person.role = "intern";
-      user_person.suspended = false;
-      user_person.position = "team lead";
-      user_person.company_name = "icreatesoftware";
-      user_person.project_name = "tum";
-      user_person.team_name = "team";
-      user_person.company_id = 2;
-      user_person.project_id = 6;
-      user_person.team_id = 21;
-      
-      return user_person;
+        const user_person = new UserPerson();
+
+        user_person.id = 123;
+        user_person.name = "Rourke";
+        user_person.surname = "Amiss";
+        user_person.email = "rourke@gmail.com";
+        user_person.role = "intern";
+        user_person.suspended = false;
+        user_person.position = "team lead";
+        user_person.company_name = "icreatesoftware";
+        user_person.project_name = "tum";
+        user_person.team_name = "team";
+        user_person.company_id = 2;
+        user_person.project_id = 6;
+        user_person.team_id = 21;
+        
+        return user_person;
+
+      }
+
+      return 123;
     })
   }
 
@@ -83,7 +86,7 @@ describe('ServiceFeatureService', () => {
       try {
         test = await service.getOnePersonVEmailService('rourke@gmail.com');
       } catch (err) { return }
-      expect(test).toEqual(123);
+      expect(test.id).toEqual(123);
       //expect(test.email).toEqual('rourke@gmail.com');
       });
   });
