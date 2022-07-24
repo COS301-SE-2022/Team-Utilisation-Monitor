@@ -9,22 +9,22 @@ async function main()
    * In this seed. The user with an id of 2 is connecting to the skill with an id of 3.
    * 
    */
-  const assignskill=await prisma.person.update({
+   const new_member= await prisma.team.update({
     where:{
-      id:2,
+        id:2,
     },
     data:{
-      skills:{
-        create:[{
-          skill:{
-            connect:{
-              id:3
-            }
-          }
-        }]
-      }
+        members:{
+            create:[{
+                members:{
+                    connect:{
+                        id:4
+                    }
+                }
+            }]
+        }
     }
-  })
+})
 }
 
 main()

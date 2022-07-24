@@ -1,3 +1,5 @@
+import { CookieService } from 'ngx-cookie-service';
+import { IndividualService } from './../Individual.service';
 import { Component, OnInit } from '@angular/core';
 import {link} from "fs";
 
@@ -7,6 +9,7 @@ import {link} from "fs";
   styleUrls: ['./individual-home-page.component.scss']
 })
 export class IndividualHomePageComponent implements OnInit {
+  constructor(private service:IndividualService,private cookie:CookieService){}
 
 
   events: string[] = [];
@@ -18,11 +21,35 @@ export class IndividualHomePageComponent implements OnInit {
   nrOfClosedProjects = 50;
   nrOfTeams = 20;     //and this
   nrOfSkills= 7;
-  teams: string[]=['Team A', 'Team B','Team C','Team D','Team D','Team D','Team D','Team E'];
-  projects: string[]=['Project1','Project2','Project3','Project4','Project4','Project4','Project4','Project5'];
+  teams: string[]=[]//['Team A', 'Team B','Team C','Team D','Team D','Team D','Team D','Team E'];
+  projects: string[]=[]//['Project1','Project2','Project3','Project4','Project4','Project4','Project4','Project5'];
 
   ngOnInit(): void {
     console.log();
+    const Email=this.cookie.get("Email");
+    this.service.getUserStats(Email).subscribe(Data=>
+      {
+        this.nrOfOpenProjects=Data.data.GetUserStats.numberOfProjects
+        this.nrOfSkills=Data.data.GetUserStats.numberOfSkills
+        this.nrOfTeams=Data.data.GetUserStats.numberOfTeams
+        this.utilizationPercentage=Data.data.GetUserStats.utilisation
+      })
+
+    this.service.getAllocatedTeams(Email).subscribe(Data=>
+      {
+        for(const req of Data.data.GetAllocatedTeams)
+        {
+          this.teams.push(req.team_name)
+        }
+      })
+
+      this.service.getAllocatedProjects(Email).subscribe(Data=>
+        {
+          for(const req of Data.data.GetAllocateProjects)
+          {
+            this.projects.push(req.project_name)
+          }
+        })
   }
 
   showInfo(link: string) {
