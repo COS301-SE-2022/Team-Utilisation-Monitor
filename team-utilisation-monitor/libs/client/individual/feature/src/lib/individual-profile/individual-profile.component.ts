@@ -92,8 +92,10 @@ export class IndividualProfileComponent implements OnInit {
       for(let i=0, v=0;i<this.newSkills.length, v<this.currSkills.length;++i, ++v){
         if(this.currSkills[v] == this.newSkills[i])
         {
-          const index = this.currSkills.indexOf(this.currSkills[v]);
+          const index = this.newSkills.indexOf(this.newSkills[v]);
           console.log(index);
+
+          this.newSkills.splice(index, 1);
         }
       }
     })
