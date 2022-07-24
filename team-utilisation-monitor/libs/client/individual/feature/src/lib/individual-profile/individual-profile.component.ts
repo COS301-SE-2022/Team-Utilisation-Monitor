@@ -116,9 +116,9 @@ export class IndividualProfileComponent implements OnInit {
     }
 
     for(let i=0;i<this.selectedSkill.length;++i) {
-      //console.log(this.selectedTeams[i]);
+      //console.log(this.selectedSkills[i]);
 
-      //this.service.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
+      //this.service.assignProjectToTeams(this.selectedSkills[i],projectName).subscribe(
       //  data=>{
       //
       //  });
