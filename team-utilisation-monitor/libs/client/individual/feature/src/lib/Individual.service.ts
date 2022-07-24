@@ -87,9 +87,9 @@ export class IndividualService {
 
 
   //Mutations
-  UpdateProfile(email:string,name:string,surname:string,skill_name:string):Observable<any>
+  UpdateProfile(email:string,name:string,surname:string):Observable<any>
   {
-    const Query='mutation{UpdateProfile(email:"'+email+'",name:"'+name+'",surname:"'+surname+'",skill_name:"'+skill_name+'")}'
+    const Query='mutation{UpdateProfile(email:"'+email+'",name:"'+name+'",surname:"'+surname+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
