@@ -1,5 +1,5 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -183,7 +183,7 @@ export class ApiFeatureResolver {
    * This function returns the stats of members in a team
   */
 
-  @Query(()=>[UserStatsEnity])
+  @Query(()=>[UserStatsEntity])
   async getAllMembersOfTeam(@Args("team_name") team_name:string)
   {
     const resp= await this.service.getAllMembersOfTeam(team_name);
@@ -388,6 +388,12 @@ export class ApiFeatureResolver {
   async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string)
   {
     return await this.service.UpdateUserSkill(UserEmail,skillName)
+  }
+
+  @Query(()=>[String])
+  async GetUserSkills(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserSkills(UserEmail)
   }
 
   /*@Mutation(() => UserPerson)
