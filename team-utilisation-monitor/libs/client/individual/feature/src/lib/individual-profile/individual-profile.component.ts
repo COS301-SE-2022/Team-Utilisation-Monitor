@@ -121,7 +121,6 @@ export class IndividualProfileComponent implements OnInit {
   {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
-    const skill_name=this.profileForm.get("skill_name")?.value!;
 
     if(first_name=="" && last_name !=="")
     {
@@ -138,7 +137,7 @@ export class IndividualProfileComponent implements OnInit {
       })
     }
    if(first_name=="" && last_name==""){
-      //call the function for skills only
+
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
           console.log(Result.data)
