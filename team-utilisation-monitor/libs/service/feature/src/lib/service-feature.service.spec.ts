@@ -3,6 +3,9 @@ import { ServiceFeatureService } from './service-feature.service';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CommandBus, IQuery, QueryBus } from "@nestjs/cqrs";
 
+import { FunctionsModule } from './functions/functions.module';
+import { FunctionsService } from './functions/functions.service';
+
 import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/data-access';
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
@@ -50,8 +53,13 @@ describe('ServiceFeatureService', () => {
         user_person.email = "rourke@gmail.com";
         user_person.role = "intern";
         user_person.suspended = false;
-        user_person.position = "team lead";
+        user_person.approved = true;
         user_person.company_name = "icreatesoftware";
+
+        user_person.utilisation = 9;
+
+        user_person.position = "team lead";
+        
         user_person.project_name = "tum";
         user_person.team_name = "team";
         user_person.company_id = 2;
@@ -139,10 +147,10 @@ describe('ServiceFeatureService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [CqrsModule],
+      imports: [CqrsModule, FunctionsModule],
       providers: [
         ServiceFeatureService,
-        { provide: QueryBus, useValue: mockQueryBus}
+        { provide: QueryBus, useValue: mockQueryBus }
       ],
     }).compile();
 
