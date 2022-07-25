@@ -1878,10 +1878,92 @@ export class DataAccessRepository {
       return "Utilization complete"
     }
 
-    async UpdateUtilizationForTeam(teamName:string)
+    
+    async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
     {
-      //
+      const projectId=await this.getProjectID(projectName);
+      const teamID=await this.getTeamIDVName(teamName);
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId,
+            team_id:teamID
+        }}
+      )
+
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
+                }
+              }
+            )
+          }
+        }
+
+      }
+
+      return ("Team "+teamName+" Utilization updated")
+
     }
+
 
     /* This function resets the assigned hours
     after a new team Has been added to a project
