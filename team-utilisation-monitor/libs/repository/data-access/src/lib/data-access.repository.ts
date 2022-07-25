@@ -1760,13 +1760,11 @@ export class DataAccessRepository {
     }
 
 
-    //UTILIZATION Helper fUNCTIONS
+    //Utilisation Helper fUNCTIONS
     async Project_Hours_Per_team(projectID:number)
     {
-      const NumberOfTeams=await this.prisma.teamsOnProjects.count(
-        {
-          where:
-          {
+      const NumberOfTeams=await this.prisma.teamsOnProjects.count({
+          where:{
             project_id:projectID
           }
         }
@@ -1792,26 +1790,28 @@ export class DataAccessRepository {
     async CalculateUtilizationVProject(projectName:string)
     {
       const projectId=await this.getProjectID(projectName);
-      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
-        {
-          where:
-          {
+
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
             project_id:projectId
-          }
-        }
+        }}
       )
 
+      //for all teams working on the project
       for(let i=0;i<TeamsOnProject.length;i++)
       {
-        //
+
+        //get all members of the team []
         const Team=(await this.getTeam(TeamsOnProject[i].team_id)).members;
+
+        //for each member of the team
         for(let j=0;j<Team.length;j++)
         {
 
-          const PersonObj=(await this.prisma.person.findUnique(
-            {
-              where:
-              {
+          const PersonObj=(await this.prisma.person.findUnique({
+              where:{
                 id:Team[j].id
               }
             }
@@ -1819,22 +1819,18 @@ export class DataAccessRepository {
 
           let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
           let WeeklyHours=PersonObj.weekly_hours;
-          let Utilization=(AssignedHours/WeeklyHours)*100;
+          let Utilization=(AssignedHours/WeeklyHours);
 
-          await this.prisma.person.update(
-            {
-              where:
-              {
+          await this.prisma.person.update({
+              where:{
                 id:Team[j].id
               },
-              data:
-              {
+              data:{
                 assigned_hours: AssignedHours,
                 utilisation:Utilization
               }
             }
-          )
-        }
+          )}
 
       }
     }
@@ -1871,7 +1867,7 @@ export class DataAccessRepository {
       return utilization_arr;
     }
 
-    //async calculateAverage(weekID:)
+    
 
     async getAllocatedTeams(UserEmail:string)
     {
@@ -2109,6 +2105,93 @@ export class DataAccessRepository {
         else
             return -1;
     }
+
+    /***
+     * This function returns the number of teams working on a project
+     * Project doesn't exist
+     */
+
+    async getNumberOfTeamsWorkingOnAProject(project_name:string):Promise<number>
+    {
+        const p_id=await this.getProjectID(project_name);
+
+        if(p_id){ //project exists
+
+            const existing_project=await this.prisma.project.findUnique({
+                where:{
+                    id:p_id,
+                },
+                include:{
+                    teams:true,
+                }
+            })
+
+            if(existing_project){
+                return existing_project.teams.length;
+            }
+        }
+        else
+            return -1;
+    }
+
+    /***
+     * Use this function to reset the assigned hours to 0,using the
+     * person's ID.
+    */
+
+    async resetAssignedHoursVID(person_id:number){
+
+        const person= await this.prisma.person.update({
+            where:{
+                id:person_id
+            },
+            data:{
+                assigned_hours:0,
+            }
+        })
+    }
+
+
+    /***
+     * This function is used to get the weekly hours of an individual
+     * returns -1 if individual doesn't exist
+    */
+
+    async getWeeklyHoursOfIndividual(person_id:number):Promise<number>
+    {
+        const individual=await this.prisma.person.findUnique({
+            where:{
+                id:person_id,
+            }
+        })
+
+        if(individual){
+            return individual.weekly_hours;
+        }
+        else
+            return -1;
+    }
+
+    /***
+     * This function returns the assigned hours of the individual
+     * returns -1 if individual doesn't exist
+    */
+
+    async getAssignedHoursOfIndividual(person_id:number):Promise<number>
+    {
+        const individual=await this.prisma.person.findUnique({
+            where:{
+                id:person_id,
+            }
+        })
+
+        if(individual){
+            return individual.assigned_hours;
+        }
+        else
+            return -1;
+    }
+
 
 
     

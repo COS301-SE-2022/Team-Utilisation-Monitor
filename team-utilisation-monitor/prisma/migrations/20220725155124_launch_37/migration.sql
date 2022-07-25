@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "person" ALTER COLUMN "utilisation" SET DEFAULT 0,
+ALTER COLUMN "utilisation" SET DATA TYPE DOUBLE PRECISION;
