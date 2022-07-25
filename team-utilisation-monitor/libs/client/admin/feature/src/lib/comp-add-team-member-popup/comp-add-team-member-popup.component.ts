@@ -41,6 +41,8 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
         }
       )
     }
+
+    alert("Member(s) added to Team: "+this.cookie.get("team_name"));
   }
 
  
