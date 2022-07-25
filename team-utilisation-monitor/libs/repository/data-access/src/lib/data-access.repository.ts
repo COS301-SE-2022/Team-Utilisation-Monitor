@@ -1771,7 +1771,7 @@ export class DataAccessRepository {
           }
         }
       )
-      
+
       //Project manHours/Numberofeams
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
 
@@ -1785,9 +1785,9 @@ export class DataAccessRepository {
 
       //Hours per Team member=Project hours for a team/Number of team members
       const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
-      
+
       return HoursPerMember;
-    } 
+    }
 
     async CalculateUtilizationVProject(projectName:string)
     {
@@ -1801,42 +1801,58 @@ export class DataAccessRepository {
         }
       )
 
+      //const hours=0;
+
       for(let i=0;i<TeamsOnProject.length;i++)
       {
-        //
-        const Team=(await this.getTeam(TeamsOnProject[i].team_id)).members;
-        for(let j=0;j<Team.length;j++)
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              id:TeamsOnProject[i].team_id
+            }
+          }
+        )
+
+        if(Team.length>0)
         {
+          console.log("I got in")
 
-          const PersonObj=(await this.prisma.person.findUnique(
-            {
-              where:
+          for(let j=0;j<Team.length;j++)
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
               {
-                id:Team[j].id
+                where:
+                {
+                  id:Team[j].person_id
+                }
               }
-            }
-          ))
+            ))
 
-          let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
-          let WeeklyHours=PersonObj.weekly_hours;
-          let Utilization=(AssignedHours/WeeklyHours)*100;
+            let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=(AssignedHours/WeeklyHours)*100;
 
-          await this.prisma.person.update(
-            {
-              where:
+            await this.prisma.person.update(
               {
-                id:Team[j].id
-              },
-              data:
-              {
-                assigned_hours: AssignedHours,
-                utilisation:Utilization
+                where:
+                {
+                  id:Team[j].id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization
+                }
               }
-            }
-          )
+            )
+          }
         }
 
       }
+
+      return "Utilization complete"
     }
 
     async GetMonthlyUtilization(Email:string)
@@ -2035,9 +2051,9 @@ export class DataAccessRepository {
         const UserStats=new UserStatsEntity
 
         UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
-  
+
         UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
-  
+
         UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
 
         //@Gift i need these fuunctions for utilisation. Sorry.
@@ -2045,13 +2061,13 @@ export class DataAccessRepository {
         UserStats.status=user.status;
         UserStats.assignedHours=user.assigned_hours;
         UserStats.weeklyHours=user.weekly_hours;
-    
+
         return UserStats
 
       }
       else
         return null;
-      
+
     }
 
     async AssignWeeklyHours(UserEmail:string,WeeklyHours)
@@ -2080,7 +2096,7 @@ export class DataAccessRepository {
       }
     }
     /**
-     * Use this function to get the number of members in a team. 
+     * Use this function to get the number of members in a team.
      * Will return a -1 if team doesn't exist.
      * Remeber that a team can have 0 members.
     */
@@ -2102,7 +2118,7 @@ export class DataAccessRepository {
             })
 
             if(existing_team){
-               return existing_team.members.length; 
+               return existing_team.members.length;
             }
 
         }
@@ -2111,5 +2127,5 @@ export class DataAccessRepository {
     }
 
 
-    
+
 }
