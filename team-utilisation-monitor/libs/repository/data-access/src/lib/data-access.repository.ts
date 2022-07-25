@@ -2169,28 +2169,21 @@ export class DataAccessRepository {
     async GetAvailableTeamsForProject(projectName:string)
     {
       const projectId=await this.getProjectID(projectName);
-      let TeamsObject:TeamEntity[]
+      let TeamsObject:string[]
       TeamsObject=[]
 
-      const TeamsOnObjects=await this.prisma.teamsOnProjects.findMany(
-        {
-          where:
-          {
-            project_id:projectId
-          }
-        }
-      )
 
       const Teams=await this.prisma.team.findMany();
 
       for(let i=0;i<Teams.length;i++)
       {
-        for(let j=0;j<TeamsOnObjects.length;j++)
+        if(this.teamInProject(Teams[i].id))
         {
-          if(Teams[i].id==TeamsOnObjects[j].team_id)
-          {
-            //The Team already exists in TeamsOnObjects
-          }
+          //skip
+        }
+        else
+        {
+          TeamsObject.push(Teams[i].team_name)
         }
       }
 
@@ -2209,11 +2202,11 @@ export class DataAccessRepository {
 
       if(Team.length==0) //Team is not on the project
       {
-        return true
+        return false
       }
       else
       {
-        return false;
+        return true;
       }
     }
 
