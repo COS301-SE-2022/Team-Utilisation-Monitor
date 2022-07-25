@@ -1602,7 +1602,7 @@ export class DataAccessRepository {
 
     async deleteMember(teamName:string,email:string)
     {
-      const empl_id=await (await this.getUserIDVEmail(email)).id;
+      const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
       await this.prisma.team.update(
