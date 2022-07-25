@@ -25,9 +25,5 @@ describe('IndividualProfileComponent', () => {
     expect(component.companyName).toBe("");
   });
 
-  it("tests html element", ()=>{
-    const data=fixture.nativeElement;
-    expect(data.querySelector(".some").textContent).toContain("user");
-  });
 
 });
