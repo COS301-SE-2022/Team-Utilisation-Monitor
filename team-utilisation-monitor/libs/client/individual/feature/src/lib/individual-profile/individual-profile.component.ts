@@ -112,7 +112,6 @@ export class IndividualProfileComponent implements OnInit {
   showInfo(link: string) {
     console.log()
   }
-
   onGroupsChange(f_selectedSkills: string[]) {
     console.log(f_selectedSkills);
   }
