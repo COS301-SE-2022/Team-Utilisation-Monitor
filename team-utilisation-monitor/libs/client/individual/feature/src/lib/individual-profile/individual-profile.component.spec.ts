@@ -21,9 +21,12 @@ describe('IndividualProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("testing title", ()=>{
-    expect(component.companyName).toBe("");
+  it('should have primary color', () => {
+    const container: HTMLElement = fixture.nativeElement.querySelector('mat-side-nav-container');
+    const bgColor = container.style.color;
+    expect(bgColor).toBe('primary');
   });
+
 
 
 });
