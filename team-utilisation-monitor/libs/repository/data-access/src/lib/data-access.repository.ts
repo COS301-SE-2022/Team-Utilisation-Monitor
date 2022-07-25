@@ -1,3 +1,4 @@
+import { Status } from '@prisma/client';
 import { Person } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
@@ -1832,9 +1833,28 @@ export class DataAccessRepository {
               }
             ))
 
-            let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=(AssignedHours/WeeklyHours)*100;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
 
             await this.prisma.person.update(
               {
@@ -1845,7 +1865,8 @@ export class DataAccessRepository {
                 data:
                 {
                   assigned_hours: AssignedHours,
-                  utilisation:Utilization
+                  utilisation:Utilization,
+                  status:Statuss
                 }
               }
             )
@@ -1856,6 +1877,71 @@ export class DataAccessRepository {
 
       return "Utilization complete"
     }
+
+    /* This function resets the assigned hours
+    after a new team Has been added to a project
+    The function is activated before adding a team to a project*/
+    async ResetAssignedHours(projectName:string)
+    {
+      //
+      const projectId=await this.getProjectID(projectName);
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours
+                }
+              }
+            )
+          }
+        }
+
+      }
+      return "Hours reset Succesfully"
+
+    }
+
+
 
     async GetMonthlyUtilization(Email:string)
     {
@@ -2078,6 +2164,57 @@ export class DataAccessRepository {
       else
         return null;
 
+    }
+
+    async GetAvailableTeamsForProject(projectName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      let TeamsObject:TeamEntity[]
+      TeamsObject=[]
+
+      const TeamsOnObjects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      const Teams=await this.prisma.team.findMany();
+
+      for(let i=0;i<Teams.length;i++)
+      {
+        for(let j=0;j<TeamsOnObjects.length;j++)
+        {
+          if(Teams[i].id==TeamsOnObjects[j].team_id)
+          {
+            //The Team already exists in TeamsOnObjects
+          }
+        }
+      }
+
+    }
+
+    async teamInProject(teamId:number)
+    {
+      const Team=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamId
+          }
+        }
+      )
+
+      if(Team.length==0) //Team is not on the project
+      {
+        return true
+      }
+      else
+      {
+        return false;
+      }
     }
 
     async AssignWeeklyHours(UserEmail:string,WeeklyHours)
