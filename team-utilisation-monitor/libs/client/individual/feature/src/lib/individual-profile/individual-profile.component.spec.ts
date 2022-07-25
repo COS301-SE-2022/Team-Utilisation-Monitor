@@ -18,15 +18,8 @@ describe('IndividualProfileComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
-
-  it('should have primary color', () => {
-    const container: HTMLElement = fixture.nativeElement.querySelector('mat-side-nav-container');
-    const bgColor = container.style.color;
-    expect(bgColor).toBe('primary');
-  });
-
 
 
 });
