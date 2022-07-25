@@ -2177,28 +2177,47 @@ export class DataAccessRepository {
 
       for(let i=0;i<Teams.length;i++)
       {
-        if(this.teamInProject(Teams[i].id))
+        if(await this.teamInProject(Teams[i].id,projectId))
         {
-          //skip
+          //skip//I got in here
+          console.log("I got in")
         }
         else
         {
           TeamsObject.push(Teams[i].team_name)
+
         }
       }
+      return TeamsObject
 
     }
 
-    async teamInProject(teamId:number)
+    async teamInProject(teamId:number,projectID:number)
     {
       const Team=await this.prisma.teamsOnProjects.findMany(
         {
           where:
           {
+            project_id:projectID,
             team_id:teamId
           }
         }
       )
+
+      console.log("The Length is: "+Team.length)
+
+      /*let count=0
+      for(let i=0;i<Team.length;i++)
+      {
+        if(Team[i].team_id==teamId)
+        {
+          //
+        }
+        else
+        {
+          count++;
+        }
+      }*/
 
       if(Team.length==0) //Team is not on the project
       {
