@@ -1781,7 +1781,14 @@ export class DataAccessRepository {
     async HoursPerTeamMemberOnProject(teamId:number,projectId:number)
     {
       //Get the number of members in the team
-      const No_oF_Members=(await this.getTeam(teamId)).members.length
+      const No_oF_Members=(await this.prisma.personOnTeams.findMany(
+        {
+            where:
+            {
+                team_id:teamId
+            }
+        }
+      )).length
 
       //Hours per Team member=Project hours for a team/Number of team members
       const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
@@ -1830,9 +1837,9 @@ export class DataAccessRepository {
               }
             ))
 
-            let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
+            let AssignedHours=Math.floor(PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)));
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=(AssignedHours/WeeklyHours)*100;
+            let Utilization=Math.floor((AssignedHours/WeeklyHours)*100);
 
             await this.prisma.person.update(
               {
@@ -1891,7 +1898,15 @@ export class DataAccessRepository {
 
     async getAllocatedTeams(UserEmail:string)
     {
-        const userId=(await this.getUserIDVEmail(UserEmail)).id;
+        const userId=(await this.prisma.person.findUnique(
+            {
+                where:
+                {
+                    email:UserEmail
+                }
+            }
+        )).id
+
         let team_arr:TeamEntity[]
         team_arr=[]
 
