@@ -233,14 +233,14 @@ export class AdminService {
   //BridgeFunctions
 
   /***
-   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established 
+   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established
    * functions
   */
 
   bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
   {
     console.log("In bridgeCreateProject()")
-    
+
     if(teams.length>0)
     {
       for(let i=0;i<teams.length;++i)
@@ -253,9 +253,8 @@ export class AdminService {
       this.createProject(projectName,companyName,"null",projectHours);
     }
 
-    
-  }
 
+  }
 
 
 }
