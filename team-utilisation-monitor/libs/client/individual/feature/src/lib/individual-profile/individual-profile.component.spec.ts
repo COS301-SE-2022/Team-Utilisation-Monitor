@@ -17,8 +17,9 @@ describe('IndividualProfileComponent', () => {
     fixture.detectChanges();
   });
 
+
   it('should create', () => {
-    expect(component).toBeDefined();
+    expect(component).toBeTruthy();
   });
 
 
