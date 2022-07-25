@@ -1,7 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, importProvidersFrom, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
 import { IndividualProfileComponent } from './individual-profile.component';
 
 fdescribe('IndividualProfileComponent', () => {
@@ -11,7 +10,8 @@ fdescribe('IndividualProfileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ IndividualProfileComponent ],
-      imports: [HttpClientModule]
+      imports: [HttpClientModule],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
 
