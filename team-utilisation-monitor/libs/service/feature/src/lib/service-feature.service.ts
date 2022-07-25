@@ -40,11 +40,12 @@ import { AssignProjectToTeamVNamesCommand } from './commands/impl/asign-project-
 import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
 import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmployees.query';
+import { FunctionsService } from './functions/functions.service';
 
 @Injectable()
 export class ServiceFeatureService {
 
-    constructor(private readonly queryBus:QueryBus,private readonly commandBus:CommandBus){}
+    constructor(private readonly queryBus:QueryBus,private readonly commandBus:CommandBus,private readonly functions:FunctionsService){}
 
     async getAllUserPerson():Promise<UserPerson>
     {
@@ -233,5 +234,10 @@ export class ServiceFeatureService {
     async CalculateUtilization(projectName:string)
     {
       return this.commandBus.execute(new CalculateUtilizationCommand(projectName));
+    }
+
+    async CalculateUtilisationTWO(companyName:string):Promise<string>
+    {
+      return this.functions.calculateUtilisation(companyName);
     }
 }

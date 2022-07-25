@@ -7,6 +7,7 @@ import { ServiceFeatureController } from './service-feature.controller';
 import { ServiceFeatureService } from './service-feature.service';
 import { CommandHandlers } from './commands/handlers';
 import { FunctionsModule } from './functions/functions.module';
+import { FunctionsService } from './functions/functions.service';
 
 @Module({
   imports: [CqrsModule, FunctionsModule],
@@ -17,6 +18,7 @@ import { FunctionsModule } from './functions/functions.module';
     ...CommandHandlers,
     DataAccessRepository,
     PrismaService,
+    FunctionsService
   ],
   exports: [ServiceFeatureService],
 })
