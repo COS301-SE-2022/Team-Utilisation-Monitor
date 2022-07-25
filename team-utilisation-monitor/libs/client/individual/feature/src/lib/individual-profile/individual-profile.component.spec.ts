@@ -20,4 +20,14 @@ describe('IndividualProfileComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("testing title", ()=>{
+    expect(component.companyName).toBe("");
+  });
+
+  it("tests html element"), ()=>{
+    const data=fixture.nativeElement;
+    expect(data.querySelector(".some").textContent).toContain("user");
+
+  }
 });
