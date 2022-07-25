@@ -1761,7 +1761,7 @@ export class DataAccessRepository {
 
 
     //Utilisation Helper fUNCTIONS
-    async Project_Hours_Per_team(projectID:number)
+    async Project_Hours_Per_team(projectID:number):Promise<number>
     {
       const NumberOfTeams=await this.prisma.teamsOnProjects.count({
           where:{
@@ -1776,7 +1776,7 @@ export class DataAccessRepository {
       return HoursPerTeam;
     }
 
-    async HoursPerTeamMemberOnProject(teamId:number,projectId:number)
+    async HoursPerTeamMemberOnProject(teamId:number,projectId:number):Promise<number>
     {
       //Get the number of members in the team
       const No_oF_Members=(await this.prisma.personOnTeams.findMany(
@@ -1790,11 +1790,10 @@ export class DataAccessRepository {
 
       //Hours per Team member=Project hours for a team/Number of team members
       const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
-
       return HoursPerMember;
     }
 
-    async CalculateUtilizationVProject(projectName:string)
+    async CalculateUtilizationVProject(projectName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
 
@@ -1814,16 +1813,14 @@ export class DataAccessRepository {
           {
             where:
             {
-              id:TeamsOnProject[i].team_id
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
             }
           }
         )
 
-        if(Team.length>0)
+        if(Team)  //Team can be null
         {
-          console.log("I got in")
-
-          for(let j=0;j<Team.length;j++)
+          for(let j=0;j<Team.length;j++)  //Number of team Members
           {
             //Find and Update every team member
             const PersonObj=(await this.prisma.person.findUnique(
@@ -1835,15 +1832,15 @@ export class DataAccessRepository {
               }
             ))
 
-            let AssignedHours=Math.floor(PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)));
+            let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.floor((AssignedHours/WeeklyHours)*100);
+            let Utilization=(AssignedHours/WeeklyHours)*100;
 
             await this.prisma.person.update(
               {
                 where:
                 {
-                  id:Team[j].id
+                  id:Team[j].person_id
                 },
                 data:
                 {
