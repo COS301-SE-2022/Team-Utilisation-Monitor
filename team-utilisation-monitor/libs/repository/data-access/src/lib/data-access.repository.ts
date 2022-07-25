@@ -1878,6 +1878,11 @@ export class DataAccessRepository {
       return "Utilization complete"
     }
 
+    async UpdateUtilizationForTeam(teamName:string)
+    {
+      //
+    }
+
     /* This function resets the assigned hours
     after a new team Has been added to a project
     The function is activated before adding a team to a project*/
@@ -1920,6 +1925,27 @@ export class DataAccessRepository {
             ))
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
 
             await this.prisma.person.update(
               {
@@ -1929,7 +1955,9 @@ export class DataAccessRepository {
                 },
                 data:
                 {
-                  assigned_hours: AssignedHours
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
                 }
               }
             )
@@ -1940,6 +1968,8 @@ export class DataAccessRepository {
       return "Hours reset Succesfully"
 
     }
+
+
 
 
 
@@ -2179,8 +2209,7 @@ export class DataAccessRepository {
       {
         if(await this.teamInProject(Teams[i].id,projectId))
         {
-          //skip//I got in here
-          console.log("I got in")
+          //
         }
         else
         {
@@ -2203,21 +2232,7 @@ export class DataAccessRepository {
           }
         }
       )
-
-      console.log("The Length is: "+Team.length)
-
-      /*let count=0
-      for(let i=0;i<Team.length;i++)
-      {
-        if(Team[i].team_id==teamId)
-        {
-          //
-        }
-        else
-        {
-          count++;
-        }
-      }*/
+     
 
       if(Team.length==0) //Team is not on the project
       {
