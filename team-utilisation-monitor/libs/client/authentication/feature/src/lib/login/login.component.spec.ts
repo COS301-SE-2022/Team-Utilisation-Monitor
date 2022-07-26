@@ -53,7 +53,7 @@ describe('LoginComponent', () => {
 it('Setting enabled to true enables the submit button', () => {
   component.enabled = true;
   fixture.detectChanges();
-  expect(submitEl.nativeElement.disabled).toBeTruthy();
+  expect(submitEl.nativeElement.disabled).toBeFalsy();
 });
                                                                                 //  OUTPUT TESTING
 // tracking what gets emitted by the output event
