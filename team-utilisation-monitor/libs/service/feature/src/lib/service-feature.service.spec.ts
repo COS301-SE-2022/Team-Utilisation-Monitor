@@ -10,6 +10,7 @@ import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/da
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Company } from '@prisma/client';
+import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
@@ -324,6 +325,17 @@ describe('ServiceFeatureService', () => {
       expect(test[1]).toBeInstanceOf(UserPerson);
       });
   });
+
+  describe("getCompanyStats", () => {
+    it('should return CompanyStatsEntity', async () => {
+      let test = new CompanyStatsEntity;
+      try {
+        test = await service.getCompanyStats('icreate');
+      } catch (err) { return }
+      expect(test.numTeams).toEqual(17);
+      });
+  });
+
 
 
   // commandsBus
