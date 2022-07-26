@@ -138,6 +138,18 @@ describe('ServiceFeatureService', () => {
         team[1] = user_person;
 
         return team;
+
+      } else if (query instanceof GetCompanyStats) {
+
+        const company_stats = new CompanyStatsEntity();
+
+        company_stats.numProjects = 31;
+        company_stats.numTeams = 17
+        company_stats.numEmployees = 141;
+        company_stats.numAdmins = 14;
+
+        return company_stats;
+
       }
 
       return 10;
