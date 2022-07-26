@@ -8,7 +8,7 @@ import { FunctionsService } from './functions/functions.service';
 
 import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/data-access';
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
-
+import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Company } from '@prisma/client';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
@@ -285,6 +285,16 @@ describe('ServiceFeatureService', () => {
         test = await createService.createCompany('manutd');
       } catch (err) { return }
       expect(test.company_name).toEqual('manutd');
+    });
+  });
+
+  describe("createProject", () => {
+    it('should create a ProjectEntity', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await createService.createCompany('javacoffee');
+      } catch (err) { return }
+      expect(test.project_name).toEqual('javacoffee');
     });
   });
 
