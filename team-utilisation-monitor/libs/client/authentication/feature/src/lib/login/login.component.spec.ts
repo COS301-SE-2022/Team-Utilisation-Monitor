@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {Component, DebugElement, EventEmitter, Input, NO_ERRORS_SCHEMA, Output} from '@angular/core';
 
-import { LoginComponent } from './login.component';
+import { LoginComponent, User } from './login.component';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -48,5 +48,13 @@ describe('LoginComponent', () => {
     component.enabled = false;
     fixture.detectChanges();
     expect(submitEl.nativeElement.disabled).toBeTruthy();
+});
+
+it('Entering email and password emits loggedIn event', () => {
+  let user= new User('test@gmail.com',"PasssPass");
+
+  component.loggedIn.subscribe((value) => user = value);
+  expect(user.email).toBe("test@egmail.com");
+  expect(user.password).toBe("PasssPass");
 });
 });
