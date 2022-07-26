@@ -39,7 +39,9 @@ import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 
 describe('ServiceFeatureService', () => {
+
   let service: ServiceFeatureService;
+  let createService: ServiceFeatureService;
 
   const mockQueryBus = {
     execute: jest.fn((query: IQuery) => {
@@ -55,11 +57,8 @@ describe('ServiceFeatureService', () => {
         user_person.suspended = false;
         user_person.approved = true;
         user_person.company_name = "icreatesoftware";
-
         user_person.utilisation = 9;
-
         user_person.position = "team lead";
-        
         user_person.project_name = "tum";
         user_person.team_name = "team";
         user_person.company_id = 2;
@@ -145,20 +144,29 @@ describe('ServiceFeatureService', () => {
     })
   }
 
+  const mockCommandBus = {
+    execute: jest.fn((command) => {
+      return 11;
+    })
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [CqrsModule, FunctionsModule],
       providers: [
         ServiceFeatureService,
-        { provide: QueryBus, useValue: mockQueryBus }
+        { provide: QueryBus, useValue: mockQueryBus },
+        { provide: CommandBus, useValue: mockCommandBus }
       ],
     }).compile();
 
       service = module.get<ServiceFeatureService>(ServiceFeatureService);
+      createService = module.get<ServiceFeatureService>(ServiceFeatureService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(createService).toBeDefined
   });
 
   describe("getOnePersonVEmailService", () => {
