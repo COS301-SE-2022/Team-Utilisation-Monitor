@@ -19,6 +19,10 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+
+    submitEl = fixture.debugElement.query(By.css('button'));
+    loginEl = fixture.debugElement.query(By.css('input[type=email]'));
+    passwordEl = fixture.debugElement.query(By.css('input[type=password]'));
     fixture.detectChanges();
   });
 
