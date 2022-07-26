@@ -35,4 +35,8 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Setting enabled to false disables the submit button', () => {
+    component.enabled = false;
+  });
 });
