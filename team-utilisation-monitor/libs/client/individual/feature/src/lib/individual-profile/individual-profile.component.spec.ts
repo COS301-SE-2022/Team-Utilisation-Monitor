@@ -46,18 +46,6 @@ fdescribe('IndividualProfileComponent', () => {
     fixture.detectChanges();
   });
 
-  function createComponent() {
-    fixture = TestBed.createComponent(IndividualProfileComponent);
-    component = fixture.componentInstance;
-    const page = new form();
-  
-    fixture.detectChanges();
-    return fixture.whenStable().then(() => {
-      // 2nd change detection displays the async-fetched hero
-      fixture.detectChanges();
-    });
-  }
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
