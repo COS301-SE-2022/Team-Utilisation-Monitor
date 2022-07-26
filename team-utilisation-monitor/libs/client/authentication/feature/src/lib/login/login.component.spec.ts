@@ -61,13 +61,14 @@ it('Entering users correct details emits loggedIn event', () => {
 });
 
 it('Entering email and password emits loggedIn event', () => {
+  
   let user= new User('test@gmail.com',"PasssPass");
-  loginEl.nativeElement.value = "test@gmail.com"; (1)
+  loginEl.nativeElement.value = "test@gmail.com";
   passwordEl.nativeElement.value = "PasssPass";
 
   component.loggedIn.subscribe((value) => user = value);
 
-  submitEl.triggerEventHandler('click', null); (2)
+  submitEl.triggerEventHandler('click', null);
 
   expect(user.email).toBe("test@example.com");
   expect(user.password).toBe("123456");
