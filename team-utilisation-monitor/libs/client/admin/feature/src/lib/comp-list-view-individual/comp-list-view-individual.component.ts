@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CompListViewIndividualComponent implements OnInit {
   //constructor() {}
 
-  @Input() Individual!: { Name: string,Surname: string,Email:string };
+  @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:string};
 
   ngOnInit(): void {
     console.log();

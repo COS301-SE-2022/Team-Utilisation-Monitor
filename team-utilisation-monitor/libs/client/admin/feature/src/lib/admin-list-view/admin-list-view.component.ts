@@ -33,6 +33,7 @@ export class AdminListViewComponent implements OnInit {
             Surname:string
             Email:string
             Role:string
+            Utilization:number
           }
 
           for(const requests of this.employeeData.data.GetCompanyQuery.employees)
@@ -43,6 +44,7 @@ export class AdminListViewComponent implements OnInit {
             obj.Email=requests.email;
             //console.log(obj.Email)
             obj.Role=requests.role;
+            obj.Utilization=requests.utilisation;
             this.OutEmployeeName.push(obj);
           }
         }

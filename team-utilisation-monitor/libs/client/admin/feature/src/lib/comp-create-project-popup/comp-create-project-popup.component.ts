@@ -74,12 +74,12 @@ export class CompCreateProjectPopupComponent implements OnInit {
         })
 
         //Calculate the Utilization for each team In that project
-        console.log(projectName)
-        this.adminService.CalculateUtilization(projectName).subscribe(
+        //console.log(projectName)
+        /*this.adminService.CalculateUtilization(projectName).subscribe(
           Data=>{
             alert(Data.data.CalculateUtilization)
           }
-        )
+        )*/
       
       alert("Project "+projectName+" has been created ");
     }
