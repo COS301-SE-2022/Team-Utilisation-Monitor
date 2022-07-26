@@ -223,11 +223,32 @@ describe('ServiceFeatureService', () => {
           
           return user_person;
         }
+
+      } else if (command instanceof CreateTeamCommand) {
+        if (command.teamName === 'burnley') {
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 112;
+          team_entity.team_name = command.teamName;
+          team_entity.members = null;
+          team_entity.company_id = 12;
+          team_entity.project_name = "currie cup"
+          team_entity.projects = null;
+          team_entity.project_id = 4;
+          team_entity.completed = 2;
+  
+          return team_entity;
+          
+        }
+        
       }
 
       return 11;
     })
   }
+
+  
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
