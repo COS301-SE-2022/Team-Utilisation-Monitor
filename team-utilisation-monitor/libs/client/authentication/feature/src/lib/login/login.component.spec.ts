@@ -36,6 +36,7 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  //changing the input property enabled on our component.
   it('Setting enabled to false disables the submit button', () => {
     component.enabled = false;
   });
