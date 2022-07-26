@@ -169,8 +169,25 @@ describe('ServiceFeatureService', () => {
           
           return user_person;
         }
-      return 11;
+      
+      } else if (command instanceof CreateCompanyCommand) {
+        if (command.companyName === 'manutd') {
+
+          const user_company = new UserCompany();
+
+          user_company.id = 28;
+          user_company.company_name = command.companyName;
+          user_company.admins = null;
+          user_company.employees = null;
+          user_company.projects = null;
+          user_company.teams = null;
+
+          return user_company;
+
+        }
       }
+
+      return 11;
     })
   }
 
