@@ -379,6 +379,16 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("createInviteCode", () => {
+    it('should create an InviteCode', async () => {
+      let test;
+      try {
+        test = await createService.createInviteCode('hotspur');
+      } catch (err) { return }
+      expect(test.role).toEqual('admin');
+    });
+  });
+
 
 
 
