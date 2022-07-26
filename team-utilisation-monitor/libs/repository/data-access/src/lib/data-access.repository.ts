@@ -1516,7 +1516,7 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
-            console.log("Adding Employee");
+            //console.log("Adding Employee");
 
             const update_company=await this.prisma.company.update({
                 where:{
@@ -1601,7 +1601,7 @@ export class DataAccessRepository {
           return "Team Member added"
         }  
         else
-        {
+      {
           return "Already a team Member"
         } 
         }
@@ -1610,17 +1610,38 @@ export class DataAccessRepository {
 
     async getTeamMembers(teamName:string)
     {
-      const Team_members=await this.prisma.team.findUnique(
+      const teamID=await this.getTeamIDVName(teamName);
+      let members_Arr:UserPerson[]
+      members_Arr=[]
+      
+
+      const Team_members=await this.prisma.personOnTeams.findMany(
         {
           where:{
-            team_name:teamName
-          },
-          include:{
-            members:true
+            team_id:teamID
           }
         }
       )
-      return Team_members.members
+
+      for(let i=0;i<Team_members.length;i++)
+      {
+        const person=await this.prisma.person.findUnique(
+          {
+            where:
+            {
+              id:Team_members[i].person_id
+            }
+          }
+        )
+
+        const obj=new UserPerson()
+        obj.name=person.name
+        obj.surname=person.surname
+        obj.email=person.email
+        members_Arr.push(obj)
+      }
+
+      return members_Arr;
     }
 
     async deleteMember(teamName:string,email:string)
@@ -2187,7 +2208,7 @@ export class DataAccessRepository {
         if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
         {
             //
-            console.log("I got in")
+            //console.log("I got in")
         }
         else
         {
@@ -2669,6 +2690,37 @@ export class DataAccessRepository {
     }
 
 
+    
+   async calculateMonthlyAverage(Email:string)
+    {
+      const utilization=await this.prisma.person.findUnique(
+        {
+          where:{
+            email:Email,
+          },
+          include:
+          {
+            utilisations:true
+          }
+        }
+      )
+      for(let i=0;i<utilization.utilisations.length;i++)
+      {
+        let AVG=(utilization.utilisations[i].week1+utilization.utilisations[i].week2+utilization.utilisations[i].week3+utilization.utilisations[i].week4)/4;
+        await this.prisma.person.update(
+          {
+            where:
+            {
+              email:Email
+            },
+            data:
+            {
+              
+            }
+          }
+        )
+      }
+    }
 
     async GetMonthlyUtilization(Email:string)
     {
@@ -2695,6 +2747,7 @@ export class DataAccessRepository {
         obj.Week2=utilization.utilisations[i].week2
         obj.Week3=utilization.utilisations[i].week3
         obj.Week4=utilization.utilisations[i].week4
+
         obj.Average=utilization.utilisations[i].monthy_avg
         utilization_arr.push(obj)
       }
@@ -2740,7 +2793,7 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
-            const existing_person=await this.prisma.person.update({
+            await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
