@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {Component, DebugElement, EventEmitter, Input, Output} from '@angular/core';
+import {Component, DebugElement, EventEmitter, Input, NO_ERRORS_SCHEMA, Output} from '@angular/core';
 
 import { LoginComponent } from './login.component';
+import { By } from '@angular/platform-browser';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -12,7 +15,9 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ LoginComponent ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
