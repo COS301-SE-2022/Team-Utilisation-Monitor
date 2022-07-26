@@ -261,6 +261,16 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("createCompany", () => {
+    it('should create a UserCompany', async () => {
+      let test = new UserCompany();
+      try {
+        test = await createService.createCompany('manutd');
+      } catch (err) { return }
+      expect(test.company_name).toEqual('manutd');
+    });
+  });
+
 
 
 
