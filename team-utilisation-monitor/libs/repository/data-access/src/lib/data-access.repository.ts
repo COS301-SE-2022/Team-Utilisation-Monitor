@@ -1,5 +1,4 @@
-import { Status } from '@prisma/client';
-import { Person } from '@prisma/client';
+import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
@@ -2102,6 +2101,43 @@ export class DataAccessRepository {
             return -1;
     }
 
+    /***
+     * Use this function to get the status of the current value
+    */
+
+    async getStatus(value:number):Promise<Status>{
+
+        if(value<0.5)
+            return Status.UNDER_UTILISED;
+        else if(value>=0.5 && value<0.75)
+            return Status.FAIRLY_UTILISED;
+        else if(value>=0.75 && value<1)
+            return Status.HEAVILY_UTILISED;
+        else if(value==1)
+            return Status.FULLY_UTILISED;
+        else 
+            return Status.OVER_UTILISED;
+    }
+
+    /***
+     * Use this function to get the teamName provided that you supply
+     * the teamID. Returns null if team doesn't exist
+     */
+
+    async getTeamNameVID(f_id:number):Promise<string>{
+
+        const team=await this.prisma.team.findUnique({
+            where:{
+                id:f_id
+            }
+        })
+
+        if(team){
+            return team.team_name;
+        }
+        else
+            return null;
+    }
 
     async GetUnderUtilizedEmployees(companyName:string)
     {
@@ -2647,5 +2683,50 @@ export class DataAccessRepository {
     }
 
 
+    /****
+     * Use This function to assign weekly hours to an employee via Name
+    */
+
+    async assignWeeklyHoursToEmployee(email:string,hours:number):Promise<string>
+    {
+        const p_id=await this.getPersonIDVEmail(email);
+
+        if(p_id>0){
+
+            const existing_person=await this.prisma.person.update({
+                where:{
+                    id:p_id,
+                },
+                data:{
+                    weekly_hours:hours,
+                }
+            })
+
+            return "Successfully assigned weekly hours to employee";
+        }
+        else
+            return "Could not assign weeklyHours to employee. Id invalid";
+
+    }
+
+
+    /***
+     * Use this function to get the person's ID using their unique email.
+     * Returns -1 if their ID cannot be found.
+     */
+
+    async getPersonIDVEmail(f_email:string):Promise<number>
+    {
+        const existing_person=await this.prisma.person.findUnique({
+            where:{
+                email:f_email,
+            }
+        })
+
+        if(existing_person)//user exists
+            return existing_person.id;
+        else
+            return -1;
+    }
 
 }

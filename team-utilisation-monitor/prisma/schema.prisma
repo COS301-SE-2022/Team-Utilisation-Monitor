@@ -144,6 +144,8 @@ model Team{
 
   projects TeamsOnProjects []
 
+  utilisation Float @default(0)
+
   @@map("team")
 }
 

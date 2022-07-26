@@ -239,7 +239,12 @@ export class ServiceFeatureService {
 
     async CalculateUtilisationTWO(companyName:string):Promise<string>
     {
-      return this.functions.calculateUtilisation(companyName);
+      return this.functions.Tree("The Car show");
+    }
+
+    async AssignWeeklyHoursToEmployee(email:string,weeklyHours:number):Promise<string>
+    {
+      return this.commandBus.execute(new AssignHoursCommand(email,weeklyHours));
     }
 
     async GetAvailableTeams(projectName:string)
