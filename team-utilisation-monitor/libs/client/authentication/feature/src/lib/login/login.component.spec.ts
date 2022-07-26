@@ -32,10 +32,12 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
+                                                                                //TEST FOR CREATION
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+                                                                                //TEST FOR INPUT
   //changing the input property enabled on our component.
   it('Setting enabled to false disables the submit button', () => {
     component.enabled = false;
