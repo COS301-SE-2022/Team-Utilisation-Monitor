@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service'
 
+export class User {
+  constructor(public email: string, public password: string) {
+  }
+}
 
 @Component({
   selector: 'team-utilisation-monitor-login',
@@ -17,6 +21,8 @@ export class LoginComponent implements OnInit {
 
   result = <unknown> Observable;
   result2 = <unknown> Observable; //i'm using this to get the user details
+  @Output() loggedIn = new EventEmitter<User>();
+  @Input() enabled = true;
 
   loginForm = new FormGroup({
     email: new FormControl('',[Validators.required]),
