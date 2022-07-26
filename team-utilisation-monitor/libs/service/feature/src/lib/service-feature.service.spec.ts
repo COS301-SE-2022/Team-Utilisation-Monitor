@@ -146,7 +146,31 @@ describe('ServiceFeatureService', () => {
 
   const mockCommandBus = {
     execute: jest.fn((command) => {
+      if (command instanceof CreateUserCommand) {
+        if (command.inviteLink === 'nggyunglydngraadu') {
+
+          const user_person = new UserPerson();
+
+          user_person.id = 124;
+          user_person.name = command.name;
+          user_person.surname = command.surname;
+          user_person.email = command.email;
+          user_person.role = "intern";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = "icreatesoftware";
+          user_person.utilisation = 9;
+          user_person.position = "team lead";
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+          
+          return user_person;
+        }
       return 11;
+      }
     })
   }
 
@@ -166,7 +190,7 @@ describe('ServiceFeatureService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-    expect(createService).toBeDefined
+    expect(createService).toBeDefined();
   });
 
   describe("getOnePersonVEmailService", () => {
@@ -221,12 +245,24 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+
+  // commandsBus
+
+  describe("createUser", () => {
+    it('should create a UserPerson', async () => {
+      let test = new UserPerson();
+      try {
+        test = await createService.createUser('rob','roll','rick@roll.com','nggyunglydngraadu');
+      } catch (err) { return }
+      expect(test.id).toEqual(124);
+      expect(test.name).toEqual("rob");
+      expect(test.surname).toEqual("roll");
+      expect(test.email).toEqual("rick@roll.com")
+    });
+  });
+
+
+
+
 });
 
-/*
-getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
-getTeam(team_ID:number):Promise<TeamEntity>
-getCompanyVName(f_company_name:string):Promise<UserCompany|null>
-getEmployeesOfCompany(companyName:string):Promise<UserPerson[]>
-getCompanyVID(f_id:number):Promise<UserCompany|null>
-*/
