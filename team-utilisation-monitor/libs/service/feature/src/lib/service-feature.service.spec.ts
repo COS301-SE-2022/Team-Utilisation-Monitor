@@ -292,9 +292,10 @@ describe('ServiceFeatureService', () => {
     it('should create a ProjectEntity', async () => {
       let test = new ProjectEntity();
       try {
-        test = await createService.createCompany('javacoffee');
+        test = await createService.createProject('javacoffee','icreate','liverpool', 90);
       } catch (err) { return }
       expect(test.project_name).toEqual('javacoffee');
+      expect(test.man_hours).toEqual(90);
     });
   });
 
