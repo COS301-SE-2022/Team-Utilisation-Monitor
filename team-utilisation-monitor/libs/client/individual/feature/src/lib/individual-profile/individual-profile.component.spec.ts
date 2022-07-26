@@ -45,11 +45,20 @@ fdescribe('IndividualProfileComponent', () => {
     fixture = TestBed.createComponent(IndividualProfileComponent);
     component = fixture.componentInstance;
     const Form= new form();
+
     fixture.detectChanges();
+    return fixture.whenStable().then(() => {
+    
+      fixture.detectChanges();
+    });
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should display that hero's name", () => {
+    expect(form.nameDisplay.textContent).toBe(expectedHero.name);
   });
 
 });
