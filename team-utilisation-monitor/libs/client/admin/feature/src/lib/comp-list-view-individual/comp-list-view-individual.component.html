@@ -2,16 +2,10 @@
     <mat-card-header>
         <img mat-card-avatar src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png">
         <mat-card-title>{{Individual.Name}} {{Individual.Surname}}</mat-card-title>
-        <mat-card-subtitle>Bsc Computer Science</mat-card-subtitle>
+        <mat-card-subtitle>{{Individual.Email}}</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content>
-        <h1>Utilization</h1>
-        <div fxLayout="row" style="width: 100%" class="divBorder">
-            <div fxFlex="15" class="div1">Hello world</div>
-            <div fxFlex="30" class="div2">Hello world</div>
-            <div fxFlex="35" class="div1">Hello world</div>
-            <div fxFlex="20" class="div3">Hello world</div>
-        </div>
-    </mat-card-content>
+    <div class="Chart">
+        <canvas id="IndivChart"></canvas>
+    </div>
 </mat-card>
