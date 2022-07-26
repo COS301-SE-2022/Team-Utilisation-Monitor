@@ -1,3 +1,12 @@
+/*UNIT TESTING CREDITS:
+all thanks to https://codecraft.tv/courses/angular/unit-testing/components/
+as some of the ideas on what to test as well as how to test the submit button.
+
+The errors encountered when testing were made easy to solve by looking 
+for the answers from
+https://stackoverflow.com/questions/41019109/error-
+no-provider-for-router-while-writing-karma-jasmine-unit-test-cases
+*/
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {DebugElement,NO_ERRORS_SCHEMA} from '@angular/core';
 
