@@ -2261,6 +2261,50 @@ export class DataAccessRepository {
     }
 
 
+    /****
+     * Use This function to assign weekly hours to an employee via Name
+    */
 
+    async assignWeeklyHoursToEmployee(email:string,hours:number):Promise<string>
+    {
+        const p_id=await this.getPersonIDVEmail(email);
+
+        if(p_id>0){
+
+            const existing_person=await this.prisma.person.update({
+                where:{
+                    id:p_id,
+                },
+                data:{
+                    weekly_hours:hours,
+                }
+            })
+
+            return "Successfully assigned weekly hours to employee";
+        }
+        else
+            return "Could not assign weeklyHours to employee. Id invalid";
+
+    }
+
+
+    /***
+     * Use this function to get the person's ID using their unique email.
+     * Returns -1 if their ID cannot be found.
+     */
+
+    async getPersonIDVEmail(f_email:string):Promise<number>
+    {
+        const existing_person=await this.prisma.person.findUnique({
+            where:{
+                email:f_email,
+            }
+        })
+
+        if(existing_person)//user exists
+            return existing_person.id;
+        else
+            return -1;
+    }
 
 }
