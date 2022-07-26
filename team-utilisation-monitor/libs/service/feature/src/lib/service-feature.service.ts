@@ -240,4 +240,9 @@ export class ServiceFeatureService {
     {
       return this.functions.Tree("The Car show");
     }
+
+    async AssignWeeklyHoursToEmployee(email:string,weeklyHours:number):Promise<string>
+    {
+      return this.commandBus.execute(new AssignHoursCommand(email,weeklyHours));
+    }
 }
