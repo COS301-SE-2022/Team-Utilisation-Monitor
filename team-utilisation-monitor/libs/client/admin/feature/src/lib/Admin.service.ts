@@ -63,6 +63,20 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
+  getAllTeamsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
   getTeamMembers(teamName:string):Observable<any>
   {
     const Query='query{GetTeamMembers(team_name:"'+teamName+'"){name,surname,email}}'
@@ -106,6 +120,19 @@ export class AdminService {
       })
     }
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  getAllProjectsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -214,33 +241,20 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-
-  getAllProjectsOfACompany(companyName:string):Observable<any>
+  CalculateUtilization(projectName:string):Observable<any>
   {
-    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
-
+    const Query='mutation{CalculateUtilization(project_Name:"'+projectName+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-  getAllTeamsOfACompany(companyName:string):Observable<any>
-  {
-    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
-  }
+  
 
   //BridgeFunctions
 
