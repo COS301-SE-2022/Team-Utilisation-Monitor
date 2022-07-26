@@ -23,19 +23,6 @@ fdescribe('IndividualProfileComponent', () => {
       return this.query<HTMLInputElement>('input');
     }
   
-    gotoListSpy: jasmine.Spy;
-    navigateSpy: jasmine.Spy;
-  
-    constructor(someFixture: ComponentFixture<IndividualProfileComponent>) {
-      // get the navigate spy from the injected router spy object
-      const routerSpy = someFixture.debugElement.injector.get(Router) as any;
-      this.navigateSpy = routerSpy.navigate;
-  
-      // spy on component's `gotoList()` method
-      const someComponent = someFixture.componentInstance;
-      this.gotoListSpy = spyOn(someComponent, 'gotoList').and.callThrough();
-    }
-  
     //// query helpers ////
     private query<T>(selector: string): T {
       return fixture.nativeElement.querySelector(selector);
@@ -56,10 +43,20 @@ fdescribe('IndividualProfileComponent', () => {
 
     fixture = TestBed.createComponent(IndividualProfileComponent);
     component = fixture.componentInstance;
-
-    
     fixture.detectChanges();
   });
+
+  function createComponent() {
+    fixture = TestBed.createComponent(IndividualProfileComponent);
+    component = fixture.componentInstance;
+    const page = new form();
+  
+    fixture.detectChanges();
+    return fixture.whenStable().then(() => {
+      // 2nd change detection displays the async-fetched hero
+      fixture.detectChanges();
+    });
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
