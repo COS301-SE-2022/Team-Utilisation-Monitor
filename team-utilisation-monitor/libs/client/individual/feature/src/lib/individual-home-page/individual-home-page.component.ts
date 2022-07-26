@@ -1,14 +1,18 @@
 import { CookieService } from 'ngx-cookie-service';
 import { IndividualService } from './../Individual.service';
 import { Component, OnInit } from '@angular/core';
+import {CompProjectDataViewPopupComponent} from '../../../../../admin/feature/src/lib/comp-project-data-view-popup/comp-project-data-view-popup.component';
+import {CompAddTeamToProjectPopupComponent} from '../../../../../admin/feature/src/lib/comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
+import {CompProjectListComponent} from '../../../../../admin/feature/src/lib/comp-project-list/comp-project-list.component'
 import {link} from "fs";
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-home-page',
   templateUrl: './individual-home-page.component.html',
   styleUrls: ['./individual-home-page.component.scss']
 })
-export class IndividualHomePageComponent implements OnInit {
+export class IndividualHomePageComponent implements OnInit {  
   constructor(private service:IndividualService,private cookie:CookieService){}
 
 
@@ -35,6 +39,7 @@ export class IndividualHomePageComponent implements OnInit {
         this.utilizationPercentage=Data.data.GetUserStats.utilisation
       })
 
+    
     this.service.getAllocatedTeams(Email).subscribe(Data=>
       {
         for(const req of Data.data.GetAllocatedTeams)
