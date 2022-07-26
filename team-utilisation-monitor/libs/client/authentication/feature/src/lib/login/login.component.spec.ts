@@ -50,7 +50,7 @@ describe('LoginComponent', () => {
     expect(submitEl.nativeElement.disabled).toBeTruthy();
 });
 
-it('Entering email and password emits loggedIn event', () => {
+it('Entering users correct details emits loggedIn event', () => {
   let user= new User('test@gmail.com',"PasssPass");
 
   component.loggedIn.subscribe((value) => user = value);
