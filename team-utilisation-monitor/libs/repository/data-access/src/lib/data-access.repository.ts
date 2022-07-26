@@ -1560,7 +1560,10 @@ export class DataAccessRepository {
     {
 
       //Agape You can comment this out fo your utilization aproach
-      this.ResetUtilizationOfTeamMembers(teamName);   //To add the new member then recalculate Utilization of the team
+      if(this.TeamBusy(teamName))
+      {
+        this.ResetUtilizationOfTeamMembers(teamName);   //To add the new member then recalculate Utilization of the team
+      }
 
       const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
@@ -1579,17 +1582,22 @@ export class DataAccessRepository {
           }
         )
         
-        if(IsMember==null)
+        if(IsMember.length==0)
         {
           await this.prisma.personOnTeams.create(
             {
               data:{
                   person_id:empl_id,
-                  team_id:teamID
+                  team_id:teamID,
               }
           })
 
-          this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
+
+          if(this.TeamBusy(teamName))  //The Team is already on a project
+          {
+            this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
+          }
+   
           return "Team Member added"
         }  
         else
@@ -2694,8 +2702,32 @@ export class DataAccessRepository {
       return utilization_arr;
     }
 
+    async TeamBusy(teamName:string):Promise<boolean>
+    {
+      const teamID=await this.getTeamIDVName(teamName);
+      
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      if(TeamsOnProject.length==0)  //The team has no project
+      {
+        //
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+
     /* Calculate the Monthly average*/
-    
+
 
 
     /****
