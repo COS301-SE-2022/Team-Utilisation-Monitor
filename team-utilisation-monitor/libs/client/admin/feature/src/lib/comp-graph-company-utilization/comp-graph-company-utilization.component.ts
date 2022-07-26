@@ -56,12 +56,12 @@ export class CompGraphCompanyUtilizationComponent implements OnInit {
       },
       options: {
           scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
-  });
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
   }
 
 }
