@@ -239,15 +239,19 @@ describe('ServiceFeatureService', () => {
           team_entity.completed = 2;
   
           return team_entity;
-          
         }
         
+      } else if (command instanceof CreateInviteCodeCommand) {
+        if (command.companyName === 'hotspur') {
+  
+          return 'thisshouldberandomlycreated';
+          
+        }
       }
 
       return 11;
     })
   }
-
   
 
   beforeEach(async () => {
@@ -385,7 +389,7 @@ describe('ServiceFeatureService', () => {
       try {
         test = await createService.createInviteCode('hotspur');
       } catch (err) { return }
-      expect(test.role).toEqual('admin');
+      expect(test).toEqual('thisshouldberandomlycreated');
     });
   });
 
