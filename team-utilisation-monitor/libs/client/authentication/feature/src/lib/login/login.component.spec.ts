@@ -40,4 +40,11 @@ describe('LoginComponent', () => {
   it('Setting enabled to false disables the submit button', () => {
     component.enabled = false;
   });
+
+  //check the disabled property value of the buttons DOM element
+  it('Setting enabled to false disables the submit button', () => {
+    component.enabled = false;
+    fixture.detectChanges();
+    expect(submitEl.nativeElement.disabled).toBeTruthy();
+});
 });
