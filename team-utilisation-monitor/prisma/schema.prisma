@@ -38,7 +38,7 @@ model Person{
 
   assigned_hours Float @default(0)
 
-  utilisation Int @default(0)
+  utilisation Float @default(0)
 
   status Status @default(UNDER_UTILISED)
 
@@ -143,6 +143,8 @@ model Team{
   company_id Int?  //company owns muliple teams
 
   projects TeamsOnProjects []
+
+  utilisation Float @default(0)
 
   @@map("team")
 }

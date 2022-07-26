@@ -6,16 +6,20 @@ import { QueryHandlers } from './queries/handlers';
 import { ServiceFeatureController } from './service-feature.controller';
 import { ServiceFeatureService } from './service-feature.service';
 import { CommandHandlers } from './commands/handlers';
+import { FunctionsModule } from './functions/functions.module';
+import { FunctionsService } from './functions/functions.service';
 
 @Module({
-  imports:[CqrsModule],
+  imports: [CqrsModule, FunctionsModule],
   controllers: [ServiceFeatureController],
   providers: [
-    ServiceFeatureService, 
+    ServiceFeatureService,
     ...QueryHandlers,
     ...CommandHandlers,
     DataAccessRepository,
-    PrismaService],
+    PrismaService,
+    FunctionsService
+  ],
   exports: [ServiceFeatureService],
 })
 export class ServiceFeatureModule {}

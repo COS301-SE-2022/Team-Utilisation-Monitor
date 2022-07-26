@@ -1,3 +1,4 @@
+import { GetAvailableTeamsHandler } from './GetAvailableTeams.handler';
 import { GetAllPersonsQueryHandler } from "./get-all-persons.handler";
 import { GetOnePersonQueryHandler } from "./get-one-person.handler";
 import { LoginHandler } from "./login.handler";
@@ -13,11 +14,16 @@ import { GetSkillsHandler } from "./GetSkills.handler";
 import { GetAllTeamsWorkingOnProjectHandler } from "./get-all-teams-working-on-project.handler";
 import { GetUtilizedEmployeesHandler } from "./GetUnderUtilizedEmployees.handler";
 import { GetAllProjectsOfTeamsHandler } from "./get-all-projects-of-teams.handler";
+import { GetAllocatedTeamsHandler } from "./GetAllocatedTeams.handler";
+import { GetAllocatedProjectsHandler } from "./getAllocatedProjects.handler";
+import { GetUserSkillsHandler } from "./GetUserSkills.handler";
+import { GetUserStatsHandler } from "./GetUserStats.handler";
 
 
 export const QueryHandlers=[
     GetAllProjectsOrTeamsOfCompanyHandler,GetAllEmployeesOfCompanyHandler,GetCompanyStatsHandler,GetUserIDQueryHandler,
     GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler,GetInviteCodeHandler, GetTeamMembersHandler,GetSkillsHandler,
     GetAllTeamsWorkingOnProjectHandler,GetUtilizedEmployeesHandler,
-    GetAllTeamsWorkingOnProjectHandler,GetAllProjectsOfTeamsHandler
+    GetAllTeamsWorkingOnProjectHandler,GetAllProjectsOfTeamsHandler,GetAllocatedTeamsHandler,GetAllocatedProjectsHandler,GetUserSkillsHandler,
+    GetUserStatsHandler,GetAvailableTeamsHandler
 ]

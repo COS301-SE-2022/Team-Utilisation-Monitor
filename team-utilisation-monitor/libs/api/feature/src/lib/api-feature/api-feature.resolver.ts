@@ -1,5 +1,5 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEnity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -183,7 +183,7 @@ export class ApiFeatureResolver {
    * This function returns the stats of members in a team
   */
 
-  @Query(()=>[UserStatsEnity])
+  @Query(()=>[UserStatsEntity])
   async getAllMembersOfTeam(@Args("team_name") team_name:string)
   {
     const resp= await this.service.getAllMembersOfTeam(team_name);
@@ -361,9 +361,9 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string,@Args("skill_name") skillName?:string)
+  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname,skillName);
+    return await this.service.UpdateProfile(Email,Name,Surname);
   }
 
   @Query(()=>[UserPerson])
@@ -372,18 +372,70 @@ export class ApiFeatureResolver {
     return await this.service.GetUnderUtilizedEmps(cName)
   }
 
+  @Query(()=>[TeamEntity])
+  async GetAllocatedTeams(@Args("email") uEmail:string)
+  {
+    return await this.service.GetAllocatedTeams(uEmail);
+  }
+
+  @Query(()=>[ProjectEntity])
+  async GetAllocateProjects(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetAllocatedProjects(UserEmail);
+  }
+
+  @Mutation(()=>String)
+  async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string)
+  {
+    return await this.service.UpdateUserSkill(UserEmail,skillName)
+  }
+
+  @Query(()=>[String])
+  async GetUserSkills(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserSkills(UserEmail)
+  }
+
+  @Query(()=>UserStatsEntity)
+  async GetUserStats(@Args("email") UserEmail:string)
+  {
+    return await this.service.GetUserStats(UserEmail);
+  }
+
+  @Mutation(()=>String)
+  async AssignHours(@Args("email") UserEmail:string,@Args("weekly_hours") hours:number)
+  {
+    return await this.service.AssignHours(UserEmail,hours);
+  }
+
+  @Mutation(()=>String)
+  async CalculateUtilization(@Args("project_Name") projectName:string)
+  {
+    return await this.service.CalculateUtilization(projectName);
+  }
+
+  @Mutation(()=>String)
+  async calculateUstilisationTWO(@Args("company_name")companyName:string)
+  {
+    return await this.service.CalculateUtilisationTWO(companyName);
+  }
+
+  @Query(()=>[String])
+  async GetAvailableTeams(@Args("project_name") projectName:string)
+  {
+    return await this.service.GetAvailableTeams(projectName);
+  }
+  
+  @Mutation(()=>String)
+  async assignWeeklyHoursToEmployee(@Args("email")email:string,@Args("weekly_hours")weekly_hours:number)
+  {
+    return await this.service.AssignWeeklyHoursToEmployee(email,weekly_hours);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }
-*/
 
-  //Mock Object:
- /* async getMock() {
-    const mockUser = new UserPerson();
-    mockUser.id = -1;
-    mockUser.name = "Rourke"
-    mockUser.email = "icreatesoftware@gmail.com"
-    return mockUser;
-  }*/
+*/
 }
