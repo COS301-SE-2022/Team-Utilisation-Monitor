@@ -315,6 +315,17 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("createTeam", () => {
+    it('should create a TeamEntity', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await createService.createTeam('burnley', 'premierleague');
+      } catch (err) { return }
+      expect(test.id).toEqual(112);
+      expect(test).toBeInstanceOf(TeamEntity);
+    });
+  });
+
 
 
 
