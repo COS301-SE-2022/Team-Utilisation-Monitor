@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {Component, DebugElement, EventEmitter, Input, Output} from '@angular/core';
 
 import { LoginComponent } from './login.component';
 
