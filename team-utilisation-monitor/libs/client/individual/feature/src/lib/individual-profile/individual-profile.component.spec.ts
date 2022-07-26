@@ -57,5 +57,4 @@ fdescribe('IndividualProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
 });

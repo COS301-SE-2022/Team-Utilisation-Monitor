@@ -5,6 +5,9 @@ import { LoginComponent } from './login.component';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let submitEl: DebugElement;
+  let loginEl: DebugElement;
+  let passwordEl: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
