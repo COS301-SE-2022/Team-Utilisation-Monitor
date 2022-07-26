@@ -278,8 +278,19 @@ export class AdminService {
     {
       this.createProject(projectName,companyName,"null",projectHours);
     }
+  }
 
+  updateWeeklyHoursForEmployee(email:string,hours:number):Observable<any>
+  {
+    const Query='mutation{assignWeeklyHoursToEmployee(email:"'+email+'",weekly_hours:'+hours+')}';
 
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
 
