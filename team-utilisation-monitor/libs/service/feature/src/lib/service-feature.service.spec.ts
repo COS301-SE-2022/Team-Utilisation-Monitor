@@ -326,6 +326,16 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("createAdmin", () => {
+    it('should create a UserPerson as admin', async () => {
+      let test = new UserPerson();
+      try {
+        test = await createService.createAdmin('bob','bowl','brick@bowl.com','champions league');
+      } catch (err) { return }
+      expect(test.role).toEqual('admin');
+    });
+  });
+
 
 
 
