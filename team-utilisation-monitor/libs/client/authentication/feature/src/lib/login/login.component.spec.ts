@@ -50,11 +50,12 @@ describe('LoginComponent', () => {
     expect(submitEl.nativeElement.disabled).toBeTruthy();
 });
 
+// tracking what gets emitted by the output event
 it('Entering users correct details emits loggedIn event', () => {
   let user= new User('test@gmail.com',"PasssPass");
 
   component.loggedIn.subscribe((value) => user = value);
-  expect(user.email).toBe("testics@gmail.com");
+  expect(user.email).toBe("test@gmail.com");
   expect(user.password).toBe("PasssPass");
 });
 });
