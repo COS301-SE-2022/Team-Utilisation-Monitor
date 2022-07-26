@@ -46,6 +46,7 @@ import { CompAddTeamToProjectPopupComponent } from './comp-add-team-to-project-p
 import { CompTeamIndividualComponent } from './comp-team-individual/comp-team-individual.component';
 import { FormsModule } from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popup/comp-project-data-view-popup.component';
 
 @NgModule({
   imports: [
@@ -102,6 +103,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     CompAddSkillsPopupComponent,
     CompAddTeamToProjectPopupComponent,
     CompTeamIndividualComponent,
+    CompProjectDataViewPopupComponent,
   ],
   exports: [
     AdminRoutingModule,

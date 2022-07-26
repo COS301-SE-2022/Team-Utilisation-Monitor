@@ -1,10 +1,10 @@
 <mat-card-content>
-    <mat-card class="Mat-Individual">
+    <mat-card class="Mat-Individual" >
         <mat-card-content class="InvdividualBox">
-                <span class="InvdividualName">{{Project.Name}}</span>
-                <span class="example-spacer"></span>
-                <span class="InvdividualName">Team : {{Project.TeamName}}</span>
-                <span class="example-spacer"></span>
+                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()">{{Project.Name}}</span>
+                <span class="example-spacer" (click)="onOpenProjectDataViewClick()"></span>
+                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()">Team : {{Project.TeamName}}</span>
+                <span class="example-spacer" (click)="onOpenProjectDataViewClick()"></span>
                 <button (click)="onOpenAddTeams()" mat-raised-button class="CheckMarkButton" color="secondary">
                     <mat-icon>add</mat-icon>
                 </button>
