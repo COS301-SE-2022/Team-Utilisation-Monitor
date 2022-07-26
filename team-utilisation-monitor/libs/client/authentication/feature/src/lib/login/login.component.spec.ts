@@ -60,6 +60,19 @@ it('Entering users correct details emits loggedIn event', () => {
   expect(user.password).toBe("PasssPass");
 });
 
+it('Entering email and password emits loggedIn event, this should fail', () => {
+  
+  let user= new User('test@gmail.com',"PasssPass");
+  loginEl.nativeElement.value = "test@gmail.com";
+  passwordEl.nativeElement.value = "PasssPass";
+
+  component.loggedIn.subscribe((value) => user = value);
+
+  submitEl.triggerEventHandler('click', null);
+
+  expect(user.email).toBe("test@gmail.com");
+  expect(user.password).toBe("PasssPass");
+});
 it('Entering email and password emits loggedIn event', () => {
   
   let user= new User('test@gmail.com',"PasssPass");
@@ -70,7 +83,7 @@ it('Entering email and password emits loggedIn event', () => {
 
   submitEl.triggerEventHandler('click', null);
 
-  expect(user.email).toBe("test@example.com");
-  expect(user.password).toBe("123456");
+  expect(user.email).toBe("test@gmail.com");
+  expect(user.password).toBe("PasssPass");
 });
 });
