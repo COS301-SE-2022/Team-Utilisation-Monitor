@@ -137,7 +137,6 @@ describe('ServiceFeatureService', () => {
         team[1] = user_person;
 
         return team;
-
       }
 
       return 10;
@@ -183,7 +182,6 @@ describe('ServiceFeatureService', () => {
           user_company.teams = null;
 
           return user_company;
-
         }
 
       } else if (command instanceof CreateProjectCommand) {
@@ -200,6 +198,30 @@ describe('ServiceFeatureService', () => {
           project_entity.man_hours = command.manHours;
 
           return project_entity;
+        }
+
+      } else if (command instanceof CreateAdminCommand) {
+        if (command.name === 'bob') {
+
+          const user_person = new UserPerson();
+
+          user_person.id = 129;
+          user_person.name = command.name;
+          user_person.surname = command.surname;
+          user_person.email = command.email;
+          user_person.role = "admin";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = command.companyName;
+          user_person.utilisation = 81;
+          user_person.position = "team lead";
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 8;
+          user_person.project_id = 1;
+          user_person.team_id = 0;
+          
+          return user_person;
         }
       }
 
