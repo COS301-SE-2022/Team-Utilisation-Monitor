@@ -1560,6 +1560,9 @@ export class DataAccessRepository {
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
 
+      //Agape You can comment this out fo your utilization aproach
+      this.ResetUtilizationOfTeamMembers(teamName);   //To add the new member then recalculate Utilization of the team
+
       const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -1716,6 +1719,390 @@ export class DataAccessRepository {
       }
     }
 
+    
+
+
+
+    async getAllocatedTeams(UserEmail:string)
+    {
+        const userId=(await this.prisma.person.findUnique(
+            {
+                where:
+                {
+                    email:UserEmail
+                }
+            }
+        )).id
+
+        let team_arr:TeamEntity[]
+        team_arr=[]
+
+        //Return all teams that have this user as a member
+        const Teams=(await this.prisma.personOnTeams.findMany({
+            where:
+            {
+                person_id:userId
+            }
+        }))
+
+        for(let i=0;i<Teams.length;i++)
+        {
+            //const obj=new TeamEntity();
+            team_arr.push(await this.getTeam(Teams[i].team_id));
+        }
+
+        return team_arr;
+
+    }
+
+    async getAllocatedProjects(userEmail:string)
+    {
+      const teams=await this.getAllocatedTeams(userEmail);
+      let projects_arr:ProjectEntity[]
+      projects_arr=[]
+
+      for(let i=0;i<teams.length;i++)  //For every team that our employee is  a part of ,we check that team's projects
+      {
+        const Team_id=teams[i].id;
+        const Projects=await this.prisma.teamsOnProjects.findMany(
+          {
+            where:
+            {
+              team_id:Team_id
+            }
+          }
+        )
+
+        for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
+        {
+          projects_arr.push(await this.getProject(Projects[j].project_id));  //Get the projects using the projects IDs
+        }
+      }
+
+      return projects_arr;
+    }
+
+    async UpdateSkill(UserEmail:string,skillType:string)
+    {
+
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillType
+          }
+        }
+      )
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      const PersonSkill=await this.prisma.personOnSkills.create(
+          {
+            data:{
+              skill:
+              {
+                connect:
+                {
+                  id:skill.id
+                }
+              },
+              person:
+              {
+                connect:
+                {
+                  id:userId
+                }
+              }
+            }
+          }
+        )
+
+        if(PersonSkill)
+        {
+          return "User Skill Added"
+        }
+        else
+        {
+          return "Something went wrong"
+        }
+    }
+
+    async GetSkillVID(skillID:number)
+    {
+      const skill=await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            id:skillID
+          }
+        }
+      )
+
+      const skillObjs=new Skill()
+      skillObjs.id=skillID;
+      skillObjs.skill=skill.skill
+
+      return skillObjs
+    }
+
+    /***
+     * The function is used to get the skills of a user. The function takes
+     * in a userEmail.
+     */
+
+    async GetUserSkills(UserEmail:string)
+    {
+      const userId=(await this.getUserIDVEmail(UserEmail)).id;
+      let skill_Arr:string[]
+      skill_Arr=[]
+
+      const Skills=await this.prisma.personOnSkills.findMany(
+        {
+          where:
+          {
+            person_id:userId
+          }
+        }
+      )
+
+      for(let i=0;i<Skills.length;i++)
+      {
+        skill_Arr.push((await this.GetSkillVID(Skills[i].skill_id)).skill);
+      }
+
+      return skill_Arr
+
+    }
+
+    /***
+     * Use this function to get the statistics of the individual.
+     * Returns null if the user doesn't exist.
+     */
+
+
+    async GetIndividualsStats(UserEmail:string):Promise<UserStatsEntity>
+    {
+      //const userId=(await this.getUserIDVEmail(UserEmail)).id;
+
+      const user= await this.prisma.person.findUnique({
+        where:{
+            email:UserEmail
+        }
+      })
+
+      if(user){ //user does exist.
+
+        const UserStats=new UserStatsEntity
+
+        UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
+
+        UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
+
+        UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
+
+        //@Gift i need these fuunctions for utilisation. Sorry.
+        UserStats.utilisation=user.utilisation;
+        UserStats.status=user.status;
+        UserStats.assignedHours=user.assigned_hours;
+        UserStats.weeklyHours=user.weekly_hours;
+
+        return UserStats
+
+      }
+      else
+        return null;
+
+    }
+
+    async GetAvailableTeamsForProject(projectName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      let TeamsObject:string[]
+      TeamsObject=[]
+
+
+      const Teams=await this.prisma.team.findMany();
+
+      for(let i=0;i<Teams.length;i++)
+      {
+        if(await this.teamInProject(Teams[i].id,projectId))
+        {
+          //
+        }
+        else
+        {
+          TeamsObject.push(Teams[i].team_name)
+
+        }
+      }
+      return TeamsObject
+
+    }
+
+    async teamInProject(teamId:number,projectID:number)
+    {
+      const Team=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectID,
+            team_id:teamId
+          }
+        }
+      )
+     
+
+      if(Team.length==0) //Team is not on the project
+      {
+        return false
+      }
+      else
+      {
+        return true;
+      }
+    }
+
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    {
+      //
+      const result=await this.prisma.person.update(
+        {
+          where:
+          {
+            email:UserEmail
+          },
+          data:
+          {
+            weekly_hours:WeeklyHours
+          }
+        }
+      )
+
+      if(result)
+      {
+        return "WeeklyHours Updated"
+      }
+      else
+      {
+        return "Something went wrong with the Update"
+      }
+    }
+    /**
+     * Use this function to get the number of members in a team.
+     * Will return a -1 if team doesn't exist.
+     * Remeber that a team can have 0 members.
+    */
+
+
+    async getNumberOfMembersInATeam(team_name:string):Promise<number>
+    {
+        const t_id=await this.getTeamIDVName(team_name);
+
+        if(t_id>0){
+
+            const existing_team= await this.prisma.team.findUnique({
+                where:{
+                    id:t_id
+                },
+                include:{
+                    members:true,
+                }
+            })
+
+            if(existing_team){
+               return existing_team.members.length;
+            }
+
+        }
+        else
+            return -1;
+    }
+
+    /***
+     * This function returns the number of teams working on a project
+     * Project doesn't exist
+     */
+
+    async getNumberOfTeamsWorkingOnAProject(project_name:string):Promise<number>
+    {
+        const p_id=await this.getProjectID(project_name);
+
+        if(p_id){ //project exists
+
+            const existing_project=await this.prisma.project.findUnique({
+                where:{
+                    id:p_id,
+                },
+                include:{
+                    teams:true,
+                }
+            })
+
+            if(existing_project){
+                return existing_project.teams.length;
+            }
+        }
+        else
+            return -1;
+    }
+
+    /***
+     * Use this function to reset the assigned hours to 0,using the
+     * person's ID.
+    */
+
+    async resetAssignedHoursVID(person_id:number){
+
+        const person= await this.prisma.person.update({
+            where:{
+                id:person_id
+            },
+            data:{
+                assigned_hours:0,
+            }
+        })
+    }
+
+
+    /***
+     * This function is used to get the weekly hours of an individual
+     * returns -1 if individual doesn't exist
+    */
+
+    async getWeeklyHoursOfIndividual(person_id:number):Promise<number>
+    {
+        const individual=await this.prisma.person.findUnique({
+            where:{
+                id:person_id,
+            }
+        })
+
+        if(individual){
+            return individual.weekly_hours;
+        }
+        else
+            return -1;
+    }
+
+    /***
+     * This function returns the assigned hours of the individual
+     * returns -1 if individual doesn't exist
+    */
+
+    async getAssignedHoursOfIndividual(person_id:number):Promise<number>
+    {
+        const individual=await this.prisma.person.findUnique({
+            where:{
+                id:person_id,
+            }
+        })
+
+        if(individual){
+            return individual.assigned_hours;
+        }
+        else
+            return -1;
+    }
+
+
     async GetUnderUtilizedEmployees(companyName:string)
     {
       //
@@ -1761,7 +2148,8 @@ export class DataAccessRepository {
     }
 
 
-    //Utilisation Helper fUNCTIONS
+    /* 
+    UTILIZATION FUNCTIONS AND HELPERS by Gift*/
     async Project_Hours_Per_team(projectID:number):Promise<number>
     {
       const NumberOfTeams=await this.prisma.teamsOnProjects.count({
@@ -2149,13 +2537,79 @@ export class DataAccessRepository {
     }
 
     /*
-    This Function recaulculates the utilization of all team Members in each project 
+    This Function recaulculates the utilization of all team Members of  A team in each project 
     that the team is a part of since the addition of a member changes the team hours in all
     their projects 
     */
-    async UpdateUtilizationAfterMemberAddition()
+    async UpdateUtilizationAfterMemberAddition(teamName:string)
     {
       //
+      const teamID=await this.getTeamIDVName(teamName);
+      
+      const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      if(ProjectsByTeam)
+      {
+        for(let i=0;i<ProjectsByTeam.length;i++)
+        {
+          //
+          
+          const Project=await this.prisma.project.findUnique(
+            {
+              where:
+              {
+                id:ProjectsByTeam[i].project_id
+              }
+          
+            }
+          )
+          this.CalculateUtilizationVProject(Project.project_name);
+        }
+      }
+    }
+
+
+    /*
+    This function resets the Utilization per team member so that it can be recalculated after adding the
+    new member */
+    async ResetUtilizationOfTeamMembers(teamName:string)
+    {
+      const teamID=await this.getTeamIDVName(teamName);
+      
+      const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      if(ProjectsByTeam)
+      {
+        for(let i=0;i<ProjectsByTeam.length;i++)
+        {
+          //
+          
+          const Project=await this.prisma.project.findUnique(
+            {
+              where:
+              {
+                id:ProjectsByTeam[i].project_id
+              }
+          
+            }
+          )
+          this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
+        }
+      }
     }
 
 
@@ -2191,388 +2645,6 @@ export class DataAccessRepository {
 
       return utilization_arr;
     }
-
-
-
-    async getAllocatedTeams(UserEmail:string)
-    {
-        const userId=(await this.prisma.person.findUnique(
-            {
-                where:
-                {
-                    email:UserEmail
-                }
-            }
-        )).id
-
-        let team_arr:TeamEntity[]
-        team_arr=[]
-
-        //Return all teams that have this user as a member
-        const Teams=(await this.prisma.personOnTeams.findMany({
-            where:
-            {
-                person_id:userId
-            }
-        }))
-
-        for(let i=0;i<Teams.length;i++)
-        {
-            //const obj=new TeamEntity();
-            team_arr.push(await this.getTeam(Teams[i].team_id));
-        }
-
-        return team_arr;
-
-    }
-
-    async getAllocatedProjects(userEmail:string)
-    {
-      const teams=await this.getAllocatedTeams(userEmail);
-      let projects_arr:ProjectEntity[]
-      projects_arr=[]
-
-      for(let i=0;i<teams.length;i++)  //For every team that our employee is  a part of ,we check that team's projects
-      {
-        const Team_id=teams[i].id;
-        const Projects=await this.prisma.teamsOnProjects.findMany(
-          {
-            where:
-            {
-              team_id:Team_id
-            }
-          }
-        )
-
-        for(let j=0;j<Projects.length;j++)  //Add the projects to the projects array
-        {
-          projects_arr.push(await this.getProject(Projects[j].project_id));  //Get the projects using the projects IDs
-        }
-      }
-
-      return projects_arr;
-    }
-
-    async UpdateSkill(UserEmail:string,skillType:string)
-    {
-
-      const skill=await this.prisma.skills.findUnique(
-        {
-          where:
-          {
-            skill:skillType
-          }
-        }
-      )
-      const userId=(await this.getUserIDVEmail(UserEmail)).id;
-      const PersonSkill=await this.prisma.personOnSkills.create(
-          {
-            data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:userId
-                }
-              }
-            }
-          }
-        )
-
-        if(PersonSkill)
-        {
-          return "User Skill Added"
-        }
-        else
-        {
-          return "Something went wrong"
-        }
-    }
-
-    async GetSkillVID(skillID:number)
-    {
-      const skill=await this.prisma.skills.findUnique(
-        {
-          where:
-          {
-            id:skillID
-          }
-        }
-      )
-
-      const skillObjs=new Skill()
-      skillObjs.id=skillID;
-      skillObjs.skill=skill.skill
-
-      return skillObjs
-    }
-
-    /***
-     * The function is used to get the skills of a user. The function takes
-     * in a userEmail.
-     */
-
-    async GetUserSkills(UserEmail:string)
-    {
-      const userId=(await this.getUserIDVEmail(UserEmail)).id;
-      let skill_Arr:string[]
-      skill_Arr=[]
-
-      const Skills=await this.prisma.personOnSkills.findMany(
-        {
-          where:
-          {
-            person_id:userId
-          }
-        }
-      )
-
-      for(let i=0;i<Skills.length;i++)
-      {
-        skill_Arr.push((await this.GetSkillVID(Skills[i].skill_id)).skill);
-      }
-
-      return skill_Arr
-
-    }
-
-    /***
-     * Use this function to get the statistics of the individual.
-     * Returns null if the user doesn't exist.
-     */
-
-
-    async GetIndividualsStats(UserEmail:string):Promise<UserStatsEntity>
-    {
-      //const userId=(await this.getUserIDVEmail(UserEmail)).id;
-
-      const user= await this.prisma.person.findUnique({
-        where:{
-            email:UserEmail
-        }
-      })
-
-      if(user){ //user does exist.
-
-        const UserStats=new UserStatsEntity
-
-        UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
-
-        UserStats.numberOfProjects=(await this.getAllocatedProjects(UserEmail)).length
-
-        UserStats.numberOfSkills=(await this.GetUserSkills(UserEmail)).length
-
-        //@Gift i need these fuunctions for utilisation. Sorry.
-        UserStats.utilisation=user.utilisation;
-        UserStats.status=user.status;
-        UserStats.assignedHours=user.assigned_hours;
-        UserStats.weeklyHours=user.weekly_hours;
-
-        return UserStats
-
-      }
-      else
-        return null;
-
-    }
-
-    async GetAvailableTeamsForProject(projectName:string)
-    {
-      const projectId=await this.getProjectID(projectName);
-      let TeamsObject:string[]
-      TeamsObject=[]
-
-
-      const Teams=await this.prisma.team.findMany();
-
-      for(let i=0;i<Teams.length;i++)
-      {
-        if(await this.teamInProject(Teams[i].id,projectId))
-        {
-          //
-        }
-        else
-        {
-          TeamsObject.push(Teams[i].team_name)
-
-        }
-      }
-      return TeamsObject
-
-    }
-
-    async teamInProject(teamId:number,projectID:number)
-    {
-      const Team=await this.prisma.teamsOnProjects.findMany(
-        {
-          where:
-          {
-            project_id:projectID,
-            team_id:teamId
-          }
-        }
-      )
-     
-
-      if(Team.length==0) //Team is not on the project
-      {
-        return false
-      }
-      else
-      {
-        return true;
-      }
-    }
-
-    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
-    {
-      //
-      const result=await this.prisma.person.update(
-        {
-          where:
-          {
-            email:UserEmail
-          },
-          data:
-          {
-            weekly_hours:WeeklyHours
-          }
-        }
-      )
-
-      if(result)
-      {
-        return "WeeklyHours Updated"
-      }
-      else
-      {
-        return "Something went wrong with the Update"
-      }
-    }
-    /**
-     * Use this function to get the number of members in a team.
-     * Will return a -1 if team doesn't exist.
-     * Remeber that a team can have 0 members.
-    */
-
-
-    async getNumberOfMembersInATeam(team_name:string):Promise<number>
-    {
-        const t_id=await this.getTeamIDVName(team_name);
-
-        if(t_id>0){
-
-            const existing_team= await this.prisma.team.findUnique({
-                where:{
-                    id:t_id
-                },
-                include:{
-                    members:true,
-                }
-            })
-
-            if(existing_team){
-               return existing_team.members.length;
-            }
-
-        }
-        else
-            return -1;
-    }
-
-    /***
-     * This function returns the number of teams working on a project
-     * Project doesn't exist
-     */
-
-    async getNumberOfTeamsWorkingOnAProject(project_name:string):Promise<number>
-    {
-        const p_id=await this.getProjectID(project_name);
-
-        if(p_id){ //project exists
-
-            const existing_project=await this.prisma.project.findUnique({
-                where:{
-                    id:p_id,
-                },
-                include:{
-                    teams:true,
-                }
-            })
-
-            if(existing_project){
-                return existing_project.teams.length;
-            }
-        }
-        else
-            return -1;
-    }
-
-    /***
-     * Use this function to reset the assigned hours to 0,using the
-     * person's ID.
-    */
-
-    async resetAssignedHoursVID(person_id:number){
-
-        const person= await this.prisma.person.update({
-            where:{
-                id:person_id
-            },
-            data:{
-                assigned_hours:0,
-            }
-        })
-    }
-
-
-    /***
-     * This function is used to get the weekly hours of an individual
-     * returns -1 if individual doesn't exist
-    */
-
-    async getWeeklyHoursOfIndividual(person_id:number):Promise<number>
-    {
-        const individual=await this.prisma.person.findUnique({
-            where:{
-                id:person_id,
-            }
-        })
-
-        if(individual){
-            return individual.weekly_hours;
-        }
-        else
-            return -1;
-    }
-
-    /***
-     * This function returns the assigned hours of the individual
-     * returns -1 if individual doesn't exist
-    */
-
-    async getAssignedHoursOfIndividual(person_id:number):Promise<number>
-    {
-        const individual=await this.prisma.person.findUnique({
-            where:{
-                id:person_id,
-            }
-        })
-
-        if(individual){
-            return individual.assigned_hours;
-        }
-        else
-            return -1;
-    }
-
 
 
 
