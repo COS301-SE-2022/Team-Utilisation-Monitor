@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-data-view-popup',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompProjectDataViewPopupComponent implements OnInit {
 
+  TeamNames: string[] = ["Team 1", "Team 2", "Team 3"];
   constructor() { }
 
   ngOnInit(): void {

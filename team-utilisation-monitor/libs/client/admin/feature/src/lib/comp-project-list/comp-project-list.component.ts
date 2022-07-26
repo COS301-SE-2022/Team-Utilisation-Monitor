@@ -11,7 +11,7 @@ import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-pop
 
 export class CompProjectListComponent implements OnInit {
   constructor(private matDialog: MatDialog) {}
-  @Input() Project!: { Name: string, TeamName: string };
+  @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
   //get Team associated with the Project from back end;
 
