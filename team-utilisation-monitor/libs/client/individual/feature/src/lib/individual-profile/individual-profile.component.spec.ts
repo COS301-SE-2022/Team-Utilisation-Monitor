@@ -57,8 +57,5 @@ fdescribe('IndividualProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should display that hero's name", () => {
-    expect(form.nameDisplay.textContent).toBe(expectedHero.name);
-  });
 
 });
