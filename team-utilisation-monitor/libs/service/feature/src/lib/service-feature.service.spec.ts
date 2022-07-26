@@ -185,6 +185,22 @@ describe('ServiceFeatureService', () => {
           return user_company;
 
         }
+
+      } else if (command instanceof CreateProjectCommand) {
+        if (command.manHours === 90) {
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 982;
+          project_entity.project_name = command.projectName;
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = false;
+          project_entity.teams = null;
+          project_entity.man_hours = command.manHours;
+
+          return project_entity;
+        }
       }
 
       return 11;
