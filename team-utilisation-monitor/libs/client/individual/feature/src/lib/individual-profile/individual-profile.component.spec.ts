@@ -1,6 +1,7 @@
 import {  HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { format } from 'path';
 import { IndividualProfileComponent } from './individual-profile.component';
 
 fdescribe('IndividualProfileComponent', () => {
@@ -43,6 +44,7 @@ fdescribe('IndividualProfileComponent', () => {
 
     fixture = TestBed.createComponent(IndividualProfileComponent);
     component = fixture.componentInstance;
+    const Form= new form();
     fixture.detectChanges();
   });
 
