@@ -1567,23 +1567,35 @@ export class DataAccessRepository {
 
       if(empl_id>0 && teamID>0)
       {
-        const new_member=await this.prisma.team.update({
-            where:{
-                id:teamID
-            },
-            data:{
-                members:{
-                    create:[{
-                        members:{
-                            connect:{
-                                id:empl_id
-                            }
-                        }
-                    }]
-                }
+
+        //Check is the person is already a memebr
+        const IsMember=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              person_id:empl_id,
+              team_id:teamID
             }
-        })
-            return "Team Member added"
+          }
+        )
+        
+        if(IsMember==null)
+        {
+          await this.prisma.personOnTeams.create(
+            {
+              data:{
+                  person_id:empl_id,
+                  team_id:teamID
+              }
+          })
+
+          this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
+          return "Team Member added"
+        }  
+        else
+        {
+          return "Already a team Member"
+        } 
         }
 
     }
@@ -2681,6 +2693,9 @@ export class DataAccessRepository {
 
       return utilization_arr;
     }
+
+    /* Calculate the Monthly average*/
+    
 
 
     /****
