@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
+import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-popup/comp-project-data-view-popup.component';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -10,7 +11,7 @@ import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-
 
 export class CompProjectListComponent implements OnInit {
   constructor(private matDialog: MatDialog) {}
-  @Input() Project!: { Name: string, TeamName: string };
+  @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
   //get Team associated with the Project from back end;
 
@@ -20,5 +21,9 @@ export class CompProjectListComponent implements OnInit {
 
   onOpenAddTeams(){
     this.matDialog.open(CompAddTeamToProjectPopupComponent);
+  }
+
+  onOpenProjectDataViewClick(){
+    this.matDialog.open(CompProjectDataViewPopupComponent);
   }
 }
