@@ -1559,6 +1559,9 @@ export class DataAccessRepository {
     async addTeamMember(teamName:string,EmplooyeEmail:string)
     {
 
+      //Agape You can comment this out fo your utilization aproach
+      this.ResetUtilizationOfTeamMembers(teamName);   //To add the new member then recalculate Utilization of the team
+
       const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -1715,179 +1718,7 @@ export class DataAccessRepository {
       }
     }
 
-    async GetUnderUtilizedEmployees(companyName:string)
-    {
-      //
-      const comID=await this.getCompanyID(companyName);
-      let employees_arr:UserPerson[]
-
-      employees_arr=[]
-
-      const compEmployees=await this.prisma.company.findUnique(
-        {
-          where:{
-            id:comID
-          },
-          include:
-          {
-            employees:true
-          }
-        }
-      )
-
-      const Employees=compEmployees.employees;
-
-      for(let i=0;i<Employees.length;i++)
-      {
-        const emp=new UserPerson;
-        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
-        {
-            //
-            console.log("I got in")
-        }
-        else
-        {
-            emp.name=Employees[i].name;
-            emp.surname=Employees[i].surname;
-            emp.email=Employees[i].email;
-            emp.role=Employees[i].role;
-
-            employees_arr.push(emp);
-        }
-      }
-
-      return employees_arr;
-    }
-
-
-    //Utilisation Helper fUNCTIONS
-    async Project_Hours_Per_team(projectID:number):Promise<number>
-    {
-      const NumberOfTeams=await this.prisma.teamsOnProjects.count({
-          where:{
-            project_id:projectID
-          }
-        }
-      )
-
-      //Project manHours/Numberofeams
-      const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
-
-      return HoursPerTeam;
-    }
-
-    async HoursPerTeamMemberOnProject(teamId:number,projectId:number):Promise<number>
-    {
-      //Get the number of members in the team
-      const No_oF_Members=(await this.prisma.personOnTeams.findMany(
-        {
-            where:
-            {
-                team_id:teamId
-            }
-        }
-      )).length
-
-      //Hours per Team member=Project hours for a team/Number of team members
-      const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
-      return HoursPerMember;
-    }
-
-    async CalculateUtilizationVProject(projectName:string):Promise<string>
-    {
-      const projectId=await this.getProjectID(projectName);
-
-
-      //get all teams working on the project[]
-      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
-        where:{
-            project_id:projectId
-        }}
-      )
-
-      //const hours=0;
-
-      for(let i=0;i<TeamsOnProject.length;i++)
-      {
-        const Team=await this.prisma.personOnTeams.findMany(
-          {
-            where:
-            {
-              team_id:TeamsOnProject[i].team_id   //Get All Team Members
-            }
-          }
-        )
-
-        if(Team)  //Team can be null
-        {
-          for(let j=0;j<Team.length;j++)  //Number of team Members
-          {
-            //Find and Update every team member
-            const PersonObj=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            ))
-
-            let AssignedHours=PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId));
-            let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=(AssignedHours/WeeklyHours)*100;
-
-            await this.prisma.person.update(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                },
-                data:
-                {
-                  assigned_hours: AssignedHours,
-                  utilisation:Utilization
-                }
-              }
-            )
-          }
-        }
-
-      }
-
-      return "Utilization complete"
-    }
-
-    async GetMonthlyUtilization(Email:string)
-    {
-      const utilization=await this.prisma.person.findUnique(
-        {
-          where:{
-            email:Email,
-          },
-          include:
-          {
-            utilisations:true
-          }
-        }
-      )
-
-      let utilization_arr:Utilization[]
-
-      utilization_arr=[]
-
-      for(let i=0;i<utilization.utilisations.length;i++)
-      {
-        const obj=new Utilization()
-        obj.Week1=utilization.utilisations[i].week1
-        obj.Week2=utilization.utilisations[i].week2
-        obj.Week3=utilization.utilisations[i].week3
-        obj.Week4=utilization.utilisations[i].week4
-        obj.Average=utilization.utilisations[i].monthy_avg
-        utilization_arr.push(obj)
-      }
-
-      return utilization_arr;
-    }
+    
 
 
 
@@ -2080,6 +1911,54 @@ export class DataAccessRepository {
 
     }
 
+    async GetAvailableTeamsForProject(projectName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      let TeamsObject:string[]
+      TeamsObject=[]
+
+
+      const Teams=await this.prisma.team.findMany();
+
+      for(let i=0;i<Teams.length;i++)
+      {
+        if(await this.teamInProject(Teams[i].id,projectId))
+        {
+          //
+        }
+        else
+        {
+          TeamsObject.push(Teams[i].team_name)
+
+        }
+      }
+      return TeamsObject
+
+    }
+
+    async teamInProject(teamId:number,projectID:number)
+    {
+      const Team=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectID,
+            team_id:teamId
+          }
+        }
+      )
+     
+
+      if(Team.length==0) //Team is not on the project
+      {
+        return false
+      }
+      else
+      {
+        return true;
+      }
+    }
+
     async AssignWeeklyHours(UserEmail:string,WeeklyHours)
     {
       //
@@ -2258,6 +2137,549 @@ export class DataAccessRepository {
         }
         else
             return null;
+    }
+
+    async GetUnderUtilizedEmployees(companyName:string)
+    {
+      //
+      const comID=await this.getCompanyID(companyName);
+      let employees_arr:UserPerson[]
+
+      employees_arr=[]
+
+      const compEmployees=await this.prisma.company.findUnique(
+        {
+          where:{
+            id:comID
+          },
+          include:
+          {
+            employees:true
+          }
+        }
+      )
+
+      const Employees=compEmployees.employees;
+
+      for(let i=0;i<Employees.length;i++)
+      {
+        const emp=new UserPerson;
+        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
+        {
+            //
+            console.log("I got in")
+        }
+        else
+        {
+            emp.name=Employees[i].name;
+            emp.surname=Employees[i].surname;
+            emp.email=Employees[i].email;
+            emp.role=Employees[i].role;
+
+            employees_arr.push(emp);
+        }
+      }
+
+      return employees_arr;
+    }
+
+
+    /* 
+    UTILIZATION FUNCTIONS AND HELPERS by Gift*/
+    async Project_Hours_Per_team(projectID:number):Promise<number>
+    {
+      const NumberOfTeams=await this.prisma.teamsOnProjects.count({
+          where:{
+            project_id:projectID
+          }
+        }
+      )
+
+      //Project manHours/Numberofeams
+      const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
+
+      return HoursPerTeam;
+    }
+
+    async HoursPerTeamMemberOnProject(teamId:number,projectId:number):Promise<number>
+    {
+      //Get the number of members in the team
+      const No_oF_Members=(await this.prisma.personOnTeams.findMany(
+        {
+            where:
+            {
+                team_id:teamId
+            }
+        }
+      )).length
+
+      //Hours per Team member=Project hours for a team/Number of team members
+      const HoursPerMember=(await this.Project_Hours_Per_team(projectId))/No_oF_Members
+      return HoursPerMember;
+    }
+
+    async CalculateUtilizationVProject(projectName:string):Promise<string>
+    {
+      const projectId=await this.getProjectID(projectName);
+
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+      //const hours=0;
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
+                }
+              }
+            )
+          }
+        }
+
+      }
+
+      return "Utilization complete"
+    }
+
+    
+    async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      const teamID=await this.getTeamIDVName(teamName);
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId,
+            team_id:teamID
+        }}
+      )
+
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
+                }
+              }
+            )
+          }
+        }
+        else
+        {
+          return "Reset Failed"
+        }
+
+      }
+
+      return ("Team "+teamName+" Utilization updated")
+
+    }
+
+
+    /* This function resets the assigned hours
+    after a new team Has been added to a project
+    The function is activated before adding a team to a project*/
+    async ResetAssignedHours(projectName:string)
+    {
+      //
+      const projectId=await this.getProjectID(projectName);
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
+                }
+              }
+            )
+          }
+        }
+        else
+        {
+          return "Reset Failed"
+        }
+
+      }
+      return "Hours reset Succesfully"
+
+    }
+
+    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      const teamID=await this.getTeamIDVName(teamName);
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId,
+            team_id:teamID
+        }}
+      )
+
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let WeeklyHours=PersonObj.weekly_hours;
+            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Statuss:Status
+
+            if(Utilization==100)
+            {
+              Statuss='FULLY_UTILISED'
+            }
+            else if(Utilization>=75 && Utilization<100)
+            {
+              Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>100)
+            {
+              Statuss='OVER_UTILISED'
+            }
+            else
+            {
+              Statuss='UNDER_UTILISED'
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  assigned_hours: AssignedHours,
+                  utilisation:Utilization,
+                  status:Statuss
+                }
+              }
+            )
+          }
+        }
+        else
+        {
+          return "Reset Failed"
+        }
+
+      }
+
+      return ("Assigned hours for Team "+teamName+" were reset")
+
+    }
+
+    /*
+    This Function recaulculates the utilization of all team Members of  A team in each project 
+    that the team is a part of since the addition of a member changes the team hours in all
+    their projects 
+    */
+    async UpdateUtilizationAfterMemberAddition(teamName:string)
+    {
+      //
+      const teamID=await this.getTeamIDVName(teamName);
+      
+      const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      if(ProjectsByTeam)
+      {
+        for(let i=0;i<ProjectsByTeam.length;i++)
+        {
+          //
+          
+          const Project=await this.prisma.project.findUnique(
+            {
+              where:
+              {
+                id:ProjectsByTeam[i].project_id
+              }
+          
+            }
+          )
+          this.CalculateUtilizationVProject(Project.project_name);
+        }
+      }
+    }
+
+
+    /*
+    This function resets the Utilization per team member so that it can be recalculated after adding the
+    new member */
+    async ResetUtilizationOfTeamMembers(teamName:string)
+    {
+      const teamID=await this.getTeamIDVName(teamName);
+      
+      const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      if(ProjectsByTeam)
+      {
+        for(let i=0;i<ProjectsByTeam.length;i++)
+        {
+          //
+          
+          const Project=await this.prisma.project.findUnique(
+            {
+              where:
+              {
+                id:ProjectsByTeam[i].project_id
+              }
+          
+            }
+          )
+          this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
+        }
+      }
+    }
+
+
+
+    async GetMonthlyUtilization(Email:string)
+    {
+      const utilization=await this.prisma.person.findUnique(
+        {
+          where:{
+            email:Email,
+          },
+          include:
+          {
+            utilisations:true
+          }
+        }
+      )
+
+      let utilization_arr:Utilization[]
+
+      utilization_arr=[]
+
+      for(let i=0;i<utilization.utilisations.length;i++)
+      {
+        const obj=new Utilization()
+        obj.Week1=utilization.utilisations[i].week1
+        obj.Week2=utilization.utilisations[i].week2
+        obj.Week3=utilization.utilisations[i].week3
+        obj.Week4=utilization.utilisations[i].week4
+        obj.Average=utilization.utilisations[i].monthy_avg
+        utilization_arr.push(obj)
+      }
+
+      return utilization_arr;
     }
 
 

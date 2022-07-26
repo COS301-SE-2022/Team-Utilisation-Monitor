@@ -420,6 +420,12 @@ export class ApiFeatureResolver {
     return await this.service.CalculateUtilisationTWO(companyName);
   }
 
+  @Query(()=>[String])
+  async GetAvailableTeams(@Args("project_name") projectName:string)
+  {
+    return await this.service.GetAvailableTeams(projectName);
+  }
+  
   @Mutation(()=>String)
   async assignWeeklyHoursToEmployee(@Args("email")email:string,@Args("weekly_hours")weekly_hours:number)
   {

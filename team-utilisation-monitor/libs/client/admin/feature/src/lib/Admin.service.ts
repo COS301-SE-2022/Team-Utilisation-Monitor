@@ -97,6 +97,18 @@ export class AdminService {
 
   }
 
+  getAvailableTeams(projectName:string):Observable<any>
+  {
+    const Query='query{GetAvailableTeams(project_name:"'+projectName+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
 
   //MUTATIONS
 
@@ -233,14 +245,14 @@ export class AdminService {
   //BridgeFunctions
 
   /***
-   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established 
+   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established
    * functions
   */
 
   bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
   {
     console.log("In bridgeCreateProject()")
-    
+
     if(teams.length>0)
     {
       for(let i=0;i<teams.length;++i)
@@ -253,9 +265,8 @@ export class AdminService {
       this.createProject(projectName,companyName,"null",projectHours);
     }
 
-    
-  }
 
+  }
 
 
 }

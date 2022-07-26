@@ -1,3 +1,4 @@
+import { GetAvailableTeamsQuery } from './queries/impl/GetAvailableTeams.query';
 import { CalculateUtilizationCommand } from './commands/impl/CalculateUtilization.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
 import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
@@ -244,5 +245,10 @@ export class ServiceFeatureService {
     async AssignWeeklyHoursToEmployee(email:string,weeklyHours:number):Promise<string>
     {
       return this.commandBus.execute(new AssignHoursCommand(email,weeklyHours));
+    }
+
+    async GetAvailableTeams(projectName:string)
+    {
+      return this.queryBus.execute(new GetAvailableTeamsQuery(projectName))
     }
 }
