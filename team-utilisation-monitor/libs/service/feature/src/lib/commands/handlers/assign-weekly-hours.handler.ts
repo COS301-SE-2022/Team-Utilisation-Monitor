@@ -7,6 +7,6 @@ export class AssignWeeklyHoursHandler implements ICommandHandler<AssignWeeklyHou
     constructor(public readonly repository:DataAccessRepository){}
 
     execute(command: AssignWeeklyHoursCommand): Promise<any> {
-        return null;
+        return this.repository.assignWeeklyHoursToEmployee(command.email,command.weeklyHours);
     }
 }

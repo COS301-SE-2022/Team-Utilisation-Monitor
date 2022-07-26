@@ -420,9 +420,16 @@ export class ApiFeatureResolver {
     return await this.service.CalculateUtilisationTWO(companyName);
   }
 
+  @Mutation(()=>String)
+  async assignWeeklyHoursToEmployee(@Args("email")email:string,@Args("weekly_hours")weekly_hours:number)
+  {
+    return await this.service.AssignWeeklyHoursToEmployee(email,weekly_hours);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
   }
+
 */
 }
