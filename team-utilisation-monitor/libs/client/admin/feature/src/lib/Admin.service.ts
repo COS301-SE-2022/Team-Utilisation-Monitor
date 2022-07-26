@@ -63,6 +63,20 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
+  getAllTeamsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
   getTeamMembers(teamName:string):Observable<any>
   {
     const Query='query{GetTeamMembers(team_name:"'+teamName+'"){name,surname,email}}'
@@ -94,6 +108,31 @@ export class AdminService {
       })
     }
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  getAvailableTeams(projectName:string):Observable<any>
+  {
+    const Query='query{GetAvailableTeams(project_name:"'+projectName+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
+  getAllProjectsOfACompany(companyName:string):Observable<any>
+  {
+    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -202,45 +241,32 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-
-  getAllProjectsOfACompany(companyName:string):Observable<any>
+  CalculateUtilization(projectName:string):Observable<any>
   {
-    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
-
+    const Query='mutation{CalculateUtilization(project_Name:"'+projectName+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-  getAllTeamsOfACompany(companyName:string):Observable<any>
-  {
-    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
-
-  }
+  
 
   //BridgeFunctions
 
   /***
-   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established 
+   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established
    * functions
   */
 
   bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
   {
-    //console.log("In bridgeCreateProject()")
-    
+    console.log("In bridgeCreateProject()")
+
     if(teams.length>0)
     {
       for(let i=0;i<teams.length;++i)
@@ -266,7 +292,6 @@ export class AdminService {
     
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
-
 
 
 }
