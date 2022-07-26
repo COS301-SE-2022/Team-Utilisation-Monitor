@@ -50,6 +50,11 @@ describe('LoginComponent', () => {
     expect(submitEl.nativeElement.disabled).toBeTruthy();
 });
 
+it('Setting enabled to true enables the submit button', () => {
+  component.enabled = true;
+  fixture.detectChanges();
+  expect(submitEl.nativeElement.disabled).toBeTruthy();
+});
                                                                                 //  OUTPUT TESTING
 // tracking what gets emitted by the output event
 it('Entering users correct details emits loggedIn event', () => {
