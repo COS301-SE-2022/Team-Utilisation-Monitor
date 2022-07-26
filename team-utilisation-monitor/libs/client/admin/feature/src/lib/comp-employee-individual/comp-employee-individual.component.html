@@ -9,10 +9,11 @@
                     </mat-form-field>
                     <button class="InvdividualButton" type="submit" mat-raised-button color="primary"><mat-icon>done</mat-icon></button>
                 </form>
-                <button mat-button class="InvdividualButton" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                <!-- to be implemented in sprint 4 -->
+                <!-- <button mat-button class="InvdividualButton" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>{{menueOption}}</button>
-                    </mat-menu>
+                    </mat-menu> -->
                 <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(IndivName.Email)">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
