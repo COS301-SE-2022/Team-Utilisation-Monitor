@@ -60,11 +60,12 @@ it('Entering users correct details emits loggedIn event', () => {
   expect(user.password).toBe("PasssPass");
 });
 
+//this should fail
 it('Entering email and password emits loggedIn event, this should fail', () => {
   
   let user= new User('test@gmail.com',"PasssPass");
   loginEl.nativeElement.value = "test@gmail.com";
-  passwordEl.nativeElement.value = "PasssPass";
+  passwordEl.nativeElement.value = "wrongPassword";
 
   component.loggedIn.subscribe((value) => user = value);
 
@@ -73,6 +74,9 @@ it('Entering email and password emits loggedIn event, this should fail', () => {
   expect(user.email).toBe("test@gmail.com");
   expect(user.password).toBe("PasssPass");
 });
+
+//the passing version of the above test
+//triggering a click on the submit button, after subscribing at our observable
 it('Entering email and password emits loggedIn event', () => {
   
   let user= new User('test@gmail.com',"PasssPass");
