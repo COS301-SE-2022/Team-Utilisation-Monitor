@@ -40,6 +40,7 @@
     "angular-material-source": "angular/material",
     "apollo-server-express": "^3.7.0",
     "chart.js": "^3.8.0",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "graphql": "^16.5.0",
     "graphql-tools": "^8.2.11",
     "install": "^0.13.0",
