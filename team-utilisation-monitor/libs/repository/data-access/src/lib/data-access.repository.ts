@@ -1,4 +1,4 @@
-import { Person } from '@prisma/client';
+import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
@@ -2190,6 +2190,44 @@ export class DataAccessRepository {
         }
         else
             return -1;
+    }
+
+    /***
+     * Use this function to get the status of the current value
+    */
+
+    async getStatus(value:number):Promise<Status>{
+
+        if(value<0.5)
+            return Status.UNDER_UTILISED;
+        else if(value>=0.5 && value<0.75)
+            return Status.FAIRLY_UTILISED;
+        else if(value>=0.75 && value<1)
+            return Status.HEAVILY_UTILISED;
+        else if(value==1)
+            return Status.FULLY_UTILISED;
+        else 
+            return Status.OVER_UTILISED;
+    }
+
+    /***
+     * Use this function to get the teamName provided that you supply
+     * the teamID. Returns null if team doesn't exist
+     */
+
+    async getTeamNameVID(f_id:number):Promise<string>{
+
+        const team=await this.prisma.team.findUnique({
+            where:{
+                id:f_id
+            }
+        })
+
+        if(team){
+            return team.team_name;
+        }
+        else
+            return null;
     }
 
 
