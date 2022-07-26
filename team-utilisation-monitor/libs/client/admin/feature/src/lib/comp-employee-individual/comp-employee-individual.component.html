@@ -5,7 +5,7 @@
                 <span class="example-spacer"></span>
                 <form class="hours-form">
                     <mat-form-field class="example-full-width" appearance="fill">
-                        <input id="hours_value" type="number" min="10" max="200" matInput placeholder="Hours">
+                        <input id="hours_value" type="number" min="10" max="200" matInput placeholder="Hours" matTooltip="Total Hours per week">
                     </mat-form-field>
                     <button class="InvdividualButton" type="submit" mat-raised-button color="primary"><mat-icon>done</mat-icon></button>
                 </form>
@@ -14,7 +14,7 @@
                     <mat-menu #menu="matMenu">
                         <button mat-menu-item>{{menueOption}}</button>
                     </mat-menu> -->
-                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(IndivName.Email)">
+                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(IndivName.Email)" matTooltip="Remove Employee form Company">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
         </mat-card-content>

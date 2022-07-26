@@ -45,6 +45,7 @@ import {MatListModule} from '@angular/material/list';
 import { CompAddTeamToProjectPopupComponent } from './comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompTeamIndividualComponent } from './comp-team-individual/comp-team-individual.component';
 import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { FormsModule } from '@angular/forms';
     MatBadgeModule,
     MatDialogModule,
     MatListModule,
+    MatTooltipModule,
     RouterModule.forChild([]),
   ],
   providers: [CookieService],
