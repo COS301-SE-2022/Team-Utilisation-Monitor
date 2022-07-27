@@ -2,6 +2,7 @@ import { Query } from '@nestjs/graphql';
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
+import { query } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AdminService {
   //GET FUNCTIONS
   getCompany(companyName:string):Observable<any>
   {
-    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role},admins{name,surname,email,role},teams{team_name},projects{project_name}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -136,6 +137,24 @@ export class AdminService {
 
   }
 
+  /***
+   * This function returns all the teams currently working of the project.
+   * returns an array of [TeamEntity] 
+   * 
+   */
+  getAllTeamsWorkingOnAProject(projectName:string):Observable<any>
+  {
+    const query='query{getAllTeamsWorkingOnProject(project_name:"'+projectName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+
+  }
 
   //MUTATIONS
 
@@ -252,33 +271,6 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-
-
-  
-
-  //BridgeFunctions
-
-  /***
-   * BridgeFunctions: Use these functions to facilitate transactions between new functions and already established
-   * functions
-  */
-
-  bridgeCreateProject(projectName:string,companyName:string,projectHours:number,teams:string[])
-  {
-    console.log("In bridgeCreateProject()")
-
-    if(teams.length>0)
-    {
-      for(let i=0;i<teams.length;++i)
-      {
-        this.createProject(projectName,companyName,teams[i],projectHours);
-      }
-    }
-    else //create it in isolation
-    {
-      this.createProject(projectName,companyName,"null",projectHours);
-    }
-  }
 
   updateWeeklyHoursForEmployee(email:string,hours:number):Observable<any>
   {
