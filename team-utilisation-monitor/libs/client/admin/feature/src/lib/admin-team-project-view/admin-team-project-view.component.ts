@@ -38,7 +38,6 @@ export class AdminTeamProjectViewComponent implements OnInit {
         const  obj={} as nameObject; //obj stores the project names
         obj.Name=requests.project_name;
         obj.Hours=requests.man_hours; //this is not working
-        console.log(requests.man_hours);
         this.OutProject.push(obj); //object passed down
       }
 
