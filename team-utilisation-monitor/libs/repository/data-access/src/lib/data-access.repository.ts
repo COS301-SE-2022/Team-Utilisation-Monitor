@@ -1649,26 +1649,41 @@ export class DataAccessRepository {
       const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      await this.prisma.team.update(
+      await this.prisma.personOnTeams.deleteMany(
         {
           where:{
-            id:teamID
-          },
-          data:
-          {
-            members:{
-              disconnect:{
-                id:empl_id
-              }
-            }
+            person_id:empl_id,
+            team_id:teamID
           }
         })
 
         return "Team Member DELETED"
     }
 
-    async deleteEmployee(Email:string)
+    async deleteEmployee(Email:string):Promise<Person>
     {
+      const empl_id= (await this.getUserIDVEmail(Email)).id;
+
+      //Unlink person from all teams
+      await this.prisma.personOnTeams.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
+      //Unlink person from all skills
+      await this.prisma.personOnSkills.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
       const deletedUser=await this.prisma.person.delete(
         {
           where:{
