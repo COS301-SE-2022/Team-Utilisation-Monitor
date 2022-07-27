@@ -150,9 +150,14 @@ describe('ServiceFeatureService', () => {
 
         return company_stats;
 
+      } else if (query instanceof GetNumberOfTeamsOfCompany) {
+        //if (query.companyName === 'icreate') {
+          const num_teams = 15;
+          return num_teams;
+        //}
       }
 
-      return 10;
+      return undefined;
     })
   }
 
@@ -306,6 +311,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("getNumberOfTeamsOfCompany", () => {
+    it('should return the Number of Teams of Company', async () => {
+      let test = 0;
+      try {
+        test = await service.getNumberOfTeamsOfCompany('icreate');
+      } catch (err) { return }
+      expect(test).toEqual(15);
+      });
+  });
+
   //needs to be implemented in service layer
   describe("getCompanyVID", () => {
     it('should return a UserCompany', async () => {
@@ -347,8 +362,6 @@ describe('ServiceFeatureService', () => {
       expect(test.numTeams).toEqual(17);
       });
   });
-
-
 
   // commandsBus
 
