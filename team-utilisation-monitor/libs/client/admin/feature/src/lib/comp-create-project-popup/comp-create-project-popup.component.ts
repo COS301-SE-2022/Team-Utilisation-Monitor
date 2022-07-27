@@ -68,20 +68,26 @@ export class CompCreateProjectPopupComponent implements OnInit {
         
             this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
             data=>{
-            //
+
+              if(i==this.selectedTeams.length-1)
+              {
+                this.adminService.CalculateUtilization(projectName).subscribe(
+                  Data=>{
+                    alert(Data.data.CalculateUtilization)
+                  }
+                )
+              }
           });
+            
           }
+
         })
 
-        //Calculate the Utilization for each team In that project
-        console.log(projectName)
-        this.adminService.CalculateUtilization(projectName).subscribe(
-          Data=>{
-            alert(Data.data.CalculateUtilization)
-          }
-        )
       
       alert("Project "+projectName+" has been created ");
     }
+
+    //Calculate the Utilization for each team In that project
+        //console.log(projectName)
   }
 }

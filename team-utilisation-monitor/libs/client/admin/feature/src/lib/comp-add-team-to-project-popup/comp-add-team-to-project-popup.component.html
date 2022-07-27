@@ -1,6 +1,6 @@
 <h2>Select Teams to add to the Project</h2>
-<mat-selection-list #name>
-    <mat-list-option *ngFor="let name of TeamNames">
+<mat-selection-list #name [(ngModel)]="selectedTeams" [ngModelOptions]="{standalone: true}">
+    <mat-list-option *ngFor="let name of TeamNames" [value]="name">
         {{name}}
     </mat-list-option>
 </mat-selection-list>
@@ -8,4 +8,4 @@
 <p>
     Options selected: {{name.selectedOptions.selected.length}}
 </p>
-<button mat-raised-button color="primary">Add Teams</button>
+<button mat-raised-button color="primary" (click)="AddTeams()">Add Teams</button>

@@ -8,7 +8,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FormGroup} from "@angular/forms";
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 
 import { Router } from '@angular/router';
 import {IndividualRoutingModule} from "./ind-routing.module";

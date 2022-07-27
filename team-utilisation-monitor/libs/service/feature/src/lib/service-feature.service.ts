@@ -232,7 +232,7 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AssignHoursCommand(UserEmail,Hours));
     }
     
-    async CalculateUtilization(projectName:string)
+    async CalculateUtilization(projectName:string):Promise<string>
     {
       return this.commandBus.execute(new CalculateUtilizationCommand(projectName));
     }

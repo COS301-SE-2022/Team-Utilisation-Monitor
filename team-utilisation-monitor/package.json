@@ -14,7 +14,9 @@
     "prisma:migrate:dev": "yarn prisma migrate dev",
     "prisma:seed": "ts-node prisma\\seed.ts",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "test:intergration":"nx e2e client-e2e",
+    "test:intergration:watch":"nx e2e client-e2e --watch"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +46,10 @@
     "graphql": "^16.5.0",
     "graphql-tools": "^8.2.11",
     "install": "^0.13.0",
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-cli": "^2.0.0",
+    "karma-jasmine": "^5.1.0",
     "ng2-charts": "^3.1.2",
     "ngx-cookie-service": "^14.0.0",
     "reflect-metadata": "^0.1.13",
@@ -62,7 +68,7 @@
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
     "@nrwl/cli": "14.2.1",
-    "@nrwl/cypress": "14.2.1",
+    "@nrwl/cypress": "^14.4.3",
     "@nrwl/eslint-plugin-nx": "14.2.1",
     "@nrwl/jest": "14.2.1",
     "@nrwl/linter": "14.2.1",

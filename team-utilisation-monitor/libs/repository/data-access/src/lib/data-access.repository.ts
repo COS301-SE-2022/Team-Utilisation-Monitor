@@ -459,7 +459,7 @@ export class DataAccessRepository {
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
             return_project.teams=await this.getAllTeamsWorkingOnProject(projectName);
-
+            
             return return_project;
         }
         else //project is being created in isolation
@@ -495,8 +495,8 @@ export class DataAccessRepository {
 
         const project_id=await this.getProjectID(projectName);
 
-        console.log(team_id+" "+teamName);
-        console.log(project_id+" "+projectName);
+        //console.log(team_id+" "+teamName);
+        //console.log(project_id+" "+projectName);
 
         if(team_id>0 && project_id>0)
             return await this.AssignProjectToTeam(team_id,project_id);
@@ -2271,7 +2271,6 @@ export class DataAccessRepository {
         }}
       )
 
-      //const hours=0;
 
       for(let i=0;i<TeamsOnProject.length;i++)
       {
@@ -2303,7 +2302,6 @@ export class DataAccessRepository {
             let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
 
             let Statuss:Status
-
             if(Utilization==100)
             {
               Statuss='FULLY_UTILISED'
@@ -2321,7 +2319,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            await this.prisma.person.update(
+            const update=await this.prisma.person.update(
               {
                 where:
                 {

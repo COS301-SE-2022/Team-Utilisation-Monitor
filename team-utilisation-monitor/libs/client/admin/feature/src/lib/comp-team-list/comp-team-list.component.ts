@@ -51,7 +51,7 @@ export class CompTeamListComponent implements OnInit {
 
   onOpenAddTeamMemberClick(team_name:string){
     this.cookie.set("team_name",team_name);  //i'm saving the team name in the cookie
-
+    
     this.matDialog.open(CompAddTeamMemberPopupComponent);
   }
 

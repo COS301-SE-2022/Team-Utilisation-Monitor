@@ -8,6 +8,6 @@ export class GetNumberOfTeamsOfCompanyHandler implements IQueryHandler<GetNumber
     constructor(private readonly repository:DataAccessRepository){}
 
     async execute(query: GetNumberOfTeamsOfCompany): Promise<any> {
-        return this.repository.getEmployeesOfCompany(query.companyName);
+        return this.repository.getNumberOfTeamsOfCompany(query.companyName);
     }
 }
