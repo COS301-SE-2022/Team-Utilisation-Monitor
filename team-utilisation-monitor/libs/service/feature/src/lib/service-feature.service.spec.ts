@@ -11,6 +11,7 @@ import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Company } from '@prisma/client';
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
+import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
@@ -215,6 +216,34 @@ describe('ServiceFeatureService', () => {
           const num_teams = 15;
           return num_teams;
         }
+
+      } else if (query instanceof GetSkillsQuery) {
+
+        const all_skills = [];
+
+        let skills = new Skill();
+
+        skills.id = 0;
+        skills.skill = 'c++';
+
+        all_skills[0] = skills;
+
+        skills = new Skill();
+
+        skills.id = 1;
+        skills.skill = 'java';
+
+        all_skills[1] = skills;
+
+        skills = new Skill();
+
+        skills.id = 2;
+        skills.skill = 'python';
+
+        all_skills[2] = skills;
+
+        return all_skills;
+        
       }
 
       return undefined;
@@ -431,6 +460,17 @@ describe('ServiceFeatureService', () => {
         test = await service.getCompanyStats('icreate');
       } catch (err) { return }
       expect(test.numTeams).toEqual(17);
+      });
+  });
+
+  // incomplted? 
+  describe("GetSkills", () => {
+    it('should return Skills of A User', async () => {
+      let test = new Skill();
+      try {
+        test = await service.GetSkills();
+      } catch (err) { return }
+      expect(test[1].skill).toEqual('java');
       });
   });
 
