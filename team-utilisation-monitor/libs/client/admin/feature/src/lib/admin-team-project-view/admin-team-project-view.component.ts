@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 
@@ -7,16 +7,18 @@ import { AdminService } from '../Admin.service';
   templateUrl: './admin-team-project-view.component.html',
   styleUrls: ['./admin-team-project-view.component.scss'],
 })
+
 export class AdminTeamProjectViewComponent implements OnInit {
+
   constructor(private adminService:AdminService,private cookie:CookieService) {}
   
   boolshow = true;
   panelOpenState = false;
-
-  OutTeamNames:any[]=[];
-  OutProject:any[]=[];
   companyName=''
   companyData:any
+
+  OutTeamNames:any[]=[];
+  OutProject:any[]=[]; //an array of projects displayed on the view.
 
   ngOnInit(): void {
     console.log();
@@ -28,15 +30,15 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
       type nameObject={
         Name:string
-        //TeamName:string
+        Hours:string
       }
 
       for(const requests of this.companyData.data.GetCompanyQuery.projects)
       {
-        const  obj={} as nameObject;
+        const  obj={} as nameObject; //obj stores the project names
         obj.Name=requests.project_name;
-        //obj.TeamName=requests.team_name; 
-        this.OutProject.push(obj);
+        obj.Hours=requests.man_hours; //this is not working
+        this.OutProject.push(obj); //object passed down
       }
 
       if(this.companyData.data.GetCompanyQuery!=null)
