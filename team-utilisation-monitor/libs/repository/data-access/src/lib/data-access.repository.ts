@@ -1685,7 +1685,7 @@ export class DataAccessRepository {
     }*/
 
 
-    async addSkill(skillType:string)
+    async addSkill(skillType:string):Promise<string>
     {
       try
       {
@@ -1706,7 +1706,7 @@ export class DataAccessRepository {
 
     }
 
-    async getSkills()
+    async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
       let SkillsArray:Skill[];
@@ -1732,7 +1732,7 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
 
       const empID=await this.prisma.person.update(
@@ -1763,7 +1763,7 @@ export class DataAccessRepository {
 
 
 
-    async getAllocatedTeams(UserEmail:string)
+    async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
         const userId=(await this.prisma.person.findUnique(
             {
@@ -1795,7 +1795,7 @@ export class DataAccessRepository {
 
     }
 
-    async getAllocatedProjects(userEmail:string)
+    async getAllocatedProjects(userEmail:string):Promise<ProjectEntity[]>
     {
       const teams=await this.getAllocatedTeams(userEmail);
       let projects_arr:ProjectEntity[]
@@ -1822,7 +1822,7 @@ export class DataAccessRepository {
       return projects_arr;
     }
 
-    async UpdateSkill(UserEmail:string,skillType:string)
+    async UpdateSkill(UserEmail:string,skillType:string):Promise<string>
     {
 
       const skill=await this.prisma.skills.findUnique(
@@ -1865,7 +1865,7 @@ export class DataAccessRepository {
         }
     }
 
-    async GetSkillVID(skillID:number)
+    async GetSkillVID(skillID:number):Promise<Skill>
     {
       const skill=await this.prisma.skills.findUnique(
         {
@@ -1888,7 +1888,7 @@ export class DataAccessRepository {
      * in a userEmail.
      */
 
-    async GetUserSkills(UserEmail:string)
+    async GetUserSkills(UserEmail:string):Promise<string[]>
     {
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
       let skill_Arr:string[]
@@ -1952,7 +1952,7 @@ export class DataAccessRepository {
 
     }
 
-    async GetAvailableTeamsForProject(projectName:string)
+    async GetAvailableTeamsForProject(projectName:string):Promise<string[]>
     {
       const projectId=await this.getProjectID(projectName);
       let TeamsObject:string[]
@@ -1977,7 +1977,7 @@ export class DataAccessRepository {
 
     }
 
-    async teamInProject(teamId:number,projectID:number)
+    async teamInProject(teamId:number,projectID:number):Promise<boolean>
     {
       const Team=await this.prisma.teamsOnProjects.findMany(
         {
@@ -2000,7 +2000,7 @@ export class DataAccessRepository {
       }
     }
 
-    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours):Promise<string>
     {
       //
       const result=await this.prisma.person.update(
@@ -2180,7 +2180,7 @@ export class DataAccessRepository {
             return null;
     }
 
-    async GetUnderUtilizedEmployees(companyName:string)
+    async GetUnderUtilizedEmployees(companyName:string):Promise<UserPerson[]>
     {
       //
       const comID=await this.getCompanyID(companyName);
@@ -2348,7 +2348,7 @@ export class DataAccessRepository {
     }
 
 
-    async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
+    async UpdateUtilizationForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2437,7 +2437,7 @@ export class DataAccessRepository {
 
       }
 
-      return ("Team "+teamName+" Utilization updated")
+      return("Team "+teamName+" Utilization updated")
 
     }
 
@@ -2445,7 +2445,7 @@ export class DataAccessRepository {
     /* This function resets the assigned hours
     after a new team Has been added to a project
     The function is activated before adding a team to a project*/
-    async ResetAssignedHours(projectName:string)
+    async ResetAssignedHours(projectName:string):Promise<string>
     {
       //
       const projectId=await this.getProjectID(projectName);
@@ -2536,7 +2536,7 @@ export class DataAccessRepository {
 
     }
 
-    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string)
+    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2634,7 +2634,7 @@ export class DataAccessRepository {
     that the team is a part of since the addition of a member changes the team hours in all
     their projects
     */
-    async UpdateUtilizationAfterMemberAddition(teamName:string)
+    async UpdateUtilizationAfterMemberAddition(teamName:string):Promise<void>
     {
       //
       const teamID=await this.getTeamIDVName(teamName);
@@ -2672,7 +2672,7 @@ export class DataAccessRepository {
     /*
     This function resets the Utilization per team member so that it can be recalculated after adding the
     new member */
-    async ResetUtilizationOfTeamMembers(teamName:string)
+    async ResetUtilizationOfTeamMembers(teamName:string):Promise<void>
     {
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -2707,7 +2707,7 @@ export class DataAccessRepository {
 
 
 
-   async calculateMonthlyAverage()
+   async calculateMonthlyAverage():Promise<void>
     {
       const utilization=await this.prisma.historicUtilisation.findMany();
 
@@ -2733,7 +2733,7 @@ export class DataAccessRepository {
       }
     }
 
-    async updateHistoricUtilization()
+    async updateHistoricUtilization():Promise<void>
     {
       //get all users with a utilisation greater than 0
       const utilization=await this.prisma.person.findMany(
@@ -2922,7 +2922,7 @@ export class DataAccessRepository {
     }
 
 
-    async GetMonthlyUtilization(Email:string)
+    async GetMonthlyUtilization(Email:string):Promise<Utilization[]>
     {
       const utilization=await this.prisma.person.findUnique(
         {
@@ -3057,6 +3057,29 @@ export class DataAccessRepository {
         }
         else
             return "Could not assign weeklyHours to employee. Id invalid";
+
+    }
+
+    async completeProject(projectName:string)
+    {
+      //
+      const projectId=await this.getProjectID(projectName);
+      await this.ResetAssignedHours(projectName)
+
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+    }
+
+    async DeleteProject(projectName:string)
+    {
+      const projectId=await this.getProjectID(projectName);
+      await this.completeProject(projectName)
 
     }
 

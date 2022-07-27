@@ -9,7 +9,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export class CompListViewIndividualComponent implements OnInit {
   //constructor() {}
 
-  @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:string};
+  @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
 
   ngOnInit(): void {
     console.log();
@@ -20,7 +20,7 @@ export class CompListViewIndividualComponent implements OnInit {
           datasets: [
             {
               label: "Project 1",
-              data: [30],
+              data: [this.Individual.utilisation],
               backgroundColor: 'rgba(1, 156, 49, 0.5)',
             },
             {
@@ -47,7 +47,7 @@ export class CompListViewIndividualComponent implements OnInit {
                   display:false,
                   stacked: true,
                 },
-                
+
             },
             plugins:{
               datalabels: {
