@@ -151,10 +151,10 @@ describe('ServiceFeatureService', () => {
         return company_stats;
 
       } else if (query instanceof GetNumberOfTeamsOfCompany) {
-        //if (query.companyName === 'icreate') {
+        if (query.companyName === 'icreate') {
           const num_teams = 15;
           return num_teams;
-        //}
+        }
       }
 
       return undefined;
@@ -350,6 +350,16 @@ describe('ServiceFeatureService', () => {
         test = await service.getAllEmployees('icreate');
       } catch (err) { return }
       expect(test[1]).toBeInstanceOf(UserPerson);
+      });
+  });
+
+  describe("getAllUserPerson", () => {
+    it('should return a UserPerson[]', async () => {
+      let test = new UserPerson();
+      try {
+        test = await service.getAllUserPerson();
+      } catch (err) { return }
+      expect(test[2]).toBeInstanceOf(UserPerson);
       });
   });
 
