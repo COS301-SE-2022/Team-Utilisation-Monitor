@@ -21,7 +21,7 @@ export class UtilizationGraphComponent implements OnInit {
 
 
   public lineChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Utilization'},
+    {data: this.Data1,label:'Utilization'}//[65, 59, 80, 81, 56, 55, 40], label: 'Utilization'},
     //{data: [28, 48, 40, 19, 86, 27, 90], label: 'Hours'}
   ];
   ngOnInit() {
@@ -30,7 +30,6 @@ export class UtilizationGraphComponent implements OnInit {
     const email=this.cookie.get("Email");
     this.service.GetMonthlyUtilization(email).subscribe(Data=>
       {
-
         type MonthObject=
         {
           Week1:number;
@@ -59,65 +58,17 @@ export class UtilizationGraphComponent implements OnInit {
           return a.Month>b.Month ?1:-1
         })
 
-        //const dobj=new Date();
-        //const month=this.getMonth(dobj.getMonth()+1)
-        //console.log(this.YearlyOBJ)
+        for(let i=0;i<this.YearlyOBJ.length;i++)
+        {
+          this.Data1.push(this.YearlyOBJ[i].AVG)
+          console.log(this.YearlyOBJ[i].AVG)
+        }
 
+        this.service.storeData(this.Data1);
 
       }
     )
   }
 
-  getMonth(month:number)
-    {
-      if(month==1)
-      {
-        return "JAN"
-      }
-      else if(month==2)
-      {
-        return "FEB"
-      }
-      else if(month==3)
-      {
-        return "MAR"
-      }
-      else if(month==4)
-      {
-        return "APR"
-      }
-      else if(month==5)
-      {
-        return "MAY"
-      }
-      else if(month==6)
-      {
-        return "JUN"
-      }
-      else if(month==7)
-      {
-        return "JUL"
-      }
-      else if(month==8)
-      {
-        return "AUG"
-      }
-      else if(month==9)
-      {
-        return "SEP"
-      }
-      else if(month==10)
-      {
-        return "OCT"
-      }
-      else if(month==11)
-      {
-        return "NOV"
-      }
-      else
-      {
-        return "DEC"
-      }
-    }
 
 }

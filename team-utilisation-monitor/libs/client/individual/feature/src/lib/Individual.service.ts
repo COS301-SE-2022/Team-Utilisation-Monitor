@@ -12,6 +12,8 @@ export class IndividualService {
 
   constructor(private client:HttpClient){}
 
+  earlyOBJ:any[]=[]
+
   //QUERIES
   getPersonDetails(email:string):Observable<any>
   {
@@ -121,6 +123,16 @@ export class IndividualService {
     }
 
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  storeData(data:any)
+  {
+    this.earlyOBJ=data;
+  }
+
+  getData():any
+  {
+    return this.earlyOBJ;
   }
 
 }
