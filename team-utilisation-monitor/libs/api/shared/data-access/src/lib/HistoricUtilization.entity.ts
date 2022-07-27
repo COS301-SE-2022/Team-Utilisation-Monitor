@@ -23,4 +23,7 @@ export class Utilization{
 
   @Field()
   Month:string;
+
+  @Field()
+  Utilization?:number;
 }

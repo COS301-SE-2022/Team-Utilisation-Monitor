@@ -1,3 +1,4 @@
+import { IndividualService } from './../Individual.service';
 import { Component, OnInit } from '@angular/core';
 //import { ChartsModule } from 'ng2-charts/ng2-charts';
 
@@ -8,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UtilizationGraphComponent implements OnInit {
 
+  constructor(private service:IndividualService){}
+  Data1:number[]=[]
+
+  lineChartLabel:number[]=[]
+
   public lineChartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   public lineChartLegend = true;
+
 
   public lineChartData = [
     {data: [65, 59, 80, 81, 56, 55, 40], label: 'Utilization'},

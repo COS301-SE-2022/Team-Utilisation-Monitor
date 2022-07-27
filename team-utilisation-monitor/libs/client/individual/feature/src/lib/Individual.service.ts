@@ -111,4 +111,16 @@ export class IndividualService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  GetMonthlyUtilization(email:string):Observable<any>
+  {
+    const Query='query{GetMonthlyUtilization(email:"'+email+'"){Week1,Week2,Week3,Week4,Average,Month}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
 }
