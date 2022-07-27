@@ -15,6 +15,7 @@ import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
+import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
 import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
 import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
 import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
@@ -244,6 +245,20 @@ describe('ServiceFeatureService', () => {
 
         return all_skills;
         
+      } else if (query instanceof GetUserSkillsQuery) {
+        if (query.UserEmail === 'rourke@gmail.com') {
+
+          const all_skills = [];
+
+          const skills = new Skill();
+
+          skills.id = 0;
+          skills.skill = 'eating';
+
+          all_skills[0] = skills;
+
+          return all_skills;
+        }
       }
 
       return undefined;
@@ -465,12 +480,22 @@ describe('ServiceFeatureService', () => {
 
   // incomplted? 
   describe("GetSkills", () => {
-    it('should return Skills of A User', async () => {
+    it('should return Skills', async () => {
       let test = new Skill();
       try {
         test = await service.GetSkills();
       } catch (err) { return }
       expect(test[1].skill).toEqual('java');
+      });
+  });
+
+  describe("GetUserSkills", () => {
+    it('should return Skills of A User', async () => {
+      let test = new Skill();
+      try {
+        test = await service.GetUserSkills('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0].skill).toEqual('eating');
       });
   });
 
