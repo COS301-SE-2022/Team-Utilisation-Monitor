@@ -46,5 +46,7 @@ describe('client', () => {
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
     
   })
+
+  //testing new workflow
   
 });
