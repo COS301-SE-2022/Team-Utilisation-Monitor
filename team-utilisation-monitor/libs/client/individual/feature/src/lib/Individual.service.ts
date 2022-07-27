@@ -12,7 +12,7 @@ export class IndividualService {
 
   constructor(private client:HttpClient){}
 
-  earlyOBJ:any[]=[]
+  earlyOBJ:any
 
   //QUERIES
   getPersonDetails(email:string):Observable<any>
@@ -130,7 +130,7 @@ export class IndividualService {
     this.earlyOBJ=data;
   }
 
-  getData():any
+  getData():Observable<any[]>
   {
     return this.earlyOBJ;
   }
