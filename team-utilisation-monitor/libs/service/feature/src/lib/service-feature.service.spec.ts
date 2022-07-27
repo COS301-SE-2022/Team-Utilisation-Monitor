@@ -11,9 +11,11 @@ import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Company } from '@prisma/client';
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
+import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
+import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
 import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
 import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
 import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
@@ -139,6 +141,66 @@ describe('ServiceFeatureService', () => {
 
         return team;
 
+      } else if (query instanceof GetAllPersonsQuery) {
+
+        const all_users = [];
+
+        let user_person = new UserPerson();
+
+        user_person.id = 123;
+        user_person.name = "Rourke";
+        user_person.surname = "Amiss";
+        user_person.email = "rourke@gmail.com";
+        user_person.role = "intern";
+        user_person.suspended = false;
+        user_person.position = "team lead";
+        user_person.company_name = "icreatesoftware";
+        user_person.project_name = "tum";
+        user_person.team_name = "team";
+        user_person.company_id = 2;
+        user_person.project_id = 6;
+        user_person.team_id = 21;
+
+        all_users[0] = user_person;
+
+        user_person = new UserPerson();
+
+        user_person.id = 66;
+        user_person.name = "Sam";
+        user_person.surname = "Smith";
+        user_person.email = "ssmith@gmail.com";
+        user_person.role = "developer";
+        user_person.suspended = false;
+        user_person.position = "admin";
+        user_person.company_name = "icreatesoftware";
+        user_person.project_name = "tum";
+        user_person.team_name = "team";
+        user_person.company_id = 2;
+        user_person.project_id = 6;
+        user_person.team_id = 21;
+
+        all_users[1] = user_person;
+
+        user_person = new UserPerson();
+
+        user_person.id = 7;
+        user_person.name = "james";
+        user_person.surname = "bond";
+        user_person.email = "fakeemail@gmail.com";
+        user_person.role = "back-end";
+        user_person.suspended = true;
+        user_person.position = "senior";
+        user_person.company_name = "MI6";
+        user_person.project_name = "QSS";
+        user_person.team_name = "00";
+        user_person.company_id = 99;
+        user_person.project_id = 62;
+        user_person.team_id = 3;
+
+        all_users[2] = user_person;
+
+        return all_users;
+
       } else if (query instanceof GetCompanyStats) {
 
         const company_stats = new CompanyStatsEntity();
@@ -150,11 +212,59 @@ describe('ServiceFeatureService', () => {
 
         return company_stats;
 
+      } else if (query instanceof GetNumberOfTeamsOfCompany) {
+        if (query.companyName === 'icreate') {
+          const num_teams = 15;
+          return num_teams;
+        }
+
+      } else if (query instanceof GetSkillsQuery) {
+
+        const all_skills = [];
+
+        let skills = new Skill();
+
+        skills.id = 0;
+        skills.skill = 'c++';
+
+        all_skills[0] = skills;
+
+        skills = new Skill();
+
+        skills.id = 1;
+        skills.skill = 'java';
+
+        all_skills[1] = skills;
+
+        skills = new Skill();
+
+        skills.id = 2;
+        skills.skill = 'python';
+
+        all_skills[2] = skills;
+
+        return all_skills;
+        
+      } else if (query instanceof GetUserSkillsQuery) {
+        if (query.UserEmail === 'rourke@gmail.com') {
+
+          const all_skills = [];
+
+          const skills = new Skill();
+
+          skills.id = 0;
+          skills.skill = 'eating';
+
+          all_skills[0] = skills;
+
+          return all_skills;
+        }
       }
 
-      return 10;
+      return undefined;
     })
   }
+
 
   const mockCommandBus = {
     execute: jest.fn((command) => {
@@ -306,6 +416,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("getNumberOfTeamsOfCompany", () => {
+    it('should return the Number of Teams of Company', async () => {
+      let test = 0;
+      try {
+        test = await service.getNumberOfTeamsOfCompany('icreate');
+      } catch (err) { return }
+      expect(test).toEqual(15);
+      });
+  });
+
   //needs to be implemented in service layer
   describe("getCompanyVID", () => {
     it('should return a UserCompany', async () => {
@@ -338,6 +458,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("getAllUserPerson", () => {
+    it('should return a UserPerson[]', async () => {
+      let test = new UserPerson();
+      try {
+        test = await service.getAllUserPerson();
+      } catch (err) { return }
+      expect(test[2]).toBeInstanceOf(UserPerson);
+      });
+  });
+
   describe("getCompanyStats", () => {
     it('should return CompanyStatsEntity', async () => {
       let test = new CompanyStatsEntity;
@@ -348,7 +478,26 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  // incomplted? 
+  describe("GetSkills", () => {
+    it('should return Skills', async () => {
+      let test = new Skill();
+      try {
+        test = await service.GetSkills();
+      } catch (err) { return }
+      expect(test[1].skill).toEqual('java');
+      });
+  });
 
+  describe("GetUserSkills", () => {
+    it('should return Skills of A User', async () => {
+      let test = new Skill();
+      try {
+        test = await service.GetUserSkills('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0].skill).toEqual('eating');
+      });
+  });
 
   // commandsBus
 

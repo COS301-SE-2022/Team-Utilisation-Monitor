@@ -15,8 +15,24 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
   @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
   teamsData:any;
-
+  selectedTeams:string[]=[]; //selected teams
   TeamNames: string[] = [];
+  run:any;
+
+  AddTeams(){
+    //console.log(this.selectedTeams);
+
+    for(let i=0;i<this.selectedTeams.length;++i)
+    {
+      this.service.assignProjectToTeams(this.selectedTeams[i],this.cookie.get("project_name")).subscribe(
+        data=>{
+          this.run=data;
+        }
+      )
+    }
+
+    alert("Successfully assigned Team(s) to project");
+  }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
