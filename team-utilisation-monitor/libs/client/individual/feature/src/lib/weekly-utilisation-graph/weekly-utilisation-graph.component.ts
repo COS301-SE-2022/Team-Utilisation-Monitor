@@ -9,7 +9,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeeklyUtilisationGraphComponent implements OnInit {
 
-  WeeklyOBJ:any[]=[]
   data1:number[]=[]
 
   constructor(private service:IndividualService,private cookie:CookieService){}
@@ -22,38 +21,31 @@ export class WeeklyUtilisationGraphComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log();
     const dobj=new Date();
     const month=dobj.getMonth()+1
-    //const email=this.cookie.get("Email");
-
-
-
-  }
-
-  onClick()
-  {
-    //
-    this.service.getData().subscribe(Data=>
+    const email=this.cookie.get("Email");
+    this.service.GetMonthlyUtilization(email).subscribe(Data=>
       {
-        console.log(Data)
-       /* this.WeeklyOBJ=Data
-        for(let i=0;i<this.WeeklyOBJ.length;i++)
+
+
+        for(const req of Data.data.GetMonthlyUtilization)
+        {
+          if(req.Month==month)
           {
-            if(this.WeeklyOBJ[i].Month==month)
-            {
-              //Display the data for that particular month
-              this.data1.push(this.WeeklyOBJ[i].Week1)
-              this.data1.push(this.WeeklyOBJ[i].Week2)
-              this.data1.push(this.WeeklyOBJ[i].Week3)
-              this.data1.push(this.WeeklyOBJ[i].Week4)
-              console.log(this.data1)
-              return;
-            }
-        }*/
+            this.data1.push(req.Week1)
+            this.data1.push(req.Week2)
+            this.data1.push(req.Week3)
+            this.data1.push(req.Week4)
+            return
+          }
+
+        }
+
       }
     )
-  }
 
+
+
+  }
 
 }
