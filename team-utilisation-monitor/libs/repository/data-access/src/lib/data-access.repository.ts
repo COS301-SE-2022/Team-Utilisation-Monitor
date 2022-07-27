@@ -2948,10 +2948,62 @@ export class DataAccessRepository {
         obj.Week3=utilization.utilisations[i].week3
         obj.Week4=utilization.utilisations[i].week4
         obj.Average=utilization.utilisations[i].monthy_avg
-        obj.Month=utilization.utilisations[i].month
+        obj.Month=this.getMonthNumber(utilization.utilisations[i].month)
         utilization_arr.push(obj)
       }
       return utilization_arr;
+    }
+
+    getMonthNumber(month:string)
+    {
+      if(month=='JAN')
+      {
+        return 1
+      }
+      else if(month=='FEB')
+      {
+        return 2
+      }
+      else if(month=='MAR')
+      {
+        return 3
+      }
+      else if(month=='APR')
+      {
+        return 4
+      }
+      else if(month=='MAY')
+      {
+        return 5
+      }
+      else if(month=='JUN')
+      {
+        return 6
+      }
+      else if(month=='JUL')
+      {
+        return 7
+      }
+      else if(month=='AUG')
+      {
+        return 8
+      }
+      else if(month=='SEP')
+      {
+        return 9
+      }
+      else if(month=='OCT')
+      {
+        return 10
+      }
+      else if(month=='NOV')
+      {
+        return 11
+      }
+      else
+      {
+        return 12
+      }
     }
 
     async TeamBusy(teamName:string):Promise<boolean>

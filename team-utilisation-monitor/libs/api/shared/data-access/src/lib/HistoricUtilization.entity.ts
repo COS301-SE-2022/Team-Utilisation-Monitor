@@ -22,7 +22,7 @@ export class Utilization{
   Average!:number;
 
   @Field()
-  Month:string;
+  Month:number;
 
   @Field()
   Utilization?:number;
