@@ -12,7 +12,7 @@ export class UtilizationGraphComponent implements OnInit {
 
   constructor(private service:IndividualService,private cookie:CookieService){}
   Data1:number[]=[]
-  YearlyOBJ:any
+  YearlyOBJ:any[]=[]
 
   lineChartLabel:number[]=[]
 
@@ -53,10 +53,71 @@ export class UtilizationGraphComponent implements OnInit {
           this.YearlyOBJ.push(obj);
         }
 
+        //Sort the object in ascending order
+        this.YearlyOBJ.sort((a:MonthObject,b:MonthObject)=>
+        {
+          return a.Month>b.Month ?1:-1
+        })
+
+        //const dobj=new Date();
+        //const month=this.getMonth(dobj.getMonth()+1)
+        //console.log(this.YearlyOBJ)
 
 
       }
     )
   }
+
+  getMonth(month:number)
+    {
+      if(month==1)
+      {
+        return "JAN"
+      }
+      else if(month==2)
+      {
+        return "FEB"
+      }
+      else if(month==3)
+      {
+        return "MAR"
+      }
+      else if(month==4)
+      {
+        return "APR"
+      }
+      else if(month==5)
+      {
+        return "MAY"
+      }
+      else if(month==6)
+      {
+        return "JUN"
+      }
+      else if(month==7)
+      {
+        return "JUL"
+      }
+      else if(month==8)
+      {
+        return "AUG"
+      }
+      else if(month==9)
+      {
+        return "SEP"
+      }
+      else if(month==10)
+      {
+        return "OCT"
+      }
+      else if(month==11)
+      {
+        return "NOV"
+      }
+      else
+      {
+        return "DEC"
+      }
+    }
 
 }
