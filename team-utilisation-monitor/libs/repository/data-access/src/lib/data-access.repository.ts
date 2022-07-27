@@ -460,7 +460,6 @@ export class DataAccessRepository {
             return_project.man_hours=new_project.man_hours;
             return_project.teams=await this.getAllTeamsWorkingOnProject(projectName);
             
-           await this.CalculateUtilizationVProject(projectName)
             return return_project;
         }
         else //project is being created in isolation
