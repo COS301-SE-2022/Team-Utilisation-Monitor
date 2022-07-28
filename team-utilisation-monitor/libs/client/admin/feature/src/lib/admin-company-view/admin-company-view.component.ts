@@ -25,8 +25,7 @@ export class AdminCompanyViewComponent implements OnInit {
    // this.adminName=this.cookie.get("UserName");
 
     this.companyName=this.cookie.get("CompanyName");
-    this.adminService.getCompany(this.companyName).subscribe(data=>
-      {
+    this.adminService.getCompany(this.companyName).subscribe(data=>{
         this.companyData=data;
 
         //if(this.companyData.data.GetCompanyQuery!=null)

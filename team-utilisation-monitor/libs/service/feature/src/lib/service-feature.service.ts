@@ -1,3 +1,4 @@
+import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
 import { GetAvailableTeamsQuery } from './queries/impl/GetAvailableTeams.query';
 import { CalculateUtilizationCommand } from './commands/impl/CalculateUtilization.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
@@ -231,8 +232,8 @@ export class ServiceFeatureService {
     {
       return this.commandBus.execute(new AssignHoursCommand(UserEmail,Hours));
     }
-    
-    async CalculateUtilization(projectName:string)
+
+    async CalculateUtilization(projectName:string):Promise<string>
     {
       return this.commandBus.execute(new CalculateUtilizationCommand(projectName));
     }
@@ -250,5 +251,10 @@ export class ServiceFeatureService {
     async GetAvailableTeams(projectName:string)
     {
       return this.queryBus.execute(new GetAvailableTeamsQuery(projectName))
+    }
+
+    async GetMonthlyUtilization(Email:string)
+    {
+      return this.queryBus.execute(new GetMonthlyUtilizationQuery(Email))
     }
 }

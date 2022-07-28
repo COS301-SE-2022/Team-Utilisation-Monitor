@@ -15,6 +15,7 @@ export class AppController {
   @Get(':test')
   getTestFunction():Promise<any|null>
   {
-    return this.repository.getNumberOfMembersInATeam("3 wise men");
+    return this.repository.updateHistoricUtilization();
   }
+
 }
