@@ -55,10 +55,5 @@ export class CompTeamListComponent implements OnInit {
     this.matDialog.open(CompAddTeamMemberPopupComponent);
   }
 
-  DeleteTeamMember(Name:string)
-  {
-    //this.OutEmployeeName.includes(Name);
-
-  }
 
 }

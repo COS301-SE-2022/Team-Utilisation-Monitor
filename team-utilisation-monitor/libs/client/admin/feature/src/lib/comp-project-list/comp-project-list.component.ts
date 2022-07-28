@@ -43,5 +43,13 @@ export class CompProjectListComponent implements OnInit {
       })
   }
 
+  DeleteProject()
+  {
+    this.service.DeleteProject(this.Project.Name).subscribe(Data=>
+      {
+        alert(Data.data.CompleteProject)
+      })
+  }
+
 
 }
