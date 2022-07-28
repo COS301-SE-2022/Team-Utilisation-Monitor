@@ -57,6 +57,36 @@ export class CompListViewIndividualComponent implements OnInit {
       }
     }
 
+    if(Utiliz == 100){
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Fully Utilized!",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+
+    if(Utiliz > 100){
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Over Utilized!",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+
     console.log(ChartName);
     console.log(Utiliz);
     
