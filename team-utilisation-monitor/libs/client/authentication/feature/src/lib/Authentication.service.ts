@@ -38,7 +38,7 @@ export class AuthenticationService {
     }
     const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }),options)
 
-    console.log("Sheherezada");
+    //console.log("Sheherezada");
     return object;
 
   }
