@@ -46,11 +46,11 @@ Working in a development-based environment has managers managing resource alloca
    -  [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
    -  [Demo2 Pre-recording](https://drive.google.com/drive/u/2/folders/1pbA7qawV8k3V_pRlKZQ4F-XXfbLoiQis)
-   -  [Demo2 Live recording Here]
+   -  [Demo2 Live recording Here](https://drive.google.com/file/d/16UQkF0CtczHJZBEDU6JPxUwxIJnv859G/view?usp=sharing)
   
   
   #### Demo 3
-   -  [SRS Document Version 3](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
+   -  [SRS Document Version 3]
    -  [Project Management]
    -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
    -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
