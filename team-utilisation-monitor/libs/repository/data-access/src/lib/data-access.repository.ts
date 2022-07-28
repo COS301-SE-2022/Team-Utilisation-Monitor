@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -1465,7 +1465,7 @@ export class DataAccessRepository {
      * This function connects the admin to the company.
      */
 
-    async superCreateCompany(companyName:string,userPerson:UserPerson)
+    async superCreateCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1510,7 +1510,7 @@ export class DataAccessRepository {
      * This function is used to add employees to the database.
     */
 
-    async addEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    async addEmployeeToCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1539,7 +1539,7 @@ export class DataAccessRepository {
     }
 
 
-    async getInviteCode(CompanyName:string)
+    async getInviteCode(CompanyName:string):Promise<string>
     {
       const ID=await this.getCompanyID(CompanyName);
 
@@ -1556,7 +1556,7 @@ export class DataAccessRepository {
      * This function is used to add the Team members to the team.
      */
 
-    async addTeamMember(teamName:string,EmplooyeEmail:string)
+    async addTeamMember(teamName:string,EmplooyeEmail:string):Promise<string>
     {
 
       //Agape You can comment this out fo your utilization aproach
@@ -1608,7 +1608,7 @@ export class DataAccessRepository {
 
     }
 
-    async getTeamMembers(teamName:string)
+    async getTeamMembers(teamName:string):Promise<UserPerson[]>
     {
       const teamID=await this.getTeamIDVName(teamName);
       let members_Arr:UserPerson[]
@@ -1644,31 +1644,46 @@ export class DataAccessRepository {
       return members_Arr;
     }
 
-    async deleteMember(teamName:string,email:string)
+    async deleteMember(teamName:string,email:string):Promise<string>
     {
       const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      await this.prisma.team.update(
+      await this.prisma.personOnTeams.deleteMany(
         {
           where:{
-            id:teamID
-          },
-          data:
-          {
-            members:{
-              disconnect:{
-                id:empl_id
-              }
-            }
+            person_id:empl_id,
+            team_id:teamID
           }
         })
 
         return "Team Member DELETED"
     }
 
-    async deleteEmployee(Email:string)
+    async deleteEmployee(Email:string):Promise<Person>
     {
+      const empl_id= (await this.getUserIDVEmail(Email)).id;
+
+      //Unlink person from all teams
+      await this.prisma.personOnTeams.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
+      //Unlink person from all skills
+      await this.prisma.personOnSkills.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
       const deletedUser=await this.prisma.person.delete(
         {
           where:{
@@ -1685,7 +1700,7 @@ export class DataAccessRepository {
     }*/
 
 
-    async addSkill(skillType:string)
+    async addSkill(skillType:string):Promise<string>
     {
       try
       {
@@ -1706,7 +1721,7 @@ export class DataAccessRepository {
 
     }
 
-    async getSkills()
+    async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
       let SkillsArray:Skill[];
@@ -1732,7 +1747,7 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
 
       const empID=await this.prisma.person.update(
@@ -1763,7 +1778,7 @@ export class DataAccessRepository {
 
 
 
-    async getAllocatedTeams(UserEmail:string)
+    async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
         const userId=(await this.prisma.person.findUnique(
             {
@@ -1795,7 +1810,7 @@ export class DataAccessRepository {
 
     }
 
-    async getAllocatedProjects(userEmail:string)
+    async getAllocatedProjects(userEmail:string):Promise<ProjectEntity[]>
     {
       const teams=await this.getAllocatedTeams(userEmail);
       let projects_arr:ProjectEntity[]
@@ -1822,7 +1837,7 @@ export class DataAccessRepository {
       return projects_arr;
     }
 
-    async UpdateSkill(UserEmail:string,skillType:string)
+    async UpdateSkill(UserEmail:string,skillType:string):Promise<string>
     {
 
       const skill=await this.prisma.skills.findUnique(
@@ -1865,7 +1880,7 @@ export class DataAccessRepository {
         }
     }
 
-    async GetSkillVID(skillID:number)
+    async GetSkillVID(skillID:number):Promise<Skill>
     {
       const skill=await this.prisma.skills.findUnique(
         {
@@ -1888,7 +1903,7 @@ export class DataAccessRepository {
      * in a userEmail.
      */
 
-    async GetUserSkills(UserEmail:string)
+    async GetUserSkills(UserEmail:string):Promise<string[]>
     {
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
       let skill_Arr:string[]
@@ -1952,7 +1967,7 @@ export class DataAccessRepository {
 
     }
 
-    async GetAvailableTeamsForProject(projectName:string)
+    async GetAvailableTeamsForProject(projectName:string):Promise<string[]>
     {
       const projectId=await this.getProjectID(projectName);
       let TeamsObject:string[]
@@ -1977,7 +1992,7 @@ export class DataAccessRepository {
 
     }
 
-    async teamInProject(teamId:number,projectID:number)
+    async teamInProject(teamId:number,projectID:number):Promise<boolean>
     {
       const Team=await this.prisma.teamsOnProjects.findMany(
         {
@@ -2000,7 +2015,7 @@ export class DataAccessRepository {
       }
     }
 
-    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours):Promise<string>
     {
       //
       const result=await this.prisma.person.update(
@@ -2180,7 +2195,7 @@ export class DataAccessRepository {
             return null;
     }
 
-    async GetUnderUtilizedEmployees(companyName:string)
+    async GetUnderUtilizedEmployees(companyName:string):Promise<UserPerson[]>
     {
       //
       const comID=await this.getCompanyID(companyName);
@@ -2348,7 +2363,7 @@ export class DataAccessRepository {
     }
 
 
-    async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
+    async UpdateUtilizationForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2437,7 +2452,7 @@ export class DataAccessRepository {
 
       }
 
-      return ("Team "+teamName+" Utilization updated")
+      return("Team "+teamName+" Utilization updated")
 
     }
 
@@ -2445,7 +2460,7 @@ export class DataAccessRepository {
     /* This function resets the assigned hours
     after a new team Has been added to a project
     The function is activated before adding a team to a project*/
-    async ResetAssignedHours(projectName:string)
+    async ResetAssignedHours(projectName:string):Promise<string>
     {
       //
       const projectId=await this.getProjectID(projectName);
@@ -2536,7 +2551,7 @@ export class DataAccessRepository {
 
     }
 
-    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string)
+    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2634,7 +2649,7 @@ export class DataAccessRepository {
     that the team is a part of since the addition of a member changes the team hours in all
     their projects
     */
-    async UpdateUtilizationAfterMemberAddition(teamName:string)
+    async UpdateUtilizationAfterMemberAddition(teamName:string):Promise<void>
     {
       //
       const teamID=await this.getTeamIDVName(teamName);
@@ -2672,7 +2687,7 @@ export class DataAccessRepository {
     /*
     This function resets the Utilization per team member so that it can be recalculated after adding the
     new member */
-    async ResetUtilizationOfTeamMembers(teamName:string)
+    async ResetUtilizationOfTeamMembers(teamName:string):Promise<void>
     {
       const teamID=await this.getTeamIDVName(teamName);
 
@@ -2707,7 +2722,7 @@ export class DataAccessRepository {
 
 
 
-   async calculateMonthlyAverage()
+   async calculateMonthlyAverage():Promise<void>
     {
       const utilization=await this.prisma.historicUtilisation.findMany();
 
@@ -2733,7 +2748,7 @@ export class DataAccessRepository {
       }
     }
 
-    async updateHistoricUtilization()
+    async updateHistoricUtilization():Promise<void>
     {
       //get all users with a utilisation greater than 0
       const utilization=await this.prisma.person.findMany(
@@ -2922,7 +2937,7 @@ export class DataAccessRepository {
     }
 
 
-    async GetMonthlyUtilization(Email:string)
+    async GetMonthlyUtilization(Email:string):Promise<Utilization[]>
     {
       const utilization=await this.prisma.person.findUnique(
         {
@@ -3060,6 +3075,39 @@ export class DataAccessRepository {
 
     }
 
+    async completeProject(projectName:string)
+    {
+      //
+      const projectId=await this.getProjectID(projectName);
+      await this.ResetAssignedHours(projectName)
+
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+    }
+
+    async DeleteProject(projectName:string):Promise<void>
+    {
+      const projectId=await this.getProjectID(projectName);
+      await this.completeProject(projectName);
+
+      await this.prisma.project.delete(
+        {
+          where:
+          {
+            id:projectId
+          }
+
+        }
+      )
+
+    }
+
 
     /***
      * Use this function to get the person's ID using their unique email.
@@ -3078,6 +3126,99 @@ export class DataAccessRepository {
             return existing_person.id;
         else
             return -1;
+    }
+
+    //Get Company Utilization for all the months
+    async GetCompanyUtilization():Promise<CompanyUtilization>
+    {
+      await this.calculateMonthlyAverage();
+      const obj=new CompanyUtilization;
+      const JanStats=await this.prisma.historicUtilisation.findMany();
+      let JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC=0
+
+      for(let i=0;i<JanStats.length;i++)
+      {
+        if(JanStats[i].month=="JAN")
+        {
+          JAN+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="FEB")
+        {
+          FEB+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAR")
+        {
+          MAR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="APR")
+        {
+          APR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAY")
+        {
+          MAY+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="JUN")
+        {
+          JUN+=JanStats[i].monthy_avg
+
+        }
+        else if(JanStats[i].month=="JUL")
+        {
+          JUL+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="AUG")
+        {
+          AUG+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="SEP")
+        {
+          SEP+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="OCT")
+        {
+          OCT+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="NOV")
+        {
+          NOV+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="DEC")
+        {
+          DEC+=JanStats[i].monthy_avg
+        }
+
+      }
+
+      const Persons=await this.prisma.person.findMany(
+        {
+        }
+      )
+
+      let AvgUtilisation=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        //
+        AvgUtilisation+=Persons[i].utilisation
+      }
+
+      let NUM=Persons.length
+      //AA=verages
+      obj.JAN=JAN/NUM
+      obj.FEB=FEB/NUM;
+      obj.MAR=MAR/NUM;
+      obj.APR=APR/NUM;
+      obj.MAY=MAY/NUM;
+      obj.JUN=JUN/NUM
+      obj.JUL=JUL/NUM;
+      obj.AUG=AUG/NUM;
+      obj.SEP=SEP/NUM;
+      obj.OCT=OCT/NUM;
+      obj.NOV=NOV/NUM
+      obj.DEC=DEC/NUM
+      obj.Utilisation=AvgUtilisation/NUM
+
+      return obj
     }
 
 }

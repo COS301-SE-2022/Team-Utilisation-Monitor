@@ -1,3 +1,4 @@
+import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
 import { GetAvailableTeamsQuery } from './queries/impl/GetAvailableTeams.query';
 import { CalculateUtilizationCommand } from './commands/impl/CalculateUtilization.command';
@@ -256,5 +257,10 @@ export class ServiceFeatureService {
     async GetMonthlyUtilization(Email:string)
     {
       return this.queryBus.execute(new GetMonthlyUtilizationQuery(Email))
+    }
+
+    async GetCompanyUtilization()
+    {
+      return this.queryBus.execute(new GetCompanyUtilizationQuery);
     }
 }
