@@ -1,3 +1,7 @@
+import { DeleteProjectCommand } from './commands/impl/DeleteProject.command';
+import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
+import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
+import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
 import { GetAvailableTeamsQuery } from './queries/impl/GetAvailableTeams.query';
 import { CalculateUtilizationCommand } from './commands/impl/CalculateUtilization.command';
@@ -256,5 +260,25 @@ export class ServiceFeatureService {
     async GetMonthlyUtilization(Email:string)
     {
       return this.queryBus.execute(new GetMonthlyUtilizationQuery(Email))
+    }
+
+    async GetCompanyUtilization()
+    {
+      return this.queryBus.execute(new GetCompanyUtilizationQuery);
+    }
+
+    async CompleteProject(projectName:string)
+    {
+      return this.commandBus.execute(new CompleteProjectCommand(projectName))
+    }
+
+    async DeleteProject(projectName:string)
+    {
+      return this.commandBus.execute(new DeleteProjectCommand(projectName))
+    }
+
+    async GetTeamsOnProject(projectName:string)
+    {
+      return this.queryBus.execute(new GetTeamsOnProjectQuery(projectName));
     }
 }

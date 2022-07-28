@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'ngx-cookie-service';
+import { AdminService } from '../Admin.service';
 import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-popup/comp-project-data-view-popup.component';
 
@@ -11,11 +12,11 @@ import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-pop
 })
 
 export class CompProjectListComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private readonly cookie:CookieService) {}
+  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService) {}
 
-  @Input() Project!: { Name: string, TeamName: string, Hours: number }; 
+  @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
-  
+
 
   //the object has been passed down from the parent component
   //get Team associated with the Project from back end;
@@ -30,6 +31,25 @@ export class CompProjectListComponent implements OnInit {
   }
 
   onOpenProjectDataViewClick(){
+    this.cookie.set("project_name",this.Project.Name);
     this.matDialog.open(CompProjectDataViewPopupComponent);
   }
+
+  CompleteProject()
+  {
+    this.service.CompleteProject(this.Project.Name).subscribe(Data=>
+      {
+        alert(Data.data.CompleteProject)
+      })
+  }
+
+  DeleteProject()
+  {
+    this.service.DeleteProject(this.Project.Name).subscribe(Data=>
+      {
+        alert(Data.data.CompleteProject)
+      })
+  }
+
+
 }

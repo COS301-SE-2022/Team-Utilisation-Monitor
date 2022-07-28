@@ -139,8 +139,8 @@ export class AdminService {
 
   /***
    * This function returns all the teams currently working of the project.
-   * returns an array of [TeamEntity] 
-   * 
+   * returns an array of [TeamEntity]
+   *
    */
   getAllTeamsWorkingOnAProject(projectName:string):Observable<any>
   {
@@ -154,6 +154,31 @@ export class AdminService {
 
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
+  }
+
+  GetCompanyUtilization():Observable<any>
+  {
+    const query='query{GetCompanyUtilization{JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Utilisation}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  GetTeamsOnProject(projectName:string):Observable<any>
+  {
+    const query='query{GetTeamsOnProject(project_name:"'+projectName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   //MUTATIONS
@@ -281,9 +306,30 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    
+
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  CompleteProject(projectName:string):Observable<any>
+  {
+    const Query='mutation{CompleteProject(project_name:"'+projectName+'")}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  DeleteProject(projectName:string):Observable<any>
+  {
+    const Query='mutation{DeleteProject(project_name:"'+projectName+'")}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
 
 }

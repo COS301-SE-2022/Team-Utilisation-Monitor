@@ -2,9 +2,9 @@
     <mat-card class="Mat-Individual">
         <mat-card-content class="InvdividualBox">
                 <p class="InvdividualName">{{IndivName.Name}} {{IndivName.Surname}}<span id="emailText"> {{IndivName.Email}} </span></p>
-                
+
                 <span class="example-spacer"></span>
-                <button mat-raised-button class="InvdividualButton" color="warn" (click)="RemoveFromTeam(IndivName.TeamName,IndivName.Email)">
+                <button mat-raised-button class="InvdividualButton" color="warn" (click)="RemoveFromTeam(IndivName.Email)">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
         </mat-card-content>
