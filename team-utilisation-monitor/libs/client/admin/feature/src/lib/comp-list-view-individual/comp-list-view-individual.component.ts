@@ -12,8 +12,8 @@ export class CompListViewIndividualComponent implements OnInit {
   @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
 
   ngOnInit(): void {
-    var ChartName = this.Individual.Email;
-    var Utiliz = this.Individual.utilisation;
+    let ChartName = this.Individual.Email;
+    let Utiliz = this.Individual.utilisation;
 
     //changes the ID of the div to allow multiple graphs
     const thing = document.getElementById("ChartUtilization");
@@ -21,7 +21,7 @@ export class CompListViewIndividualComponent implements OnInit {
       thing.id = ChartName;
     }
     
-    var BarData = {
+    let BarData = {
       labels: ["Util 1"],
       datasets: [
         {
@@ -48,6 +48,36 @@ export class CompListViewIndividualComponent implements OnInit {
         datasets: [
           {
             label: "No Utilization Data Availible",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+
+    if(Utiliz == 100){
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Fully Utilized!",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+
+    if(Utiliz > 100){
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Over Utilized!",
             data: [100],
             backgroundColor: 'rgba(75, 192, 192, 0.5)',
             borderColor: 'rgba(75, 192, 192,0.6)',
@@ -95,6 +125,6 @@ export class CompListViewIndividualComponent implements OnInit {
           }
       };
 
-    var myChart = new Chart(ChartName, conf);
+    let myChart = new Chart(ChartName, conf);
   }
 }
