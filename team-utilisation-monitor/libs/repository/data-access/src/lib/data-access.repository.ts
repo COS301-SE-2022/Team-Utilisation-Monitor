@@ -3089,6 +3089,18 @@ export class DataAccessRepository {
           }
         }
       )
+
+      await this.prisma.project.update(
+        {
+          where:
+          {
+            id:projectId
+          },data:
+          {
+            completed:true
+          }
+        }
+      )
     }
 
     async DeleteProject(projectName:string):Promise<void>
