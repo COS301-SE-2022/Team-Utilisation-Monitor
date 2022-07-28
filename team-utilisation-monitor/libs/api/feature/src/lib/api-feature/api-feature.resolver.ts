@@ -1,5 +1,5 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -436,6 +436,12 @@ export class ApiFeatureResolver {
   async GetMonthlyUtilization(@Args("email") email:string)
   {
     return await this.service.GetMonthlyUtilization(email);
+  }
+
+  @Query(()=>CompanyUtilization)
+  async GetCompanyUtilization()
+  {
+    return await this.service.GetCompanyUtilization();
   }
 
   /*@Mutation(() => UserPerson)
