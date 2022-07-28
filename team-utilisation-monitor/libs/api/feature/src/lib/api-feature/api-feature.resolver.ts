@@ -1,5 +1,5 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity ,Skill} from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 
 import { UserInputError } from 'apollo-server-express';
@@ -425,11 +425,41 @@ export class ApiFeatureResolver {
   {
     return await this.service.GetAvailableTeams(projectName);
   }
-  
+
   @Mutation(()=>String)
   async assignWeeklyHoursToEmployee(@Args("email")email:string,@Args("weekly_hours")weekly_hours:number)
   {
     return await this.service.AssignWeeklyHoursToEmployee(email,weekly_hours);
+  }
+
+  @Query(()=>[Utilization])
+  async GetMonthlyUtilization(@Args("email") email:string)
+  {
+    return await this.service.GetMonthlyUtilization(email);
+  }
+
+  @Query(()=>CompanyUtilization)
+  async GetCompanyUtilization()
+  {
+    return await this.service.GetCompanyUtilization();
+  }
+
+  @Mutation(()=>String)
+  async CompleteProject(@Args("project_name") projectName:string)
+  {
+    return await this.service.CompleteProject(projectName);
+  }
+
+  @Mutation(()=>String)
+  async DeleteProject(@Args("project_name") projectName:string)
+  {
+    return await this.service.DeleteProject(projectName);
+  }
+
+  @Query(()=>[TeamEntity])
+  async GetTeamsOnProject(@Args("project_name") projectName:string)
+  {
+    return await this.service.GetTeamsOnProject(projectName);
   }
 
   /*@Mutation(() => UserPerson)

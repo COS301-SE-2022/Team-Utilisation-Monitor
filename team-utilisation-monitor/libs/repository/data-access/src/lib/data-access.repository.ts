@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -459,7 +459,7 @@ export class DataAccessRepository {
             return_project.ownwer_id=new_project.owner_id;
             return_project.man_hours=new_project.man_hours;
             return_project.teams=await this.getAllTeamsWorkingOnProject(projectName);
-            
+
             return return_project;
         }
         else //project is being created in isolation
@@ -1465,7 +1465,7 @@ export class DataAccessRepository {
      * This function connects the admin to the company.
      */
 
-    async superCreateCompany(companyName:string,userPerson:UserPerson)
+    async superCreateCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1510,7 +1510,7 @@ export class DataAccessRepository {
      * This function is used to add employees to the database.
     */
 
-    async addEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    async addEmployeeToCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1539,7 +1539,7 @@ export class DataAccessRepository {
     }
 
 
-    async getInviteCode(CompanyName:string)
+    async getInviteCode(CompanyName:string):Promise<string>
     {
       const ID=await this.getCompanyID(CompanyName);
 
@@ -1556,7 +1556,7 @@ export class DataAccessRepository {
      * This function is used to add the Team members to the team.
      */
 
-    async addTeamMember(teamName:string,EmplooyeEmail:string)
+    async addTeamMember(teamName:string,EmplooyeEmail:string):Promise<string>
     {
 
       //Agape You can comment this out fo your utilization aproach
@@ -1581,7 +1581,7 @@ export class DataAccessRepository {
             }
           }
         )
-        
+
         if(IsMember.length==0)
         {
           await this.prisma.personOnTeams.create(
@@ -1597,23 +1597,23 @@ export class DataAccessRepository {
           {
             this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
           }
-   
+
           return "Team Member added"
-        }  
+        }
         else
       {
           return "Already a team Member"
-        } 
+        }
         }
 
     }
 
-    async getTeamMembers(teamName:string)
+    async getTeamMembers(teamName:string):Promise<UserPerson[]>
     {
       const teamID=await this.getTeamIDVName(teamName);
       let members_Arr:UserPerson[]
       members_Arr=[]
-      
+
 
       const Team_members=await this.prisma.personOnTeams.findMany(
         {
@@ -1644,31 +1644,46 @@ export class DataAccessRepository {
       return members_Arr;
     }
 
-    async deleteMember(teamName:string,email:string)
+    async deleteMember(teamName:string,email:string):Promise<string>
     {
       const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
 
-      await this.prisma.team.update(
+      await this.prisma.personOnTeams.deleteMany(
         {
           where:{
-            id:teamID
-          },
-          data:
-          {
-            members:{
-              disconnect:{
-                id:empl_id
-              }
-            }
+            person_id:empl_id,
+            team_id:teamID
           }
         })
 
         return "Team Member DELETED"
     }
 
-    async deleteEmployee(Email:string)
+    async deleteEmployee(Email:string):Promise<Person>
     {
+      const empl_id= (await this.getUserIDVEmail(Email)).id;
+
+      //Unlink person from all teams
+      await this.prisma.personOnTeams.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
+      //Unlink person from all skills
+      await this.prisma.personOnSkills.deleteMany(
+        {
+          where:
+          {
+            person_id:empl_id
+          }
+        }
+      )
+
       const deletedUser=await this.prisma.person.delete(
         {
           where:{
@@ -1685,7 +1700,7 @@ export class DataAccessRepository {
     }*/
 
 
-    async addSkill(skillType:string)
+    async addSkill(skillType:string):Promise<string>
     {
       try
       {
@@ -1706,7 +1721,7 @@ export class DataAccessRepository {
 
     }
 
-    async getSkills()
+    async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
       let SkillsArray:Skill[];
@@ -1732,7 +1747,7 @@ export class DataAccessRepository {
       }
     }
 
-    async UpdatePersonProfile(Email:string,Name:string,Surname:string)
+    async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
 
       const empID=await this.prisma.person.update(
@@ -1759,11 +1774,11 @@ export class DataAccessRepository {
       }
     }
 
-    
 
 
 
-    async getAllocatedTeams(UserEmail:string)
+
+    async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
         const userId=(await this.prisma.person.findUnique(
             {
@@ -1795,7 +1810,7 @@ export class DataAccessRepository {
 
     }
 
-    async getAllocatedProjects(userEmail:string)
+    async getAllocatedProjects(userEmail:string):Promise<ProjectEntity[]>
     {
       const teams=await this.getAllocatedTeams(userEmail);
       let projects_arr:ProjectEntity[]
@@ -1822,7 +1837,7 @@ export class DataAccessRepository {
       return projects_arr;
     }
 
-    async UpdateSkill(UserEmail:string,skillType:string)
+    async UpdateSkill(UserEmail:string,skillType:string):Promise<string>
     {
 
       const skill=await this.prisma.skills.findUnique(
@@ -1865,7 +1880,7 @@ export class DataAccessRepository {
         }
     }
 
-    async GetSkillVID(skillID:number)
+    async GetSkillVID(skillID:number):Promise<Skill>
     {
       const skill=await this.prisma.skills.findUnique(
         {
@@ -1888,7 +1903,7 @@ export class DataAccessRepository {
      * in a userEmail.
      */
 
-    async GetUserSkills(UserEmail:string)
+    async GetUserSkills(UserEmail:string):Promise<string[]>
     {
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
       let skill_Arr:string[]
@@ -1952,7 +1967,7 @@ export class DataAccessRepository {
 
     }
 
-    async GetAvailableTeamsForProject(projectName:string)
+    async GetAvailableTeamsForProject(projectName:string):Promise<string[]>
     {
       const projectId=await this.getProjectID(projectName);
       let TeamsObject:string[]
@@ -1977,7 +1992,7 @@ export class DataAccessRepository {
 
     }
 
-    async teamInProject(teamId:number,projectID:number)
+    async teamInProject(teamId:number,projectID:number):Promise<boolean>
     {
       const Team=await this.prisma.teamsOnProjects.findMany(
         {
@@ -1988,7 +2003,7 @@ export class DataAccessRepository {
           }
         }
       )
-     
+
 
       if(Team.length==0) //Team is not on the project
       {
@@ -2000,7 +2015,7 @@ export class DataAccessRepository {
       }
     }
 
-    async AssignWeeklyHours(UserEmail:string,WeeklyHours)
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours):Promise<string>
     {
       //
       const result=await this.prisma.person.update(
@@ -2156,7 +2171,7 @@ export class DataAccessRepository {
             return Status.HEAVILY_UTILISED;
         else if(value==1)
             return Status.FULLY_UTILISED;
-        else 
+        else
             return Status.OVER_UTILISED;
     }
 
@@ -2180,7 +2195,7 @@ export class DataAccessRepository {
             return null;
     }
 
-    async GetUnderUtilizedEmployees(companyName:string)
+    async GetUnderUtilizedEmployees(companyName:string):Promise<UserPerson[]>
     {
       //
       const comID=await this.getCompanyID(companyName);
@@ -2225,7 +2240,7 @@ export class DataAccessRepository {
     }
 
 
-    /* 
+    /*
     UTILIZATION FUNCTIONS AND HELPERS by Gift*/
     async Project_Hours_Per_team(projectID:number):Promise<number>
     {
@@ -2302,6 +2317,7 @@ export class DataAccessRepository {
             let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
 
             let Statuss:Status
+
             if(Utilization==100)
             {
               Statuss='FULLY_UTILISED'
@@ -2309,6 +2325,10 @@ export class DataAccessRepository {
             else if(Utilization>=75 && Utilization<100)
             {
               Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
             }
             else if(Utilization>100)
             {
@@ -2335,14 +2355,15 @@ export class DataAccessRepository {
             )
           }
         }
-
       }
+
+      await this.updateHistoricUtilization();
 
       return "Utilization complete"
     }
 
-    
-    async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
+
+    async UpdateUtilizationForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2395,6 +2416,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2427,7 +2452,7 @@ export class DataAccessRepository {
 
       }
 
-      return ("Team "+teamName+" Utilization updated")
+      return("Team "+teamName+" Utilization updated")
 
     }
 
@@ -2435,7 +2460,7 @@ export class DataAccessRepository {
     /* This function resets the assigned hours
     after a new team Has been added to a project
     The function is activated before adding a team to a project*/
-    async ResetAssignedHours(projectName:string)
+    async ResetAssignedHours(projectName:string):Promise<string>
     {
       //
       const projectId=await this.getProjectID(projectName);
@@ -2487,6 +2512,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2522,7 +2551,7 @@ export class DataAccessRepository {
 
     }
 
-    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string)
+    async ResetAssignedHoursForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       const teamID=await this.getTeamIDVName(teamName);
@@ -2575,6 +2604,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2612,15 +2645,15 @@ export class DataAccessRepository {
     }
 
     /*
-    This Function recaulculates the utilization of all team Members of  A team in each project 
+    This Function recaulculates the utilization of all team Members of  A team in each project
     that the team is a part of since the addition of a member changes the team hours in all
-    their projects 
+    their projects
     */
-    async UpdateUtilizationAfterMemberAddition(teamName:string)
+    async UpdateUtilizationAfterMemberAddition(teamName:string):Promise<void>
     {
       //
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
         {
           where:
@@ -2635,14 +2668,14 @@ export class DataAccessRepository {
         for(let i=0;i<ProjectsByTeam.length;i++)
         {
           //
-          
+
           const Project=await this.prisma.project.findUnique(
             {
               where:
               {
                 id:ProjectsByTeam[i].project_id
               }
-          
+
             }
           )
           this.CalculateUtilizationVProject(Project.project_name);
@@ -2654,10 +2687,10 @@ export class DataAccessRepository {
     /*
     This function resets the Utilization per team member so that it can be recalculated after adding the
     new member */
-    async ResetUtilizationOfTeamMembers(teamName:string)
+    async ResetUtilizationOfTeamMembers(teamName:string):Promise<void>
     {
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
         {
           where:
@@ -2672,14 +2705,14 @@ export class DataAccessRepository {
         for(let i=0;i<ProjectsByTeam.length;i++)
         {
           //
-          
+
           const Project=await this.prisma.project.findUnique(
             {
               where:
               {
                 id:ProjectsByTeam[i].project_id
               }
-          
+
             }
           )
           this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
@@ -2688,39 +2721,223 @@ export class DataAccessRepository {
     }
 
 
-    
-   async calculateMonthlyAverage(Email:string)
+
+   async calculateMonthlyAverage():Promise<void>
     {
-      const utilization=await this.prisma.person.findUnique(
-        {
-          where:{
-            email:Email,
-          },
-          include:
-          {
-            utilisations:true
-          }
-        }
-      )
-      for(let i=0;i<utilization.utilisations.length;i++)
+      const utilization=await this.prisma.historicUtilisation.findMany();
+
+      if(utilization.length>0)
       {
-        let AVG=(utilization.utilisations[i].week1+utilization.utilisations[i].week2+utilization.utilisations[i].week3+utilization.utilisations[i].week4)/4;
-        await this.prisma.person.update(
-          {
-            where:
+
+        for(let i=0;i<utilization.length;i++)
+        {
+          let AVG=(utilization[i].week1+utilization[i].week2+utilization[i].week3+utilization[i].week4)/4;
+          await this.prisma.historicUtilisation.update(
             {
-              email:Email
-            },
-            data:
-            {
-              
+              where:
+              {
+                id:utilization[i].id
+              },
+              data:
+              {
+                monthy_avg:AVG
+              }
             }
-          }
-        )
+          )
+        }
       }
     }
 
-    async GetMonthlyUtilization(Email:string)
+    async updateHistoricUtilization():Promise<void>
+    {
+      //get all users with a utilisation greater than 0
+      const utilization=await this.prisma.person.findMany(
+        {
+          where:
+          {
+            utilisation:{
+              gt:0
+            }
+          }
+        }
+      )
+
+      const date=(new Date());
+      const day=date.getDay()
+      const month=this.getMonth(date.getMonth()+1)
+
+      let week=0;
+      if(day>=0 && day<8)  //week 1
+      {
+        week=1;
+      }
+      else if(day>=7 && day<14) //week2
+      {
+        week=2;
+      }
+      else if(day>=14 && day<21) //week 3
+      {
+        week=3
+      }
+      else
+      {
+        week=4
+      }
+      console.log(day);
+
+
+      for(let i=0;i<utilization.length;i++)
+      {
+        const H_ID=await this.prisma.historicUtilisation.findMany(
+          {
+            where:
+            {
+              month:month,
+              person_id:utilization[i].id
+            }
+          }
+        )
+
+        if(week==1)
+        {
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
+              {
+                data:{
+                  week1:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week1:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
+
+        }
+        else if(week==2)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week2:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+        else if(week==3)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week3:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+        else if(week==4)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week4:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+
+      }
+
+      this.calculateMonthlyAverage();
+    }
+
+    getMonth(month:number)
+    {
+      if(month==1)
+      {
+        return "JAN"
+      }
+      else if(month==2)
+      {
+        return "FEB"
+      }
+      else if(month==3)
+      {
+        return "MAR"
+      }
+      else if(month==4)
+      {
+        return "APR"
+      }
+      else if(month==5)
+      {
+        return "MAY"
+      }
+      else if(month==6)
+      {
+        return "JUN"
+      }
+      else if(month==7)
+      {
+        return "JUL"
+      }
+      else if(month==8)
+      {
+        return "AUG"
+      }
+      else if(month==9)
+      {
+        return "SEP"
+      }
+      else if(month==10)
+      {
+        return "OCT"
+      }
+      else if(month==11)
+      {
+        return "NOV"
+      }
+      else
+      {
+        return "DEC"
+      }
+    }
+
+
+    async GetMonthlyUtilization(Email:string):Promise<Utilization[]>
     {
       const utilization=await this.prisma.person.findUnique(
         {
@@ -2745,18 +2962,69 @@ export class DataAccessRepository {
         obj.Week2=utilization.utilisations[i].week2
         obj.Week3=utilization.utilisations[i].week3
         obj.Week4=utilization.utilisations[i].week4
-
         obj.Average=utilization.utilisations[i].monthy_avg
+        obj.Month=this.getMonthNumber(utilization.utilisations[i].month)
         utilization_arr.push(obj)
       }
-
       return utilization_arr;
+    }
+
+    getMonthNumber(month:string)
+    {
+      if(month=='JAN')
+      {
+        return 1
+      }
+      else if(month=='FEB')
+      {
+        return 2
+      }
+      else if(month=='MAR')
+      {
+        return 3
+      }
+      else if(month=='APR')
+      {
+        return 4
+      }
+      else if(month=='MAY')
+      {
+        return 5
+      }
+      else if(month=='JUN')
+      {
+        return 6
+      }
+      else if(month=='JUL')
+      {
+        return 7
+      }
+      else if(month=='AUG')
+      {
+        return 8
+      }
+      else if(month=='SEP')
+      {
+        return 9
+      }
+      else if(month=='OCT')
+      {
+        return 10
+      }
+      else if(month=='NOV')
+      {
+        return 11
+      }
+      else
+      {
+        return 12
+      }
     }
 
     async TeamBusy(teamName:string):Promise<boolean>
     {
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
         {
           where:
@@ -2807,6 +3075,89 @@ export class DataAccessRepository {
 
     }
 
+    async completeProject(projectName:string):Promise<string>
+    {
+      //
+      const projectId=await this.getProjectID(projectName);
+      await this.ResetAssignedHours(projectName)
+
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      await this.prisma.project.update(
+        {
+          where:
+          {
+            id:projectId
+          },data:
+          {
+            completed:true
+          }
+        }
+      )
+      return "Project Completed"
+    }
+
+    async DeleteProject(projectName:string):Promise<string>
+    {
+      const projectId=await this.getProjectID(projectName);
+      await this.completeProject(projectName);
+
+      await this.prisma.project.delete(
+        {
+          where:
+          {
+            id:projectId
+          }
+
+        }
+      )
+        return "Delete Project"
+    }
+
+    async GetTeams(projectName:string):Promise<TeamEntity[]>
+    {
+
+      const projectId=await this.getProjectID(projectName);
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      let TeamsOBJ:TeamEntity[]=[]
+
+      for(let i=0;i<TeamsOnProjects.length;i++)
+      {
+        const Team=await this.prisma.team.findUnique(
+          {
+            where:
+            {
+              id:TeamsOnProjects[i].team_id
+            }
+          }
+
+        )
+
+        const obj=new TeamEntity();
+        obj.team_name=Team.team_name
+        obj.id=Team.id
+        TeamsOBJ.push(obj)
+      }
+
+      return TeamsOBJ;
+
+    }
+
 
     /***
      * Use this function to get the person's ID using their unique email.
@@ -2826,5 +3177,110 @@ export class DataAccessRepository {
         else
             return -1;
     }
+
+    //Get Company Utilization for all the months
+    async GetCompanyUtilization():Promise<CompanyUtilization>
+    {
+      await this.calculateMonthlyAverage();
+      const obj=new CompanyUtilization;
+      const JanStats=await this.prisma.historicUtilisation.findMany();
+      let JAN=0
+      let FEB=0
+      let MAR=0
+      let APR=0
+      let MAY=0
+      let JUN=0
+      let JUL=0
+      let AUG=0
+      let SEP=0
+      let OCT=0
+      let NOV=0
+      let DEC=0
+
+      for(let i=0;i<JanStats.length;i++)
+      {
+        if(JanStats[i].month=="JAN")
+        {
+          JAN+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="FEB")
+        {
+          FEB+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAR")
+        {
+          MAR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="APR")
+        {
+          APR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAY")
+        {
+          MAY+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="JUN")
+        {
+          JUN+=JanStats[i].monthy_avg
+
+        }
+        else if(JanStats[i].month=="JUL")
+        {
+          JUL+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="AUG")
+        {
+          AUG+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="SEP")
+        {
+          SEP+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="OCT")
+        {
+          OCT+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="NOV")
+        {
+          NOV+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="DEC")
+        {
+          DEC+=JanStats[i].monthy_avg
+        }
+
+      }
+
+      const Persons=await this.prisma.person.findMany(
+        {
+        }
+      )
+
+      let AvgUtilisation=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        //
+        AvgUtilisation+=Persons[i].utilisation
+      }
+
+      let NUM=Persons.length
+      //AA=verages
+      obj.JAN=JAN/NUM
+      obj.FEB=FEB/NUM;
+      obj.MAR=MAR/NUM;
+      obj.APR=APR/NUM;
+      obj.MAY=MAY/NUM;
+      obj.JUN=JUN/NUM
+      obj.JUL=JUL/NUM;
+      obj.AUG=AUG/NUM;
+      obj.SEP=SEP/NUM;
+      obj.OCT=OCT/NUM;
+      obj.NOV=NOV/NUM
+      obj.DEC=DEC/NUM
+      obj.Utilisation=AvgUtilisation/NUM
+
+      return obj
+    }
+
 
 }

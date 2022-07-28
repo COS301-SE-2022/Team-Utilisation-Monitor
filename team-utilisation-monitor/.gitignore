@@ -5,10 +5,13 @@
 /tmp
 /out-tsc
 
+
 # dependencies
 node_modules
 
 # IDEs and editors
+/docker-compose.yml
+/.env
 /.idea
 .project
 .classpath
