@@ -169,6 +169,18 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
+  GetTeamsOnProject(projectName:string):Observable<any>
+  {
+    const query='query{GetTeamsOnProject(project_name:"'+projectName+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
   //MUTATIONS
 
   assignProjectToTeams(teamName:string,projectName:string):Observable<any>

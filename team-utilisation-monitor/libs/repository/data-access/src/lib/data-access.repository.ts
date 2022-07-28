@@ -3121,6 +3121,43 @@ export class DataAccessRepository {
         return "Delete Project"
     }
 
+    async GetTeams(projectName:string):Promise<TeamEntity[]>
+    {
+
+      const projectId=await this.getProjectID(projectName);
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      let TeamsOBJ:TeamEntity[]=[]
+
+      for(let i=0;i<TeamsOnProjects.length;i++)
+      {
+        const Team=await this.prisma.team.findUnique(
+          {
+            where:
+            {
+              id:TeamsOnProjects[i].team_id
+            }
+          }
+
+        )
+
+        const obj=new TeamEntity();
+        obj.team_name=Team.team_name
+        obj.id=Team.id
+        TeamsOBJ.push(obj)
+      }
+
+      return TeamsOBJ;
+
+    }
+
 
     /***
      * Use this function to get the person's ID using their unique email.
@@ -3244,5 +3281,6 @@ export class DataAccessRepository {
 
       return obj
     }
+
 
 }

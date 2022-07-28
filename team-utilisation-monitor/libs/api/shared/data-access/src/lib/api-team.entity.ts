@@ -29,5 +29,8 @@ export class TeamEntity{
     @Field()
     completed?:number;
 
-    
+    @Field()
+    utilisation?:number
+
+
 }

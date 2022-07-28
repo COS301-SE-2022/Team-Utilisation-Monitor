@@ -1,3 +1,4 @@
+import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
 import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
 import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
@@ -273,5 +274,10 @@ export class ServiceFeatureService {
     async DeleteProject(projectName:string)
     {
       return this.commandBus.execute(new DeleteEmployeeCommand(projectName))
+    }
+
+    async GetTeamsOnProject(projectName:string)
+    {
+      return this.queryBus.execute(new GetTeamsOnProjectQuery(projectName));
     }
 }

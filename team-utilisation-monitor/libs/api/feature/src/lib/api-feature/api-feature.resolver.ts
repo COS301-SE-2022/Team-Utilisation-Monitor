@@ -456,6 +456,12 @@ export class ApiFeatureResolver {
     return await this.service.DeleteProject(projectName);
   }
 
+  @Query(()=>[TeamEntity])
+  async GetTeamsOnProject(@Args("project_name") projectName:string)
+  {
+    return await this.service.GetTeamsOnProject(projectName);
+  }
+
   /*@Mutation(() => UserPerson)
   async deleteUser(@Args('id', { type: () => String }) id: string) {
     return new UserInputError('Not implemented');
