@@ -368,11 +368,22 @@ describe('ServiceFeatureService', () => {
         if (command.companyName === 'hotspur') {
   
           return 'thisshouldberandomlycreated';
-          
         }
+
+      } else if (command instanceof AddSkillCommand) {
+        if (command.skillType === 'python') {
+          
+          const skills = new Skill();
+
+          skills.id = 0;
+          skills.skill = command.skillType;
+
+          return skills;
+        }
+
       }
 
-      return 11;
+      return undefined;
     })
   }
   
@@ -478,7 +489,7 @@ describe('ServiceFeatureService', () => {
       });
   });
 
-  // incomplted? 
+  // incompelted? 
   describe("GetSkills", () => {
     it('should return Skills', async () => {
       let test = new Skill();
@@ -563,6 +574,16 @@ describe('ServiceFeatureService', () => {
         test = await createService.createInviteCode('hotspur');
       } catch (err) { return }
       expect(test).toEqual('thisshouldberandomlycreated');
+    });
+  });
+
+  describe("AddSkill", () => {
+    it('should add a Skill', async () => {
+      let test = new Skill();
+      try {
+        test = await createService.AddSkill('python');
+      } catch (err) { return }
+      expect(test.skill).toEqual('python');
     });
   });
 

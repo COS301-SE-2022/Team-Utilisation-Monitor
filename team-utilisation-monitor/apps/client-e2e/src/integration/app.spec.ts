@@ -47,6 +47,71 @@ describe('client', () => {
     
   })
 
+
+  it('should allow admin to navigate to home page',()=>{
+   
+    cy.contains("Account Sign In");
+    cy.get('[formControlName="email"]').type('robamiss@gmail.com'); 
+    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('#submitLoginFormButton').click({force:true});
+
+    cy.get('#AdminHome').click();
+    cy.visit('/AdminHome');
+  })
+
+  it('should allow admin to navigate to Admin List View',()=>{
+   
+    cy.contains("Account Sign In");
+    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('#submitLoginFormButton').click({force:true});
+
+    cy.get('#AdminListView').click();
+    cy.visit('/AdminListView');
+  })
+
+  it('should allow admin to navigate to Admin Company View',()=>{
+   
+    cy.contains("Account Sign In");
+    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('#submitLoginFormButton').click({force:true});
+
+    cy.get('#AdminCompanyView').click();
+    cy.visit('/AdminCompanyView');
+  })
+
+  it('should allow admin to navigate to Admin Project View',()=>{
+   
+    cy.contains("Account Sign In");
+    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('#submitLoginFormButton').click({force:true});
+
+    cy.get('#AdminTeamProjectView').click();
+    cy.visit('/AdminTeamProjectView'); 
+
+  })
+  
+  it('should allow admin to navigate through AdminListView, AdminCompanyView, AdminTeamProjectView, AdminHome',()=>{
+   
+    cy.contains("Account Sign In");
+    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('#submitLoginFormButton').click({force:true});
+
+    cy.get('#AdminListView').click();
+    cy.visit('/AdminListView');
+
+    cy.get('#AdminCompanyView').click();
+    cy.visit('/AdminCompanyView');
+
+    cy.get('#AdminTeamProjectView').click();
+    cy.visit('/AdminTeamProjectView');
+    
+    cy.get('#AdminHome').click();
+    cy.visit('/AdminHome');
+  })
   //testing new workflow
   
 });
