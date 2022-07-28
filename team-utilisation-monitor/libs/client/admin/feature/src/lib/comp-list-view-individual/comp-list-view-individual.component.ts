@@ -12,58 +12,89 @@ export class CompListViewIndividualComponent implements OnInit {
   @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
 
   ngOnInit(): void {
-    console.log();
-    const myChart = new Chart("IndivChart", {
-      type: 'bar',
-      data: {
-          labels: ["Util 1","Util 2","Util 3"],
-          datasets: [
-            {
-              label: "Project 1",
-              data: [this.Individual.utilisation],
-              backgroundColor: 'rgba(1, 156, 49, 0.5)',
-            },
-            /*{
-              label: "Project 2",
-              data: [30]
-            },*/
-            /*{
-              label: "unutilized",
-              data: [60]
-            }*/
-          ]
-      },
-      plugins: [ChartDataLabels],
-      options: {
-          responsive:true,
-          indexAxis:'y',
-          scales: {
-                y: {
-                    display:false,
-                    beginAtZero: true,
-                    stacked: true,
-                },
-                x: {
-                  display:false,
-                  stacked: true,
-                },
+    const ChartName = this.Individual.Email;
+    const Utiliz = this.Individual.utilisation;
 
-            },
-            plugins:{
-              datalabels: {
-                formatter: function(value, context) {
-                  return context.chart.data.datasets[context.datasetIndex].label + "\n" + context.chart.data.datasets[context.datasetIndex].data + "%";
-                },
-              },
-              legend:{
-                display:false
-              },
-              tooltip:{
-                enabled:false
-              }
-            }
+    //changes the ID of the div to allow multiple graphs
+    const thing = document.getElementById("ChartUtilization");
+    if(thing != null){
+      thing.id = ChartName;
+    }
+
+    let BarData = {
+      labels: ["Util 1"],
+      datasets: [
+        {
+          label: "Utilized",
+          data: [Utiliz],
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgba(75, 192, 192,0.6)',
+          borderWidth: 3
+        },
+        {
+          label: "un Utilized",
+          data: [100-Utiliz],
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          borderColor: 'rgba(255, 99, 132,0.6)',
+          borderWidth: 3
         }
-    });
-  }
+      ]
+    }
 
+    //checks of the user has utilization and outputs no utilization data availible
+    if(Utiliz == undefined){
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "No Utilization Data Availible",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+
+    console.log(ChartName);
+    console.log(Utiliz);
+
+    const conf:any = {
+      type: 'bar',
+      data: BarData,
+        plugins: [ChartDataLabels],
+        options: {
+            responsive:true,
+            indexAxis:'y',
+            scales: {
+                  y: {
+                      display:false,
+                      beginAtZero: true,
+                      stacked: true,
+                  },
+                  x: {
+                    display:false,
+                    stacked: true,
+                  },
+
+              },
+              plugins:{
+                datalabels: {
+                  formatter: function(value: any, context : any) {
+                    return context.chart.data.datasets[context.datasetIndex].label + "\n" + context.chart.data.datasets[context.datasetIndex].data + "%";
+                  },
+                },
+                legend:{
+                  display:false
+                },
+                tooltip:{
+                  enabled:false
+                }
+              }
+          }
+      };
+
+    const myChart = new Chart(ChartName, conf);
+  }
 }
