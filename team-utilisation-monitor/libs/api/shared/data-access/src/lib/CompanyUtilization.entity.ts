@@ -41,4 +41,7 @@ export class CompanyUtilization{
 
   @Field()
   DEC :number
+
+  @Field()
+  Utilisation :number
 }

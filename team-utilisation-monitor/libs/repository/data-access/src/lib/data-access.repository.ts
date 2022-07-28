@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -3091,7 +3091,7 @@ export class DataAccessRepository {
       )
     }
 
-    async DeleteProject(projectName:string)
+    async DeleteProject(projectName:string):Promise<void>
     {
       const projectId=await this.getProjectID(projectName);
       await this.completeProject(projectName);
@@ -3126,6 +3126,99 @@ export class DataAccessRepository {
             return existing_person.id;
         else
             return -1;
+    }
+
+    //Get Company Utilization for all the months
+    async GetCompanyUtilization():Promise<CompanyUtilization>
+    {
+      await this.calculateMonthlyAverage();
+      const obj=new CompanyUtilization;
+      const JanStats=await this.prisma.historicUtilisation.findMany();
+      let JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC=0
+
+      for(let i=0;i<JanStats.length;i++)
+      {
+        if(JanStats[i].month=="JAN")
+        {
+          JAN+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="FEB")
+        {
+          FEB+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAR")
+        {
+          MAR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="APR")
+        {
+          APR+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="MAY")
+        {
+          MAY+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="JUN")
+        {
+          JUN+=JanStats[i].monthy_avg
+
+        }
+        else if(JanStats[i].month=="JUL")
+        {
+          JUL+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="AUG")
+        {
+          AUG+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="SEP")
+        {
+          SEP+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="OCT")
+        {
+          OCT+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="NOV")
+        {
+          NOV+=JanStats[i].monthy_avg
+        }
+        else if(JanStats[i].month=="DEC")
+        {
+          DEC+=JanStats[i].monthy_avg
+        }
+
+      }
+
+      const Persons=await this.prisma.person.findMany(
+        {
+        }
+      )
+
+      let AvgUtilisation=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        //
+        AvgUtilisation+=Persons[i].utilisation
+      }
+
+      let NUM=Persons.length
+      //AA=verages
+      obj.JAN=JAN/NUM
+      obj.FEB=FEB/NUM;
+      obj.MAR=MAR/NUM;
+      obj.APR=APR/NUM;
+      obj.MAY=MAY/NUM;
+      obj.JUN=JUN/NUM
+      obj.JUL=JUL/NUM;
+      obj.AUG=AUG/NUM;
+      obj.SEP=SEP/NUM;
+      obj.OCT=OCT/NUM;
+      obj.NOV=NOV/NUM
+      obj.DEC=DEC/NUM
+      obj.Utilisation=AvgUtilisation/NUM
+
+      return obj
     }
 
 }
