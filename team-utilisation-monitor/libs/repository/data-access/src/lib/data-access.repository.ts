@@ -1078,6 +1078,7 @@ export class DataAccessRepository {
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
                     project.ownwer_id=company.projects[i].owner_id;
+                    project.man_hours=company.projects[i].man_hours
 
                     projects_arr.push(project);
                 }
