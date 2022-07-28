@@ -23,14 +23,14 @@ export class CompListViewIndividualComponent implements OnInit {
               data: [this.Individual.utilisation],
               backgroundColor: 'rgba(1, 156, 49, 0.5)',
             },
-            {
+            /*{
               label: "Project 2",
               data: [30]
-            },
-            {
+            },*/
+            /*{
               label: "unutilized",
               data: [60]
-            }
+            }*/
           ]
       },
       plugins: [ChartDataLabels],
