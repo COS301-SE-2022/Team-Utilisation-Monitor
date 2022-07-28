@@ -12,8 +12,8 @@ export class CompListViewIndividualComponent implements OnInit {
   @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
 
   ngOnInit(): void {
-    var ChartName = this.Individual.Email;
-    var Utiliz = this.Individual.utilisation;
+    let ChartName = this.Individual.Email;
+    let Utiliz = this.Individual.utilisation;
 
     //changes the ID of the div to allow multiple graphs
     const thing = document.getElementById("ChartUtilization");
@@ -21,7 +21,7 @@ export class CompListViewIndividualComponent implements OnInit {
       thing.id = ChartName;
     }
     
-    var BarData = {
+    let BarData = {
       labels: ["Util 1"],
       datasets: [
         {
@@ -125,6 +125,6 @@ export class CompListViewIndividualComponent implements OnInit {
           }
       };
 
-    var myChart = new Chart(ChartName, conf);
+    let myChart = new Chart(ChartName, conf);
   }
 }
