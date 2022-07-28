@@ -2716,10 +2716,9 @@ export class DataAccessRepository {
               {
                 id:ProjectsByTeam[i].project_id
               }
-
             }
           )
-          await this.CalculateUtilizationVProject(Project.project_name);
+          await this.UpdateUtilizationForOneTeam(Project.project_name,teamName)
         }
       }
     }

@@ -9,11 +9,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export class CompListViewIndividualComponent implements OnInit {
   //constructor() {}
 
-  @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
+  @Input() Individual!: { Name: string,Surname: string,Email:string ,Utilization:number};
 
   ngOnInit(): void {
     const ChartName = this.Individual.Email;
-    const Utiliz = this.Individual.utilisation;
+    const Utiliz = this.Individual.Utilization;
 
     //changes the ID of the div to allow multiple graphs
     const thing = document.getElementById("ChartUtilization");
@@ -30,14 +30,14 @@ export class CompListViewIndividualComponent implements OnInit {
           backgroundColor: 'rgba(75, 192, 192, 0.5)',
           borderColor: 'rgba(75, 192, 192,0.6)',
           borderWidth: 3
-        },
+        },/*
         {
           label: "un Utilized",
           data: [100-Utiliz],
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           borderColor: 'rgba(255, 99, 132,0.6)',
           borderWidth: 3
-        }
+        }*/
       ]
     }
 
@@ -57,8 +57,8 @@ export class CompListViewIndividualComponent implements OnInit {
       }
     }
 
-    console.log(ChartName);
-    console.log(Utiliz);
+    //console.log(ChartName);
+    //console.log(Utiliz);
 
     const conf:any = {
       type: 'bar',
