@@ -3075,7 +3075,7 @@ export class DataAccessRepository {
 
     }
 
-    async completeProject(projectName:string)
+    async completeProject(projectName:string):Promise<string>
     {
       //
       const projectId=await this.getProjectID(projectName);
@@ -3089,9 +3089,22 @@ export class DataAccessRepository {
           }
         }
       )
+
+      await this.prisma.project.update(
+        {
+          where:
+          {
+            id:projectId
+          },data:
+          {
+            completed:true
+          }
+        }
+      )
+      return "Project Completed"
     }
 
-    async DeleteProject(projectName:string):Promise<void>
+    async DeleteProject(projectName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       await this.completeProject(projectName);
@@ -3105,6 +3118,43 @@ export class DataAccessRepository {
 
         }
       )
+        return "Delete Project"
+    }
+
+    async GetTeams(projectName:string):Promise<TeamEntity[]>
+    {
+
+      const projectId=await this.getProjectID(projectName);
+      const TeamsOnProjects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            project_id:projectId
+          }
+        }
+      )
+
+      let TeamsOBJ:TeamEntity[]=[]
+
+      for(let i=0;i<TeamsOnProjects.length;i++)
+      {
+        const Team=await this.prisma.team.findUnique(
+          {
+            where:
+            {
+              id:TeamsOnProjects[i].team_id
+            }
+          }
+
+        )
+
+        const obj=new TeamEntity();
+        obj.team_name=Team.team_name
+        obj.id=Team.id
+        TeamsOBJ.push(obj)
+      }
+
+      return TeamsOBJ;
 
     }
 
@@ -3134,7 +3184,18 @@ export class DataAccessRepository {
       await this.calculateMonthlyAverage();
       const obj=new CompanyUtilization;
       const JanStats=await this.prisma.historicUtilisation.findMany();
-      let JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC=0
+      let JAN=0
+      let FEB=0
+      let MAR=0
+      let APR=0
+      let MAY=0
+      let JUN=0
+      let JUL=0
+      let AUG=0
+      let SEP=0
+      let OCT=0
+      let NOV=0
+      let DEC=0
 
       for(let i=0;i<JanStats.length;i++)
       {
@@ -3220,5 +3281,6 @@ export class DataAccessRepository {
 
       return obj
     }
+
 
 }
