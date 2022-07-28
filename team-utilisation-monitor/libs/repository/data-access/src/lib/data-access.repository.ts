@@ -1465,7 +1465,7 @@ export class DataAccessRepository {
      * This function connects the admin to the company.
      */
 
-    async superCreateCompany(companyName:string,userPerson:UserPerson)
+    async superCreateCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1510,7 +1510,7 @@ export class DataAccessRepository {
      * This function is used to add employees to the database.
     */
 
-    async addEmployeeToCompany(companyName:string,userPerson:UserPerson)
+    async addEmployeeToCompany(companyName:string,userPerson:UserPerson):Promise<void>
     {
         const c_id=await this.getCompanyID(companyName);
 
@@ -1539,7 +1539,7 @@ export class DataAccessRepository {
     }
 
 
-    async getInviteCode(CompanyName:string)
+    async getInviteCode(CompanyName:string):Promise<string>
     {
       const ID=await this.getCompanyID(CompanyName);
 
@@ -1556,7 +1556,7 @@ export class DataAccessRepository {
      * This function is used to add the Team members to the team.
      */
 
-    async addTeamMember(teamName:string,EmplooyeEmail:string)
+    async addTeamMember(teamName:string,EmplooyeEmail:string):Promise<string>
     {
 
       //Agape You can comment this out fo your utilization aproach
@@ -1608,7 +1608,7 @@ export class DataAccessRepository {
 
     }
 
-    async getTeamMembers(teamName:string)
+    async getTeamMembers(teamName:string):Promise<UserPerson[]>
     {
       const teamID=await this.getTeamIDVName(teamName);
       let members_Arr:UserPerson[]
@@ -1644,7 +1644,7 @@ export class DataAccessRepository {
       return members_Arr;
     }
 
-    async deleteMember(teamName:string,email:string)
+    async deleteMember(teamName:string,email:string):Promise<string>
     {
       const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
@@ -3094,7 +3094,17 @@ export class DataAccessRepository {
     async DeleteProject(projectName:string)
     {
       const projectId=await this.getProjectID(projectName);
-      await this.completeProject(projectName)
+      await this.completeProject(projectName);
+
+      await this.prisma.project.delete(
+        {
+          where:
+          {
+            id:projectId
+          }
+
+        }
+      )
 
     }
 
