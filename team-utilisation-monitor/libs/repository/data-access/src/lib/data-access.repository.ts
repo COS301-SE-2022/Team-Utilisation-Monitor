@@ -3134,6 +3134,7 @@ export class DataAccessRepository {
         }
       )
 
+
       let TeamsOBJ:TeamEntity[]=[]
 
       for(let i=0;i<TeamsOnProjects.length;i++)
@@ -3157,7 +3158,6 @@ export class DataAccessRepository {
       return TeamsOBJ;
 
     }
-
 
     /***
      * Use this function to get the person's ID using their unique email.
@@ -3281,6 +3281,8 @@ export class DataAccessRepository {
 
       return obj
     }
+
+
 
 
 }

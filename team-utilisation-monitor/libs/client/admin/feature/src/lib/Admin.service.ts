@@ -310,5 +310,15 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  CompleteProject(projectName:string):Observable<any>
+  {
+    const Query='mutation{CompleteProject(project_name:"'+projectName+'")}';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
 
 }

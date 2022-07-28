@@ -11,7 +11,7 @@
         <button class="userRequestButton" (click)="onOpenAddTeamMemberClick(TeamName.Name)" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
         <team-utilisation-monitor-comp-team-individual
         *ngFor="let user of OutEmployeeName"
-        [IndivName] = "user"></team-utilisation-monitor-comp-team-individual>
+        [IndivName] = "user" [TeamName]="TeamName"></team-utilisation-monitor-comp-team-individual>
     </mat-expansion-panel>
 </mat-accordion>
 <!---TeamName.Name is a parent variable i.e inherited from the parent. I'm putting it in the cook
