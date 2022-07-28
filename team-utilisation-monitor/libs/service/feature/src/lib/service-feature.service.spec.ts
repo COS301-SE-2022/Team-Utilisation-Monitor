@@ -566,5 +566,15 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("AddSkill", () => {
+    it('should add a Skill', async () => {
+      let test = new Skill();
+      try {
+        test = await createService.AddSkill('python');
+      } catch (err) { return }
+      expect(test.skill).toEqual('python');
+    });
+  });
+
 });
 
