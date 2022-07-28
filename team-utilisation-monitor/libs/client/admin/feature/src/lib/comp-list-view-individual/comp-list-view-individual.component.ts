@@ -20,7 +20,6 @@ export class CompListViewIndividualComponent implements OnInit {
     if(thing != null){
       thing.id = ChartName;
     }
-
     let BarData = {
       labels: ["Util 1"],
       datasets: [
@@ -30,19 +29,19 @@ export class CompListViewIndividualComponent implements OnInit {
           backgroundColor: 'rgba(75, 192, 192, 0.5)',
           borderColor: 'rgba(75, 192, 192,0.6)',
           borderWidth: 3
-        },/*
+        },
         {
-          label: "un Utilized",
+          label: "Un-Utilized",
           data: [100-Utiliz],
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           borderColor: 'rgba(255, 99, 132,0.6)',
           borderWidth: 3
-        }*/
+        }
       ]
     }
 
     //checks of the user has utilization and outputs no utilization data availible
-    if(Utiliz == undefined){
+    if(Utiliz == 0){
       BarData = {
         labels: ["Util 1"],
         datasets: [
@@ -56,9 +55,39 @@ export class CompListViewIndividualComponent implements OnInit {
         ]
       }
     }
+      else if(Utiliz == 100)
+      {
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Fully Utilized!",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
+    else if(Utiliz > 100)
+    {
+      BarData = {
+        labels: ["Util 1"],
+        datasets: [
+          {
+            label: "Over Utilized!",
+            data: [100],
+            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            borderColor: 'rgba(75, 192, 192,0.6)',
+            borderWidth: 3
+          }
+        ]
+      }
+    }
 
-    //console.log(ChartName);
-    //console.log(Utiliz);
+    console.log(ChartName);
+    console.log(Utiliz);
 
     const conf:any = {
       type: 'bar',
