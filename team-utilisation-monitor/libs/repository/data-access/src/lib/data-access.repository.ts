@@ -495,8 +495,8 @@ export class DataAccessRepository {
 
         const project_id=await this.getProjectID(projectName);
 
-        console.log(team_id+" "+teamName);
-        console.log(project_id+" "+projectName);
+        //console.log(team_id+" "+teamName);
+        //console.log(project_id+" "+projectName);
 
         if(team_id>0 && project_id>0)
             return await this.AssignProjectToTeam(team_id,project_id);
@@ -1581,7 +1581,7 @@ export class DataAccessRepository {
             }
           }
         )
-        
+
         if(IsMember.length==0)
         {
           await this.prisma.personOnTeams.create(
@@ -1597,13 +1597,13 @@ export class DataAccessRepository {
           {
             this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
           }
-   
+
           return "Team Member added"
-        }  
+        }
         else
       {
           return "Already a team Member"
-        } 
+        }
         }
 
     }
@@ -1613,7 +1613,7 @@ export class DataAccessRepository {
       const teamID=await this.getTeamIDVName(teamName);
       let members_Arr:UserPerson[]
       members_Arr=[]
-      
+
 
       const Team_members=await this.prisma.personOnTeams.findMany(
         {
@@ -1759,7 +1759,7 @@ export class DataAccessRepository {
       }
     }
 
-    
+
 
 
 
@@ -1988,7 +1988,7 @@ export class DataAccessRepository {
           }
         }
       )
-     
+
 
       if(Team.length==0) //Team is not on the project
       {
@@ -2156,7 +2156,7 @@ export class DataAccessRepository {
             return Status.HEAVILY_UTILISED;
         else if(value==1)
             return Status.FULLY_UTILISED;
-        else 
+        else
             return Status.OVER_UTILISED;
     }
 
@@ -2225,7 +2225,7 @@ export class DataAccessRepository {
     }
 
 
-    /* 
+    /*
     UTILIZATION FUNCTIONS AND HELPERS by Gift*/
     async Project_Hours_Per_team(projectID:number):Promise<number>
     {
@@ -2271,7 +2271,6 @@ export class DataAccessRepository {
         }}
       )
 
-      //const hours=0;
 
       for(let i=0;i<TeamsOnProject.length;i++)
       {
@@ -2312,6 +2311,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2321,7 +2324,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            await this.prisma.person.update(
+            const update=await this.prisma.person.update(
               {
                 where:
                 {
@@ -2337,13 +2340,14 @@ export class DataAccessRepository {
             )
           }
         }
-
       }
+
+      await this.updateHistoricUtilization();
 
       return "Utilization complete"
     }
 
-    
+
     async UpdateUtilizationForOneTeam(projectName:string,teamName:string)
     {
       const projectId=await this.getProjectID(projectName);
@@ -2396,6 +2400,10 @@ export class DataAccessRepository {
             else if(Utilization>=75 && Utilization<100)
             {
               Statuss='HEAVILY_UTILISED'
+            }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
             }
             else if(Utilization>100)
             {
@@ -2489,6 +2497,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2577,6 +2589,10 @@ export class DataAccessRepository {
             {
               Statuss='HEAVILY_UTILISED'
             }
+            else if(Utilization>=50 && Utilization<75)
+            {
+              Statuss='FAIRLY_UTILISED'
+            }
             else if(Utilization>100)
             {
               Statuss='OVER_UTILISED'
@@ -2614,15 +2630,15 @@ export class DataAccessRepository {
     }
 
     /*
-    This Function recaulculates the utilization of all team Members of  A team in each project 
+    This Function recaulculates the utilization of all team Members of  A team in each project
     that the team is a part of since the addition of a member changes the team hours in all
-    their projects 
+    their projects
     */
     async UpdateUtilizationAfterMemberAddition(teamName:string)
     {
       //
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
         {
           where:
@@ -2637,14 +2653,14 @@ export class DataAccessRepository {
         for(let i=0;i<ProjectsByTeam.length;i++)
         {
           //
-          
+
           const Project=await this.prisma.project.findUnique(
             {
               where:
               {
                 id:ProjectsByTeam[i].project_id
               }
-          
+
             }
           )
           this.CalculateUtilizationVProject(Project.project_name);
@@ -2659,7 +2675,7 @@ export class DataAccessRepository {
     async ResetUtilizationOfTeamMembers(teamName:string)
     {
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const ProjectsByTeam=await this.prisma.teamsOnProjects.findMany(
         {
           where:
@@ -2674,14 +2690,14 @@ export class DataAccessRepository {
         for(let i=0;i<ProjectsByTeam.length;i++)
         {
           //
-          
+
           const Project=await this.prisma.project.findUnique(
             {
               where:
               {
                 id:ProjectsByTeam[i].project_id
               }
-          
+
             }
           )
           this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
@@ -2690,37 +2706,221 @@ export class DataAccessRepository {
     }
 
 
-    
-   async calculateMonthlyAverage(Email:string)
+
+   async calculateMonthlyAverage()
     {
-      const utilization=await this.prisma.person.findUnique(
+      const utilization=await this.prisma.historicUtilisation.findMany();
+
+      if(utilization.length>0)
+      {
+
+        for(let i=0;i<utilization.length;i++)
         {
-          where:{
-            email:Email,
-          },
-          include:
+          let AVG=(utilization[i].week1+utilization[i].week2+utilization[i].week3+utilization[i].week4)/4;
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:utilization[i].id
+              },
+              data:
+              {
+                monthy_avg:AVG
+              }
+            }
+          )
+        }
+      }
+    }
+
+    async updateHistoricUtilization()
+    {
+      //get all users with a utilisation greater than 0
+      const utilization=await this.prisma.person.findMany(
+        {
+          where:
           {
-            utilisations:true
+            utilisation:{
+              gt:0
+            }
           }
         }
       )
-      for(let i=0;i<utilization.utilisations.length;i++)
+
+      const date=(new Date());
+      const day=date.getDay()
+      const month=this.getMonth(date.getMonth()+1)
+
+      let week=0;
+      if(day>=0 && day<8)  //week 1
       {
-        let AVG=(utilization.utilisations[i].week1+utilization.utilisations[i].week2+utilization.utilisations[i].week3+utilization.utilisations[i].week4)/4;
-        await this.prisma.person.update(
+        week=1;
+      }
+      else if(day>=7 && day<14) //week2
+      {
+        week=2;
+      }
+      else if(day>=14 && day<21) //week 3
+      {
+        week=3
+      }
+      else
+      {
+        week=4
+      }
+      console.log(day);
+
+
+      for(let i=0;i<utilization.length;i++)
+      {
+        const H_ID=await this.prisma.historicUtilisation.findMany(
           {
             where:
             {
-              email:Email
-            },
-            data:
-            {
-              
+              month:month,
+              person_id:utilization[i].id
             }
           }
         )
+
+        if(week==1)
+        {
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
+              {
+                data:{
+                  week1:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week1:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
+
+        }
+        else if(week==2)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week2:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+        else if(week==3)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week3:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+        else if(week==4)
+        {
+          await this.prisma.historicUtilisation.update(
+            {
+              where:
+              {
+                id:H_ID[0].id
+              },
+              data:{
+                week4:utilization[i].utilisation,
+                person_id:utilization[i].id,
+                month:month
+              }
+            }
+          )
+        }
+
+      }
+
+      this.calculateMonthlyAverage();
+    }
+
+    getMonth(month:number)
+    {
+      if(month==1)
+      {
+        return "JAN"
+      }
+      else if(month==2)
+      {
+        return "FEB"
+      }
+      else if(month==3)
+      {
+        return "MAR"
+      }
+      else if(month==4)
+      {
+        return "APR"
+      }
+      else if(month==5)
+      {
+        return "MAY"
+      }
+      else if(month==6)
+      {
+        return "JUN"
+      }
+      else if(month==7)
+      {
+        return "JUL"
+      }
+      else if(month==8)
+      {
+        return "AUG"
+      }
+      else if(month==9)
+      {
+        return "SEP"
+      }
+      else if(month==10)
+      {
+        return "OCT"
+      }
+      else if(month==11)
+      {
+        return "NOV"
+      }
+      else
+      {
+        return "DEC"
       }
     }
+
 
     async GetMonthlyUtilization(Email:string)
     {
@@ -2747,18 +2947,69 @@ export class DataAccessRepository {
         obj.Week2=utilization.utilisations[i].week2
         obj.Week3=utilization.utilisations[i].week3
         obj.Week4=utilization.utilisations[i].week4
-
         obj.Average=utilization.utilisations[i].monthy_avg
+        obj.Month=this.getMonthNumber(utilization.utilisations[i].month)
         utilization_arr.push(obj)
       }
-
       return utilization_arr;
+    }
+
+    getMonthNumber(month:string)
+    {
+      if(month=='JAN')
+      {
+        return 1
+      }
+      else if(month=='FEB')
+      {
+        return 2
+      }
+      else if(month=='MAR')
+      {
+        return 3
+      }
+      else if(month=='APR')
+      {
+        return 4
+      }
+      else if(month=='MAY')
+      {
+        return 5
+      }
+      else if(month=='JUN')
+      {
+        return 6
+      }
+      else if(month=='JUL')
+      {
+        return 7
+      }
+      else if(month=='AUG')
+      {
+        return 8
+      }
+      else if(month=='SEP')
+      {
+        return 9
+      }
+      else if(month=='OCT')
+      {
+        return 10
+      }
+      else if(month=='NOV')
+      {
+        return 11
+      }
+      else
+      {
+        return 12
+      }
     }
 
     async TeamBusy(teamName:string):Promise<boolean>
     {
       const teamID=await this.getTeamIDVName(teamName);
-      
+
       const TeamsOnProject=await this.prisma.teamsOnProjects.findMany(
         {
           where:

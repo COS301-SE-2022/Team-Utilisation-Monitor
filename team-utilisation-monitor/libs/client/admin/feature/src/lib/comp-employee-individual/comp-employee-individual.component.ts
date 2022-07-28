@@ -18,12 +18,23 @@ export class CompEmployeeIndividualComponent implements OnInit {
     if (user == employee) menueOption = "Promote to Admin"
 
   */
-  menueOption = "Promote to admin"
+  menueOption = "Promote to admin";
+  hours=0;
 
   @Input() IndivName!: { Name: string ,Surname:string,Email:string,Role:string};
 
   ngOnInit(): void {
     console.log();
+  }
+
+  updateWeeklyHours(email:string){
+    //console.log(email+" "+this.hours);
+    this.service.updateWeeklyHoursForEmployee(email,this.hours).subscribe(
+      data=>{
+        alert("Updated "+this.IndivName.Name+"'s hours");
+        console.log(data);
+      }
+    )
   }
 
   DeleteEmployee(email:string)

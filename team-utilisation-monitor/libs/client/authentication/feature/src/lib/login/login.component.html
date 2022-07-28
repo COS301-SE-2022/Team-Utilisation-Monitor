@@ -34,7 +34,7 @@
                                     <input type="password" id="login_Password" matInput formControlName="password">
                                 </mat-form-field>
                             </div>
-                            <button type="submit"  mat-raised-button color="primary" [disabled]="!loginForm.valid" >Sign In</button>
+                            <button type="submit" id="submitLoginFormButton" mat-raised-button color="primary" [disabled]="!loginForm.valid" >Sign In</button>
                         </form>
                     </mat-card-content>
                 </mat-card>
@@ -43,7 +43,7 @@
                     <mat-card-title>Don't have an account?</mat-card-title>
                     <mat-card-content>
                         <br>
-                        <button routerLink="signup_as_page" mat-raised-button color="accent">Create Account</button>
+                        <button routerLink="signup_as_page" id="createAccountBtn" mat-raised-button color="accent">Create Account</button>
                     </mat-card-content>
                 </mat-card>
             </div>
