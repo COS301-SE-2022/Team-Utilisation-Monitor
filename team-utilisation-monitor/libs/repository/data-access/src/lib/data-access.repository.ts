@@ -3075,7 +3075,7 @@ export class DataAccessRepository {
 
     }
 
-    async completeProject(projectName:string)
+    async completeProject(projectName:string):Promise<string>
     {
       //
       const projectId=await this.getProjectID(projectName);
@@ -3101,9 +3101,10 @@ export class DataAccessRepository {
           }
         }
       )
+      return "Project Completed"
     }
 
-    async DeleteProject(projectName:string):Promise<void>
+    async DeleteProject(projectName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
       await this.completeProject(projectName);
@@ -3117,7 +3118,7 @@ export class DataAccessRepository {
 
         }
       )
-
+        return "Delete Project"
     }
 
 
@@ -3146,7 +3147,18 @@ export class DataAccessRepository {
       await this.calculateMonthlyAverage();
       const obj=new CompanyUtilization;
       const JanStats=await this.prisma.historicUtilisation.findMany();
-      let JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC=0
+      let JAN=0
+      let FEB=0
+      let MAR=0
+      let APR=0
+      let MAY=0
+      let JUN=0
+      let JUL=0
+      let AUG=0
+      let SEP=0
+      let OCT=0
+      let NOV=0
+      let DEC=0
 
       for(let i=0;i<JanStats.length;i++)
       {
