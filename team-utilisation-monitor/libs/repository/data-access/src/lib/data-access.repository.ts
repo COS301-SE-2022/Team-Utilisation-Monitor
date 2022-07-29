@@ -773,7 +773,7 @@ export class DataAccessRepository {
             return_stats.numTeams=numTeams;
             return_stats.numEmployees=numEmployees;
             return_stats.numAdmins=numAdmins;
-            return_stats.Utilization=await this.companyOveralUtilisation()
+            return_stats.Utilization=await this.companyOveralUtilisation();
 
             return return_stats;
 
