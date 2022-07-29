@@ -37,6 +37,7 @@ export class AdminHomePageComponent implements OnInit {
         this.nrOfOpenProjects =data.data.getCompanyStats.numProjects;
         //nrOfClosedProjects = 0;
         this.nrOfTeams=data.data.getCompanyStats.numTeams;
+        this.utilizationPersentage=data.data.getCompanyStats.Utilization
       })
       console.log()
   }

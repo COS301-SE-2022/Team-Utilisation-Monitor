@@ -773,6 +773,7 @@ export class DataAccessRepository {
             return_stats.numTeams=numTeams;
             return_stats.numEmployees=numEmployees;
             return_stats.numAdmins=numAdmins;
+            return_stats.Utilization=await this.companyOveralUtilisation()
 
             return return_stats;
 
@@ -3319,6 +3320,11 @@ export class DataAccessRepository {
       obj.DEC=DEC/NUM;
       obj.Utilisation=AvgUtilisation/NUM
       return obj
+    }
+
+    async companyOveralUtilisation():Promise<number>
+    {
+      return await (await this.GetCompanyUtilization()).Utilisation
     }
 
 }

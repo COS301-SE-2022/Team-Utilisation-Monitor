@@ -15,5 +15,8 @@ export class CompanyStatsEntity{
     @Field()
     numAdmins?:number
 
+    @Field()
+    Utilization?:number
+
 
 }
