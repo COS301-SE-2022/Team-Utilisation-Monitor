@@ -74,32 +74,29 @@ export class IndividualProfileComponent implements OnInit {
       error: (err) => { console.log(err); }
     })
 
-    this.service.getUserSkills(email).subscribe(Data=>
+    /*this.service.getUserSkills(email).subscribe(Data=>
       {
-        for(const req of Data.data.GetUserSkills)
+        if(this.currSkills.length==0)
         {
-          this.currSkills.push(req)
+
+          for(const req of Data.data.GetUserSkills)
+          {
+            this.currSkills.push(req)
+          }
         }
-      })
+      })*/
 
   this.service.getSkills().subscribe(data=>{
     //
     for(const request of data.data.GetSkill)
     {
-      for(let i=0;i<this.currSkills.length;++i)
-      {
-        if(request != this.currSkills[i])
-        {
-          this.newSkills.push(request.skill)
-          break
-        }
-      }
+      this.newSkills.push(request.skill)
     }
   })
 
 
 
-  this.service.getUserSkills(email).subscribe(Data=>
+ this.service.getUserSkills(email).subscribe(Data=>
     {
       for(const req of Data.data.GetUserSkills)
       {
@@ -170,7 +167,7 @@ export class IndividualProfileComponent implements OnInit {
     for(let i=0;i<this.selectedSkill.length;++i) {
       this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
        {
-             console.log(Result.data)
+             alert(Result.data.UpdateUserSkill)
         });
      }
   }
