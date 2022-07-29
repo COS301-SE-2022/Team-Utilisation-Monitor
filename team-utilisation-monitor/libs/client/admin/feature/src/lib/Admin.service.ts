@@ -32,7 +32,7 @@ export class AdminService {
 
   getCompanyStats(companyName: string):Observable<any>
   {
-      const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees}}'
+      const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
