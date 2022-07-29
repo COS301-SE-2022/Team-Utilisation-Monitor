@@ -1890,24 +1890,13 @@ export class DataAccessRepository {
           }
         }
       )
+
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
       const PersonSkill=await this.prisma.personOnSkills.create(
           {
             data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:userId
-                }
-              }
+              skill_id:skill.id,
+              person_id:userId
             }
           }
         )

@@ -167,7 +167,7 @@ export class IndividualProfileComponent implements OnInit {
     for(let i=0;i<this.selectedSkill.length;++i) {
       this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
        {
-             console.log(Result.data)
+             alert(Result.data.UpdateUserSkill)
         });
      }
   }
