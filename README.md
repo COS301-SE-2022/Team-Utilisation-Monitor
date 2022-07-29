@@ -50,8 +50,7 @@ Working in a development-based environment has managers managing resource alloca
   
   
   #### Demo 3
-   -  [SRS Document Version 3]
-   -  [Project Management]
+   -  [SRS Document Version 3](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
    -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
    -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)

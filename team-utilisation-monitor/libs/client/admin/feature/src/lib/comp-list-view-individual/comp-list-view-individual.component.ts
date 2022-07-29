@@ -9,18 +9,17 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export class CompListViewIndividualComponent implements OnInit {
   //constructor() {}
 
-  @Input() Individual!: { Name: string,Surname: string,Email:string ,utilisation:number};
+  @Input() Individual!: { Name: string,Surname: string,Email:string ,Utilization:number};
 
   ngOnInit(): void {
-    let ChartName = this.Individual.Email;
-    let Utiliz = this.Individual.utilisation;
+    const ChartName = this.Individual.Email;
+    const Utiliz = this.Individual.Utilization;
 
     //changes the ID of the div to allow multiple graphs
     const thing = document.getElementById("ChartUtilization");
     if(thing != null){
       thing.id = ChartName;
     }
-    
     let BarData = {
       labels: ["Util 1"],
       datasets: [
@@ -32,7 +31,7 @@ export class CompListViewIndividualComponent implements OnInit {
           borderWidth: 3
         },
         {
-          label: "un Utilized",
+          label: "Un-Utilized",
           data: [100-Utiliz],
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
           borderColor: 'rgba(255, 99, 132,0.6)',
@@ -42,7 +41,7 @@ export class CompListViewIndividualComponent implements OnInit {
     }
 
     //checks of the user has utilization and outputs no utilization data availible
-    if(Utiliz == undefined){
+    if(Utiliz == 0){
       BarData = {
         labels: ["Util 1"],
         datasets: [
@@ -56,8 +55,8 @@ export class CompListViewIndividualComponent implements OnInit {
         ]
       }
     }
-
-    if(Utiliz == 100){
+      else if(Utiliz == 100)
+      {
       BarData = {
         labels: ["Util 1"],
         datasets: [
@@ -71,8 +70,8 @@ export class CompListViewIndividualComponent implements OnInit {
         ]
       }
     }
-
-    if(Utiliz > 100){
+    else if(Utiliz > 100)
+    {
       BarData = {
         labels: ["Util 1"],
         datasets: [
@@ -89,7 +88,7 @@ export class CompListViewIndividualComponent implements OnInit {
 
     console.log(ChartName);
     console.log(Utiliz);
-    
+
     const conf:any = {
       type: 'bar',
       data: BarData,
@@ -107,7 +106,7 @@ export class CompListViewIndividualComponent implements OnInit {
                     display:false,
                     stacked: true,
                   },
-                  
+
               },
               plugins:{
                 datalabels: {
@@ -125,6 +124,6 @@ export class CompListViewIndividualComponent implements OnInit {
           }
       };
 
-    let myChart = new Chart(ChartName, conf);
+    const myChart = new Chart(ChartName, conf);
   }
 }

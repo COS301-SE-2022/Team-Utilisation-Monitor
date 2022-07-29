@@ -43,7 +43,8 @@ export class AdminListViewComponent implements OnInit {
             obj.Surname=requests.surname;
             obj.Email=requests.email;
             //console.log(obj.Email)
-            obj.Role=requests.role;
+            //console.log(obj.Role=requests.role);
+            //console.log(requests.utilisation);
             obj.Utilization=requests.utilisation;
             this.OutEmployeeName.push(obj);
           }

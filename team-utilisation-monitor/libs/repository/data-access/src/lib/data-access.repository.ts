@@ -1078,6 +1078,7 @@ export class DataAccessRepository {
                     project.id=company.projects[i].id;
                     project.project_name=company.projects[i].project_name;
                     project.ownwer_id=company.projects[i].owner_id;
+                    project.man_hours=company.projects[i].man_hours
 
                     projects_arr.push(project);
                 }
@@ -1559,14 +1560,30 @@ export class DataAccessRepository {
     async addTeamMember(teamName:string,EmplooyeEmail:string):Promise<string>
     {
 
-      //Agape You can comment this out fo your utilization aproach
-      if(this.TeamBusy(teamName))
+      const empl_id= (await this.getUserIDVEmail(EmplooyeEmail)).id;
+      const teamID=await this.getTeamIDVName(teamName);
+
+      const teamsOnproject=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      for(let i=0;i<teamsOnproject.length;i++)
       {
-        this.ResetUtilizationOfTeamMembers(teamName);   //To add the new member then recalculate Utilization of the team
+        let projectName=(await this.prisma.project.findUnique(
+          {
+            where:{
+              id:teamsOnproject[i].project_id
+            }
+          }
+        )).project_name
+        await this.ResetAssignedHoursForOneTeam(projectName,teamName)
       }
 
-      const empl_id=(await this.getUserIDVEmail(EmplooyeEmail)).id;
-      const teamID=await this.getTeamIDVName(teamName);
 
       if(empl_id>0 && teamID>0)
       {
@@ -1593,15 +1610,15 @@ export class DataAccessRepository {
           })
 
 
-          if(this.TeamBusy(teamName))  //The Team is already on a project
+          //if(this.TeamBusy(teamName))  //The Team is already on a project
           {
-            this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
+            await this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
           }
 
           return "Team Member added"
         }
         else
-      {
+        {
           return "Already a team Member"
         }
         }
@@ -1646,8 +1663,30 @@ export class DataAccessRepository {
 
     async deleteMember(teamName:string,email:string):Promise<string>
     {
+
       const empl_id= (await this.getUserIDVEmail(email)).id;
       const teamID=await this.getTeamIDVName(teamName);
+
+      const teamsOnproject=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:teamID
+          }
+        }
+      )
+
+      for(let i=0;i<teamsOnproject.length;i++)
+      {
+        let projectName=(await this.prisma.project.findUnique(
+          {
+            where:{
+              id:teamsOnproject[i].project_id
+            }
+          }
+        )).project_name
+        await this.ResetAssignedHoursForOneTeam(projectName,teamName)
+      }
 
       await this.prisma.personOnTeams.deleteMany(
         {
@@ -1656,6 +1695,8 @@ export class DataAccessRepository {
             team_id:teamID
           }
         })
+
+        await this.UpdateUtilizationAfterMemberAddition(teamName);   //recalculate utilization for that one team
 
         return "Team Member DELETED"
     }
@@ -2675,10 +2716,9 @@ export class DataAccessRepository {
               {
                 id:ProjectsByTeam[i].project_id
               }
-
             }
           )
-          this.CalculateUtilizationVProject(Project.project_name);
+          await this.UpdateUtilizationForOneTeam(Project.project_name,teamName)
         }
       }
     }
@@ -2715,7 +2755,7 @@ export class DataAccessRepository {
 
             }
           )
-          this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
+          await this.ResetAssignedHoursForOneTeam(Project.project_name,teamName);
         }
       }
     }
