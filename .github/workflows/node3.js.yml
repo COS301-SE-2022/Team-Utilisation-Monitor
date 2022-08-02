@@ -43,7 +43,7 @@ jobs:
       working-directory: ./team-utilisation-monitor
       
     - name: run intergration tests
-      run: nx e2e client-e2e
+      run: yarn nx e2e client-e2e
       working-directory: ./team-utilisation-monitor
       
     
