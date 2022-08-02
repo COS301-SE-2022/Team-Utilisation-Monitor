@@ -13,7 +13,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/COS301-SE-2022/Team-Utilisation-Monitor?color=%23ff9000&style=for-the-badge)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/COS301-SE-2022/Team-Utilisation-Monitor?color=%23d80032&style=for-the-badge)
    ![GitHub issues](https://img.shields.io/github/issues/COS301-SE-2022/Team-Utilisation-Monitor?color=%23EBF2FA&style=for-the-badge)
-   ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/COS301-SE-2022/Team-Utilisation-Monitor/main?color=%2396c13estyle=for-the-badge)
+   ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/COS301-SE-2022/Team-Utilisation-Monitor/main?color=%2396c13e&style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/COS301-SE-2022/Team-Utilisation-Monitor?color=%23cf3b47&style=for-the-badge)
   
 
