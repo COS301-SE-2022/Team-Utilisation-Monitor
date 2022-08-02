@@ -38,4 +38,10 @@ jobs:
       run: yarn run build
       working-directory: ./team-utilisation-monitor
       
+    - name: run unit tests in the services layer
+      run: yarn jest service-feature.service
+      
+    - name: run intergration tests
+      run: nx e2e client-e2e
+      
     
