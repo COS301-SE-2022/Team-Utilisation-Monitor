@@ -3,7 +3,7 @@ import { Person, Status } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
@@ -97,13 +97,8 @@ export class DataAccessRepository {
             this.superCreateCompany(f_company_name,return_admin);
 
             return return_admin;
-
-
-        }
-
-        console.log("Company Doesn't exist. Returning null");
-        return null;
-
+      }
+      throw new NullException().stack;
 
     }
 
@@ -119,8 +114,7 @@ export class DataAccessRepository {
 
         if(c_id>0) //the company already exists
         {
-
-            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
+          return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
         }
         else //the admin is an admin of a new company
         {
@@ -168,11 +162,19 @@ export class DataAccessRepository {
                 return return_admin;
             }
             else
-                return null;
+              throw new NullException().stack;
 
         }
 
 
+    }
+    
+    /***
+     * I know you want to know what happens when you call this guy :)
+     */
+
+    async crash(){
+      throw new NullException().stack;
     }
 
     /***
@@ -257,7 +259,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
 
@@ -292,7 +294,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     /***
@@ -324,7 +326,7 @@ export class DataAccessRepository {
             }
         }
         else
-            return null;
+          throw new NullException().stack;
     }
 
     /***
@@ -369,7 +371,7 @@ export class DataAccessRepository {
         }
         else
         {
-            return null;
+          throw new NullException().stack;
         }
 
 
@@ -404,7 +406,7 @@ export class DataAccessRepository {
         }
 
 
-        return null;
+        throw new NullException().stack;
     }
 
     /***
@@ -423,7 +425,7 @@ export class DataAccessRepository {
         })
 
         if(existing_project) //project already in the db
-            return null; //project already exists
+            throw new NullException().stack; //project already exists
 
         const c_id=await this.getCompanyID(companyName); //company_id
 
@@ -480,7 +482,7 @@ export class DataAccessRepository {
             return_project.man_hours=new_project.man_hours;
 
 
-            return return_project;
+          return return_project;
         }
 
     }
@@ -649,7 +651,7 @@ export class DataAccessRepository {
 
         }
 
-        return null;
+        throw new NullException().stack;
 
     }
 
@@ -712,7 +714,7 @@ export class DataAccessRepository {
             return return_arr
         }
         else
-            console.error("getPendingRequests() failed to resolve the requery")
+          throw new Error("Failed to find company");
     }
 
 
@@ -779,7 +781,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
 
     }
 
@@ -827,7 +829,7 @@ export class DataAccessRepository {
 
         }
         else{ //project does not exist
-            return null;
+            throw new NullException().stack;
         }
     }
 
@@ -873,7 +875,7 @@ export class DataAccessRepository {
         }
         else
         {
-            return null;
+            throw new NullException().stack;
         }
     }
 
@@ -965,7 +967,7 @@ export class DataAccessRepository {
             return return_user;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
 
@@ -1128,7 +1130,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
 
     }
 
@@ -1180,7 +1182,7 @@ export class DataAccessRepository {
             return return_arr;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     /***
@@ -1334,7 +1336,7 @@ export class DataAccessRepository {
             return this.returnUserID(person.id);
         }
         else
-            return null
+            throw new NullException().stack;
     }
 
     /***
@@ -1342,7 +1344,7 @@ export class DataAccessRepository {
      * Returns null if the user doesn't exist in the database
     */
 
-     async getPersonVID(person_id:number):Promise<UserPerson[]>
+     async getPersonVID(person_id:number):Promise<UserPerson>
      {
         const person=await this.prisma.person.findUnique({
             where:{
@@ -1360,10 +1362,12 @@ export class DataAccessRepository {
             return_user.role=person.role;
             return_user.suspended=person.suspended;
             return_user.approved=person.approved;
+
+            return return_user;
         }
         else
         {
-            return null
+          throw new NullException().stack;
         }
      }
 
@@ -1505,7 +1509,7 @@ export class DataAccessRepository {
             }
         }
         else
-            console.error("superCreateCompany() failed to create a company");
+          throw new Error("Failed to create a new company");
     }
 
     /****
@@ -1527,7 +1531,7 @@ export class DataAccessRepository {
                 data:{
                    employees:{
                        connect:{
-                           id:userPerson.id,
+                          id:userPerson.id,
                        }
                    }
 
@@ -1537,7 +1541,7 @@ export class DataAccessRepository {
 
         }
         else
-            console.error("superAddEmployeeToCompany() failed to add employee to company")
+          throw new Error("Failed to add employee to company");
     }
 
 
@@ -1785,7 +1789,7 @@ export class DataAccessRepository {
       }
       else
       {
-        return null;
+        throw new NullException().stack;
       }
     }
 
@@ -1994,7 +1998,7 @@ export class DataAccessRepository {
 
       }
       else
-        return null;
+        throw new NullException().stack;
 
     }
 
@@ -2223,7 +2227,7 @@ export class DataAccessRepository {
             return team.team_name;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     async GetUnderUtilizedEmployees(companyName:string):Promise<UserPerson[]>
