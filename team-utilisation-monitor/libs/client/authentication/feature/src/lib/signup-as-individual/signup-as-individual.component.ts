@@ -53,6 +53,7 @@ export class SignupAsIndividualComponent implements OnInit {
                * Invite code. It has to be valid.
                */
 
+              //register on authentication DB
               this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
               {
                 if(data!=null)
@@ -60,7 +61,8 @@ export class SignupAsIndividualComponent implements OnInit {
                   //some logic here
                 }
                 else{
-                  console.log("data is null "+data);
+                  //console.log("data is null "+data);
+                  alert("Unable to register user. Returned null");
                 }
               });
 
@@ -68,8 +70,8 @@ export class SignupAsIndividualComponent implements OnInit {
             }
             else
             {
-              console.log(item.data);
-              alert("something went wrong");
+              //console.log(item.data);
+              alert("something went wrong. Couldn't connect to main DB");
             }
           },
           error: (err)=>{console.log(err)}
@@ -78,8 +80,8 @@ export class SignupAsIndividualComponent implements OnInit {
     }
     else
     {
-      //Console an error message
-      console.log("Passwords not matching")
+      alert("Passwords are not matching!");
+      //console.log("Passwords not matching")
     }
 
   }
