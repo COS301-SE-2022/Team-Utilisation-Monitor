@@ -15,7 +15,7 @@ export class AppController {
   @Get(':test')
   getTestFunction():Promise<any|null>
   {
-    return this.repository.updateHistoricUtilization();
+    return this.repository.crash();
   }
 
 }
