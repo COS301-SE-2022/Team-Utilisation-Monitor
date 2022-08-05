@@ -49,12 +49,8 @@ describe('client', () => {
     
   })
 
-  //testing graphQl testing
-  //try to solve this.
-  //yes. My edits will be added at the bottom
-  //awe
-  //Please try to copy and solve this guy
-
+  //please make sure that the api is running.
+  /*
   it('Query should fetch a single user entity',()=>{
     cy.request({
       method: 'POST',
@@ -72,7 +68,7 @@ describe('client', () => {
 
  
 
-
+/*
 
 
   it('should allow admin to navigate to home page',()=>{
@@ -139,6 +135,6 @@ describe('client', () => {
     cy.get('#AdminHome').click();
     cy.visit('/AdminHome');
   })
-  //testing new workflow
+  //testing new workflow*/
   
 });

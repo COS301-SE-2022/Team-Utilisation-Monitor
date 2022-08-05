@@ -43,6 +43,7 @@ export class SignupAsCompanyComponent implements OnInit {
       const password=this.profileForm.get("password")?.value!;
       const company=this.profileForm.get('companyName')?.value!;
 
+      //register in mainDB
       this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
       {
         this.Admin=data;
@@ -60,7 +61,7 @@ export class SignupAsCompanyComponent implements OnInit {
           //some logic here
         }
         else{
-          console.log("data is null "+data);
+          alert("Unable to register user. Returned null");
         }
       });
 
