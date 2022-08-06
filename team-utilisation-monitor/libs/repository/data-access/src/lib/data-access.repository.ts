@@ -676,15 +676,15 @@ export class DataAccessRepository {
             return -1;
     }
 
-
+    /***
+     * Use this function to set the Token. 
+    */
 
 
     /***
      * This function returns an array of Persons Objects. Those are pending requests
      * to the company.
     */
-
-
 
     async getPendingRequests(companyName:string):Promise<UserPerson[]>
     {
