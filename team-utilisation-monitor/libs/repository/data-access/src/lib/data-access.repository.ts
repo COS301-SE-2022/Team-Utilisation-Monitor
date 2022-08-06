@@ -715,7 +715,10 @@ export class DataAccessRepository {
             }
             else
               return false;
-
+          }
+          else //token already exists i.e user recently loggged in
+          {
+            return true;
           }
         }
         else
