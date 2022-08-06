@@ -715,7 +715,10 @@ export class DataAccessRepository {
             }
             else
               return false;
-
+          }
+          else //token already exists i.e user recently loggged in
+          {
+            return true;
           }
         }
         else
@@ -723,7 +726,68 @@ export class DataAccessRepository {
 
       }
       else
-        throw new Error("Failed to find company");
+        throw new Error("Failed to find person");
+    }
+
+    /***
+     * Use this function to verify a token.
+     * Returns true if the token is valid.
+     * False otherwise.
+    */
+
+    async verifyToken(f_email:string,token:string):Promise<boolean>
+    {
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0){
+
+        const existing_person=await this.prisma.person.findUnique({
+          where:{
+            email:f_email,
+          }
+        })
+        
+        if(existing_person){  
+            if(token==existing_person.active_Token){
+              return true;
+            }
+            else
+              return false; //tokens don't match up
+        }
+        else
+          throw new NullException().stack;
+
+      }
+      else
+        throw new Error("failed to person");
+
+    }
+
+
+    /****
+     * Use this function to get the token associated with the email
+    */
+
+    async getToken(f_email:string):Promise<string>
+    {
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0){
+
+        const existing_person=await this.prisma.person.findUnique({
+          where:{
+            email:f_email,
+          }
+        })
+
+        if(existing_person){
+          return existing_person.active_Token;
+        }
+        else
+          throw new NullException().stack;
+      }
+      else
+        throw new Error("failed to person");
     }
 
 
