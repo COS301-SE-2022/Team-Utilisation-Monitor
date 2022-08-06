@@ -292,7 +292,7 @@ export class ApiFeatureResolver {
 
   /***
    * This function is used to create a user i.e role=USER
-   */
+  */
 
   @Mutation(()=>UserPerson)
   async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("inviteCode")inviteCode:string)
@@ -302,7 +302,13 @@ export class ApiFeatureResolver {
     return resp;
   }
 
-
+  @Mutation(()=>Boolean)
+  async SetToken(@Args("token")token:string,@Args("email")email:string)
+  {
+    const resp=await this.service.setToken(email,token);
+    
+    return resp;
+  }
 
   /***
   * This function is used to approve requests via email
