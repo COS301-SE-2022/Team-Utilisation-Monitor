@@ -678,7 +678,53 @@ export class DataAccessRepository {
 
     /***
      * Use this function to set the Token. 
+     * Returns true if token successfully set. 
+     * Returns false otherwise
     */
+
+    async setToken(f_email:string,token:string):Promise<boolean>
+    {
+      console.log("data-access");
+
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0)
+      {
+        const person=await this.prisma.person.findUnique({
+            where:{
+              email:f_email,
+            }
+        })
+
+        if(person){
+          
+          if(person.active_Token=='null')
+          {
+            const updated_person=await this.prisma.person.update({
+              where:{
+                email:f_email,
+              },
+              data:{
+                active_Token:token,
+              }
+            })
+
+            if(updated_person)
+            {
+              return true;
+            }
+            else
+              return false;
+
+          }
+        }
+        else
+          throw new NullException().stack;
+
+      }
+      else
+        throw new Error("Failed to find company");
+    }
 
 
     /***
