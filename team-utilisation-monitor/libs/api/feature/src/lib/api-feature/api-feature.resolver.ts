@@ -2,6 +2,7 @@ import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
 import { UserInputError } from 'apollo-server-express';
+import { Token } from 'graphql';
 
 @Resolver()
 export class ApiFeatureResolver {
@@ -302,6 +303,10 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * Use this function to set the token
+   */
+
   @Mutation(()=>Boolean)
   async SetToken(@Args("token")token:string,@Args("email")email:string)
   {
@@ -309,6 +314,12 @@ export class ApiFeatureResolver {
     
     return resp;
   }
+
+  @Mutation(()=>Boolean)
+  async VerifyToken(@Args("email") email:string,@Args("token") Token:string)
+  {
+    return await this.service.verifyToken(email,Token);
+  } 
 
   /***
   * This function is used to approve requests via email
