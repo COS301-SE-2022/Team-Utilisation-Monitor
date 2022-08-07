@@ -299,7 +299,7 @@ export class AdminService {
 
   updateWeeklyHoursForEmployee(email:string,hours:number):Observable<any>
   {
-    const Query='mutation{assignWeeklyHoursToEmployee(email:"'+email+'",weekly_hours:'+hours+')}';
+    const Query='mutation{AssignHours(email:"'+email+'",weekly_hours:'+hours+')}';
 
     const options = {
       headers: new HttpHeaders({

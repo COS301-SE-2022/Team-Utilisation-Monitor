@@ -1,4 +1,6 @@
+import { Body } from '@nestjs/common';
 import { getGreeting } from '../support/app.po';
+import { createUser, getOnePerson, login } from './queries';
 
 describe('client', () => {
   beforeEach(() => cy.visit('/'));
@@ -46,6 +48,27 @@ describe('client', () => {
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
     
   })
+
+  //please make sure that the api is running.
+  /*
+  it('Query should fetch a single user entity',()=>{
+    cy.request({
+      method: 'POST',
+      url:'http://localhost:3333/graphql',
+      body:{
+        query:getOnePerson
+      }
+    }).then(res=>{
+      expect(res.body.data.getOnePerson).to.have.property('id');
+    })
+  });
+
+  //testing createUser function. Cypress does't wanna talk to the
+  //container.
+
+ 
+
+/*
 
 
   it('should allow admin to navigate to home page',()=>{
@@ -112,6 +135,6 @@ describe('client', () => {
     cy.get('#AdminHome').click();
     cy.visit('/AdminHome');
   })
-  //testing new workflow
+  //testing new workflow*/
   
 });
