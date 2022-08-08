@@ -1,6 +1,7 @@
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -11,7 +12,7 @@ export class AuthenticationService {
   
   Admin:any
 
-  constructor(private client:HttpClient){}
+  constructor(private client:HttpClient,private readonly cookie:CookieService){}
 
   addAdmin(firstName:string,lastname :string,company:string,email:string)
   {
@@ -50,7 +51,9 @@ export class AuthenticationService {
 
   getPersonDetails(email:string):Observable<any>
   {
-    const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role,approved}}';
+    const token=this.cookie.get("token"); //token is working
+
+    const query='query{getOnePerson(email:"'+email+'",token:"'+token+'"){id,name,surname,email,company_name,role,approved}}';
 
     const options = {
       headers: new HttpHeaders({
