@@ -168,7 +168,7 @@ export class DataAccessRepository {
 
 
     }
-    
+
     /***
      * I know you want to know what happens when you call this guy :)
      */
@@ -677,8 +677,8 @@ export class DataAccessRepository {
     }
 
     /***
-     * Use this function to set the Token. 
-     * Returns true if token successfully set. 
+     * Use this function to set the Token.
+     * Returns true if token successfully set.
      * Returns false otherwise
     */
 
@@ -697,7 +697,7 @@ export class DataAccessRepository {
         })
 
         if(person){
-          
+
           if(person.active_Token=='null')
           {
             const updated_person=await this.prisma.person.update({
@@ -746,8 +746,8 @@ export class DataAccessRepository {
             email:f_email,
           }
         })
-        
-        if(existing_person){  
+
+        if(existing_person){
             if(token==existing_person.active_Token){
               return true;
             }
@@ -2907,7 +2907,7 @@ export class DataAccessRepository {
       )
 
       const date=(new Date());
-      const day=date.getDay()
+      const day=date.getDate()
       const month=this.getMonth(date.getMonth()+1)
 
       let week=0;

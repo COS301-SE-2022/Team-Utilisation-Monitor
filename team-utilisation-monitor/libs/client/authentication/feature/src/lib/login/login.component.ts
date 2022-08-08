@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             this.cookie.set("token",item.data.loginGateway.token);
 
             /****
-             * Even if the main database i.e result2, fails, the user will still be 
+             * Even if the main database i.e result2, fails, the user will still be
              * able to login using data from the authentication database
              */
 
