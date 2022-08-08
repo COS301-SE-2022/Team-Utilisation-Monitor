@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
             
 
             /****
-             * Even if the main database i.e result2, fails, the user will still be 
+             * Even if the main database i.e result2, fails, the user will still be
              * able to login using data from the authentication database
             */
 
