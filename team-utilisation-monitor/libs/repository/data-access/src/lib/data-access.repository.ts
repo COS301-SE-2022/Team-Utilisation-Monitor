@@ -728,7 +728,7 @@ export class DataAccessRepository {
                 }
               })
             }
-            
+
             return true;
           }
         }
@@ -738,36 +738,6 @@ export class DataAccessRepository {
       }
       else
         throw new Error("Failed to find person");
-    }
-
-    /***
-     * Use this function to verify a token.
-     * Returns true if the token is valid.
-     * False otherwise.
-    */
-
-    async verifyToken(f_email:string):Promise<any>
-    {
-      const p_id=(await this.getUserIDVEmail(f_email)).id;
-
-      if(p_id>0){
-
-        const existing_person=await this.prisma.person.findUnique({
-          where:{
-            email:f_email,
-          }
-        })
-        
-        if(existing_person){
-          return existing_person;
-        }
-        else
-          return new NullException().stack;
-
-      }
-      else
-        throw new Error("failed to person");
-
     }
 
 
