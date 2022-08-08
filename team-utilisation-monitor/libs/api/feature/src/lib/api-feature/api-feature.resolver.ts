@@ -75,9 +75,15 @@ export class ApiFeatureResolver {
   @Query(()=>UserPerson)
   async getOnePerson(@Args("email") email:string,@Args("token")token:string)
   {
-    const resp=this.service.getOnePersonVEmailService(email);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=this.service.getOnePersonVEmailService(email);
+
+      return resp;
+    }
+    else
+      return null;
   }
 
   /***
