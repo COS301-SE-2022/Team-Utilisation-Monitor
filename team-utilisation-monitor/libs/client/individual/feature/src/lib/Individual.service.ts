@@ -163,24 +163,4 @@ export class IndividualService {
     return this.earlyOBJ;
   }
 
-  /****
-   * Use this function to verify tokens against the authentication database.
-   * Returns true if the token is valid and false otherwise 
-  */
-
-  verifyToken(token:string):Observable<any>
-  {
-     const query='query{verifyToken(token:"'+token+'")}'
- 
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
- 
-    const obj= this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: query }), options);
- 
-    return obj;
-  }
-
 }

@@ -75,9 +75,15 @@ export class ApiFeatureResolver {
   @Query(()=>UserPerson)
   async getOnePerson(@Args("email") email:string,@Args("token")token:string)
   {
-    const resp=this.service.getOnePersonVEmailService(email);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=this.service.getOnePersonVEmailService(email);
+
+      return resp;
+    }
+    else
+      return null;
   }
 
   /***
@@ -310,9 +316,15 @@ export class ApiFeatureResolver {
   @Mutation(()=>Boolean)
   async SetToken(@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.setToken(email,token);
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.setToken(email,token);
     
-    return resp;
+      return resp;
+    }
+    else
+      return null;
   }
 
   @Mutation(()=>Boolean)
@@ -379,7 +391,13 @@ export class ApiFeatureResolver {
   @Mutation(()=>String)
   async UpdateProfile(@Args("token")token:string,@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname);
+    const verification=await this.VerifyToken(Email,token);
+
+    if(verification){
+      return await this.service.UpdateProfile(Email,Name,Surname);
+    }
+    else
+      return null;
   }
 
   @Query(()=>[UserPerson])
@@ -391,13 +409,24 @@ export class ApiFeatureResolver {
   @Query(()=>[TeamEntity])
   async GetAllocatedTeams(@Args("email") uEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedTeams(uEmail);
+    const verification=await this.VerifyToken(uEmail,token);
+    
+    if(verification)
+      return await this.service.GetAllocatedTeams(uEmail);
+    else
+      return null;
   }
 
   @Query(()=>[ProjectEntity])
   async GetAllocateProjects(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedProjects(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification)
+       return await this.service.GetAllocatedProjects(UserEmail);
+    else
+      return null;
+
   }
 
   @Mutation(()=>String)
@@ -409,13 +438,26 @@ export class ApiFeatureResolver {
   @Query(()=>[String])
   async GetUserSkills(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserSkills(UserEmail)
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserSkills(UserEmail)
+    }
+    else
+      return null;
   }
 
   @Query(()=>UserStatsEntity)
   async GetUserStats(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserStats(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserStats(UserEmail);
+    }
+    else
+      return null;
+
   }
 
   @Mutation(()=>String)
@@ -451,7 +493,13 @@ export class ApiFeatureResolver {
   @Query(()=>[Utilization])
   async GetMonthlyUtilization(@Args("email") email:string,@Args("token")token:string)
   {
-    return await this.service.GetMonthlyUtilization(email);
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      return await this.service.GetMonthlyUtilization(email);
+    }
+    else
+      return null;
   }
 
   @Query(()=>CompanyUtilization)
