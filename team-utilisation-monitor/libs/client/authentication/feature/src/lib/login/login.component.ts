@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
             this.cookie.set("UserName",item.data.loginGateway.name+" "+item.data.loginGateway.surname);
             this.cookie.set("Email",item.data.loginGateway.username);
             this.cookie.set("token",item.data.loginGateway.token);
+            
 
             /****
              * Even if the main database i.e result2, fails, the user will still be 
@@ -70,6 +71,7 @@ export class LoginComponent implements OnInit {
                 {
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
                   const approved=item2.data.getOnePerson.approved;
+                  
 
                   if(item2.data.getOnePerson.role=="ADMIN") //CURRENT USER IS ADMIN
                   {
