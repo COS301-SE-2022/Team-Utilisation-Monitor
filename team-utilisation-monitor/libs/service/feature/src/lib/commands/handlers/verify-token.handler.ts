@@ -7,7 +7,17 @@ export class VerifyTokenHandler implements ICommandHandler<VerifyTokenCommand>
 {
     constructor(private readonly repository:DataAccessRepository){}
 
-    execute(command: VerifyTokenCommand): Promise<any> {
-        return this.repository.verifyToken(command.email,command.token);
+    async execute(command: VerifyTokenCommand): Promise<any> {
+        
+        const token=await this.repository.getToken(command.email);
+
+        if(token)
+        {
+            if(token==command.token){
+                return true   
+            }
+            else
+                return false;
+        }  
     }
 }

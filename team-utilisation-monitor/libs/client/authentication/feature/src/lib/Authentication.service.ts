@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthenticationService {
   
   Admin:any
@@ -39,7 +40,6 @@ export class AuthenticationService {
     }
     const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }),options)
 
-    //console.log("Sheherezada");
     return object;
 
   }
@@ -120,6 +120,27 @@ export class AuthenticationService {
 
     const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
     return object;
+
+  }
+
+
+  /****
+   * This function is used used to set the token when the user logs in.
+   * This function is automatically triggered.
+   * Function returns true if token is successfully triggered
+  */
+
+  setActiveToken(email:string,token:string):Observable<any>{
+
+    const Query= 'mutation{SetToken(email:"'+email+'",token:"'+token+'")}'
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 

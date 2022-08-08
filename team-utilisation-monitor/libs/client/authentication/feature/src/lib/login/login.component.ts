@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   result = <unknown> Observable;
   result2 = <unknown> Observable; //i'm using this to get the user details
+  result3 = <unknown> Observable; //I used this to set the active token
   @Output() loggedIn = new EventEmitter<User>();
   @Input() enabled = true;
 
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
   onSubmit()
   {
 
-    console.log("In login function: "+this.loginForm);
+    console.log("In login function");
 
     if(this.loginForm.valid) {
       const email:string=this.loginForm.get("email")?.value!;
@@ -58,12 +59,32 @@ export class LoginComponent implements OnInit {
             this.cookie.set("UserName",item.data.loginGateway.name+" "+item.data.loginGateway.surname);
             this.cookie.set("Email",item.data.loginGateway.username);
             this.cookie.set("token",item.data.loginGateway.token);
+
+
+            /***
+             * This section is used to set the active token for the logged in 
+             * user.
+             */
+            
+            this.result3=this.service.setActiveToken(email,this.cookie.get("token")).subscribe(
+              data=>{
+                const resp=data;
+        
+                if(resp.data.SetToken==true){
+                  console.log("Token successfully set");
+                }
+                else
+                  console.log("Token couldn't be set");
+              }
+            )
+
+
             
 
             /****
              * Even if the main database i.e result2, fails, the user will still be 
              * able to login using data from the authentication database
-             */
+            */
 
             this.result2=this.service.getPersonDetails(email).subscribe({
               next:(item2)=>{
