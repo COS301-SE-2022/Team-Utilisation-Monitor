@@ -1,19 +1,17 @@
 import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthenticationService {
   
   Admin:any
 
-  constructor(private client:HttpClient,private readonly cookie:CookieService){}
+  constructor(private client:HttpClient){}
 
   addAdmin(firstName:string,lastname :string,company:string,email:string)
   {
@@ -40,6 +38,7 @@ export class AuthenticationService {
     }
     const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }),options)
 
+    //console.log("Sheherezada");
     return object;
 
   }
@@ -51,9 +50,7 @@ export class AuthenticationService {
 
   getPersonDetails(email:string):Observable<any>
   {
-    const token=this.cookie.get("token"); //token is working
-
-    const query='query{getOnePerson(email:"'+email+'",token:"'+token+'"){id,name,surname,email,company_name,role,approved}}';
+    const query='query{getOnePerson(email:"'+email+'"){id,name,surname,email,company_name,role,approved}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -120,27 +117,6 @@ export class AuthenticationService {
 
     const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
     return object;
-
-  }
-
-
-  /****
-   * This function is used used to set the token when the user logs in.
-   * This function is automatically triggered.
-   * Function returns true if token is successfully triggered
-  */
-
-  setActiveToken(email:string,token:string):Observable<any>{
-
-    const Query= 'mutation{SetToken(email:"'+email+'",token:"'+token+'")}'
-
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 

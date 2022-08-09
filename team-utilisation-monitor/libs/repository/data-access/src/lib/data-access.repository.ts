@@ -684,7 +684,8 @@ export class DataAccessRepository {
 
     async setToken(f_email:string,token:string):Promise<boolean>
     {
-    
+      console.log("data-access");
+
       const p_id=(await this.getUserIDVEmail(f_email)).id;
 
       if(p_id>0)
@@ -713,22 +714,10 @@ export class DataAccessRepository {
               return true;
             }
             else
-              throw new NullException().stack;
+              return false;
           }
-          else //token already exists 
+          else //token already exists i.e user recently loggged in
           {
-            if(person.active_Token!=token)//new token has been presented. Update of token must happen
-            {
-              await this.prisma.person.update({
-                where:{
-                  email:f_email
-                },
-                data:{
-                  active_Token:token
-                }
-              })
-            }
-
             return true;
           }
         }
@@ -751,6 +740,7 @@ export class DataAccessRepository {
       const p_id=(await this.getUserIDVEmail(f_email)).id;
 
       if(p_id>0){
+
 
         const existing_person=await this.prisma.person.findUnique({
           where:{
