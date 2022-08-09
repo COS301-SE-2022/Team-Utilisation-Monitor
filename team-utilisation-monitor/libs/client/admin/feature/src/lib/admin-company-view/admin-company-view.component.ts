@@ -52,7 +52,8 @@ export class AdminCompanyViewComponent implements OnInit {
             obj.Name=requests.name;
             obj.Surname=requests.surname;
             obj.Email=requests.email;
-            obj.WeeklyHours=requests.weekly_hours;
+            obj.WeeklyHours=requests.weekly_Hours;
+            console.log(obj.WeeklyHours)
             this.OutEmployeeName.push(obj);
           }
         }

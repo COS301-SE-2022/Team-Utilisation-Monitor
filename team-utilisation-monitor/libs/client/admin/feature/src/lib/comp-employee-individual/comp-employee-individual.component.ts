@@ -28,7 +28,7 @@ export class CompEmployeeIndividualComponent implements OnInit {
   menueOption = "Promote to admin";
   hours=0;
 
-  @Input() IndivName!: { Name: string ,Surname:string,Email:string,Role:string,WeeklyHours:number};
+  @Input() IndivName!: { Name: string ,Surname:string,Email:string,WeeklyHours:number};
 
   ngOnInit(): void {
     console.log();

@@ -1173,6 +1173,7 @@ export class DataAccessRepository {
                     user.company_name=f_company_name;
                     user.company_id=company.id;
                     user.utilisation=company.employees[i].utilisation;
+                    user.weekly_Hours=company.employees[i].weekly_hours;
 
                     /**
                      * What's missing is the project, team name and project,team id field
