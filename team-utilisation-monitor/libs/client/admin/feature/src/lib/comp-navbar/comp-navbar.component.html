@@ -13,7 +13,7 @@
 <mat-accordion multi>
     <mat-expansion-panel (opened)="requestOpenState = true" (closed)="requestOpenState = false">
         <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title matTooltip="Click to Expand">
                 <p><span [matBadge]="nrOfRequests" matBadgeOverlap="false" matBadgeColor="accent">Requested Users</span></p>
             </mat-panel-title>
         </mat-expansion-panel-header>
@@ -25,10 +25,10 @@
 </mat-accordion>
 
 <mat-card>
-    <button class="SideNavButton" (click)="onOpenCreateTeamClick()" mat-button><mat-icon>add</mat-icon>Create Team</button>
-    <button class="SideNavButton" (click)="onOpenCreateProjectClick()" mat-button><mat-icon>add</mat-icon>Create Project</button>  
+    <button class="SideNavButton" (click)="onOpenCreateTeamClick()" mat-button matTooltip="Create a Team"><mat-icon>add</mat-icon>Create Team</button>
+    <button class="SideNavButton" (click)="onOpenCreateProjectClick()" mat-button matTooltip="Create a Project"><mat-icon>add</mat-icon>Create Project</button>  
 </mat-card>
 
 <mat-card>
-    <button class="SideNavButton" (click)="onOpenAddSkillsClick()" mat-button><mat-icon>add</mat-icon>Add Skills</button>
+    <button class="SideNavButton" (click)="onOpenAddSkillsClick()" mat-button matTooltip="Add Skills to the Company"><mat-icon>add</mat-icon>Add Skills</button>
 </mat-card>
