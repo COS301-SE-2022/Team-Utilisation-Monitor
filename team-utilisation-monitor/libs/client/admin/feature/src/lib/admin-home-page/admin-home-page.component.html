@@ -14,7 +14,7 @@
 
                     <mat-card-content>
                         <hr>
-                        <mat-grid-list cols="2">
+                        <mat-grid-list cols="2" matTooltip="Number of Emplyees">
                             <mat-grid-tile><mat-icon>account_box</mat-icon></mat-grid-tile>
                             <mat-grid-tile><h1>{{nrOfEmployees}}</h1></mat-grid-tile>
                         </mat-grid-list>
@@ -26,7 +26,7 @@
                     <mat-card-title>Utilization</mat-card-title>
                     <mat-card-content>
                         <hr>
-                        <mat-grid-list cols="2">
+                        <mat-grid-list cols="2" matTooltip="Utilization of the Company">
                             <mat-grid-tile><mat-icon>rocket_launch</mat-icon></mat-grid-tile>
                             <mat-grid-tile><h1>{{utilizationPersentage}}%</h1></mat-grid-tile>
                         </mat-grid-list>
@@ -38,7 +38,7 @@
                     <mat-card-title>Open Projects</mat-card-title>
                     <mat-card-content>
                         <hr>
-                        <mat-grid-list cols="2">
+                        <mat-grid-list cols="2" matTooltip="Open Projects/ Completed Projects">
                             <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
                             <mat-grid-tile><h1>{{nrOfOpenProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
                         </mat-grid-list>
@@ -50,7 +50,7 @@
                     <mat-card-title># of Teams</mat-card-title>
                     <mat-card-content>
                         <hr>
-                        <mat-grid-list cols="2">
+                        <mat-grid-list cols="2" matTooltip="Number of Teams">
                             <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
                             <mat-grid-tile><h1>{{nrOfTeams}}</h1></mat-grid-tile>
                         </mat-grid-list>
