@@ -1,17 +1,17 @@
 <mat-card-content>
     <mat-card class="Mat-Individual" >
         <mat-card-content class="InvdividualBox">
-                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()">{{Project.Name}}</span>
-                <span class="example-spacer" (click)="onOpenProjectDataViewClick()"></span>
-                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()">Total Weekly Hours : {{Project.Hours}}</span>
-                <span class="example-spacer" (click)="onOpenProjectDataViewClick()"></span>
-                <button (click)="onOpenAddTeams()" mat-raised-button class="CheckMarkButton" color="secondary">
+                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()" matTooltip="Click to open Team List">{{Project.Name}}</span>
+                <span class="example-spacer" (click)="onOpenProjectDataViewClick()" matTooltip="Click to open Team List"></span>
+                <span class="InvdividualName" (click)="onOpenProjectDataViewClick()" matTooltip="Click to open Team List">Total Weekly Hours : {{Project.Hours}}</span>
+                <span class="example-spacer" (click)="onOpenProjectDataViewClick()" matTooltip="Click to open Team List"></span>
+                <button (click)="onOpenAddTeams()" mat-raised-button class="CheckMarkButton" color="secondary" matTooltip="Add teams to the Project">
                     <mat-icon>add</mat-icon>
                 </button>
-                <button mat-raised-button class="CheckMarkButton" color="primary" (click)="CompleteProject()">
+                <button mat-raised-button class="CheckMarkButton" color="primary" (click)="CompleteProject()" matTooltip="Complete the Project">
                     <mat-icon>done</mat-icon>
                 </button>
-                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteProject()">
+                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteProject()" matTooltip="Delete the Project">
                     <mat-icon>delete_forever</mat-icon>
                 </button>
         </mat-card-content>
