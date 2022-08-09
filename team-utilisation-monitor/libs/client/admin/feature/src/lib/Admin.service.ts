@@ -20,11 +20,11 @@ export class AdminService {
   getCompany(companyName:string):Observable<any>
   {
     const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role,utilisation},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+    
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
-  }
+    })}
 
     return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
@@ -32,7 +32,7 @@ export class AdminService {
 
   getCompanyStats(companyName: string):Observable<any>
   {
-      const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees}}'
+      const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -299,7 +299,7 @@ export class AdminService {
 
   updateWeeklyHoursForEmployee(email:string,hours:number):Observable<any>
   {
-    const Query='mutation{assignWeeklyHoursToEmployee(email:"'+email+'",weekly_hours:'+hours+')}';
+    const Query='mutation{AssignHours(email:"'+email+'",weekly_hours:'+hours+')}';
 
     const options = {
       headers: new HttpHeaders({

@@ -3,7 +3,7 @@ import { Person, Status } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
@@ -97,13 +97,8 @@ export class DataAccessRepository {
             this.superCreateCompany(f_company_name,return_admin);
 
             return return_admin;
-
-
-        }
-
-        console.log("Company Doesn't exist. Returning null");
-        return null;
-
+      }
+      throw new NullException().stack;
 
     }
 
@@ -119,8 +114,7 @@ export class DataAccessRepository {
 
         if(c_id>0) //the company already exists
         {
-
-            return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
+          return this.addAdminToCompany(f_name,f_surname,f_email,f_company_name);
         }
         else //the admin is an admin of a new company
         {
@@ -168,11 +162,19 @@ export class DataAccessRepository {
                 return return_admin;
             }
             else
-                return null;
+              throw new NullException().stack;
 
         }
 
 
+    }
+
+    /***
+     * I know you want to know what happens when you call this guy :)
+     */
+
+    async crash(){
+      throw new NullException().stack;
     }
 
     /***
@@ -257,7 +259,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
 
@@ -292,7 +294,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     /***
@@ -324,7 +326,7 @@ export class DataAccessRepository {
             }
         }
         else
-            return null;
+          throw new NullException().stack;
     }
 
     /***
@@ -369,7 +371,7 @@ export class DataAccessRepository {
         }
         else
         {
-            return null;
+          throw new NullException().stack;
         }
 
 
@@ -404,7 +406,7 @@ export class DataAccessRepository {
         }
 
 
-        return null;
+        throw new NullException().stack;
     }
 
     /***
@@ -423,7 +425,7 @@ export class DataAccessRepository {
         })
 
         if(existing_project) //project already in the db
-            return null; //project already exists
+            throw new NullException().stack; //project already exists
 
         const c_id=await this.getCompanyID(companyName); //company_id
 
@@ -480,7 +482,7 @@ export class DataAccessRepository {
             return_project.man_hours=new_project.man_hours;
 
 
-            return return_project;
+          return return_project;
         }
 
     }
@@ -649,7 +651,7 @@ export class DataAccessRepository {
 
         }
 
-        return null;
+        throw new NullException().stack;
 
     }
 
@@ -674,15 +676,126 @@ export class DataAccessRepository {
             return -1;
     }
 
+    /***
+     * Use this function to set the Token.
+     * Returns true if token successfully set.
+     * Returns false otherwise
+    */
 
+    async setToken(f_email:string,token:string):Promise<boolean>
+    {
+      console.log("data-access");
+
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0)
+      {
+        const person=await this.prisma.person.findUnique({
+            where:{
+              email:f_email,
+            }
+        })
+
+        if(person){
+
+          if(person.active_Token=='null')
+          {
+            const updated_person=await this.prisma.person.update({
+              where:{
+                email:f_email,
+              },
+              data:{
+                active_Token:token,
+              }
+            })
+
+            if(updated_person)
+            {
+              return true;
+            }
+            else
+              return false;
+          }
+          else //token already exists i.e user recently loggged in
+          {
+            return true;
+          }
+        }
+        else
+          throw new NullException().stack;
+
+      }
+      else
+        throw new Error("Failed to find person");
+    }
+
+    /***
+     * Use this function to verify a token.
+     * Returns true if the token is valid.
+     * False otherwise.
+    */
+
+    async verifyToken(f_email:string,token:string):Promise<boolean>
+    {
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0){
+
+
+        const existing_person=await this.prisma.person.findUnique({
+          where:{
+            email:f_email,
+          }
+        })
+
+        if(existing_person){
+            if(token==existing_person.active_Token){
+              return true;
+            }
+            else
+              return false; //tokens don't match up
+        }
+        else
+          throw new NullException().stack;
+
+      }
+      else
+        throw new Error("failed to person");
+
+    }
+
+
+    /****
+     * Use this function to get the token associated with the email
+    */
+
+    async getToken(f_email:string):Promise<string>
+    {
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0){
+
+        const existing_person=await this.prisma.person.findUnique({
+          where:{
+            email:f_email,
+          }
+        })
+
+        if(existing_person){
+          return existing_person.active_Token;
+        }
+        else
+          throw new NullException().stack;
+      }
+      else
+        throw new Error("failed to person");
+    }
 
 
     /***
      * This function returns an array of Persons Objects. Those are pending requests
      * to the company.
     */
-
-
 
     async getPendingRequests(companyName:string):Promise<UserPerson[]>
     {
@@ -712,7 +825,7 @@ export class DataAccessRepository {
             return return_arr
         }
         else
-            console.error("getPendingRequests() failed to resolve the requery")
+          throw new Error("Failed to find company");
     }
 
 
@@ -773,12 +886,13 @@ export class DataAccessRepository {
             return_stats.numTeams=numTeams;
             return_stats.numEmployees=numEmployees;
             return_stats.numAdmins=numAdmins;
+            return_stats.Utilization=await this.companyOveralUtilisation();
 
             return return_stats;
 
         }
         else
-            return null;
+            throw new NullException().stack;
 
     }
 
@@ -826,7 +940,7 @@ export class DataAccessRepository {
 
         }
         else{ //project does not exist
-            return null;
+            throw new NullException().stack;
         }
     }
 
@@ -872,7 +986,7 @@ export class DataAccessRepository {
         }
         else
         {
-            return null;
+            throw new NullException().stack;
         }
     }
 
@@ -964,7 +1078,7 @@ export class DataAccessRepository {
             return return_user;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
 
@@ -1127,7 +1241,7 @@ export class DataAccessRepository {
 
         }
         else
-            return null;
+            throw new NullException().stack;
 
     }
 
@@ -1179,7 +1293,7 @@ export class DataAccessRepository {
             return return_arr;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     /***
@@ -1333,7 +1447,7 @@ export class DataAccessRepository {
             return this.returnUserID(person.id);
         }
         else
-            return null
+            throw new NullException().stack;
     }
 
     /***
@@ -1341,7 +1455,7 @@ export class DataAccessRepository {
      * Returns null if the user doesn't exist in the database
     */
 
-     async getPersonVID(person_id:number):Promise<UserPerson[]>
+     async getPersonVID(person_id:number):Promise<UserPerson>
      {
         const person=await this.prisma.person.findUnique({
             where:{
@@ -1359,10 +1473,12 @@ export class DataAccessRepository {
             return_user.role=person.role;
             return_user.suspended=person.suspended;
             return_user.approved=person.approved;
+
+            return return_user;
         }
         else
         {
-            return null
+          throw new NullException().stack;
         }
      }
 
@@ -1504,7 +1620,7 @@ export class DataAccessRepository {
             }
         }
         else
-            console.error("superCreateCompany() failed to create a company");
+          throw new Error("Failed to create a new company");
     }
 
     /****
@@ -1526,7 +1642,7 @@ export class DataAccessRepository {
                 data:{
                    employees:{
                        connect:{
-                           id:userPerson.id,
+                          id:userPerson.id,
                        }
                    }
 
@@ -1536,7 +1652,7 @@ export class DataAccessRepository {
 
         }
         else
-            console.error("superAddEmployeeToCompany() failed to add employee to company")
+          throw new Error("Failed to add employee to company");
     }
 
 
@@ -1784,7 +1900,7 @@ export class DataAccessRepository {
       }
       else
       {
-        return null;
+        throw new NullException().stack;
       }
     }
 
@@ -1889,24 +2005,13 @@ export class DataAccessRepository {
           }
         }
       )
+
       const userId=(await this.getUserIDVEmail(UserEmail)).id;
       const PersonSkill=await this.prisma.personOnSkills.create(
           {
             data:{
-              skill:
-              {
-                connect:
-                {
-                  id:skill.id
-                }
-              },
-              person:
-              {
-                connect:
-                {
-                  id:userId
-                }
-              }
+              skill_id:skill.id,
+              person_id:userId
             }
           }
         )
@@ -2004,7 +2109,7 @@ export class DataAccessRepository {
 
       }
       else
-        return null;
+        throw new NullException().stack;
 
     }
 
@@ -2233,7 +2338,7 @@ export class DataAccessRepository {
             return team.team_name;
         }
         else
-            return null;
+            throw new NullException().stack;
     }
 
     async GetUnderUtilizedEmployees(companyName:string):Promise<UserPerson[]>
@@ -2803,7 +2908,7 @@ export class DataAccessRepository {
       )
 
       const date=(new Date());
-      const day=date.getDay()
+      const day=date.getDate()
       const month=this.getMonth(date.getMonth()+1)
 
       let week=0;
@@ -3319,6 +3424,11 @@ export class DataAccessRepository {
       obj.DEC=DEC/NUM;
       obj.Utilisation=AvgUtilisation/NUM
       return obj
+    }
+
+    async companyOveralUtilisation():Promise<number>
+    {
+      return await (await this.GetCompanyUtilization()).Utilisation
     }
 
 }
