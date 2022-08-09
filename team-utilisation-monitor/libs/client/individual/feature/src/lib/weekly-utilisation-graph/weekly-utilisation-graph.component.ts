@@ -26,8 +26,6 @@ export class WeeklyUtilisationGraphComponent implements OnInit {
     const email=this.cookie.get("Email");
     this.service.GetMonthlyUtilization(email).subscribe(Data=>
       {
-
-
         for(const req of Data.data.GetMonthlyUtilization)
         {
           if(req.Month==month)
@@ -38,7 +36,6 @@ export class WeeklyUtilisationGraphComponent implements OnInit {
             this.data1.push(req.Week4)
             return
           }
-
         }
 
       }

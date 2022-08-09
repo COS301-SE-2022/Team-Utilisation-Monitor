@@ -168,7 +168,7 @@ export class DataAccessRepository {
 
 
     }
-    
+
     /***
      * I know you want to know what happens when you call this guy :)
      */
@@ -677,14 +677,15 @@ export class DataAccessRepository {
     }
 
     /***
-     * Use this function to set the Token. 
-     * Returns true if token successfully set. 
+     * Use this function to set the Token.
+     * Returns true if token successfully set.
      * Returns false otherwise
     */
 
     async setToken(f_email:string,token:string):Promise<boolean>
     {
-    
+      console.log("data-access");
+
       const p_id=(await this.getUserIDVEmail(f_email)).id;
 
       if(p_id>0)
@@ -696,7 +697,7 @@ export class DataAccessRepository {
         })
 
         if(person){
-          
+
           if(person.active_Token=='null')
           {
             const updated_person=await this.prisma.person.update({
@@ -713,22 +714,10 @@ export class DataAccessRepository {
               return true;
             }
             else
-              throw new NullException().stack;
+              return false;
           }
-          else //token already exists 
+          else //token already exists i.e user recently loggged in
           {
-            if(person.active_Token!=token)//new token has been presented. Update of token must happen
-            {
-              await this.prisma.person.update({
-                where:{
-                  email:f_email
-                },
-                data:{
-                  active_Token:token
-                }
-              })
-            }
-
             return true;
           }
         }
@@ -738,6 +727,41 @@ export class DataAccessRepository {
       }
       else
         throw new Error("Failed to find person");
+    }
+
+    /***
+     * Use this function to verify a token.
+     * Returns true if the token is valid.
+     * False otherwise.
+    */
+
+    async verifyToken(f_email:string,token:string):Promise<boolean>
+    {
+      const p_id=(await this.getUserIDVEmail(f_email)).id;
+
+      if(p_id>0){
+
+
+        const existing_person=await this.prisma.person.findUnique({
+          where:{
+            email:f_email,
+          }
+        })
+
+        if(existing_person){
+            if(token==existing_person.active_Token){
+              return true;
+            }
+            else
+              return false; //tokens don't match up
+        }
+        else
+          throw new NullException().stack;
+
+      }
+      else
+        throw new Error("failed to person");
+
     }
 
 
@@ -2884,7 +2908,7 @@ export class DataAccessRepository {
       )
 
       const date=(new Date());
-      const day=date.getDay()
+      const day=date.getDate()
       const month=this.getMonth(date.getMonth()+1)
 
       let week=0;
