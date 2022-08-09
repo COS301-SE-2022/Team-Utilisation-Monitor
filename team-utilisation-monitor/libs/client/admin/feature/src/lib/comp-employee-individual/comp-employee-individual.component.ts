@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AdminService } from './../Admin.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-employee-individual',
@@ -7,6 +10,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./comp-employee-individual.component.scss'],
 })
 export class CompEmployeeIndividualComponent implements OnInit {
+  AssignHoursForm=new FormGroup({
+    weeklyHours:new FormControl('',[Validators.required])
+  });
+
   constructor(private service:AdminService) {}
 
   /*
@@ -21,7 +28,7 @@ export class CompEmployeeIndividualComponent implements OnInit {
   menueOption = "Promote to admin";
   hours=0;
 
-  @Input() IndivName!: { Name: string ,Surname:string,Email:string,Role:string};
+  @Input() IndivName!: { Name: string ,Surname:string,Email:string,Role:string,WeeklyHours:number};
 
   ngOnInit(): void {
     console.log();
@@ -29,12 +36,17 @@ export class CompEmployeeIndividualComponent implements OnInit {
 
   updateWeeklyHours(email:string){
     //console.log(email+" "+this.hours);
-    this.service.updateWeeklyHoursForEmployee(email,this.hours).subscribe(
-      data=>{
-        alert("Updated "+this.IndivName.Name+"'s hours");
-        console.log(data);
-      }
-    )
+    if(this.AssignHoursForm.get('weeklyHours')?.value)
+    {
+      const hours=this.AssignHoursForm.get('weeklyHours')?.value
+      this.service.updateWeeklyHoursForEmployee(email,hours as unknown as number).subscribe(
+        data=>{
+          alert("Updated "+this.IndivName.Name+"'s hours");
+          console.log(data);
+        }
+      )
+    }
+
   }
 
   DeleteEmployee(email:string)
