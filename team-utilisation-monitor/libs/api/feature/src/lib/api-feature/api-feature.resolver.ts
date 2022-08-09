@@ -1,6 +1,7 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
+import { NullException } from '@team-utilisation-monitor/shared/services/prisma-services';
 import { UserInputError } from 'apollo-server-express';
 import { Token } from 'graphql';
 
@@ -75,9 +76,18 @@ export class ApiFeatureResolver {
   @Query(()=>UserPerson)
   async getOnePerson(@Args("email") email:string,@Args("token")token:string)
   {
-    const resp=this.service.getOnePersonVEmailService(email);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=this.service.getOnePersonVEmailService(email);
+
+      return resp;
+    }
+    else{
+      return new NullException().stack
+      
+    }
+      
   }
 
   /***
@@ -379,7 +389,13 @@ export class ApiFeatureResolver {
   @Mutation(()=>String)
   async UpdateProfile(@Args("token")token:string,@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname);
+    const verification=await this.VerifyToken(Email,token);
+
+    if(verification){
+      return await this.service.UpdateProfile(Email,Name,Surname);
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>[UserPerson])
@@ -391,13 +407,24 @@ export class ApiFeatureResolver {
   @Query(()=>[TeamEntity])
   async GetAllocatedTeams(@Args("email") uEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedTeams(uEmail);
+    const verification=await this.VerifyToken(uEmail,token);
+    
+    if(verification)
+      return await this.service.GetAllocatedTeams(uEmail);
+    else
+      return new NullException().stack
   }
 
   @Query(()=>[ProjectEntity])
   async GetAllocateProjects(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedProjects(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification)
+       return await this.service.GetAllocatedProjects(UserEmail);
+    else
+      return new NullException().stack
+
   }
 
   @Mutation(()=>String)
@@ -409,13 +436,26 @@ export class ApiFeatureResolver {
   @Query(()=>[String])
   async GetUserSkills(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserSkills(UserEmail)
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserSkills(UserEmail)
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>UserStatsEntity)
   async GetUserStats(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserStats(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserStats(UserEmail);
+    }
+    else
+      return new NullException().stack
+
   }
 
   @Mutation(()=>String)
@@ -451,7 +491,13 @@ export class ApiFeatureResolver {
   @Query(()=>[Utilization])
   async GetMonthlyUtilization(@Args("email") email:string,@Args("token")token:string)
   {
-    return await this.service.GetMonthlyUtilization(email);
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      return await this.service.GetMonthlyUtilization(email);
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>CompanyUtilization)

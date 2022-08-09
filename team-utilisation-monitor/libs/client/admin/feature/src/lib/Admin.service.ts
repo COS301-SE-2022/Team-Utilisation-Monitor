@@ -20,11 +20,11 @@ export class AdminService {
   getCompany(companyName:string):Observable<any>
   {
     const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role,utilisation},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+    
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
-  }
+    })}
 
     return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
