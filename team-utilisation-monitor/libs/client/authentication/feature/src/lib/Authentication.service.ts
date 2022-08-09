@@ -61,7 +61,7 @@ export class AuthenticationService {
       })
     }
 
-    const object= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
     return object;
     
@@ -140,8 +140,13 @@ export class AuthenticationService {
       })
     }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    
+    console.log("In setActiveToken:");
+    console.log(email+" "+token);
+    console.log(object);
 
+    return object;
   }
 
 

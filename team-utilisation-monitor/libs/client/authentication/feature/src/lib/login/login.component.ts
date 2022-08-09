@@ -64,24 +64,20 @@ export class LoginComponent implements OnInit {
             /***
              * This section is used to set the active token for the logged in 
              * user.
-             */
+            */
             
             this.result3=this.service.setActiveToken(email,this.cookie.get("token")).subscribe(
               data=>{
                 const resp=data;
-        
+                console.log("setting token");
+
                 if(resp.data.SetToken==true){
                   console.log("Token successfully set");
                 }
-                else
-                  console.log("Token couldn't be set");
-              }
-            )
+                else if(resp.data==null)
+                  console.log("Failed be set");
 
-
-            
-
-            /****
+                  /****
              * Even if the main database i.e result2, fails, the user will still be 
              * able to login using data from the authentication database
             */
@@ -90,9 +86,9 @@ export class LoginComponent implements OnInit {
               next:(item2)=>{
                 if(item2.data!=null)
                 {
+                  console.log("logging in");
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
                   const approved=item2.data.getOnePerson.approved;
-                  
 
                   if(item2.data.getOnePerson.role=="ADMIN") //CURRENT USER IS ADMIN
                   {
@@ -116,49 +112,14 @@ export class LoginComponent implements OnInit {
                   alert("Something went wrong; Failed to contact main DB")
                 }
               }
-            })
-
-          }
+            })}
+          )}
           else{
             alert("Incorrect Details, Please Try Again");
           }
         },
         error: (err) => { console.log(err); }
       })
-
-
-
-      /*
-      //destroyed old one
-      this.result = this.service.login(email,pass).subscribe({
-        next: (item) => {
-          if (item.data != null)
-          {
-            this.cookie.set("UserName",item.data.login.name+" "+item.data.login.surname);
-            this.cookie.set("CompanyName",item.data.login.company_name);
-            this.cookie.set("Email",item.data.email);
-
-            if(item.data.login.role=="ADMIN") //CURRENT USER IS ADMIN
-            {
-              this.router.navigate(['AdminHome'])
-            }
-            else if(item.data.login.role=="USER")
-            {
-              this.router.navigate(['individual_home_page'])
-            }
-            else
-            {
-              this.router.navigate(['home_page']) //, {state: {id: item.data.login.id}, queryParamsHandling: "preserve"});
-            }
-
-          }else{
-            alert("Incorrect Details, Try Again!");
-          }
-        },
-      error: (err) => { console.log(err); }
-      });
-
-      */
     }
   }
 

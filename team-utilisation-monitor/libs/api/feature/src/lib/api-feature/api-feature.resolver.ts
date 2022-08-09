@@ -1,6 +1,7 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
+import { NullException } from '@team-utilisation-monitor/shared/services/prisma-services';
 import { UserInputError } from 'apollo-server-express';
 import { Token } from 'graphql';
 
@@ -82,8 +83,11 @@ export class ApiFeatureResolver {
 
       return resp;
     }
-    else
-      return null;
+    else{
+      return new NullException().stack
+      
+    }
+      
   }
 
   /***
@@ -316,15 +320,9 @@ export class ApiFeatureResolver {
   @Mutation(()=>Boolean)
   async SetToken(@Args("token")token:string,@Args("email")email:string)
   {
-    const verification=await this.VerifyToken(email,token);
-
-    if(verification){
-      const resp=await this.service.setToken(email,token);
+    const resp=await this.service.setToken(email,token);
     
-      return resp;
-    }
-    else
-      return null;
+    return resp;
   }
 
   @Mutation(()=>Boolean)
@@ -397,7 +395,7 @@ export class ApiFeatureResolver {
       return await this.service.UpdateProfile(Email,Name,Surname);
     }
     else
-      return null;
+      return new NullException().stack
   }
 
   @Query(()=>[UserPerson])
@@ -414,7 +412,7 @@ export class ApiFeatureResolver {
     if(verification)
       return await this.service.GetAllocatedTeams(uEmail);
     else
-      return null;
+      return new NullException().stack
   }
 
   @Query(()=>[ProjectEntity])
@@ -425,7 +423,7 @@ export class ApiFeatureResolver {
     if(verification)
        return await this.service.GetAllocatedProjects(UserEmail);
     else
-      return null;
+      return new NullException().stack
 
   }
 
@@ -444,7 +442,7 @@ export class ApiFeatureResolver {
       return await this.service.GetUserSkills(UserEmail)
     }
     else
-      return null;
+      return new NullException().stack
   }
 
   @Query(()=>UserStatsEntity)
@@ -456,7 +454,7 @@ export class ApiFeatureResolver {
       return await this.service.GetUserStats(UserEmail);
     }
     else
-      return null;
+      return new NullException().stack
 
   }
 
@@ -499,7 +497,7 @@ export class ApiFeatureResolver {
       return await this.service.GetMonthlyUtilization(email);
     }
     else
-      return null;
+      return new NullException().stack
   }
 
   @Query(()=>CompanyUtilization)
