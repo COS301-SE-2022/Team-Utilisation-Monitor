@@ -2161,9 +2161,8 @@ export class DataAccessRepository {
       }
     }
 
-    async AssignWeeklyHours(UserEmail:string,WeeklyHours):Promise<string>
+    async AssignWeeklyHours(UserEmail:string,WeeklyHours:number):Promise<string>
     {
-      //
       const result=await this.prisma.person.update(
         {
           where:
