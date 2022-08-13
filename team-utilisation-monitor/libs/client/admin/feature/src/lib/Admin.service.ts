@@ -3,6 +3,7 @@ import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
 import { query } from '@angular/animations';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { query } from '@angular/animations';
 export class AdminService {
 
   company:any
-  constructor(private client:HttpClient){
+  constructor(private client:HttpClient,private readonly cookie:CookieService){
 
   }
 
@@ -19,6 +20,8 @@ export class AdminService {
   //GET FUNCTIONS
   getCompany(companyName:string):Observable<any>
   {
+    const token=this.cookie.get("token");
+
     const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
 
     const options = {
@@ -32,6 +35,8 @@ export class AdminService {
 
   getCompanyStats(companyName: string):Observable<any>
   {
+      const token=this.cookie.get("token");
+      
       const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
       const options = {
         headers: new HttpHeaders({
