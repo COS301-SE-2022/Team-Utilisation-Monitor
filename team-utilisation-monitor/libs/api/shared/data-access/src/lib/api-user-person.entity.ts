@@ -48,4 +48,7 @@ export class UserPerson{
     @Field({ nullable: true })
     team_id?:number;
 
-} 
+    @Field({nullable:true})
+    weekly_Hours?:number
+
+}

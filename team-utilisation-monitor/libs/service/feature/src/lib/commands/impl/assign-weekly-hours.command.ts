@@ -1,8 +1,7 @@
 export class AssignWeeklyHoursCommand{
     constructor(
-        public weeklyHours:number,
-        public email:string,
-        ){
+        public readonly email:string,
+        public readonly weeklyHours:number){
 
     }
 }
