@@ -279,7 +279,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'",token:"'+token+'",email:"'+email+'")}'
+    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'",token:"'+token+'",admin_email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
