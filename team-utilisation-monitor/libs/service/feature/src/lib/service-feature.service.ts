@@ -284,7 +284,7 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetTeamsOnProjectQuery(projectName));
     }
 
-    async setToken(email:string,token:string):Promise<boolean> 
+    async setToken(email:string,token:string):Promise<boolean>
     {
       return this.commandBus.execute(new SetTokenCommand(token,email));
     }

@@ -1728,12 +1728,7 @@ export class DataAccessRepository {
               }
           })
 
-
-          //if(this.TeamBusy(teamName))  //The Team is already on a project
-          {
-            await this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
-          }
-
+          await this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
           return "Team Member added"
         }
         else
@@ -2683,7 +2678,9 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:"default"
+
                 }
               }
             )
@@ -2775,7 +2772,8 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:"default"
                 }
               }
             )
@@ -3227,6 +3225,7 @@ export class DataAccessRepository {
       //
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
+
 
       const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
         {
