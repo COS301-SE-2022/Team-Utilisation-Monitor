@@ -86,8 +86,5 @@ export class CompCreateProjectPopupComponent implements OnInit {
       
       alert("Project "+projectName+" has been created ");
     }
-
-    //Calculate the Utilization for each team In that project
-        //console.log(projectName)
   }
 }

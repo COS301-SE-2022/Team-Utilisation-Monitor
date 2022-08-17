@@ -15,8 +15,8 @@
     "prisma:seed": "ts-node prisma\\seed.ts",
     "build": "nx build",
     "test": "nx test",
-    "test:intergration":"nx e2e client-e2e",
-    "test:intergration:watch":"nx e2e client-e2e --watch"
+    "test:intergration": "nx e2e client-e2e",
+    "test:intergration:watch": "nx e2e client-e2e --watch"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +37,7 @@
     "@nestjs/cqrs": "^8.0.4",
     "@nestjs/graphql": "^10.0.12",
     "@nestjs/platform-express": "^8.0.0",
+    "@ngxs/store": "^3.7.5",
     "@nrwl/angular": "14.2.1",
     "@prisma/client": "^4.0.0",
     "angular-material-source": "angular/material",
@@ -67,6 +68,8 @@
     "@angular/language-service": "14.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
+    "@ngxs/devtools-plugin": "^3.7.5",
+    "@ngxs/logger-plugin": "^3.7.5",
     "@nrwl/cli": "14.2.1",
     "@nrwl/cypress": "^14.4.3",
     "@nrwl/eslint-plugin-nx": "14.2.1",
