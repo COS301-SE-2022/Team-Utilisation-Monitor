@@ -2219,9 +2219,9 @@ export class DataAccessRepository {
             return -1;
     }
 
-    /***
-     * This function returns the number of teams working on a project
-     * Project doesn't exist
+    /*
+      This function returns the number of teams working on a project
+      Project doesn't exist
      */
 
     async getNumberOfTeamsWorkingOnAProject(project_name:string):Promise<number>
