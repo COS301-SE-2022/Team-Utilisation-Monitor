@@ -2482,6 +2482,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             const update=await this.prisma.person.update(
               {
                 where:
@@ -2492,7 +2501,8 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:token
                 }
               }
             )
@@ -2572,6 +2582,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2583,7 +2602,7 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:"null"
+                  active_Token:token
                 }
               }
             )
@@ -2669,6 +2688,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2680,7 +2708,7 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:"null"
+                  active_Token:token
 
                 }
               }
@@ -2763,6 +2791,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2774,7 +2811,7 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:"null"
+                  active_Token:token
                 }
               }
             )
