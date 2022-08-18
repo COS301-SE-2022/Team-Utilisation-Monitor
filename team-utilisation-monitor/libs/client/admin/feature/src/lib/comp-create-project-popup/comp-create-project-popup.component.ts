@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-create-project-popup',
@@ -24,7 +25,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   companyName='';
   
 
-  constructor(private adminService:AdminService,private cookie:CookieService) {}
+  constructor(private adminService:AdminService,private cookie:CookieService, private snackBar: MatSnackBar) {}
 
   
   ngOnInit(): void {
@@ -73,7 +74,8 @@ export class CompCreateProjectPopupComponent implements OnInit {
               {
                 this.adminService.CalculateUtilization(projectName).subscribe(
                   Data=>{
-                    alert(Data.data.CalculateUtilization)
+                    this.snackBar.open(Data.data.CalculateUtilization)
+                    // alert(Data.data.CalculateUtilization)
                   }
                 )
               }
@@ -83,8 +85,8 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
         })
 
-      
-      alert("Project "+projectName+" has been created ");
+      this.snackBar.open("Project "+projectName+" has been created ")
+      // alert("Project "+projectName+" has been created ");
     }
   }
 }

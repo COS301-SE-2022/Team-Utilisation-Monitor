@@ -2,6 +2,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { setMaxListeners } from 'process';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-team-to-project-popup',
@@ -10,7 +12,7 @@ import { AdminService } from '../Admin.service';
 })
 export class CompAddTeamToProjectPopupComponent implements OnInit {
 
-  constructor(private readonly service:AdminService,private readonly cookie:CookieService){}
+  constructor(private readonly service:AdminService,private readonly cookie:CookieService, private snackBar: MatSnackBar){}
 
   @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
@@ -30,8 +32,26 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
         }
       )
     }
+    
+    if(this.selectedTeams.length == 0){
+      this.snackBar.open("Please Select at least one Team to add to" + this.cookie.get("project_name"));
+    }
 
-    alert("Successfully assigned Team(s) to project");
+    if(this.selectedTeams.length == 1){
+      this.snackBar.open("Successfully assigned "+ this.selectedTeams[0] +" to " + this.cookie.get("project_name"));
+    }
+
+    if(this.selectedTeams.length > 1){
+      let sTeamNames: String;
+      sTeamNames = this.selectedTeams[0];
+      for(let i=1;i<this.selectedTeams.length;++i){
+        sTeamNames = sTeamNames + ', ' + this.selectedTeams[i];
+      }
+      this.snackBar.open("Successfully assigned "+ sTeamNames +" to " + this.cookie.get("project_name"));
+    }
+
+
+    // alert("Successfully assigned Team(s) to project");
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
