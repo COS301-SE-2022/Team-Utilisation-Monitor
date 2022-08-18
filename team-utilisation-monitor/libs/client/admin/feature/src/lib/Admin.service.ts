@@ -137,11 +137,13 @@ export class AdminService {
   getAvailableTeams(projectName:string):Observable<any>
   {
     const Query='query{GetAvailableTeams(project_name:"'+projectName+'")}'
+
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
+    
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
@@ -279,7 +281,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'",token:"'+token+'",email:"'+email+'")}'
+    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'",token:"'+token+'",admin_email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

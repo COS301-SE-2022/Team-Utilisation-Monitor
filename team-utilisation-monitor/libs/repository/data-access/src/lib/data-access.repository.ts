@@ -1728,12 +1728,7 @@ export class DataAccessRepository {
               }
           })
 
-
-          //if(this.TeamBusy(teamName))  //The Team is already on a project
-          {
-            await this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
-          }
-
+          await this.UpdateUtilizationAfterMemberAddition(teamName)   //Updates team's Utilization after memebr is added
           return "Team Member added"
         }
         else
@@ -2219,9 +2214,9 @@ export class DataAccessRepository {
             return -1;
     }
 
-    /***
-     * This function returns the number of teams working on a project
-     * Project doesn't exist
+    /*
+      This function returns the number of teams working on a project
+      Project doesn't exist
      */
 
     async getNumberOfTeamsWorkingOnAProject(project_name:string):Promise<number>
@@ -2487,6 +2482,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             const update=await this.prisma.person.update(
               {
                 where:
@@ -2497,7 +2501,8 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:token
                 }
               }
             )
@@ -2577,6 +2582,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2587,7 +2601,8 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:token
                 }
               }
             )
@@ -2673,6 +2688,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2683,7 +2707,9 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:token
+
                 }
               }
             )
@@ -2765,6 +2791,15 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
+            const token=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            )).active_Token
+
             await this.prisma.person.update(
               {
                 where:
@@ -2775,7 +2810,8 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss
+                  status:Statuss,
+                  active_Token:token
                 }
               }
             )
@@ -3227,6 +3263,7 @@ export class DataAccessRepository {
       //
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
+
 
       const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
         {
