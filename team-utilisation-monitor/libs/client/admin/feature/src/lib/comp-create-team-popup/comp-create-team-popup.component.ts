@@ -34,12 +34,18 @@ export class CompCreateTeamPopupComponent implements OnInit {
     this.adminService.createTeam(teamName,this.companyName).subscribe(()=>
       {
         this.snackBar.open("Team "+teamName+" Created")
+        setTimeout(() => {
+          this.snackBar.dismiss();
+        }, 5000)
         //alert("Team "+teamName+" Created")
       });
     }
     else
     { 
       this.snackBar.open("Invalid Form")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
       // alert("Invalid Form")
     }
   }

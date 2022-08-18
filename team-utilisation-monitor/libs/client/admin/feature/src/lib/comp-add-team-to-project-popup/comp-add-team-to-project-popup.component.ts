@@ -35,10 +35,16 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
     
     if(this.selectedTeams.length == 0){
       this.snackBar.open("Please Select at least one Team to add to" + this.cookie.get("project_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
     }
 
     if(this.selectedTeams.length == 1){
       this.snackBar.open("Successfully assigned "+ this.selectedTeams[0] +" to " + this.cookie.get("project_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
     }
 
     if(this.selectedTeams.length > 1){
@@ -48,6 +54,9 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
         sTeamNames = sTeamNames + ', ' + this.selectedTeams[i];
       }
       this.snackBar.open("Successfully assigned "+ sTeamNames +" to " + this.cookie.get("project_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
     }
 
 
