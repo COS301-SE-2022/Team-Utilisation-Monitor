@@ -75,6 +75,9 @@ export class CompCreateProjectPopupComponent implements OnInit {
                 this.adminService.CalculateUtilization(projectName).subscribe(
                   Data=>{
                     this.snackBar.open(Data.data.CalculateUtilization)
+                    setTimeout(() => {
+                      this.snackBar.dismiss();
+                    }, 5000)
                     // alert(Data.data.CalculateUtilization)
                   }
                 )
@@ -86,6 +89,9 @@ export class CompCreateProjectPopupComponent implements OnInit {
         })
 
       this.snackBar.open("Project "+projectName+" has been created ")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
       // alert("Project "+projectName+" has been created ");
     }
   }
