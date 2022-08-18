@@ -47,6 +47,7 @@ import { CompTeamIndividualComponent } from './comp-team-individual/comp-team-in
 import { FormsModule } from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popup/comp-project-data-view-popup.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -79,6 +80,7 @@ import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popu
     MatDialogModule,
     MatListModule,
     MatTooltipModule,
+    MatSnackBarModule,
     RouterModule.forChild([]),
   ],
   providers: [CookieService],

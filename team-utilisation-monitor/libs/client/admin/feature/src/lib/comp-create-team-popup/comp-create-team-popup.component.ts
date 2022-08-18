@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-create-team-popup',
@@ -16,7 +17,7 @@ export class CompCreateTeamPopupComponent implements OnInit {
   teamForm=new FormGroup({
     teamName:new FormControl('',[Validators.required])
   })
-  constructor(private adminService:AdminService,private cookie:CookieService) {}
+  constructor(private adminService:AdminService,private cookie:CookieService,private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     console.log()
@@ -32,12 +33,14 @@ export class CompCreateTeamPopupComponent implements OnInit {
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.createTeam(teamName,this.companyName).subscribe(()=>
       {
-        alert("Team "+teamName+" Created")
+        this.snackBar.open("Team "+teamName+" Created")
+        //alert("Team "+teamName+" Created")
       });
     }
     else
-    {
-      alert("Invalid Form")
+    { 
+      this.snackBar.open("Invalid Form")
+      // alert("Invalid Form")
     }
   }
 }
