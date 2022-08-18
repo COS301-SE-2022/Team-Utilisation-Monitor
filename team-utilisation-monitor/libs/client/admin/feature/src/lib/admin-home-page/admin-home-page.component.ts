@@ -38,7 +38,6 @@ export class AdminHomePageComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     console.log();
 
     this.companyName=this.cookie.get("CompanyName");
@@ -58,8 +57,9 @@ export class AdminHomePageComponent implements OnInit {
       })
 
     })
-
   }
+
+
 
   //read from the store
 
