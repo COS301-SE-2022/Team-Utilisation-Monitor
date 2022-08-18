@@ -64,6 +64,7 @@ Working in a development-based environment has managers managing resource alloca
    -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
    -  [Technical Installation Manual](https://docs.google.com/document/d/10e_AY1tviN0QiDagzLFjgVrG0ETz9N0C6lEdTdWK7F4/edit?usp=sharing)
+   -  [Project management sprint1-4 discussion]
    -  [Demo4 Pre-recording]
    -  [Demo4 Live recording Here]
  
