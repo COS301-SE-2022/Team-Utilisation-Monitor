@@ -10,9 +10,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin'
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin'
+import { IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client/admin/feature';
+
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
-  imports: [FormsModule,HttpClientModule,BrowserModule, AppRoutingModule, BrowserAnimationsModule,ReactiveFormsModule],
+  imports: [FormsModule,
+    HttpClientModule,
+    BrowserModule, 
+    AppRoutingModule, 
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+
+    NgxsModule.forRoot([
+      IncreaseNumberOfEmployeesState,
+    ]),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot()
+    
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

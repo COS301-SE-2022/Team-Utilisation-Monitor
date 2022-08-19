@@ -7,9 +7,9 @@ async function main()
 {
   /***
    * In this seed. The user with an id of 2 is connecting to the skill with an id of 3.
-   * 
+   *
    */
-   const new_member= await prisma.team.update({
+  /*const new_member= await prisma.team.update({
     where:{
         id:2,
     },
@@ -24,7 +24,9 @@ async function main()
             }]
         }
     }
-})
+})*/
+
+
 }
 
 main()

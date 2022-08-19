@@ -1,23 +1,31 @@
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
-
+import { NullException } from '@team-utilisation-monitor/shared/services/prisma-services';
 import { UserInputError } from 'apollo-server-express';
+import { Token } from 'graphql';
 
 @Resolver()
 export class ApiFeatureResolver {
 
-  constructor(private readonly service: ServiceFeatureService ) {}
+  constructor(private readonly service: ServiceFeatureService) {}
 
   /***
    * Use this function to get all teams associated with a project. Returns an array []
-  */
+  **/
 
   @Query(()=>[TeamEntity])
-  async getAllTeamsWorkingOnProject(@Args("project_name")project_name:string){
+  async getAllTeamsWorkingOnProject(@Args("project_name")project_name:string,@Args("token")token:string,@Args("email")email:string){
+    
+    const verification=await this.service.verifyToken(email,token);
 
-    const resp=await this.service.GetAllTeamsWorkingOnProjectServ(project_name);
-    return resp;
+    if(verification){
+      
+      const resp=await this.service.GetAllTeamsWorkingOnProjectServ(project_name);
+      return resp;
+    }
+    else
+      return new NullException().stack;
   }
 
 
@@ -40,10 +48,16 @@ export class ApiFeatureResolver {
   }
 
   @Query(()=>String)
-  async getInviteCode(@Args("name") companyName:string)
+  async getInviteCode(@Args("name") companyName:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.GetInviteCode(companyName);
-    return resp
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.GetInviteCode(companyName);
+      return resp
+    }
+    else
+      return new NullException().stack;
   }
 
   /***
@@ -51,9 +65,16 @@ export class ApiFeatureResolver {
    */
 
   @Query(() => UserCompany)
-  async GetCompanyQuery(@Args("name") company_name:string){
+  async GetCompanyQuery(@Args("name") company_name:string,@Args("token")token:string,@Args("email")email:string){
+
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
       const resp=await this.service.getCompany(company_name);
       return resp;
+    }
+    else
+      return new NullException().stack;
   }
 
   @Query(() => UserPerson, { name: 'name' })
@@ -73,11 +94,20 @@ export class ApiFeatureResolver {
    */
 
   @Query(()=>UserPerson)
-  async getOnePerson(@Args("email") email:string )
+  async getOnePerson(@Args("email") email:string,@Args("token")token:string)
   {
-    const resp=this.service.getOnePersonVEmailService(email);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=this.service.getOnePersonVEmailService(email);
+
+      return resp;
+    }
+    else{
+      return new NullException().stack
+      
+    }
+      
   }
 
   /***
@@ -100,11 +130,18 @@ export class ApiFeatureResolver {
    */
 
   @Query(()=>CompanyStatsEntity)
-  async getCompanyStats(@Args("company_name") company_name:string)
+  async getCompanyStats(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.getCompanyStats(company_name);
+    const verification=await this.VerifyToken(email,token);
+    
+    if(verification){
+      const resp=await this.service.getCompanyStats(company_name);
 
-    return resp;
+      return resp;
+    }
+    else
+      return new NullException().stack;
+    
   }
 
   /****
@@ -146,11 +183,18 @@ export class ApiFeatureResolver {
   */
 
   @Query(()=>[ProjectEntity])
-  async getAllProjectsOfACompany(@Args("company_name") company_name:string)
+  async getAllProjectsOfACompany(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,0);
+    const verification=await this.service.verifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,0);
+
+      return resp;
+    }
+    else
+      return new NullException().stack;
+   
   }
 
   /***
@@ -159,11 +203,17 @@ export class ApiFeatureResolver {
   */
 
   @Query(()=>[TeamEntity])
-  async getAllTeamsOfACompany(@Args("company_name") company_name:string)
+  async getAllTeamsOfACompany(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
+    const verification=await this.service.verifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp= await this.service.getAllProjectsAndTeamsOfCompany(company_name,1);
+
+      return resp;
+    }
+    else
+      return new NullException().stack;
   }
 
   /***
@@ -198,11 +248,17 @@ export class ApiFeatureResolver {
    */
 
   @Query(()=>[UserPerson])
-  async getPendingRequests(@Args("company_name") company_name:string)
+  async getPendingRequests(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.getPendingRequests(company_name);
+    const verification=await this.service.verifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=await this.service.getPendingRequests(company_name);
+
+      return resp;
+    }
+    else
+      return new NullException().stack;
   }
 
   /***
@@ -211,11 +267,17 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>InviteCodeEntity)
-  async createInviteCode(@Args("company_name") company_name:string)
+  async createInviteCode(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.createInviteCode(company_name);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=await this.service.createInviteCode(company_name);
+
+      return resp;
+    }
+    else
+      return new NullException().stack;  
   }
 
   /***
@@ -235,11 +297,19 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>ProjectEntity)
-  async createProject(@Args("project_name") project_name:string,@Args("company_name") company_name:string, @Args("team_name") team_name:string,@Args("man_hours")man_hours:number)
+  async createProject(@Args("project_name") project_name:string,@Args("company_name") company_name:string, @Args("team_name") team_name:string,@Args("man_hours")man_hours:number,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp= await this.service.createProject(project_name,company_name,team_name,man_hours);
 
-    return resp;
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp= await this.service.createProject(project_name,company_name,team_name,man_hours);
+
+      return resp;
+    }
+    else
+      return new NullException().stack;  
+    
   }
 
   /***
@@ -247,11 +317,18 @@ export class ApiFeatureResolver {
    */
 
   @Mutation(()=>TeamEntity)
-  async createTeam(@Args("team_name") team_name:string,@Args("company_name")company_name:string)
+  async createTeam(@Args("team_name") team_name:string,@Args("company_name")company_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.createTeam(team_name,company_name);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=await this.service.createTeam(team_name,company_name);
+
+      return resp;
+    }
+    else
+      return new NullException().stack; 
+    
   }
 
   /***
@@ -259,11 +336,18 @@ export class ApiFeatureResolver {
   */
 
   @Mutation(()=>String)
-  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name:string)
+  async assignProjectToTeamVName(@Args("team_name")team_name:string, @Args("project_name")project_name:string,@Args("token")token:string,@Args("email")email:string)
   {
-    const resp=await this.service.AssignProjectToTeamVName(team_name,project_name);
+    const verification=await this.VerifyToken(email,token);
 
-    return resp;
+    if(verification){
+      const resp=await this.service.AssignProjectToTeamVName(team_name,project_name);
+
+      return resp;
+    }
+    else
+      return new NullException().stack; 
+   
   }
 
 
@@ -274,6 +358,7 @@ export class ApiFeatureResolver {
   @Mutation(()=>String)
   async assignProjectToTeam(@Args("team_id")team_id:number,@Args("project_id")project_id:number)
   {
+    
     const resp=await this.service.AssignProjectToTeamServ(team_id,project_id);
 
     return resp;
@@ -293,7 +378,7 @@ export class ApiFeatureResolver {
 
   /***
    * This function is used to create a user i.e role=USER
-   */
+  */
 
   @Mutation(()=>UserPerson)
   async createUser(@Args("name") name:string,@Args("surname") surname:string,@Args("email") email:string,@Args("inviteCode")inviteCode:string)
@@ -303,7 +388,23 @@ export class ApiFeatureResolver {
     return resp;
   }
 
+  /***
+   * Use this function to set the token
+   */
 
+  @Mutation(()=>Boolean)
+  async SetToken(@Args("token")token:string,@Args("email")email:string)
+  {
+    const resp=await this.service.setToken(email,token);
+    
+    return resp;
+  }
+
+  @Mutation(()=>Boolean)
+  async VerifyToken(@Args("email") email:string,@Args("token") Token:string)
+  {
+    return await this.service.verifyToken(email,Token);
+  } 
 
   /***
   * This function is used to approve requests via email
@@ -311,23 +412,43 @@ export class ApiFeatureResolver {
   */
 
   @Mutation(()=>Boolean)
-  async approveRequestVEmail(@Args("email") email:string)
+  async approveRequestVEmail(@Args("email") email:string,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    const resp=await this.service.approveRequestVEmail(email);
+    const verification=await this.VerifyToken(admin_email,token);
 
-    return resp;
+    if(verification){
+      const resp=await this.service.approveRequestVEmail(email);
+
+      return resp;
+    }
+    else
+      return new NullException().stack; 
+    
   }
 
   @Mutation(()=>String)
-  async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string)
+  async AddTeamMember(@Args("team_name") teamName:string,@Args("email") email:string,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    return await this.service.AddTeamMember(teamName,email);
+    const verification=await this.VerifyToken(admin_email,token);
+
+    if(verification){
+      return await this.service.AddTeamMember(teamName,email);
+    }
+    else
+      return new NullException().stack;   
   }
 
   @Query(()=>[UserPerson])
-  async GetTeamMembers(@Args("team_name") teamName:string)
+  async GetTeamMembers(@Args("team_name") teamName:string,@Args("token")token:string,@Args("email")admin_email:string)
   {
-    return await this.service.GetTeamMembers(teamName);
+    const verification=await this.VerifyToken(admin_email,token);
+
+    if(verification){
+      return await this.service.GetTeamMembers(teamName);
+    }
+    else
+      return new NullException().stack;   
+    
   }
 
 
@@ -337,21 +458,40 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async DeleteTeamMember(@Args("team_name") teamName:string,@Args("email") EmployeeEmail:string)
+  async DeleteTeamMember(@Args("team_name") teamName:string,@Args("email") EmployeeEmail:string,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
+    const verification=await this.VerifyToken(admin_email,token);
+
+    if(verification){
+      return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
+    }
+    else
+      return new NullException().stack;
   }
 
   @Mutation(()=>UserPerson)
-  async DeleteEmployee(@Args("email") email:string)
+  async DeleteEmployee(@Args("email") email:string,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    return await this.service.DeleteEmployee(email);
+    const verification=await this.VerifyToken(admin_email,token);
+
+    if(verification){
+      return await this.service.DeleteEmployee(email);
+    }
+    else
+      return new NullException().stack;
   }
 
   @Mutation(()=>String)
-  async AddSkill(@Args("skillType") skill:string)
+  async AddSkill(@Args("skillType") skill:string,@Args("token")token:string,@Args("email")email:string)
   {
-    return await this.service.AddSkill(skill);
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      return await this.service.AddSkill(skill);
+    }
+    else
+      return new NullException().stack;
+    
   }
 
   @Query(()=>[Skill])
@@ -361,57 +501,107 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async UpdateProfile(@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
+  async UpdateProfile(@Args("token")token:string,@Args("email") Email:string,@Args("name") Name?:string,@Args("surname") Surname?:string)
   {
-    return await this.service.UpdateProfile(Email,Name,Surname);
+    const verification=await this.VerifyToken(Email,token);
+
+    if(verification){
+      return await this.service.UpdateProfile(Email,Name,Surname);
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>[UserPerson])
-  async GetUnderUtilizedEmployees(@Args("company_name") cName:string)
+  async GetUnderUtilizedEmployees(@Args("company_name") cName:string,@Args("token")token:string,@Args("email")Email:string)
   {
-    return await this.service.GetUnderUtilizedEmps(cName)
+    const verification=await this.VerifyToken(Email,token);
+    
+    if(verification){
+      return await this.service.GetUnderUtilizedEmps(cName)
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>[TeamEntity])
-  async GetAllocatedTeams(@Args("email") uEmail:string)
+  async GetAllocatedTeams(@Args("email") uEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedTeams(uEmail);
+    const verification=await this.VerifyToken(uEmail,token);
+    
+    if(verification)
+      return await this.service.GetAllocatedTeams(uEmail);
+    else
+      return new NullException().stack
   }
 
   @Query(()=>[ProjectEntity])
-  async GetAllocateProjects(@Args("email") UserEmail:string)
+  async GetAllocateProjects(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetAllocatedProjects(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification)
+       return await this.service.GetAllocatedProjects(UserEmail);
+    else
+      return new NullException().stack
+
   }
 
   @Mutation(()=>String)
-  async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string)
+  async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string,@Args("token")token:string)
   {
     return await this.service.UpdateUserSkill(UserEmail,skillName)
   }
 
   @Query(()=>[String])
-  async GetUserSkills(@Args("email") UserEmail:string)
+  async GetUserSkills(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserSkills(UserEmail)
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserSkills(UserEmail)
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>UserStatsEntity)
-  async GetUserStats(@Args("email") UserEmail:string)
+  async GetUserStats(@Args("email") UserEmail:string,@Args("token")token:string)
   {
-    return await this.service.GetUserStats(UserEmail);
+    const verification=await this.VerifyToken(UserEmail,token);
+
+    if(verification){
+      return await this.service.GetUserStats(UserEmail);
+    }
+    else
+      return new NullException().stack
+
   }
 
   @Mutation(()=>String)
-  async AssignHours(@Args("email") UserEmail:string,@Args("weekly_hours") hours:number)
+  async AssignHours(@Args("email") UserEmail:string,@Args("weekly_hours") hours:number,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    return await this.service.AssignHours(UserEmail,hours);
+    const verification=await this.VerifyToken(admin_email,token); //verify using admin email
+
+    if(verification){
+      return await this.service.AssignHours(UserEmail,hours);
+    }
+    else
+      return new NullException().stack;
   }
 
   @Mutation(()=>String)
-  async CalculateUtilization(@Args("project_Name") projectName:string)
+  async CalculateUtilization(@Args("project_Name") projectName:string,@Args("token")token:string,@Args("admin_email")admin_email:string)
   {
-    return await this.service.CalculateUtilization(projectName);
+    const verification=await this.VerifyToken(admin_email,token); //verify using admin email
+
+    if(verification){
+      return await this.service.CalculateUtilization(projectName);
+    }
+    else
+      return new NullException().stack;
+
+    
   }
 
   @Mutation(()=>String)
@@ -433,9 +623,15 @@ export class ApiFeatureResolver {
   }
 
   @Query(()=>[Utilization])
-  async GetMonthlyUtilization(@Args("email") email:string)
+  async GetMonthlyUtilization(@Args("email") email:string,@Args("token")token:string)
   {
-    return await this.service.GetMonthlyUtilization(email);
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      return await this.service.GetMonthlyUtilization(email);
+    }
+    else
+      return new NullException().stack
   }
 
   @Query(()=>CompanyUtilization)
@@ -445,27 +641,42 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
-  async CompleteProject(@Args("project_name") projectName:string)
+  async CompleteProject(@Args("project_name") projectName:string,@Args("token")token:string,@Args("email")email:string)
   {
-    return await this.service.CompleteProject(projectName);
+    const verification=await this.service.verifyToken(email,token);
+    
+    if(verification){
+      return await this.service.CompleteProject(projectName);
+    }
+    else
+      return new NullException().stack;
   }
 
   @Mutation(()=>String)
-  async DeleteProject(@Args("project_name") projectName:string)
+  async DeleteProject(@Args("project_name") projectName:string,@Args("token")token:string,@Args("email")email:string)
   {
-    return await this.service.DeleteProject(projectName);
+    const verification=await this.service.verifyToken(email,token);
+    
+    if(verification){
+      return await this.service.DeleteProject(projectName);
+    }
+    else
+      return new NullException().stack;
+     
   }
 
   @Query(()=>[TeamEntity])
-  async GetTeamsOnProject(@Args("project_name") projectName:string)
+  async GetTeamsOnProject(@Args("project_name") projectName:string,@Args("token")token:string,@Args("email")email:string)
   {
-    return await this.service.GetTeamsOnProject(projectName);
+    const verification=await this.service.verifyToken(email,token);
+    
+    if(verification){
+      return await this.service.GetTeamsOnProject(projectName);
+    }
+    else
+      return new NullException().stack;
+    
+    
   }
-
-  /*@Mutation(() => UserPerson)
-  async deleteUser(@Args('id', { type: () => String }) id: string) {
-    return new UserInputError('Not implemented');
-  }
-
-*/
+  
 }

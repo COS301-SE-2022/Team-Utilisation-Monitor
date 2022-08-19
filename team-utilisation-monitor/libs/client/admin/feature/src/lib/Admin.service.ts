@@ -3,6 +3,7 @@ import { Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
 import { query } from '@angular/animations';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { query } from '@angular/animations';
 export class AdminService {
 
   company:any
-  constructor(private client:HttpClient){
+  constructor(private client:HttpClient,private readonly cookie:CookieService){
 
   }
 
@@ -19,12 +20,15 @@ export class AdminService {
   //GET FUNCTIONS
   getCompany(companyName:string):Observable<any>
   {
-    const Query='query{GetCompanyQuery(name:"'+companyName+'"){id,company_name,employees{name,surname,email,role,utilisation},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{GetCompanyQuery(name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
-  }
+    })}
 
     return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
@@ -32,7 +36,10 @@ export class AdminService {
 
   getCompanyStats(companyName: string):Observable<any>
   {
-      const query='query{getCompanyStats(company_name:"'+companyName+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
+      const token=this.cookie.get("token");
+      const email=this.cookie.get("Email");
+
+      const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -44,7 +51,10 @@ export class AdminService {
 
   getPendingRequests(companyName:string):Observable<any>
   {
-    const query='query{getPendingRequests(company_name:"'+companyName+'"){name,surname,email}}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{getPendingRequests(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){name,surname,email}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -55,7 +65,10 @@ export class AdminService {
 
   getInviteCode(companyName:string):Observable<any>
   {
-    const query='query{getInviteCode(name:"'+companyName+'")}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{getInviteCode(name:"'+companyName+'",token:"'+token+'",email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -66,7 +79,10 @@ export class AdminService {
 
   getAllTeamsOfACompany(companyName:string):Observable<any>
   {
-    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'"){team_name}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{getAllTeamsOfACompany(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){team_name}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -80,7 +96,10 @@ export class AdminService {
 
   getTeamMembers(teamName:string):Observable<any>
   {
-    const Query='query{GetTeamMembers(team_name:"'+teamName+'"){name,surname,email}}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{GetTeamMembers(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'"){name,surname,email}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -91,7 +110,10 @@ export class AdminService {
 
   GetUnderUtilizedEmps(cName:string):Observable<any>
   {
-    const Query='query{GetUnderUtilizedEmployees(company_name:"'+cName+'"){name,surname,email,role}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{GetUnderUtilizedEmployees(company_name:"'+cName+'",token:"'+token+'",email:"'+email+'"){name,surname,email,role}}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -115,18 +137,23 @@ export class AdminService {
   getAvailableTeams(projectName:string):Observable<any>
   {
     const Query='query{GetAvailableTeams(project_name:"'+projectName+'")}'
+
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
+    
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
   getAllProjectsOfACompany(companyName:string):Observable<any>
   {
-    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+'"){project_name}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{getAllProjectsOfACompany(company_name:"'+companyName+',token:"'+token+'",email:"'+email+'"){project_name}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -144,7 +171,10 @@ export class AdminService {
    */
   getAllTeamsWorkingOnAProject(projectName:string):Observable<any>
   {
-    const query='query{getAllTeamsWorkingOnProject(project_name:"'+projectName+'"){team_name}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{getAllTeamsWorkingOnProject(project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'"){team_name}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -158,6 +188,7 @@ export class AdminService {
 
   GetCompanyUtilization():Observable<any>
   {
+
     const query='query{GetCompanyUtilization{JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC,Utilisation}}';
 
     const options = {
@@ -171,7 +202,10 @@ export class AdminService {
 
   GetTeamsOnProject(projectName:string):Observable<any>
   {
-    const query='query{GetTeamsOnProject(project_name:"'+projectName+'"){team_name}}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{GetTeamsOnProject(project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'"){team_name}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -185,7 +219,10 @@ export class AdminService {
 
   assignProjectToTeams(teamName:string,projectName:string):Observable<any>
   {
-    const query='mutation{assignProjectToTeamVName(team_name:"'+teamName+'",project_name:"'+projectName+'")}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='mutation{assignProjectToTeamVName(team_name:"'+teamName+'",project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'")}';
 
     const options = {
       headers: new HttpHeaders({
@@ -198,7 +235,10 @@ export class AdminService {
 
   createTeam(teamName:string,companyName:string):Observable<any>
   {
-    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'"){members{id,name}}}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){members{id,name}}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -210,7 +250,10 @@ export class AdminService {
 
   createInviteCode(companyName: string):Observable<any>
   {
-    const query='mutation{createInviteCode(company_name:"'+companyName+'"){inviteCode}}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='mutation{createInviteCode(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){inviteCode}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -221,7 +264,10 @@ export class AdminService {
 
   createProject(projectName:string,companyName:string,teamName:string,manHours:number)
   {
-    const query='mutation{createProject(project_name:"'+projectName+'",company_name:"'+companyName+'",team_name:"'+teamName+'",man_hours:'+manHours+'){man_hours}}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='mutation{createProject(project_name:"'+projectName+'",company_name:"'+companyName+'",team_name:"'+teamName+'",man_hours:'+manHours+',token:"'+token+'",email:"'+email+'"){man_hours}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -232,7 +278,10 @@ export class AdminService {
 
   approveRequest(employeeEmail:string):Observable<any>
   {
-    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'")}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{approveRequestVEmail(email:"'+employeeEmail+'",token:"'+token+'",admin_email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -243,7 +292,10 @@ export class AdminService {
 
   AddTeamMember(teamName:string,email:string):Observable<any>
   {
-    const Query='mutation{AddTeamMember(team_name:"'+teamName+'",email:"'+email+'")}'
+    const token=this.cookie.get("token");
+    const Admin_email=this.cookie.get("Email");
+
+    const Query='mutation{AddTeamMember(team_name:"'+teamName+'",email:"'+email+'",token:"'+token+'",admin_email:"'+Admin_email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -254,7 +306,10 @@ export class AdminService {
 
   DeleteTeamMember(teamName:string,email:string):Observable<any>
   {
-    const Query='mutation{DeleteTeamMember(team_name:"'+teamName+'",email:"'+email+'")}'
+    const token=this.cookie.get("token");
+    const Admin_email=this.cookie.get("Email");
+
+    const Query='mutation{DeleteTeamMember(team_name:"'+teamName+'",email:"'+email+'",token:"'+token+'",admin_email:"'+Admin_email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -265,7 +320,10 @@ export class AdminService {
 
   DeleteEmployee(email:string):Observable<any>
   {
-    const Query='mutation{DeleteEmployee(email:"'+email+'"){name,surname}}'
+    const token=this.cookie.get("token");
+    const Admin_email=this.cookie.get("Email");
+
+    const Query='mutation{DeleteEmployee(email:"'+email+'",token:"'+token+'",admin_email:"'+Admin_email+'"){name,surname}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -276,18 +334,26 @@ export class AdminService {
 
   AddSkill(skillName:string):Observable<any>
   {
-    const Query='mutation{AddSkill(skillType:"'+skillName+'")}'
+    console.log("AddSkill admin service");
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{AddSkill(skillType:"'+skillName+'",token:"'+token+'",email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
+
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   CalculateUtilization(projectName:string):Observable<any>
   {
-    const Query='mutation{CalculateUtilization(project_Name:"'+projectName+'")}'
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{CalculateUtilization(project_Name:"'+projectName+'",token:"'+token+'",email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -299,7 +365,10 @@ export class AdminService {
 
   updateWeeklyHoursForEmployee(email:string,hours:number):Observable<any>
   {
-    const Query='mutation{AssignHours(email:"'+email+'",weekly_hours:'+hours+')}';
+    const token=this.cookie.get("token");
+    const Admin_email=this.cookie.get("Email");
+
+    const Query='mutation{AssignHours(email:"'+email+'",weekly_hours:'+hours+',token:"'+token+'",admin_email:"'+Admin_email+'")}';
 
     const options = {
       headers: new HttpHeaders({
@@ -312,7 +381,10 @@ export class AdminService {
 
   CompleteProject(projectName:string):Observable<any>
   {
-    const Query='mutation{CompleteProject(project_name:"'+projectName+'")}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{CompleteProject(project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'")}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -323,7 +395,10 @@ export class AdminService {
 
   DeleteProject(projectName:string):Observable<any>
   {
-    const Query='mutation{DeleteProject(project_name:"'+projectName+'")}';
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{DeleteProject(project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'")}';
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

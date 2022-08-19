@@ -6,6 +6,11 @@ import { CompAddUserPopupComponent } from '../comp-add-user-popup/comp-add-user-
 import { CompCreateProjectPopupComponent } from '../comp-create-project-popup/comp-create-project-popup.component';
 import { CompCreateTeamPopupComponent } from '../comp-create-team-popup/comp-create-team-popup.component';
 import { CompAddSkillsPopupComponent } from '../comp-add-skills-popup/comp-add-skills-popup.component';
+import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { NumberOfEmployees } from '../models/admin-number-of-employees';
+import { IncreaseNumberOfEmployeesState } from '../states/number-of-employees.state';
+import { IncreaseNumberOfEmployees } from '../actions/mutate-number-of-employees.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-navbar',
@@ -14,46 +19,51 @@ import { CompAddSkillsPopupComponent } from '../comp-add-skills-popup/comp-add-s
 })
 
 export class CompNavbarComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private adminService:AdminService,private cookie:CookieService) {}
+
+  nrOfEmployees$: Observable<NumberOfEmployees>=new Observable<NumberOfEmployees>;
+  
+  constructor(private matDialog: MatDialog,private adminService:AdminService,private cookie:CookieService,private store:Store) {
+    
+    this.nrOfEmployees$=this.store.select(state => state.NumberOfEmployees.NumberOfEmployees) //number of employees is the model
+  }
+  
   AdminData:any;
   requestOpenState = true;
   adminName="";
   companyName="";
-  OutEmployeeName:any[]=[];
+  OutEmployeeName:any[]=[]; //array containing the names
   nrOfRequests=0;
-
-
-
+  nrOfEmployees=0;
+ 
   ngOnInit(): void {
     console.log()
     this.adminName=this.cookie.get("UserName");
     this.companyName=this.cookie.get("CompanyName");
 
     this.adminService.getPendingRequests(this.companyName).subscribe(data=>
+    {
+      this.AdminData=data;
+
+      if(this.AdminData.data.getPendingRequests!=null)
       {
-        this.AdminData=data;
-        //console.log(JSON.stringify(this.AdminData.data));
+        let count=0;
 
-        if(this.AdminData.data.getPendingRequests!=null)
-        {
-          let count=0;
-          type nameObject=
-          {
-            Name:string
-            Email:string
-          }
-
-          for(const requests of this.AdminData.data.getPendingRequests)
-          {
-            const  obj={} as nameObject;
-            obj.Name=requests.name+" "+requests.surname;
-            obj.Email=requests.email;
-            this.OutEmployeeName.push(obj);
-            count++;
-          }
-          this.nrOfRequests=count
+        type nameObject={
+          Name:string,
+          Email:string
         }
-      })
+
+        for(const requests of this.AdminData.data.getPendingRequests)
+        {
+          const  obj={} as nameObject;
+          obj.Name=requests.name+" "+requests.surname;
+          obj.Email=requests.email;
+          this.OutEmployeeName.push(obj);
+          count++;
+        }
+          this.nrOfRequests=count
+        }})
+
       console.log()
 
   }
@@ -72,5 +82,45 @@ export class CompNavbarComponent implements OnInit {
 
   onOpenAddSkillsClick(){
     this.matDialog.open(CompAddSkillsPopupComponent);
+  }
+
+  removeFromPendingList(name:string){
+
+    let index=-1; //this is the index of the user within the OutEmployeeName
+
+    for(let i=0;i<this.OutEmployeeName.length;++i){
+      if(this.OutEmployeeName[i].Name==name){
+        index=i;
+      }
+    }
+
+    if(index>=0){
+      this.adminService.approveRequest(this.OutEmployeeName[index].Email).subscribe(data=>{
+        
+        //now remove the pending user from the front end
+        --this.nrOfRequests;
+        for(let i=0;i<this.OutEmployeeName.length;++i){
+          if(this.OutEmployeeName[i].Name==name){
+            this.OutEmployeeName.splice(i,1); //remove selected user
+          }
+        }
+
+        this.adminService.getCompanyStats(this.companyName).subscribe(data=>
+        {
+          //get the current number of employees using a service
+          this.nrOfEmployees=data.data.getCompanyStats.numEmployees;
+          
+          //update the store for the admin-home-page.component to read
+          this.store.dispatch(new IncreaseNumberOfEmployees({value:this.nrOfEmployees})); 
+        })
+
+
+      })
+    }
+    else{
+      alert("Critical Error: Data between frontend and backEnd inconsistent")
+    }
+
+    
   }
 }

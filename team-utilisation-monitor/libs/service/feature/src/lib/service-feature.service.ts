@@ -47,6 +47,8 @@ import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
 import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmployees.query';
 import { FunctionsService } from './functions/functions.service';
+import { SetTokenCommand } from './commands/impl/set-token.command';
+import { VerifyTokenCommand } from './commands/impl/verify-token.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -280,5 +282,15 @@ export class ServiceFeatureService {
     async GetTeamsOnProject(projectName:string)
     {
       return this.queryBus.execute(new GetTeamsOnProjectQuery(projectName));
+    }
+
+    async setToken(email:string,token:string):Promise<boolean>
+    {
+      return this.commandBus.execute(new SetTokenCommand(token,email));
+    }
+
+    async verifyToken(email:string,token:string):Promise<boolean>
+    {
+      return this.commandBus.execute(new VerifyTokenCommand(email,token));
     }
 }

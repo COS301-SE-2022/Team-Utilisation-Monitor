@@ -35,3 +35,36 @@ mat-expansion-panel{
 mat-card{
   margin: 10px;
 }
+
+.example-spacer {
+	flex: 1 1 auto;
+}
+
+.Mat-Individual{
+	margin: 5px;
+	padding: 0px;
+	padding-top: 5px;
+	height: 40px;
+    width: 100%;
+}
+
+.InvdividualBox{
+	font-size: large;
+	display: flex;
+	height: 15px;
+
+	margin-left: 16px;
+}
+
+.InvdividualButton{
+    margin-right: 5px;
+	height: 34px;
+}
+
+mat-card{
+	background: rgb(246, 245, 245);
+}
+
+.InvdividualName{
+	padding-top: 7px;
+}

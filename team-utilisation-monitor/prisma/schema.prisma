@@ -42,6 +42,8 @@ model Person{
 
   status Status @default(UNDER_UTILISED)
 
+  active_Token String @default("null")//value is set whenever the user logs in
+
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
@@ -122,13 +124,13 @@ model Position{
 model PersonOnTeams{
 
   id Int @id @default(autoincrement())
-  
+
   teams Team @relation(fields: [team_id],references: [id])
   team_id Int //A person can hold multiple teams
 
   members Person @relation(fields: [person_id],references: [id])
-  person_id Int  
-  
+  person_id Int
+
 }
 
 model Team{
@@ -137,7 +139,7 @@ model Team{
 
   team_name String @unique
 
-  members PersonOnTeams[] 
+  members PersonOnTeams[]
 
   company Company? @relation(name: "memberOf",fields: [company_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   company_id Int?  //company owns muliple teams
