@@ -424,7 +424,6 @@ export class DataAccessRepository {
             }
         })
 
-
         if(existing_project) //project already in the db
             throw new NullException().stack; //project already exists
 
@@ -443,7 +442,7 @@ export class DataAccessRepository {
                     project_name:projectName,
                     owner_id:c_id,
                     man_hours:hoursToComplete,
-                    teams:{
+                    /*teams:{
                         create:[{
                             team:{
                                 connect:{
@@ -451,11 +450,13 @@ export class DataAccessRepository {
                                 }
                             }
                         }]
-                    }
+                    }*/
                 }
             })
 
-            //await this.
+
+
+            await this.AssignProjectToTeam(t_id,new_project.id);
 
             const return_project=new ProjectEntity();
 
