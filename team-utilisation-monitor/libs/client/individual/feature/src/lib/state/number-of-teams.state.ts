@@ -16,5 +16,19 @@ export class IncreaseNumberOfTeamsStateModel{
 
 export class IncreaseNumberOfTeamsState{
 
+  @Selector()
+  static getNumberOfTeams(state:IncreaseNumberOfTeamsStateModel){
+    if(state.teams.length==0)
+      return state.teams[0].value;
+    else
+      return state.teams[state.teams.length-1].value;
+  }
 
+  @Action(IncreaseNumberOfTeams)
+  increase({getState,patchState}:StateContext<IncreaseNumberOfTeamsStateModel>,{payload}:IncreaseNumberOfTeams){
+    const state=getState();
+    patchState({
+      teams:[...state.teams,payload]
+    })
+  }
 }
