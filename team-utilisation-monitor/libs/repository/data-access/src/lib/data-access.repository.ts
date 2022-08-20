@@ -2509,7 +2509,7 @@ export class DataAccessRepository {
         }
       }
 
-      await this.updateHistoricUtilization();
+     await this.updateHistoricUtilization();
 
       return "Utilization complete"
     }
@@ -2724,6 +2724,7 @@ export class DataAccessRepository {
 
     }
 
+    //This function resets the Utilization hours of teamMembers upon new member arrival
     async ResetAssignedHoursForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
@@ -2965,7 +2966,7 @@ export class DataAccessRepository {
       {
         week=4
       }
-      console.log(day);
+     // console.log(day);
 
 
       for(let i=0;i<utilization.length;i++)
@@ -2982,6 +2983,7 @@ export class DataAccessRepository {
 
         if(week==1)
         {
+          //The person's Utilization doesn't exist for this month
           if(H_ID.length==0)
           {
             await this.prisma.historicUtilisation.create(
@@ -3014,51 +3016,96 @@ export class DataAccessRepository {
         }
         else if(week==2)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week2:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week2:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week2:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
         else if(week==3)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week3:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week3:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week3:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
         else if(week==4)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week4:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week4:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week4:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
 
       }
