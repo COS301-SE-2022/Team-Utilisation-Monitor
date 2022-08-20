@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-popup/comp-project-data-view-popup.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -12,7 +13,7 @@ import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-pop
 })
 
 export class CompProjectListComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService) {}
+  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar) {}
 
   @Input() Project!: { Name: string, TeamName: string, Hours: number };
 
@@ -39,7 +40,11 @@ export class CompProjectListComponent implements OnInit {
   {
     this.service.CompleteProject(this.Project.Name).subscribe(Data=>
       {
-        alert(Data.data.CompleteProject)
+        this.snackBar.open(Data.data.CompleteProject + " has been completed")
+        setTimeout(() => {
+          this.snackBar.dismiss();
+        }, 5000)
+        // alert(Data.data.CompleteProject)
       })
   }
 
@@ -47,7 +52,11 @@ export class CompProjectListComponent implements OnInit {
   {
     this.service.DeleteProject(this.Project.Name).subscribe(Data=>
       {
-        alert(Data.data.DeleteProject)
+        this.snackBar.open(this.Project.Name + " has been deleted")
+        setTimeout(() => {
+          this.snackBar.dismiss();
+        }, 5000)
+        //alert(Data.data.DeleteProject)
       })
   }
 
