@@ -2,6 +2,7 @@
 import { AdminService } from './../Admin.service';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-skills-popup',
@@ -16,7 +17,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
 
   skillsList: string[] = [];
   skillsData:any
-  constructor(private service:AdminService) { }
+  constructor(private service:AdminService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     console.log
@@ -41,12 +42,20 @@ export class CompAddSkillsPopupComponent implements OnInit {
 
       this.service.AddSkill(skillName).subscribe(data=>
         {
-          alert(data.data.AddSkill+" Added")
+          this.snackBar.open(data.data.AddSkill+" Added");
+          setTimeout(() => {
+            this.snackBar.dismiss();
+          }, 5000)
+          //alert(data.data.AddSkill+" Added")
         })
     }
     else
     {
-      alert("Please type in a skill")
+      this.snackBar.open("Please type a valid skill name");
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+      //alert("Please type in a skill")
     }
   }
 
