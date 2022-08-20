@@ -1,7 +1,7 @@
-import { NumberOfProjects } from "../models/number-of-projects.model";
+import { NumberOfSkills } from "../models/number-of-skills.model";
 
-export class IncreaseNumberOfProjects{
-  static readonly type='[Projects] Increase Projects'
+export class IncreaseNumberOfSkills{
+  static readonly type='[Skills] Increase Projects'
 
-  constructor(public payload:NumberOfProjects){}
+  constructor(public payload:NumberOfSkills){}
 }
