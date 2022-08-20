@@ -3,6 +3,10 @@ import {Skill} from './../models/skill.model';
 import{ AddSkill} from "../actions/skill.actions";
 
 export class SkillStateModel{
-  skill: Skill
+  skill: Skill[]
 }
 
+@State<SkillStateModel>({
+  name:'skill',
+  defaults:{skill:[] }
+})
