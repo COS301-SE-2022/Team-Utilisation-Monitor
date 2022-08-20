@@ -8,16 +8,16 @@ export class IncreaseNumberOfSkillsStateModel{
 
 
 @State<IncreaseNumberOfSkillsStateModel>({
-  name:'increase_number_of_projects',
+  name:'increase_number_of_skills',
   defaults:{
     skills:[],
   }
 })
 
-export class IncreaseNumberOfProjectsState{
+export class IncreaseNumberOfSkillsState{
 
   @Selector()
-  static getNumberOfProjects(state:IncreaseNumberOfSkillsStateModel){
+  static getNumberOfSkills(state:IncreaseNumberOfSkillsStateModel){
     if(state.skills.length==0)
       return state.skills[0].value;
     else
