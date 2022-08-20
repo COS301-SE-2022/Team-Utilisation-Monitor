@@ -19,9 +19,9 @@ export class SkillState{
   @Selector()
   static getSkill(state:SkillStateModel){
     if(state.skill.length==0)
-      return state.skill[0].value;
+      return state.skill[0].name;
     else
-      return state.skill[state.skill.length-1].value;
+      return state.skill[state.skill.length-1].name;
   }
 
 }
