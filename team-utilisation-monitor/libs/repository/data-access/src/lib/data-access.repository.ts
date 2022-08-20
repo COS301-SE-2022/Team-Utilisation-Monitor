@@ -538,23 +538,7 @@ export class DataAccessRepository {
 
         if(existing_project && existing_team) //project and team do exist
         {
-            //assign team to project
-           /* const existing_team=await this.prisma.team.update({
-                where:{
-                    id:team_id
-                },
-                data:{
-                    projects:{
-                        create:[{
-                           project:{
-                            connect:{
-                                id:project_id
-                            }
-                           }
-                        }]
-                    }
-                }
-            })*/
+
             await this.ResetAssignedHours(existing_project.project_name);
 
             const team=await this.prisma.teamsOnProjects.create({
