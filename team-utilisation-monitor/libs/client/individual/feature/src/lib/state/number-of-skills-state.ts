@@ -29,7 +29,7 @@ export class IncreaseNumberOfSkillsState{
     const state=getState();
 
     patchState({
-      projects:[...state.skills,payload]
+      skills:[...state.skills,payload]
     })
   }
 
