@@ -21,15 +21,15 @@ export class IncreaseNumberOfProjectsState{
     if(state.skills.length==0)
       return state.skills[0].value;
     else
-      return state.projects[state.projects.length-1].value;
+      return state.skills[state.skills.length-1].value;
   }
 
-  @Action(IncreaseNumberOfProjects)
-  increase({getState,patchState}:StateContext<IncreaseNumberOfProjectsStateModel>,{payload}:IncreaseNumberOfProjects){
+  @Action(IncreaseNumberOfSkills)
+  increase({getState,patchState}:StateContext<IncreaseNumberOfSkillsStateModel>,{payload}:IncreaseNumberOfSkills){
     const state=getState();
 
     patchState({
-      projects:[...state.projects,payload]
+      projects:[...state.skills,payload]
     })
   }
 
