@@ -7,8 +7,3 @@ export class IncreaseNumberOfTeams{
   constructor(public payload:NumberOfTeams){}
 }
 
-export class DecreaseNumberOfTeams{
-  static readonly type='[Teams] Decrease teams';
-
-  constructor(public payload:NumberOfTeams){}
-}
