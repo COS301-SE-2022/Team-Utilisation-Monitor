@@ -424,6 +424,7 @@ export class DataAccessRepository {
             }
         })
 
+
         if(existing_project) //project already in the db
             throw new NullException().stack; //project already exists
 
@@ -453,6 +454,8 @@ export class DataAccessRepository {
                     }
                 }
             })
+
+            //await this.
 
             const return_project=new ProjectEntity();
 
@@ -535,7 +538,7 @@ export class DataAccessRepository {
         if(existing_project && existing_team) //project and team do exist
         {
             //assign team to project
-            const existing_team=await this.prisma.team.update({
+           /* const existing_team=await this.prisma.team.update({
                 where:{
                     id:team_id
                 },
@@ -550,7 +553,16 @@ export class DataAccessRepository {
                         }]
                     }
                 }
+            })*/
+            const team=await this.prisma.teamsOnProjects.create({
+              data:
+              {
+                team_id:team_id,
+                project_id:project_id
+              }
             })
+
+            await this.CalculateUtilizationVProject(existing_project.project_name);  //Call the Utilization function after creating a team
 
             return "Successfully assigned "+(await this.getTeam(team_id)).team_name+" to project "+(await this.getProject(project_id)).project_name;
         }
