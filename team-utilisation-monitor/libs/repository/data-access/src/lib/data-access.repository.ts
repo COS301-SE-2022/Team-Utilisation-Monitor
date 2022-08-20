@@ -555,6 +555,8 @@ export class DataAccessRepository {
                     }
                 }
             })*/
+            await this.ResetAssignedHours(existing_project.project_name);
+
             const team=await this.prisma.teamsOnProjects.create({
               data:
               {
