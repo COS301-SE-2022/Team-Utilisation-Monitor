@@ -442,7 +442,7 @@ export class DataAccessRepository {
                     project_name:projectName,
                     owner_id:c_id,
                     man_hours:hoursToComplete,
-                    teams:{
+                    /*teams:{
                         create:[{
                             team:{
                                 connect:{
@@ -450,9 +450,13 @@ export class DataAccessRepository {
                                 }
                             }
                         }]
-                    }
+                    }*/
                 }
             })
+
+
+
+            await this.AssignProjectToTeam(t_id,new_project.id);
 
             const return_project=new ProjectEntity();
 
@@ -534,23 +538,18 @@ export class DataAccessRepository {
 
         if(existing_project && existing_team) //project and team do exist
         {
-            //assign team to project
-            const existing_team=await this.prisma.team.update({
-                where:{
-                    id:team_id
-                },
-                data:{
-                    projects:{
-                        create:[{
-                           project:{
-                            connect:{
-                                id:project_id
-                            }
-                           }
-                        }]
-                    }
-                }
+
+            await this.ResetAssignedHours(existing_project.project_name);
+
+            const team=await this.prisma.teamsOnProjects.create({
+              data:
+              {
+                team_id:team_id,
+                project_id:project_id
+              }
             })
+
+            await this.CalculateUtilizationVProject(existing_project.project_name);  //Call the Utilization function after creating a team
 
             return "Successfully assigned "+(await this.getTeam(team_id)).team_name+" to project "+(await this.getProject(project_id)).project_name;
         }
