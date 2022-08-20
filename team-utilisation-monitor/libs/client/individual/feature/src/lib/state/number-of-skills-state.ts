@@ -1,25 +1,25 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { IncreaseNumberOfProjects } from "../actions/number-of-projects.actions";
-import { NumberOfProjects } from "../models/number-of-projects.model";
+import { IncreaseNumberOfSkills } from "../actions/number-of-skills.actions";
+import { NumberOfSkills } from "../models/number-of-skills.model";
 
-export class IncreaseNumberOfProjectsStateModel{
-  projects: NumberOfProjects[]=[];
+export class IncreaseNumberOfSkillsStateModel{
+  skills: NumberOfSkills[]=[];
 }
 
 
-@State<IncreaseNumberOfProjectsStateModel>({
+@State<IncreaseNumberOfSkillsStateModel>({
   name:'increase_number_of_projects',
   defaults:{
-    projects:[],
+    skills:[],
   }
 })
 
 export class IncreaseNumberOfProjectsState{
 
   @Selector()
-  static getNumberOfProjects(state:IncreaseNumberOfProjectsStateModel){
-    if(state.projects.length==0)
-      return state.projects[0].value;
+  static getNumberOfProjects(state:IncreaseNumberOfSkillsStateModel){
+    if(state.skills.length==0)
+      return state.skills[0].value;
     else
       return state.projects[state.projects.length-1].value;
   }
