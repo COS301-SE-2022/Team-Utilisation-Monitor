@@ -24,4 +24,12 @@ export class SkillState{
       return state.skill[state.skill.length-1].name;
   }
 
+  @Action(skill)
+  increase({getState,patchState}:StateContext<SkillStateModel>,{payload}:skill){
+    const state=getState(); //gets the current state for us.
+    patchState({
+      skill:[...state.skill,payload] //append the new state to the employees
+    })
+  }
+
 }
