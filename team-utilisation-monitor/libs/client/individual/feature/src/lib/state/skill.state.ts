@@ -5,3 +5,4 @@ import{ AddSkill} from "../actions/skill.actions";
 export class SkillStateModel{
   skill: Skill
 }
+
