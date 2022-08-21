@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.action';
 
@@ -27,7 +28,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   tempData:any;
   
 
-  constructor(private adminService:AdminService,private cookie:CookieService,private store:Store) {}
+  constructor(private adminService:AdminService,private cookie:CookieService, private snackBar: MatSnackBar,private store:Store) {}
 
   
   ngOnInit(): void {
@@ -69,24 +70,32 @@ export class CompCreateProjectPopupComponent implements OnInit {
           this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
           data=>{
 
-            if(i==this.selectedTeams.length-1)
-            {
-              this.adminService.CalculateUtilization(projectName).subscribe(
-                Data=>{
-                  alert(Data.data.CalculateUtilization)
-                }
-              )}
+              if(i==this.selectedTeams.length-1)
+              {
+                this.adminService.CalculateUtilization(projectName).subscribe(
+                  Data=>{
+                    this.snackBar.open(Data.data.CalculateUtilization)
+                    setTimeout(() => {
+                      this.snackBar.dismiss();
+                    }, 5000)
+                    // alert(Data.data.CalculateUtilization)
+                  }
+                )
+              }
           });
-        }})
+            
+          }
 
-      //update the stats on the frontEnd using ngxs
-        
+      })
+      this.snackBar.open("Project "+projectName+" has been created ")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+
       this.adminService.getCompanyStats(this.companyName).subscribe(data2=>{
         console.log(data2.data.getCompanyStats.numProjects);
         this.store.dispatch(new IncreaseNumberOfProjects({value:data2.data.getCompanyStats.numProjects+1}));
       })
-      
-      alert("Project "+projectName+" has been created ");
     }
   }
 }
