@@ -31,14 +31,14 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
 
   addTeamMembers(){
 
-    console.log(this.cookie.get("team_name"));
-    console.log(this.selectedEmployees);
+    //console.log(this.cookie.get("team_name"));
+    //console.log(this.selectedEmployees);
 
     for(let i=0;i<this.selectedEmployees.length;++i)
     {
       this.service.AddTeamMember(this.cookie.get("team_name"),this.selectedEmployees[i]).subscribe(
         data=>{
-          //some logic
+          //some logic *1
         }
       )
     }
@@ -58,7 +58,7 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
     }
 
     if(this.selectedEmployees.length > 1){
-      let sEmployeeNames: String;
+      let sEmployeeNames: string;
       sEmployeeNames = this.selectedEmployees[0];
       for(let i=1;i<this.selectedEmployees.length;++i){
         sEmployeeNames = sEmployeeNames + ', ' + this.selectedEmployees[i];
@@ -68,8 +68,6 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
         this.snackBar.dismiss();
       }, 5000)
     }
-
-    //alert("Member(s) added to Team: "+this.cookie.get("team_name"));
   }
 
  

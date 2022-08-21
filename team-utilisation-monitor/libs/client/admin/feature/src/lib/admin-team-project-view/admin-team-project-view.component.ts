@@ -21,9 +21,8 @@ export class AdminTeamProjectViewComponent implements OnInit {
   OutProject:any[]=[]; //an array of projects displayed on the view.
 
   ngOnInit(): void {
-    console.log();
     this.companyName=this.cookie.get("CompanyName");
-
+    
     this.adminService.getCompany(this.companyName).subscribe(data=>
     {
       this.companyData=data;
