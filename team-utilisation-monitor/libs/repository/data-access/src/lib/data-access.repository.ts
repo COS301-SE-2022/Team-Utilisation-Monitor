@@ -2180,6 +2180,15 @@ export class DataAccessRepository {
 
     async AssignWeeklyHours(UserEmail:string,WeeklyHours:number):Promise<string>
     {
+      const token=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:UserEmail
+          }
+        }
+      )).active_Token
+
       const result=await this.prisma.person.update(
         {
           where:
@@ -2188,7 +2197,8 @@ export class DataAccessRepository {
           },
           data:
           {
-            weekly_hours:WeeklyHours
+            weekly_hours:WeeklyHours,
+            active_Token:token
           }
         }
       )
@@ -2268,12 +2278,22 @@ export class DataAccessRepository {
 
     async resetAssignedHoursVID(person_id:number){
 
+      const token=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            id:person_id
+          }
+        }
+      )).active_Token
+
         await this.prisma.person.update({
             where:{
                 id:person_id
             },
             data:{
                 assigned_hours:0,
+                active_Token:token
             }
         })
     }
