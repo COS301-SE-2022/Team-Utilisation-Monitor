@@ -2,6 +2,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from './../Admin.service';
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-user-popup',
@@ -19,7 +20,7 @@ export class CompAddUserPopupComponent implements OnInit {
     email:new FormControl('',[Validators.required,Validators.email])
   })
 
-  constructor(private service:AdminService,private cookie:CookieService) {}
+  constructor(private service:AdminService,private cookie:CookieService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     console.log();
@@ -42,7 +43,11 @@ export class CompAddUserPopupComponent implements OnInit {
     }
     else
     {
-      alert("Please Enter an Eamil address to send the invite link to")
+      this.snackBar.open("Please Enter a valid Email address to send the invite link to");
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+      //alert("Please Enter an Eamil address to send the invite link to")
     }
   }
 

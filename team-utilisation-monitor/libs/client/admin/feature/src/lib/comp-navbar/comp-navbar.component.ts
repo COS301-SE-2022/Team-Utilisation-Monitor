@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { NumberOfEmployees } from '../models/admin-number-of-employees';
 import { IncreaseNumberOfEmployeesState } from '../states/number-of-employees.state';
 import { IncreaseNumberOfEmployees } from '../actions/mutate-number-of-employees.action';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-navbar',
@@ -22,7 +23,7 @@ export class CompNavbarComponent implements OnInit {
 
   nrOfEmployees$: Observable<NumberOfEmployees>=new Observable<NumberOfEmployees>;
   
-  constructor(private matDialog: MatDialog,private adminService:AdminService,private cookie:CookieService,private store:Store) {
+  constructor(private matDialog: MatDialog,private adminService:AdminService,private cookie:CookieService,private store:Store, private snackBar: MatSnackBar) {
     
     this.nrOfEmployees$=this.store.select(state => state.NumberOfEmployees.NumberOfEmployees) //number of employees is the model
   }
@@ -118,7 +119,11 @@ export class CompNavbarComponent implements OnInit {
       })
     }
     else{
-      alert("Critical Error: Data between frontend and backEnd inconsistent")
+      this.snackBar.open("Critical Error: Data between frontend and backEnd inconsistent. Please Refresh the page")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+      // alert("Critical Error: Data between frontend and backEnd inconsistent")
     }
 
     

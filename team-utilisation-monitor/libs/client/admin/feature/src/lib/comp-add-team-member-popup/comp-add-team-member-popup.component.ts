@@ -3,6 +3,7 @@ import { Component, OnInit ,Input } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validate } from 'graphql';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-team-member-popup',
@@ -11,7 +12,7 @@ import { validate } from 'graphql';
 })
 export class CompAddTeamMemberPopupComponent implements OnInit {
 
-  constructor(private service:AdminService,private cookie:CookieService) {}
+  constructor(private service:AdminService,private cookie:CookieService, private snackBar: MatSnackBar) {}
 
   @Input() TeamName!: { Name: string };
 
@@ -42,7 +43,33 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
       )
     }
 
-    alert("Member(s) added to Team: "+this.cookie.get("team_name"));
+    if(this.selectedEmployees.length == 0){
+      this.snackBar.open("Please Select at least one Employee to add to" + this.cookie.get("team_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+    }
+
+    if(this.selectedEmployees.length == 1){
+      this.snackBar.open("Successfully assigned "+ this.selectedEmployees[0] +" to " + this.cookie.get("team_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+    }
+
+    if(this.selectedEmployees.length > 1){
+      let sEmployeeNames: String;
+      sEmployeeNames = this.selectedEmployees[0];
+      for(let i=1;i<this.selectedEmployees.length;++i){
+        sEmployeeNames = sEmployeeNames + ', ' + this.selectedEmployees[i];
+      }
+      this.snackBar.open("Successfully assigned "+ sEmployeeNames +" to " + this.cookie.get("team_name"));
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+    }
+
+    //alert("Member(s) added to Team: "+this.cookie.get("team_name"));
   }
 
  
