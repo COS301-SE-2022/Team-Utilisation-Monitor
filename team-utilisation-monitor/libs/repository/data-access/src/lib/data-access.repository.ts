@@ -835,9 +835,20 @@ export class DataAccessRepository {
 
      async approveRequestVEmail(f_email:string):Promise<boolean>
      {
+
+      const token=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:f_email
+          }
+        }
+      )).active_Token
+
          const confirm=await this.prisma.person.update({
              data:{
-                 approved:true
+                 approved:true,
+                 active_Token:token
              },
              where:{
                 email:f_email
@@ -1901,6 +1912,7 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
+
 
       const empID=await this.prisma.person.update(
         {
