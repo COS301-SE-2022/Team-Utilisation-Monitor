@@ -3334,12 +3334,22 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
+          const token=(await this.prisma.person.findUnique(
+            {
+              where:
+              {
+                email:email
+              }
+            }
+          )).active_Token
+
             await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
                 data:{
                     weekly_hours:hours,
+                    active_Token:token
                 }
             })
 
