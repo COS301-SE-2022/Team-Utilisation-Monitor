@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import { CookieService } from 'ngx-cookie-service';
+import { IncreaseNumberOfTeams } from '../actions/mutate-number-of-teams.action';
 import { AdminService } from '../Admin.service';
 
 @Component({
@@ -16,7 +18,7 @@ export class CompCreateTeamPopupComponent implements OnInit {
   teamForm=new FormGroup({
     teamName:new FormControl('',[Validators.required])
   })
-  constructor(private adminService:AdminService,private cookie:CookieService) {}
+  constructor(private adminService:AdminService,private cookie:CookieService,private store:Store) {}
 
   ngOnInit(): void {
     console.log()
@@ -39,5 +41,12 @@ export class CompCreateTeamPopupComponent implements OnInit {
     {
       alert("Invalid Form")
     }
+
+    //update the front end using ngxs
+    this.adminService.getCompanyStats(this.companyName).subscribe(data2=>{
+      console.log(data2.data.getCompanyStats.numProjects);
+      this.store.dispatch(new IncreaseNumberOfTeams({value:data2.data.getCompanyStats.numTeams+1}));
+    })
   }
+
 }
