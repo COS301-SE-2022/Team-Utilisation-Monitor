@@ -14,6 +14,8 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin'
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin'
 import { IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client/admin/feature';
+import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/admin/feature';
+import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -26,6 +28,8 @@ import { IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client
 
     NgxsModule.forRoot([
       IncreaseNumberOfEmployeesState,
+      IncreaseNumberOfProjectsState,
+      IncreaseNumberOfTeamsState
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot()
