@@ -48,7 +48,7 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
     }
 
     if(this.selectedTeams.length > 1){
-      let sTeamNames: String;
+      let sTeamNames: string;
       sTeamNames = this.selectedTeams[0];
       for(let i=1;i<this.selectedTeams.length;++i){
         sTeamNames = sTeamNames + ', ' + this.selectedTeams[i];
@@ -58,9 +58,6 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
         this.snackBar.dismiss();
       }, 5000)
     }
-
-
-    // alert("Successfully assigned Team(s) to project");
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
@@ -78,8 +75,7 @@ export class CompAddTeamToProjectPopupComponent implements OnInit {
         }
 
       }
-    )
-    
+    )   
   }
 
 }

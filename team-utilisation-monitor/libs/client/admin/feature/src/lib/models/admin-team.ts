@@ -1,3 +1,3 @@
 export interface Team{
-    teamName:string
+    teamName:string,
 }
