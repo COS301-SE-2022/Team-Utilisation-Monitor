@@ -1635,9 +1635,7 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
-            //console.log("Adding Employee");
-
-            const update_company=await this.prisma.company.update({
+            await this.prisma.company.update({
                 where:{
                     id:c_id,
                 },
@@ -2248,7 +2246,7 @@ export class DataAccessRepository {
 
     async resetAssignedHoursVID(person_id:number){
 
-        const person= await this.prisma.person.update({
+        await this.prisma.person.update({
             where:{
                 id:person_id
             },
@@ -2490,7 +2488,7 @@ export class DataAccessRepository {
               }
             )).active_Token
 
-            const update=await this.prisma.person.update(
+            await this.prisma.person.update(
               {
                 where:
                 {
@@ -2509,7 +2507,13 @@ export class DataAccessRepository {
         }
       }
 
-     await this.updateHistoricUtilization();
+     //await this.updateHistoricUtilization();
+    const date=(new Date());
+    const day=date.getDate();
+     if(day%7==0) //last day of the week(day 7/14/21/)
+     {
+        await this.updateHistoricUtilization();
+     }
 
       return "Utilization complete"
     }
