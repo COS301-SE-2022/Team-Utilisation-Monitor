@@ -3,9 +3,12 @@ import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 import { Select, Store } from '@ngxs/store';
 import { AddProject } from '../actions/mutate-add-project.action';
-import { AddProjectState, AddProjectStateModel } from '../states/project.state';
+import { AddProjectState} from '../states/project.state';
 import { Observable } from 'rxjs';
 import { Project } from '../models/admin-project';
+import { AddTeam } from '../actions/mutate-add-team.action';
+import { AddTeamState } from '../states/team.state';
+import { Team } from '../models/admin-team';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-team-project-view',
@@ -15,6 +18,7 @@ import { Project } from '../models/admin-project';
 
 export class AdminTeamProjectViewComponent implements OnInit {
 
+  @Select(AddTeamState.getTeams)teams$!:Observable<Team[]>;
   @Select(AddProjectState.getProjects)projects$!:Observable<Project[]>;
 
   constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
@@ -62,14 +66,23 @@ export class AdminTeamProjectViewComponent implements OnInit {
           const  obj2={} as nameObject2;
           obj2.Name=requests.team_name;
           this.OutTeamNames.push(obj2);
+
+          //Initialise the ngxs state with teams
+          this.store.dispatch(new AddTeam({teamName:requests.team_name}));
         }
 
       }
+
+      this.teams$.subscribe(data=>{
+        //get the latest update of the state mode <Add Model>
+      })
+
 
       this.projects$.subscribe(data=>{
         //get the latest update of the state Model <Add Model>
       })
 
+      
 
     })
   }

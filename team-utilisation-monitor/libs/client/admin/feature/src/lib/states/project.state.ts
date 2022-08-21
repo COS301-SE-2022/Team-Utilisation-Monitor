@@ -21,7 +21,7 @@ export class AddProjectState{
     }
 
     @Action(AddProject)
-    increase({getState,patchState}:StateContext<AddProjectStateModel>,{payload}:AddProject){
+    add({getState,patchState}:StateContext<AddProjectStateModel>,{payload}:AddProject){
         const state=getState(); //gets the current state for us.
         patchState({
             projects:[...state.projects,payload]
