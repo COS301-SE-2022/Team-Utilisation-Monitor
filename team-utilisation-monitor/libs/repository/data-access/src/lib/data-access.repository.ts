@@ -1914,6 +1914,15 @@ export class DataAccessRepository {
     {
 
 
+      const token=(await this.prisma.person.findUnique(
+        {
+          where:
+          {
+            email:Email
+          }
+        }
+      )).active_Token
+
       const empID=await this.prisma.person.update(
         {
           where:
@@ -1923,7 +1932,8 @@ export class DataAccessRepository {
           data:
           {
             name:Name,
-            surname:Surname
+            surname:Surname,
+            active_Token:token
           }
         }
       )
