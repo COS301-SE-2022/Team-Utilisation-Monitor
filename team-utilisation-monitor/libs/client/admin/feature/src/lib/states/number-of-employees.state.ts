@@ -30,7 +30,5 @@ export class IncreaseNumberOfEmployeesState{
         patchState({
             employees:[...state.employees,payload] //append the new state to the employees
         })
-
-        console.log("ASAP");
     }
 }
