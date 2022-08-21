@@ -1,6 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
+import { Select, Store } from '@ngxs/store';
+import { AddProject } from '../actions/mutate-add-project.action';
+import { AddProjectState, AddProjectStateModel } from '../states/project.state';
+import { Observable } from 'rxjs';
+import { Project } from '../models/admin-project';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-team-project-view',
@@ -10,19 +15,22 @@ import { AdminService } from '../Admin.service';
 
 export class AdminTeamProjectViewComponent implements OnInit {
 
-  constructor(private adminService:AdminService,private cookie:CookieService) {}
+  @Select(AddProjectState.getProjects)projects$!:Observable<Project[]>;
+
+  constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
   
   boolshow = true;
   panelOpenState = false;
-  companyName=''
-  companyData:any
+  companyName='';
+  companyData:any;
 
   OutTeamNames:any[]=[];
   OutProject:any[]=[]; //an array of projects displayed on the view.
+  
 
   ngOnInit(): void {
     this.companyName=this.cookie.get("CompanyName");
-    
+
     this.adminService.getCompany(this.companyName).subscribe(data=>
     {
       this.companyData=data;
@@ -38,6 +46,9 @@ export class AdminTeamProjectViewComponent implements OnInit {
         obj.Name=requests.project_name;
         obj.Hours=requests.man_hours; //this is not working
         this.OutProject.push(obj); //object passed down
+
+        //Initialise the ngxs state with the projects
+        this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
       }
 
       if(this.companyData.data.GetCompanyQuery!=null)
@@ -54,6 +65,12 @@ export class AdminTeamProjectViewComponent implements OnInit {
         }
 
       }
+
+      this.projects$.subscribe(data=>{
+        //get the latest update of the state Model <Add Model>
+      })
+
+
     })
   }
 }

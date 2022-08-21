@@ -13,9 +13,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class CompProjectListComponent implements OnInit {
+  
   constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar) {}
 
-  @Input() Project!: { Name: string, TeamName: string, Hours: number };
+  @Input() Projects!:{projectName:string, manHours:number};
 
 
 
@@ -27,18 +28,18 @@ export class CompProjectListComponent implements OnInit {
   }
 
   onOpenAddTeams(){
-    this.cookie.set("project_name",this.Project.Name); //store the project name as a cookie
+    this.cookie.set("project_name",this.Projects.projectName); //store the project name as a cookie
     this.matDialog.open(CompAddTeamToProjectPopupComponent);
   }
 
   onOpenProjectDataViewClick(){
-    this.cookie.set("project_name",this.Project.Name);
+    this.cookie.set("project_name",this.Projects.projectName);
     this.matDialog.open(CompProjectDataViewPopupComponent);
   }
 
   CompleteProject()
   {
-    this.service.CompleteProject(this.Project.Name).subscribe(Data=>
+    this.service.CompleteProject(this.Projects.projectName).subscribe(Data=>
       {
         this.snackBar.open(Data.data.CompleteProject + " has been completed")
         setTimeout(() => {
@@ -50,9 +51,9 @@ export class CompProjectListComponent implements OnInit {
 
   DeleteProject()
   {
-    this.service.DeleteProject(this.Project.Name).subscribe(Data=>
+    this.service.DeleteProject(this.Projects.projectName).subscribe(Data=>
       {
-        this.snackBar.open(this.Project.Name + " has been deleted")
+        this.snackBar.open(this.Projects.projectName + " has been deleted")
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)

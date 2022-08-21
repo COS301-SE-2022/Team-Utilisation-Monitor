@@ -7,6 +7,7 @@ import { AdminService } from '../Admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.action';
+import { AddProject } from '../actions/mutate-add-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-create-project-popup',
@@ -96,6 +97,9 @@ export class CompCreateProjectPopupComponent implements OnInit {
         console.log(data2.data.getCompanyStats.numProjects);
         this.store.dispatch(new IncreaseNumberOfProjects({value:data2.data.getCompanyStats.numProjects+1}));
       })
+
+      //add the project to the ngxs AddProjectState
+      this.store.dispatch(new AddProject({projectName:projectName,manHours:Number(projectHours)}));
     }
   }
 }
