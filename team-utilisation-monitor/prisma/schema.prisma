@@ -42,7 +42,7 @@ model Person{
 
   status Status @default(UNDER_UTILISED)
 
-  active_Token String @default("null")//value is set whenever the user logs in
+  active_Token String? @default("null")//value is set whenever the user logs in
 
   utilisations HistoricUtilisation [] @relation("utility")
 
