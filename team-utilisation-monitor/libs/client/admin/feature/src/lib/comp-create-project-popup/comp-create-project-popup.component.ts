@@ -4,6 +4,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
+import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.action';
+import { AddProject } from '../actions/mutate-add-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-create-project-popup',
@@ -22,9 +26,10 @@ export class CompCreateProjectPopupComponent implements OnInit {
   })
 
   companyName='';
+  tempData:any;
   
 
-  constructor(private adminService:AdminService,private cookie:CookieService) {}
+  constructor(private adminService:AdminService,private cookie:CookieService, private snackBar: MatSnackBar,private store:Store) {}
 
   
   ngOnInit(): void {
@@ -54,26 +59,27 @@ export class CompCreateProjectPopupComponent implements OnInit {
     if(this.projectForm.valid)
     {
       const projectName=this.projectForm.get('projectName')?.value!;
-      //const teamName=this.projectForm.get('teamName')?.value!;
       const projectHours=this.projectForm.get('manHours')?.value!;
 
       //create the project in isolation
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data=>{
-            //assign the project to the selected teams
-
-          for(let i=0;i<this.selectedTeams.length;++i)
-          {
-            //console.log(this.selectedTeams[i]);
-        
-            this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
-            data=>{
+            
+        //assign the project to the selected teams
+        for(let i=0;i<this.selectedTeams.length;++i)
+        {
+          this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
+          data=>{
 
               if(i==this.selectedTeams.length-1)
               {
                 this.adminService.CalculateUtilization(projectName).subscribe(
                   Data=>{
-                    alert(Data.data.CalculateUtilization)
+                    this.snackBar.open(Data.data.CalculateUtilization)
+                    setTimeout(() => {
+                      this.snackBar.dismiss();
+                    }, 5000)
+                    // alert(Data.data.CalculateUtilization)
                   }
                 )
               }
@@ -81,10 +87,19 @@ export class CompCreateProjectPopupComponent implements OnInit {
             
           }
 
-        })
+      })
+      this.snackBar.open("Project "+projectName+" has been created ")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
 
-      
-      alert("Project "+projectName+" has been created ");
+      this.adminService.getCompanyStats(this.companyName).subscribe(data2=>{
+        console.log(data2.data.getCompanyStats.numProjects);
+        this.store.dispatch(new IncreaseNumberOfProjects({value:data2.data.getCompanyStats.numProjects+1}));
+      })
+
+      //add the project to the ngxs AddProjectState
+      this.store.dispatch(new AddProject({projectName:projectName,manHours:Number(projectHours)}));
     }
   }
 }

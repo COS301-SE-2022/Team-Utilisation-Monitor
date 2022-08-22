@@ -2,7 +2,6 @@ import { NumberOfEmployees } from "../models/admin-number-of-employees";
 import {Action, StateContext, Selector, State} from '@ngxs/store'
 import { IncreaseNumberOfEmployees } from "../actions/mutate-number-of-employees.action";
 
-
 export class IncreaseNumberOfEmployeesStateModel{
     employees: NumberOfEmployees[]=[]
 }

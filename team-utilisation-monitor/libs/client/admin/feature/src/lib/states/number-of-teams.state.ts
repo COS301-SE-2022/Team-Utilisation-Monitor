@@ -24,10 +24,11 @@ export class IncreaseNumberOfTeamsState{
     }
 
     @Action(IncreaseNumberOfTeams)
-    increase({getState,patchState}:StateContext<IncreaseNumberOfTeamsStateModel>,{payload}:IncreaseNumberOfTeams){
+    increaseTeams({getState,patchState}:StateContext<IncreaseNumberOfTeamsStateModel>,{payload}:IncreaseNumberOfTeams){
         const state=getState();
         patchState({
             teams:[...state.teams,payload]
         })
+        console.log("Action!!!");
     }
 }
