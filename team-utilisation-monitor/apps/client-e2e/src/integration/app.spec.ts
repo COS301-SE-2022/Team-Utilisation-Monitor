@@ -68,24 +68,24 @@ describe('client', () => {
 
  
 
-/*
+*/
 
 
   it('should allow admin to navigate to home page',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('robamiss@gmail.com'); 
+    cy.get('[formControlName="email"]').type('rourke9001@gmail.com'); 
     cy.get('[formControlName="password"]').type("1234567890");
     cy.get('#submitLoginFormButton').click({force:true});
 
     cy.get('#AdminHome').click();
     cy.visit('/AdminHome');
   })
-
+  
   it('should allow admin to navigate to Admin List View',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="email"]').type('rourke9001@gmail.com');
     cy.get('[formControlName="password"]').type("1234567890");
     cy.get('#submitLoginFormButton').click({force:true});
 
@@ -96,7 +96,7 @@ describe('client', () => {
   it('should allow admin to navigate to Admin Company View',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="email"]').type('rourke9001@gmail.com');
     cy.get('[formControlName="password"]').type("1234567890");
     cy.get('#submitLoginFormButton').click({force:true});
 
@@ -107,7 +107,7 @@ describe('client', () => {
   it('should allow admin to navigate to Admin Project View',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="email"]').type('rourke9001@gmail.com');
     cy.get('[formControlName="password"]').type("1234567890");
     cy.get('#submitLoginFormButton').click({force:true});
 
@@ -115,11 +115,11 @@ describe('client', () => {
     cy.visit('/AdminTeamProjectView'); 
 
   })
-  
+
   it('should allow admin to navigate through AdminListView, AdminCompanyView, AdminTeamProjectView, AdminHome',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('robamiss@gmail.com');
+    cy.get('[formControlName="email"]').type('rourke9001@gmail.com');
     cy.get('[formControlName="password"]').type("1234567890");
     cy.get('#submitLoginFormButton').click({force:true});
 
@@ -135,6 +135,6 @@ describe('client', () => {
     cy.get('#AdminHome').click();
     cy.visit('/AdminHome');
   })
-  //testing new workflow*/
+  //testing new workflow
   
 });
