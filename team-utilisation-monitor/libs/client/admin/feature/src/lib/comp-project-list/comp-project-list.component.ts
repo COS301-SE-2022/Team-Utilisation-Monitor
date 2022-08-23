@@ -5,6 +5,8 @@ import { AdminService } from '../Admin.service';
 import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-popup/comp-project-data-view-popup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
+import { RemoveProject } from '../actions/mutate-remove-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -14,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class CompProjectListComponent implements OnInit {
   
-  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar) {}
+  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar,private store:Store) {}
 
   @Input() Projects!:{projectName:string, manHours:number};
 
@@ -59,6 +61,12 @@ export class CompProjectListComponent implements OnInit {
         }, 5000)
         //alert(Data.data.DeleteProject)
       })
+
+      //change the state of the project by dispatching an action
+
+      this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
+
+
   }
 
 

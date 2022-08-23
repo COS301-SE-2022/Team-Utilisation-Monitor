@@ -1,5 +1,6 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { AddProject } from "../actions/mutate-add-project.action";
+import { RemoveProject } from "../actions/mutate-remove-project.action";
 import { Project } from "../models/admin-project";
 
 export class AddProjectStateModel{
@@ -27,4 +28,14 @@ export class AddProjectState{
             projects:[...state.projects,payload]
         })
     }
+
+    @Action(RemoveProject)
+    remove({getState,patchState}:StateContext<AddProjectStateModel>,{payload}:RemoveProject){
+        const state=getState(); //gets the current state for us.
+        patchState({
+            projects:getState().projects.filter(a=>a.projectName!=payload.projectName)
+        })
+    }
+
+
 }
