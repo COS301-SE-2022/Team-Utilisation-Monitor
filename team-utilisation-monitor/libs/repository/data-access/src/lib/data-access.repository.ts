@@ -836,19 +836,10 @@ export class DataAccessRepository {
      async approveRequestVEmail(f_email:string):Promise<boolean>
      {
 
-      const token=(await this.prisma.person.findUnique(
-        {
-          where:
-          {
-            email:f_email
-          }
-        }
-      )).active_Token
 
          const confirm=await this.prisma.person.update({
              data:{
-                 approved:true,
-                 active_Token:token
+                 approved:true
              },
              where:{
                 email:f_email
@@ -1708,6 +1699,7 @@ export class DataAccessRepository {
             }
           }
         )).project_name
+
         await this.ResetAssignedHoursForOneTeam(projectName,teamName)
       }
 
@@ -1914,14 +1906,6 @@ export class DataAccessRepository {
     {
 
 
-      const token=(await this.prisma.person.findUnique(
-        {
-          where:
-          {
-            email:Email
-          }
-        }
-      )).active_Token
 
       const empID=await this.prisma.person.update(
         {
@@ -1932,8 +1916,7 @@ export class DataAccessRepository {
           data:
           {
             name:Name,
-            surname:Surname,
-            active_Token:token
+            surname:Surname
           }
         }
       )
@@ -2180,14 +2163,7 @@ export class DataAccessRepository {
 
     async AssignWeeklyHours(UserEmail:string,WeeklyHours:number):Promise<string>
     {
-      const token=(await this.prisma.person.findUnique(
-        {
-          where:
-          {
-            email:UserEmail
-          }
-        }
-      )).active_Token
+
 
       const result=await this.prisma.person.update(
         {
@@ -2197,8 +2173,7 @@ export class DataAccessRepository {
           },
           data:
           {
-            weekly_hours:WeeklyHours,
-            active_Token:token
+            weekly_hours:WeeklyHours
           }
         }
       )
@@ -2278,22 +2253,14 @@ export class DataAccessRepository {
 
     async resetAssignedHoursVID(person_id:number){
 
-      const token=(await this.prisma.person.findUnique(
-        {
-          where:
-          {
-            id:person_id
-          }
-        }
-      )).active_Token
+
 
         await this.prisma.person.update({
             where:{
                 id:person_id
             },
             data:{
-                assigned_hours:0,
-                active_Token:token
+                assigned_hours:0
             }
         })
     }
@@ -2521,15 +2488,6 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
-
             await this.prisma.person.update(
               {
                 where:
@@ -2541,7 +2499,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
                 }
               }
             )
@@ -2627,14 +2584,6 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
 
             await this.prisma.person.update(
               {
@@ -2646,8 +2595,7 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss,
-                  active_Token:token
+                  status:Statuss
                 }
               }
             )
@@ -2733,14 +2681,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
+
 
             await this.prisma.person.update(
               {
@@ -2753,7 +2694,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
 
                 }
               }
@@ -2837,14 +2777,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
+
 
             await this.prisma.person.update(
               {
@@ -2857,7 +2790,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
                 }
               }
             )
@@ -3334,22 +3266,14 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
-          const token=(await this.prisma.person.findUnique(
-            {
-              where:
-              {
-                email:email
-              }
-            }
-          )).active_Token
+
 
             await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
                 data:{
-                    weekly_hours:hours,
-                    active_Token:token
+                    weekly_hours:hours
                 }
             })
 
