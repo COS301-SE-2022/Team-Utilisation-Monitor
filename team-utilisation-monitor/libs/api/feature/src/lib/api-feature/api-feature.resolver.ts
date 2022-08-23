@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
 import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
@@ -25,7 +26,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
 
@@ -57,7 +61,10 @@ export class ApiFeatureResolver {
       return resp
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   /***
@@ -74,7 +81,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(() => UserPerson, { name: 'name' })
@@ -104,7 +114,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else{
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
       
     }
       
@@ -140,7 +153,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
     
   }
 
@@ -193,7 +209,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
    
   }
 
@@ -213,7 +232,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   /***
@@ -258,7 +280,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   /***
@@ -277,7 +302,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;  
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);  
   }
 
   /***
@@ -308,7 +336,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack;  
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);  
     
   }
 
@@ -327,7 +358,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack; 
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN); 
     
   }
 
@@ -346,7 +380,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack; 
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN); 
    
   }
 
@@ -422,7 +459,10 @@ export class ApiFeatureResolver {
       return resp;
     }
     else
-      return new NullException().stack; 
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN); 
     
   }
 
@@ -435,7 +475,10 @@ export class ApiFeatureResolver {
       return await this.service.AddTeamMember(teamName,email);
     }
     else
-      return new NullException().stack;   
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);   
   }
 
   @Query(()=>[UserPerson])
@@ -447,7 +490,10 @@ export class ApiFeatureResolver {
       return await this.service.GetTeamMembers(teamName);
     }
     else
-      return new NullException().stack;   
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);   
     
   }
 
@@ -466,7 +512,10 @@ export class ApiFeatureResolver {
       return await this.service.DeleteTeamMember(teamName,EmployeeEmail)
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Mutation(()=>UserPerson)
@@ -478,7 +527,10 @@ export class ApiFeatureResolver {
       return await this.service.DeleteEmployee(email);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Mutation(()=>String)
@@ -490,7 +542,10 @@ export class ApiFeatureResolver {
       return await this.service.AddSkill(skill);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
     
   }
 
@@ -509,7 +564,10 @@ export class ApiFeatureResolver {
       return await this.service.UpdateProfile(Email,Name,Surname);
     }
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(()=>[UserPerson])
@@ -521,7 +579,10 @@ export class ApiFeatureResolver {
       return await this.service.GetUnderUtilizedEmps(cName)
     }
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(()=>[TeamEntity])
@@ -532,7 +593,10 @@ export class ApiFeatureResolver {
     if(verification)
       return await this.service.GetAllocatedTeams(uEmail);
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(()=>[ProjectEntity])
@@ -543,7 +607,10 @@ export class ApiFeatureResolver {
     if(verification)
        return await this.service.GetAllocatedProjects(UserEmail);
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
 
   }
 
@@ -562,7 +629,10 @@ export class ApiFeatureResolver {
       return await this.service.GetUserSkills(UserEmail)
     }
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(()=>UserStatsEntity)
@@ -574,7 +644,10 @@ export class ApiFeatureResolver {
       return await this.service.GetUserStats(UserEmail);
     }
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
 
   }
 
@@ -587,7 +660,10 @@ export class ApiFeatureResolver {
       return await this.service.AssignHours(UserEmail,hours);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Mutation(()=>String)
@@ -599,7 +675,10 @@ export class ApiFeatureResolver {
       return await this.service.CalculateUtilization(projectName);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
 
     
   }
@@ -631,7 +710,10 @@ export class ApiFeatureResolver {
       return await this.service.GetMonthlyUtilization(email);
     }
     else
-      return new NullException().stack
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Query(()=>CompanyUtilization)
@@ -649,7 +731,10 @@ export class ApiFeatureResolver {
       return await this.service.CompleteProject(projectName);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
   @Mutation(()=>String)
@@ -661,7 +746,10 @@ export class ApiFeatureResolver {
       return await this.service.DeleteProject(projectName);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
      
   }
 
@@ -674,7 +762,10 @@ export class ApiFeatureResolver {
       return await this.service.GetTeamsOnProject(projectName);
     }
     else
-      return new NullException().stack;
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
     
     
   }
