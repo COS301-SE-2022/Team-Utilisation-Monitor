@@ -59,7 +59,6 @@ export class CompProjectListComponent implements OnInit {
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-        //alert(Data.data.DeleteProject)
       })
 
       //change the state of the project by dispatching an action
