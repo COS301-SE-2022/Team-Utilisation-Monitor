@@ -39,6 +39,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const skillName=this.addSkillForm.get('skillName')?.value!;
+      this.skillsList.push(skillName);
 
       this.service.AddSkill(skillName).subscribe(data=>
         {
@@ -46,7 +47,6 @@ export class CompAddSkillsPopupComponent implements OnInit {
           setTimeout(() => {
             this.snackBar.dismiss();
           }, 5000)
-          //alert(data.data.AddSkill+" Added")
         })
     }
     else
