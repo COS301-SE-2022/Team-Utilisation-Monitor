@@ -8,6 +8,7 @@ import { IncreaseNumberOfTeams } from '../actions/mutate-number-of-teams.action'
 import { AdminService } from '../Admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddTeam } from '../actions/mutate-add-team.action';
+import { RemoveTeam } from '../actions/mutate-remove-team.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-create-team-popup',
@@ -51,7 +52,6 @@ export class CompCreateTeamPopupComponent implements OnInit {
 
       //add a new team to the ngxs state
       this.store.dispatch(new AddTeam({teamName:teamName}));
-
     }
     else
     { 
