@@ -24,9 +24,20 @@ export class AddProjectState{
     @Action(AddProject)
     add({getState,patchState}:StateContext<AddProjectStateModel>,{payload}:AddProject){
         const state=getState(); //gets the current state for us.
-        patchState({
-            projects:[...state.projects,payload]
-        })
+       
+        let found =false;
+
+        for(let i=0;i<state.projects.length;++i){ //check for duplicates
+            if(state.projects[i].projectName==payload.projectName){
+                found=true;
+            }
+        }
+
+        if(found==false){
+            patchState({
+                projects:[...state.projects,payload]
+            })
+        }
     }
 
     @Action(RemoveProject)
