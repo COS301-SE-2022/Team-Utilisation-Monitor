@@ -17,6 +17,8 @@ RUN yarn add @nestjs/cqrs
 
 COPY . .
 
+RUN docker compose up -d 
+
 #do this to compile the main.ts into the main.js file found in the dist folder
 RUN yarn run build
 
