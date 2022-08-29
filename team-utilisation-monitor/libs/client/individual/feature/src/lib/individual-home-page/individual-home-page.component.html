@@ -5,11 +5,9 @@
     <team-utilisation-monitor-comp-sidenav></team-utilisation-monitor-comp-sidenav>
   </mat-sidenav>
   <mat-sidenav-content>
-
-    <div class="matTopNav">
+<div calss="as">
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
-    </div>
-
+</div>
   <mat-card class="mat">
     <div class="util">
       <mat-accordion >
@@ -57,35 +55,34 @@
 
     <div class="summ">
       <mat-tab-group mat-align-tabs="center" dynamicHeight="true">
-        <mat-tab label="#Teams">
-
-          <div class="center">
-          <mat-card class="number-card">
-            <mat-card-title-group class="subtitle">
-              <mat-card-subtitle>Number of Teams joined</mat-card-subtitle>
-            </mat-card-title-group>
-            <mat-card-content>
-             <h2> {{nrOfTeams}} </h2>
-            </mat-card-content>
-          </mat-card>
-          </div>
-
-        </mat-tab>
-
-        <mat-tab label="#Projects" >
-
-          <div class="center">
+        <div class="teamAndProjects">
+          <mat-tab label="#Teams">
+            <div class="center">
             <mat-card class="number-card">
               <mat-card-title-group class="subtitle">
-                <mat-card-subtitle>Number of open Projects</mat-card-subtitle>
+                <mat-card-subtitle>Number of Teams joined</mat-card-subtitle>
               </mat-card-title-group>
               <mat-card-content>
-                <h2> {{nrOfOpenProjects}} </h2>
+              <h2> {{nrOfTeams}} </h2>
               </mat-card-content>
             </mat-card>
-          </div>
+            </div>
+          </mat-tab>
 
-        </mat-tab>
+          <mat-tab label="#Projects" >
+            <div class="center">
+              <mat-card class="number-card">
+                <mat-card-title-group class="subtitle">
+                  <mat-card-subtitle>Number of open Projects</mat-card-subtitle>
+                </mat-card-title-group>
+                <mat-card-content>
+                  <h2> {{nrOfOpenProjects}} </h2>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-tab>
+        </div>
+
         <mat-tab label="Utilization%">
 
           <div class="center">

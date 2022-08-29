@@ -10,11 +10,6 @@ mat-sidenav-container{
   height: 100vh;
 }
 
-.matTopNav{
-position:static;
-
-}
-
 mat-sidenav{
   width: 300px;
 }
@@ -34,7 +29,7 @@ mat-progress-bar{
 
 .mat{
   height: fit-content;
-  margin: 1%;
+  margin-top: 10%;
   background-color: transparent;
 }
 
@@ -151,3 +146,21 @@ mat-grid-tile {
   justify-content: center;
 }
 
+//FOR SMALLER DEVICES
+@media (max-width: 414px) {
+
+  .mat-card1{
+    margin: auto;
+    text-align: center;
+    width:40%;
+    display: inline-block;
+    vertical-align: top;
+   
+  }
+
+  .teamAndProjects{
+    border-radius: 6px;
+   
+  }
+
+}
