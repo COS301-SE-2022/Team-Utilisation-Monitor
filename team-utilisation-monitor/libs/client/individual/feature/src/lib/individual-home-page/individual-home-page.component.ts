@@ -19,7 +19,7 @@ export class IndividualHomePageComponent implements OnInit {
   events: string[] = [];
   opened = true;
   panelOpenState=false;
-  boolshow = true;
+  boolshow = false;
   utilizationPercentage = 30;
   nrOfOpenProjects = 40;       //this will be counted from the array ofcours
   nrOfClosedProjects = 50;
