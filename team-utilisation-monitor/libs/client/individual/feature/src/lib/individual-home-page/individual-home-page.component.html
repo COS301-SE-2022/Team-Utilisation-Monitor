@@ -4,10 +4,11 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
     <team-utilisation-monitor-comp-sidenav></team-utilisation-monitor-comp-sidenav>
   </mat-sidenav>
-
   <mat-sidenav-content>
 
+    <div class="matTopNav">
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
+    </div>
 
   <mat-card class="mat">
     <div class="util">

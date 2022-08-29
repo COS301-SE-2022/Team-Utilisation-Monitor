@@ -10,7 +10,7 @@ export class IndividualExplorePageComponent implements OnInit {
   events: string[] = [];
   opened = true;
   panelOpenState=false;
-  boolshow = false;
+  boolshow = true;
 
   //constructor() { }
 
