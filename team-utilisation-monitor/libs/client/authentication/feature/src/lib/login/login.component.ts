@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit {
 
     console.log("In login function: "+this.loginForm);
 
-    if(this.loginForm.valid) {
+    if(this.loginForm.valid) 
+    {
       const email:string=this.loginForm.get("email")?.value!;
       const pass=this.loginForm.get("password")?.value!;
 

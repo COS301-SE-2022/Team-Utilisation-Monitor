@@ -5,6 +5,8 @@ import { AdminService } from '../Admin.service';
 import { CompAddTeamToProjectPopupComponent } from '../comp-add-team-to-project-popup/comp-add-team-to-project-popup.component';
 import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-popup/comp-project-data-view-popup.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
+import { RemoveProject } from '../actions/mutate-remove-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -13,9 +15,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class CompProjectListComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar) {}
+  
+  constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar,private store:Store) {}
 
-  @Input() Project!: { Name: string, TeamName: string, Hours: number };
+  @Input() Projects!:{projectName:string, manHours:number};
 
 
 
@@ -27,18 +30,18 @@ export class CompProjectListComponent implements OnInit {
   }
 
   onOpenAddTeams(){
-    this.cookie.set("project_name",this.Project.Name); //store the project name as a cookie
+    this.cookie.set("project_name",this.Projects.projectName); //store the project name as a cookie
     this.matDialog.open(CompAddTeamToProjectPopupComponent);
   }
 
   onOpenProjectDataViewClick(){
-    this.cookie.set("project_name",this.Project.Name);
+    this.cookie.set("project_name",this.Projects.projectName);
     this.matDialog.open(CompProjectDataViewPopupComponent);
   }
 
   CompleteProject()
   {
-    this.service.CompleteProject(this.Project.Name).subscribe(Data=>
+    this.service.CompleteProject(this.Projects.projectName).subscribe(Data=>
       {
         this.snackBar.open(Data.data.CompleteProject + " has been completed")
         setTimeout(() => {
@@ -50,14 +53,19 @@ export class CompProjectListComponent implements OnInit {
 
   DeleteProject()
   {
-    this.service.DeleteProject(this.Project.Name).subscribe(Data=>
+    this.service.DeleteProject(this.Projects.projectName).subscribe(Data=>
       {
-        this.snackBar.open(this.Project.Name + " has been deleted")
+        this.snackBar.open(this.Projects.projectName + " has been deleted")
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-        //alert(Data.data.DeleteProject)
       })
+
+      //change the state of the project by dispatching an action
+
+      this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
+
+
   }
 
 

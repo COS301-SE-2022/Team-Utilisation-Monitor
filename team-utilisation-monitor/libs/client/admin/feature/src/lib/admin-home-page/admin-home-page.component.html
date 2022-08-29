@@ -38,9 +38,9 @@
                     <mat-card-title>Open Projects</mat-card-title>
                     <mat-card-content>
                         <hr>
-                        <mat-grid-list cols="2" matTooltip="Open Projects/ Completed Projects">
+                        <mat-grid-list cols="2" matTooltip="Open Projects/ Completed Projects" (click)="someFunc()">
                             <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{nrOfOpenProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
+                            <mat-grid-tile><h1>{{dynamicProjects}}/{{nrOfClosedProjects}}</h1></mat-grid-tile>
                         </mat-grid-list>
                         </mat-card-content>
                 </mat-card>
@@ -52,7 +52,7 @@
                         <hr>
                         <mat-grid-list cols="2" matTooltip="Number of Teams">
                             <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{nrOfTeams}}</h1></mat-grid-tile>
+                            <mat-grid-tile><h1>{{dynamicTeams}}</h1></mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>
                 </mat-card>

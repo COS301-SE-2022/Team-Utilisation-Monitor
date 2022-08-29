@@ -11,7 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class CompTeamListComponent implements OnInit {
   constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService) {}
 
-  @Input() TeamName!: { Name: string };
+  @Input() Teams!:{teamName:string};
 
   requestOpenState = false;
 
@@ -25,8 +25,7 @@ export class CompTeamListComponent implements OnInit {
   ngOnInit(): void {
     console.log();
 
-    this.service.getTeamMembers(this.TeamName.Name).subscribe(data=>
-      {
+    this.service.getTeamMembers(this.Teams.teamName).subscribe(data=>{
         this.TeamData=data;
 
         type nameObject=
@@ -43,7 +42,7 @@ export class CompTeamListComponent implements OnInit {
           obj.Name=requests.name;
           obj.Surname=requests.surname;
           obj.Email=requests.email;
-          obj.TeamName=this.TeamName.Name;
+          obj.TeamName=this.Teams.teamName;
           this.OutEmployeeName.push(obj);
         }
       })
@@ -51,7 +50,6 @@ export class CompTeamListComponent implements OnInit {
 
   onOpenAddTeamMemberClick(team_name:string){
     this.cookie.set("team_name",team_name);  //i'm saving the team name in the cookie
-
     this.matDialog.open(CompAddTeamMemberPopupComponent);
   }
 
