@@ -1,6 +1,5 @@
 body {
   margin: 0px;
-
 }
 
 .example-spacer {
@@ -9,11 +8,12 @@ body {
 
 mat-sidenav-container{
   height: 100vh;
+  
 }
 
 mat-sidenav{
   width: 20%;
-
+  min-width: 20%;
 }
 
 button{
@@ -29,16 +29,6 @@ mat-progress-bar{
   margin-left: 15px;
 }
 
-.SideNavButton{
-  width: 95%;
-  margin:3px;
-  font-size: large;
-  height: 50px;
-}
-
-.SideNavButton:hover {
-  background-color: lightgray;
-}
 .mat{
   height: fit-content;
   margin: 1%;

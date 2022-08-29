@@ -35,7 +35,7 @@ export class IndividualProfileComponent implements OnInit {
   skillN:string[]=[];
 
 
-  boolshow = true;
+  boolshow = false;
   currSkills: string[]=[] //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
   newSkills: string[]=[] //['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
