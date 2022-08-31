@@ -1,12 +1,29 @@
 mat-form-field{
-    width:100%;
+    width:95%;
+    padding-left: 2.5%;
 }
 
 button{
-    width: 100%;
+    width:95%;
+    margin-left: 2.5%;
 }
 
 mat-selection-list {
-    max-height: 250px;
+    max-height: 330px;
     overflow: auto;
-  }
+    height: 325px;
+}
+
+.DivContent{
+    height: 95%;
+    width: 95%;
+}
+
+h2{
+    padding-top: 5px;
+    text-align: center;
+}
+
+p{
+    padding-left: 6px;
+}

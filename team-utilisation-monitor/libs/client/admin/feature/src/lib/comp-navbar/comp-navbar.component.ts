@@ -82,7 +82,10 @@ export class CompNavbarComponent implements OnInit {
   }
 
   onOpenAddSkillsClick(){
-    this.matDialog.open(CompAddSkillsPopupComponent);
+    this.matDialog.open(CompAddSkillsPopupComponent,{
+      height: '450px',
+      width: '700px',
+    });
   }
 
   removeFromPendingList(name:string){
