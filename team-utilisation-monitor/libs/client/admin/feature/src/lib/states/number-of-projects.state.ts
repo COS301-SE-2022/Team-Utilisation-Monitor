@@ -25,12 +25,12 @@ export class IncreaseNumberOfProjectsState{
     }
 
     @Action(IncreaseNumberOfProjects)
-    increase({getState,patchState}:StateContext<IncreaseNumberOfProjectsStateModel>,{payload}:IncreaseNumberOfProjects){
+    increaseProjects({getState,patchState}:StateContext<IncreaseNumberOfProjectsStateModel>,{payload}:IncreaseNumberOfProjects){
         const state=getState();
 
         patchState({
             projects:[...state.projects,payload]
         })
     }
-    
+
 }

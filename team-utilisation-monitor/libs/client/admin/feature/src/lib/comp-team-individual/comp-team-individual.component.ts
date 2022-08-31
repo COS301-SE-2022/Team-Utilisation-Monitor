@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CompTeamIndividualComponent implements OnInit {
 
   @Input() IndivName!: { Name: string ,Surname:string,Email:string}
-  @Input() TeamName!:{Name:string}
+  @Input() Team!:{teamName:string}
 
   constructor(private service:AdminService, private snackBar: MatSnackBar) { }
 
@@ -22,9 +22,9 @@ export class CompTeamIndividualComponent implements OnInit {
 
   RemoveFromTeam(email:string)
   {
-    this.service.DeleteTeamMember(this.TeamName.Name,email).subscribe(Data=>
+    this.service.DeleteTeamMember(this.Team.teamName,email).subscribe(Data=>
       {
-        this.snackBar.open(email + " has been removed from " + this.TeamName.Name)
+        this.snackBar.open(email + " has been removed from " + this.Team.teamName)
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)

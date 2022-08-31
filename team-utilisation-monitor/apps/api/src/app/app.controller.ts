@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { DataAccessRepository } from '@team-utilisation-monitor/repository/data-access';
 import { AppService } from './app.service';
 
@@ -15,7 +15,10 @@ export class AppController {
   @Get(':test')
   getTestFunction():Promise<any|null>
   {
-    return this.repository.crash();
+    throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'This is a custom message',
+    }, HttpStatus.FORBIDDEN);
   }
 
 }

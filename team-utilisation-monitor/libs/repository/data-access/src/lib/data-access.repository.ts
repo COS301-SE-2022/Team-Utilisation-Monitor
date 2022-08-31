@@ -442,7 +442,7 @@ export class DataAccessRepository {
                     project_name:projectName,
                     owner_id:c_id,
                     man_hours:hoursToComplete,
-                    teams:{
+                    /*teams:{
                         create:[{
                             team:{
                                 connect:{
@@ -450,9 +450,13 @@ export class DataAccessRepository {
                                 }
                             }
                         }]
-                    }
+                    }*/
                 }
             })
+
+
+
+            await this.AssignProjectToTeam(t_id,new_project.id);
 
             const return_project=new ProjectEntity();
 
@@ -534,23 +538,18 @@ export class DataAccessRepository {
 
         if(existing_project && existing_team) //project and team do exist
         {
-            //assign team to project
-            const existing_team=await this.prisma.team.update({
-                where:{
-                    id:team_id
-                },
-                data:{
-                    projects:{
-                        create:[{
-                           project:{
-                            connect:{
-                                id:project_id
-                            }
-                           }
-                        }]
-                    }
-                }
+
+            await this.ResetAssignedHours(existing_project.project_name);
+
+            const team=await this.prisma.teamsOnProjects.create({
+              data:
+              {
+                team_id:team_id,
+                project_id:project_id
+              }
             })
+
+            await this.CalculateUtilizationVProject(existing_project.project_name);  //Call the Utilization function after creating a team
 
             return "Successfully assigned "+(await this.getTeam(team_id)).team_name+" to project "+(await this.getProject(project_id)).project_name;
         }
@@ -836,6 +835,8 @@ export class DataAccessRepository {
 
      async approveRequestVEmail(f_email:string):Promise<boolean>
      {
+
+
          const confirm=await this.prisma.person.update({
              data:{
                  approved:true
@@ -1636,9 +1637,7 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
-            //console.log("Adding Employee");
-
-            const update_company=await this.prisma.company.update({
+            await this.prisma.company.update({
                 where:{
                     id:c_id,
                 },
@@ -1700,6 +1699,7 @@ export class DataAccessRepository {
             }
           }
         )).project_name
+
         await this.ResetAssignedHoursForOneTeam(projectName,teamName)
       }
 
@@ -1904,6 +1904,8 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
+
+
 
       const empID=await this.prisma.person.update(
         {
@@ -2161,6 +2163,8 @@ export class DataAccessRepository {
 
     async AssignWeeklyHours(UserEmail:string,WeeklyHours:number):Promise<string>
     {
+
+
       const result=await this.prisma.person.update(
         {
           where:
@@ -2249,12 +2253,14 @@ export class DataAccessRepository {
 
     async resetAssignedHoursVID(person_id:number){
 
-        const person= await this.prisma.person.update({
+
+
+        await this.prisma.person.update({
             where:{
                 id:person_id
             },
             data:{
-                assigned_hours:0,
+                assigned_hours:0
             }
         })
     }
@@ -2482,16 +2488,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
-
-            const update=await this.prisma.person.update(
+            await this.prisma.person.update(
               {
                 where:
                 {
@@ -2502,7 +2499,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
                 }
               }
             )
@@ -2510,7 +2506,13 @@ export class DataAccessRepository {
         }
       }
 
-      await this.updateHistoricUtilization();
+     //await this.updateHistoricUtilization();
+    const date=(new Date());
+    const day=date.getDate();
+     if(day%7==0) //last day of the week(day 7/14/21/)
+     {
+        await this.updateHistoricUtilization();
+     }
 
       return "Utilization complete"
     }
@@ -2582,14 +2584,6 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
 
             await this.prisma.person.update(
               {
@@ -2601,8 +2595,7 @@ export class DataAccessRepository {
                 {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
-                  status:Statuss,
-                  active_Token:token
+                  status:Statuss
                 }
               }
             )
@@ -2688,14 +2681,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
+
 
             await this.prisma.person.update(
               {
@@ -2708,7 +2694,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
 
                 }
               }
@@ -2725,6 +2710,7 @@ export class DataAccessRepository {
 
     }
 
+    //This function resets the Utilization hours of teamMembers upon new member arrival
     async ResetAssignedHoursForOneTeam(projectName:string,teamName:string):Promise<string>
     {
       const projectId=await this.getProjectID(projectName);
@@ -2791,14 +2777,7 @@ export class DataAccessRepository {
               Statuss='UNDER_UTILISED'
             }
 
-            const token=(await this.prisma.person.findUnique(
-              {
-                where:
-                {
-                  id:Team[j].person_id
-                }
-              }
-            )).active_Token
+
 
             await this.prisma.person.update(
               {
@@ -2811,7 +2790,6 @@ export class DataAccessRepository {
                   assigned_hours: AssignedHours,
                   utilisation:Utilization,
                   status:Statuss,
-                  active_Token:token
                 }
               }
             )
@@ -2966,7 +2944,7 @@ export class DataAccessRepository {
       {
         week=4
       }
-      console.log(day);
+     // console.log(day);
 
 
       for(let i=0;i<utilization.length;i++)
@@ -2983,6 +2961,7 @@ export class DataAccessRepository {
 
         if(week==1)
         {
+          //The person's Utilization doesn't exist for this month
           if(H_ID.length==0)
           {
             await this.prisma.historicUtilisation.create(
@@ -3015,51 +2994,96 @@ export class DataAccessRepository {
         }
         else if(week==2)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week2:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week2:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week2:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
         else if(week==3)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week3:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week3:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week3:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
         else if(week==4)
         {
-          await this.prisma.historicUtilisation.update(
-            {
-              where:
+          if(H_ID.length==0)
+          {
+            await this.prisma.historicUtilisation.create(
               {
-                id:H_ID[0].id
-              },
-              data:{
-                week4:utilization[i].utilisation,
-                person_id:utilization[i].id,
-                month:month
+                data:{
+                  week4:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
               }
-            }
-          )
+            )
+          }
+          else
+          {
+            await this.prisma.historicUtilisation.update(
+              {
+                where:
+                {
+                  id:H_ID[0].id
+                },
+                data:{
+                  week4:utilization[i].utilisation,
+                  person_id:utilization[i].id,
+                  month:month
+                }
+              }
+            )
+          }
         }
 
       }
@@ -3242,12 +3266,14 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
+
+
             await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
                 data:{
-                    weekly_hours:hours,
+                    weekly_hours:hours
                 }
             })
 
