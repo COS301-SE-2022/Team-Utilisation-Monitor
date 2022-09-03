@@ -147,20 +147,32 @@ mat-grid-tile {
 }
 
 //FOR SMALLER DEVICES
-@media (max-width: 414px) {
+@media (max-width: 570px) {
 
   .mat-card1{
     margin: auto;
     text-align: center;
-    width:40%;
+    width:60%;
     display: inline-block;
     vertical-align: top;
-   
   }
 
   .teamAndProjects{
     border-radius: 6px;
-   
+    display: inline-block;
+  
+  }
+
+
+  #inline{
+    position:relative;
+    display: inline-block;
+    
+  }
+
+  #size{
+    height: 10%;
+    margin: 5%;
   }
 
 }
