@@ -171,7 +171,8 @@ mat-grid-tile {
   }
 
   #size{
-    height: 10%;
+    //height: auto;
+    max-height: 5cm;
     margin: 5%;
   }
 
