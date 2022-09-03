@@ -177,3 +177,21 @@ mat-grid-tile {
   }
 
 }
+
+@media (max-width: 340px) {
+
+  mat-sidenav{
+    width: 230px;
+  }
+
+}
+
+@media (width: 375px) {
+
+  mat-sidenav{
+    width: 230px;
+  }
+
+}
+
+

@@ -31,3 +31,26 @@ mat-card{
   flex-wrap: wrap;
   align-content: left;
 }
+
+@media (max-width: 340px) {
+ 
+  .SideNavButton{
+    width: 55%;
+    margin:3%;
+    font-size: large;
+    height: 40px;
+    background-color:rgb(251, 251, 251);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: left;
+  }
+
+  mat-card{
+    margin: 5%;
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: left;
+  }
+
+}
