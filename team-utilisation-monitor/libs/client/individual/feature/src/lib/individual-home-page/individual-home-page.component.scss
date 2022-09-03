@@ -147,7 +147,7 @@ mat-grid-tile {
 }
 
 //FOR SMALLER DEVICES
-@media (max-width: 570px) {
+@media (max-width: 800px) {
 
   .mat-card1{
     margin: auto;
@@ -163,11 +163,9 @@ mat-grid-tile {
   
   }
 
-
   #inline{
     position:relative;
     display: inline-block;
-    
   }
 
   #size{
@@ -186,12 +184,11 @@ mat-grid-tile {
 
 }
 
-@media (width: 375px) {
-
+@media (min-width: 360px) and (max-width: 380px) {
   mat-sidenav{
-    width: 230px;
+    width: 260px;
   }
-
 }
+
 
 
