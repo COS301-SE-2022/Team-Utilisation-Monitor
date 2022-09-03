@@ -241,3 +241,47 @@ mat-list-item:hover {
 mat-checkbox{
   vertical-align: sub;
 }
+
+//FOR SMALLER DEVICES
+@media (max-width: 800px) {
+
+  .mat-card1{
+    margin: auto;
+    text-align: center;
+    width:60%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .teamAndProjects{
+    border-radius: 6px;
+    display: inline-block;
+  
+  }
+
+  #inline{
+    position:relative;
+    display: inline-block;
+  }
+
+  #size{
+    //height: auto;
+    max-height: 5cm;
+    margin: 5%;
+  }
+
+}
+
+@media (max-width: 340px) {
+
+  mat-sidenav{
+    width: 230px;
+  }
+
+}
+
+@media (min-width: 360px) and (max-width: 380px) {
+  mat-sidenav{
+    width: 260px;
+  }
+}
