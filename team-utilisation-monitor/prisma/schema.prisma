@@ -73,8 +73,6 @@ model Skills{
   projects SkillsOnProjects[]  //Multiple projects can hold the same skill
   teams SkillsOnTeams[] //Multiple teams can hold multiple skills
 
-
-
   @@map("skills")
 }
 
