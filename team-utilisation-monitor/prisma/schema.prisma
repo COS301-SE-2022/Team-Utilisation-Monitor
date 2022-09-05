@@ -71,6 +71,7 @@ model Skills{
 
   people PersonOnSkills [] //multiple people can hold one skill
   projects SkillsOnProjects[]  //Multiple projects can hold the same skill
+  teams SkillsOnTeams[] //Multiple teams can hold multiple skills
 
 
 
@@ -150,6 +151,7 @@ model Team{
   projects TeamsOnProjects []
 
   utilisation Float @default(0)
+  skills SkillsOnTeams[] //Multiple skills on one team
 
   @@map("team")
 }
@@ -194,11 +196,22 @@ model SkillsOnProjects{
 
   id Int @id @default(autoincrement())
 
+  skill Skills @relation(fields: [skill_id],references: [id])
+  skill_id Int
+
   project Project @relation(fields: [project_id],references: [id])
   project_id Int
+}
 
-  team Skills @relation(fields: [skill_id],references: [id])
+model SkillsOnTeams{
+
+  id Int @id @default(autoincrement())
+
+  skill Skills @relation(fields: [skill_id],references: [id])
   skill_id Int
+
+  team Team @relation(fields: [team_id],references: [id])
+  team_id Int
 
 }
 
