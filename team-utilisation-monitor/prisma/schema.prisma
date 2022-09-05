@@ -200,7 +200,7 @@ model HistoricUtilisation{
 
   monthy_avg Float @default(0)
 
-  month String?
+  month Month?
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
   person_id Int
@@ -229,5 +229,21 @@ enum Status{
   //For Project
   ACTIVE
   INACTIVE
+}
+
+enum Month{
+  JAN
+  FEB
+  MAR
+  APR
+  MAY
+  JUN
+  JUL
+  AUG
+  SEP
+  OCT
+  NOV
+  DEC
+
 }
 
