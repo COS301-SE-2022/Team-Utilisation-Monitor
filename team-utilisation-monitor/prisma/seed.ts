@@ -76,15 +76,15 @@ async function main()
       utilisations:{
         createMany:{
           data:[
-            {week1:58, week2:56, week3:70.8,week4:60,month:"JAN"},
-            {week1:8, week2:66, week3:47.8,week4:70,month:"FEB"},
+            {week1:58, week2:56, week3:70.8,week4:80,month:"JAN"},
+            {week1:85, week2:66, week3:87.8,week4:70,month:"FEB"},
             {week1:88, week2:60, week3:40.8,week4:80,month:"MAR"},
-            {week1:80, week2:36.2, week3:25.8,week4:36,month:"APR"},
+            {week1:80, week2:36.2, week3:85.8,week4:86,month:"APR"},
             {week1:57.2, week2:101, week3:89,week4:56,month:"MAY"},
-            {week1:64, week2:77.2, week3:56,week4:87,month:"JUN"},
-            {week1:28, week2:60, week3:40.8,week4:80,month:"JUL"},
-            {week1:40, week2:60, week3:45,week4:76,month:"AUG"},
-            {week1:54, week2:77.2, week3:56,week4:87,month:"SEP"},
+            {week1:64, week2:77.2, week3:86,week4:87,month:"JUN"},
+            {week1:78, week2:50, week3:67.8,week4:80,month:"JUL"},
+            {week1:80, week2:60, week3:85,week4:76,month:"AUG"},
+            {week1:94, week2:77.2, week3:56,week4:87,month:"SEP"},
           ]
         }
       }

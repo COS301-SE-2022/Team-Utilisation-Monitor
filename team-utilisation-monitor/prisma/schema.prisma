@@ -70,6 +70,9 @@ model Skills{
   skill String @unique
 
   people PersonOnSkills [] //multiple people can hold one skill
+  projects SkillsOnProjects[]  //Multiple projects can hold the same skill
+
+
 
   @@map("skills")
 }
@@ -178,6 +181,7 @@ model Project{
   workers Person[] @relation("workOn")
 
   teams TeamsOnProjects []
+  skills SkillsOnProjects[]  //A project can hold many skills
 
   man_hours Int @default(0)
 
@@ -185,6 +189,19 @@ model Project{
 
   @@map("project")
 }
+
+model SkillsOnProjects{
+
+  id Int @id @default(autoincrement())
+
+  project Project @relation(fields: [project_id],references: [id])
+  project_id Int
+
+  team Skills @relation(fields: [skill_id],references: [id])
+  skill_id Int
+
+}
+
 
 model HistoricUtilisation{
 
@@ -244,6 +261,5 @@ enum Month{
   OCT
   NOV
   DEC
-
 }
 
