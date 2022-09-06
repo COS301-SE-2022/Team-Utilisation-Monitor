@@ -31,7 +31,7 @@
 </p>
 <hr>
 
-Team utilisation monitor is an application that is used by administractors, or employers, to monitor and manage teams and projects. Management features include, creating teams and projects, assigning those teams to projects, adding and removing team members, assessing team members and generally having an overview of the entire organisation's operations. Admins can also add skills, for members to take up on and the platform has a recommendation engine that generates teams based on specific criteria with respect to the project.
+Team utilisation monitor is an application that is used by administractors, or employers, to monitor and manage teams and projects. Management features include, creating teams and projects, assigning those teams to projects, adding and removing team members, assessing team members, seeing the utilisation of all members and generally having an overview of the entire organisation's operations. Admins can also add skills, for members to take up on and the platform has a recommendation engine that generates teams based on specific criteria with respect to the project.
 
 <hr>
 
