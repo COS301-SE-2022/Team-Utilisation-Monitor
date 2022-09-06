@@ -31,7 +31,7 @@
 </p>
 <hr>
 
-Working in a development-based environment has managers managing resource allocation and utilization quite often, a task often made even more difficult with the work from home environment recent years have created. This could range from assigning resources to make the most of their available skills to identifying skills currently lacking in the business based on projects being attained. This interactive web application sets out to streamline these processes by effectively managing recources, streamlining the management process to increase team efficiency and project development time.
+Team utilisation monitor is an application that is used by administractors, or employers, to monitor and manage teams and projects. Management features include, creating teams and projects, assigning those teams to projects, adding and removing team members, assessing team members and generally having an overview of the entire organisation's operations. Admins can also add skills, for members to take up on and the platform has a recommendation engine that generates teams based on specific criteria with respect to the project.
 
 <hr>
 
