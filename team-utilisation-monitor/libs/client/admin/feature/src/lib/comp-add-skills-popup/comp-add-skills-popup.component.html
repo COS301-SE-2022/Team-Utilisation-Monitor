@@ -9,23 +9,6 @@
                 </mat-form-field>
                 <button mat-raised-button color="primary" (click)="AddSkill()">Add Skill</button>
             </form>
-
-<<<<<<< HEAD
-<br>
-<br>
-
-<h2>Current Skills in the company</h2>
-<mat-selection-list #skills [(ngModel)]="skillsList" (ngModelChange)="onNgModelChange($event)" [ngModelOptions]="{standalone: true}">
-    <mat-list-option *ngFor="let skill of skillsList" [value]="skill">
-        {{skill}}
-    </mat-list-option>
-</mat-selection-list>
-
-<p>
-    Options selected: {{skills.selectedOptions.selected.length}}
-</p>
-<button mat-raised-button color="primary">Remove Selected Skills</button>
-=======
             <br>
             <br>
             <hr width="95%">             
@@ -34,14 +17,13 @@
             <p>
                 Options selected: {{skills.selectedOptions.selected.length}}
             </p>
->>>>>>> 6ea442590f5d3f0eba7e633359c64f6a0db987a9
 
         </div>
     </mat-grid-tile>
     <mat-grid-tile>
         <div class="DivContent">
             <h2>Current Skills in the company</h2>
-            <mat-selection-list #skills [(ngModel)]="skillsList" [ngModelOptions]="{standalone: true}">
+            <mat-selection-list #skills>
                 <mat-list-option *ngFor="let skill of skillsList">
                     {{skill}}
                 </mat-list-option>

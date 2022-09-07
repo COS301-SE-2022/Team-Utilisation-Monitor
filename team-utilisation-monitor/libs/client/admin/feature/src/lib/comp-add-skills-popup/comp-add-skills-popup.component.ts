@@ -33,10 +33,6 @@ export class CompAddSkillsPopupComponent implements OnInit {
     })
   }
 
-  onGroupsChange(skillsList: string[]) {
-    console.log(skillsList);
-  }
-
   AddSkill()
   {
     if(this.addSkillForm.get('skillName')?.value)
