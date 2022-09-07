@@ -25,7 +25,7 @@
     <mat-grid-tile>
         <div class="DivContent">
             <h2>Current Skills in the company</h2>
-            <mat-selection-list #skills>
+            <mat-selection-list #skills [(ngModel)]="skillsList" [ngModelOptions]="{standalone: true}">
                 <mat-list-option *ngFor="let skill of skillsList">
                     {{skill}}
                 </mat-list-option>

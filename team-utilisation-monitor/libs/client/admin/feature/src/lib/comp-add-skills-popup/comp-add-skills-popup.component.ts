@@ -20,8 +20,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
   constructor(private service:AdminService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log
-    ()
+    console.log()
     this.service.getSkills().subscribe(data=>
       {
         this.skillsData=data
