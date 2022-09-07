@@ -11,26 +11,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CompAddSkillsPopupComponent implements OnInit {
 
+  skillsList: string[] = [];
+  skillsData:any;
+  skillName:any;
+  selectedSkills:any;
+
   addSkillForm=new FormGroup({
     skillName:new FormControl('',[Validators.required])
   });
 
-  skillsList: string[] = [];
-  skillsData:any
   constructor(private service:AdminService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log
-    ()
-    this.service.getSkills().subscribe(data=>
-      {
+    this.service.getSkills().subscribe(data=>{
         this.skillsData=data
 
         for(const requests of this.skillsData.data.GetSkill)
         {
           this.skillsList.push(requests.skill)
         }
-      })
+    })
   }
 
   AddSkill()
@@ -41,21 +41,20 @@ export class CompAddSkillsPopupComponent implements OnInit {
       const skillName=this.addSkillForm.get('skillName')?.value!;
       this.skillsList.push(skillName);
 
-      this.service.AddSkill(skillName).subscribe(data=>
-        {
+      this.service.AddSkill(skillName).subscribe(data=>{
           this.snackBar.open(data.data.AddSkill+" Added");
           setTimeout(() => {
             this.snackBar.dismiss();
           }, 5000)
-        })
+        }
+      )
     }
     else
     {
-      this.snackBar.open("Please type a valid skill name");
+      this.snackBar.open("Something went wrong. Couldn't connect to api");
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
-      //alert("Please type in a skill")
     }
   }
 

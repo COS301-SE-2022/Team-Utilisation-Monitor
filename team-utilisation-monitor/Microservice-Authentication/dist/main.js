@@ -2130,6 +2130,7 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello() {
+        console.log("I am running on heroku");
         return this.appService.getHello();
     }
 };
