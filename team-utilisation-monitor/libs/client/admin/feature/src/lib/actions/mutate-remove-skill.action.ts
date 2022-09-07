@@ -1,7 +1,7 @@
 import { Skill } from "../models/admin-skill";
 
-export class AddSkill{
-    static readonly type='[Add Skills popup] Add Skill';
+export class RemoveSkill{
+    static readonly type='[Add Skills popup] Remove Skill';
 
     constructor(public payload:Skill){}
 }
