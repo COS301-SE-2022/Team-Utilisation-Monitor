@@ -1876,6 +1876,28 @@ export class DataAccessRepository {
 
     }
 
+    async RemoveSkill(skillType:string):Promise<string>
+    {
+      try
+      {
+        await this.prisma.skills.delete({
+          where:
+          {
+            skill:skillType
+          }
+        })
+
+        return "Skill Deleted"
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "Skill Deletion went wrong"
+        }
+      }
+    }
+
     async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
@@ -2463,7 +2485,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -2559,7 +2590,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -2656,7 +2696,17 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -3266,14 +3316,29 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
+            const person=await this.prisma.person.findUnique({
+            where:{
+                id:p_id,
+            }
+            })
 
+            let Utilization=0;
+            if(hours>0)
+            {
+              Utilization=person.assigned_hours/hours;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
                 data:{
-                    weekly_hours:hours
+                    weekly_hours:hours,
+                    utilisation:Utilization
                 }
             })
 

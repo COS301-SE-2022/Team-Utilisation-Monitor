@@ -10,6 +10,7 @@ import { IncreaseNumberOfProjectsState, IncreaseNumberOfProjectsStateModel } fro
 import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.action';
 import { IncreaseNumberOfTeams } from '../actions/mutate-number-of-teams.action';
 import { IncreaseNumberOfTeamsState } from '../states/number-of-teams.state';
+import { AddSkill } from '../actions/mutate-add-skill.action';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-home-page',
@@ -47,7 +48,7 @@ export class AdminHomePageComponent implements OnInit {
   nrOfClosedProjects = 0;
   nrOfTeams=0;
   companyName="0";
-
+  skillsData:any;
   //I use these values to subscribe to the ngxs
   tempData!:number;
   dynamicProjects!:number;
@@ -99,8 +100,20 @@ export class AdminHomePageComponent implements OnInit {
         this.dynamicTeams=data4;
       })
 
-      
+      this.adminService.getSkills().subscribe(data=>{
+        this.skillsData=data
+        console.log("Initialising ngxs!!!!!!")
+
+        for(const requests of this.skillsData.data.GetSkill)
+        {
+          this.store.dispatch(new AddSkill({skillName:requests.skill}));
+        }
+      })
 
     })
+
+
+
+
   }
 }

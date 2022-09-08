@@ -3,6 +3,11 @@ import { AdminService } from './../Admin.service';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Select, Store } from '@ngxs/store';
+import { AddSkill } from '../actions/mutate-add-skill.action';
+import { Observable } from 'rxjs';
+import { Skill } from '../models/admin-skill';
+import { AddSkillState } from '../states/skills.state';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-skills-popup',
@@ -11,25 +16,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CompAddSkillsPopupComponent implements OnInit {
 
+  @Select(AddSkillState.getSkills)skills$!:Observable<Skill[]>;
+
+  skillsList: string[] = [];
+  skillsData:any;
+  skillName:any;
+  
+
   addSkillForm=new FormGroup({
     skillName:new FormControl('',[Validators.required])
   });
 
-  skillsList: string[] = [];
-  skillsData:any
-  constructor(private service:AdminService, private snackBar: MatSnackBar) { }
+  constructor(private service:AdminService, private snackBar: MatSnackBar,private store:Store) { }
 
   ngOnInit(): void {
-    console.log()
-    this.service.getSkills().subscribe(data=>
-      {
-        this.skillsData=data
+    this.skills$.subscribe((data: any)=>{
+      for(let i=0;i<data.length;++i){
+        this.skillsList.push(data[i].skillName);
+      }
+    })
 
-        for(const requests of this.skillsData.data.GetSkill)
-        {
-          this.skillsList.push(requests.skill)
-        }
-      })
+    console.log(this.skillsList)
   }
 
   AddSkill()
@@ -40,23 +47,26 @@ export class CompAddSkillsPopupComponent implements OnInit {
       const skillName=this.addSkillForm.get('skillName')?.value!;
       this.skillsList.push(skillName);
 
-      this.service.AddSkill(skillName).subscribe(data=>
-        {
+      this.store.dispatch(new AddSkill({skillName:skillName}));
+
+      this.service.AddSkill(skillName).subscribe(data=>{
           this.snackBar.open(data.data.AddSkill+" Added");
           setTimeout(() => {
             this.snackBar.dismiss();
           }, 5000)
-        })
+        }
+      )
     }
     else
     {
-      this.snackBar.open("Please type a valid skill name");
+      this.snackBar.open("Something went wrong. Couldn't connect to api");
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
-      //alert("Please type in a skill")
     }
   }
+
+  
 
 
 }
