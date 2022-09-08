@@ -24,17 +24,6 @@ export class CompSidenavComponent implements OnInit {
   OutEmployeeName:any[]=[];
   nrOfRequests=0;
 
-
-
-  /* nrOfRequests = 5; //nr of user request sent out and pending, count of the array 'OutEmployeeName'
-   adminName = "Agape Mamphasa";
-   OutEmployeeName = [{Name: "Cornel Coetzee"},
-                     {Name: "Gift Monwa"},
-                     {Name: "Rourke Amiss"},
-                     {Name: "Agape Mamphasa"},
-                     {Name: "Agape Mamphasa"},
-                   ];   */
-
   ngOnInit(): void {
     console.log()
     this.adminName=this.cookie.get("UserName");
