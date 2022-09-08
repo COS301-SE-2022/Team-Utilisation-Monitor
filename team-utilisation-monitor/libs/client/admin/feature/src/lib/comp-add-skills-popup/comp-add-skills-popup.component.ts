@@ -3,6 +3,11 @@ import { AdminService } from './../Admin.service';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Select, Store } from '@ngxs/store';
+import { AddSkill } from '../actions/mutate-add-skill.action';
+import { Observable } from 'rxjs';
+import { Skill } from '../models/admin-skill';
+import { AddSkillState } from '../states/skills.state';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-skills-popup',
@@ -11,26 +16,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CompAddSkillsPopupComponent implements OnInit {
 
+  @Select(AddSkillState.getSkills)skills$!:Observable<Skill[]>;
+
   skillsList: string[] = [];
   skillsData:any;
   skillName:any;
-  selectedSkills:any;
+  
 
   addSkillForm=new FormGroup({
     skillName:new FormControl('',[Validators.required])
   });
 
-  constructor(private service:AdminService, private snackBar: MatSnackBar) { }
+  constructor(private service:AdminService, private snackBar: MatSnackBar,private store:Store) { }
 
   ngOnInit(): void {
-    this.service.getSkills().subscribe(data=>{
-        this.skillsData=data
-
-        for(const requests of this.skillsData.data.GetSkill)
-        {
-          this.skillsList.push(requests.skill)
-        }
+    this.skills$.subscribe((data: any)=>{
+      for(let i=0;i<data.length;++i){
+        this.skillsList.push(data[i].skillName);
+      }
     })
+
+    console.log(this.skillsList)
   }
 
   AddSkill()
@@ -40,6 +46,8 @@ export class CompAddSkillsPopupComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const skillName=this.addSkillForm.get('skillName')?.value!;
       this.skillsList.push(skillName);
+
+      this.store.dispatch(new AddSkill({skillName:skillName}));
 
       this.service.AddSkill(skillName).subscribe(data=>{
           this.snackBar.open(data.data.AddSkill+" Added");
@@ -57,6 +65,8 @@ export class CompAddSkillsPopupComponent implements OnInit {
       }, 5000)
     }
   }
+
+  
 
 
 }

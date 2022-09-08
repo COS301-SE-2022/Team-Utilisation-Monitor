@@ -10,7 +10,7 @@ export class AddSkillStateModel{
 @State<AddSkillStateModel>({
     name:"add_skill",
     defaults:{
-        skills:[]
+        skills:[],
     }
 })
 
