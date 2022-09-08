@@ -1876,6 +1876,28 @@ export class DataAccessRepository {
 
     }
 
+    async RemoveSkill(skillType:string):Promise<string>
+    {
+      try
+      {
+        await this.prisma.skills.delete({
+          where:
+          {
+            skill:skillType
+          }
+        })
+
+        return "Skill Deleted"
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "Skill Deletion went wrong"
+        }
+      }
+    }
+
     async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
