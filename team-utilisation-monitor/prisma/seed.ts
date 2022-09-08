@@ -225,7 +225,7 @@ async function main()
     }
   })
 
-  const addHistoric11=await prisma.person.update({
+ /* const addHistoric11=await prisma.person.update({
     data:{
       utilisations:{
         createMany:{
@@ -333,7 +333,7 @@ async function main()
     },where:{
       id:15 //change the id here to add the id of the target person
     }
-  })
+  })*/
 }
 
 main()
