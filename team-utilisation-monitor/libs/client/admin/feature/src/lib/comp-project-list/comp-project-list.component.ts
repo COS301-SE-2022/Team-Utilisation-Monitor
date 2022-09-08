@@ -47,7 +47,6 @@ export class CompProjectListComponent implements OnInit {
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-        // alert(Data.data.CompleteProject)
       })
   }
 
@@ -59,13 +58,9 @@ export class CompProjectListComponent implements OnInit {
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-      })
+    })
 
-      //change the state of the project by dispatching an action
-
-      this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
-
-
+    this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
   }
 
 
