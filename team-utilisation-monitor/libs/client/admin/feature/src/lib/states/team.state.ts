@@ -43,8 +43,6 @@ export class AddTeamState{
 
     @Action(RemoveTeam)
     removeTeam({getState,patchState}:StateContext<AddTeamStateModel>,{payload}:RemoveTeam){
-        const state= getState();
-
         patchState({
             teams:getState().teams.filter(a=>a.teamName!=payload.teamName)
         })
