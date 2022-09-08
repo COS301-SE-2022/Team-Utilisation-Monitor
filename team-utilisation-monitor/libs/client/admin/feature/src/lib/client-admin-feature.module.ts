@@ -49,6 +49,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popup/comp-project-data-view-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CompAddPositionsPopupComponent } from './comp-add-positions-popup/comp-add-positions-popup.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import { CompAddPositionsPopupComponent } from './comp-add-positions-popup/comp-
     MatListModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatTabsModule,
     RouterModule.forChild([]),
   ],
   providers: [CookieService],
