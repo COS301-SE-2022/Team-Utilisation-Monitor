@@ -18,8 +18,9 @@ RUN yarn add @nestjs/cqrs
 COPY . .
 
 #do this to compile the main.ts into the main.js file found in the dist folder
-RUN yarn run build
 
-EXPOSE 8080
+RUN yarn prisma generate
+
+RUN yarn run build
 
 CMD ["node","dist/main"]
