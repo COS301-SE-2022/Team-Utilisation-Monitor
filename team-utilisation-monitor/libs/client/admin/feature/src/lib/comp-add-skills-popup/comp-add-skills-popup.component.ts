@@ -32,11 +32,19 @@ export class CompAddSkillsPopupComponent implements OnInit {
   ngOnInit(): void {
     this.skills$.subscribe((data: any)=>{
       for(let i=0;i<data.length;++i){
-        this.skillsList.push(data[i].skillName);
+        if(!this.checkDuplicateSkill(data[i].skillName))
+          this.skillsList.push(data[i].skillName);
       }
-    })
+    })    
+  }
 
-    console.log(this.skillsList)
+  checkDuplicateSkill(skill:string):boolean{
+    for(let i=0;i<this.skillsList.length;++i){
+      if(this.skillsList[i]==skill){
+        return true; //duplicate
+      }
+    }
+    return false; //no duplicate skill
   }
 
   AddSkill()
@@ -45,7 +53,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const skillName=this.addSkillForm.get('skillName')?.value!;
-      this.skillsList.push(skillName);
+      //this.skillsList.push(skillName);
 
       this.store.dispatch(new AddSkill({skillName:skillName}));
 
@@ -59,7 +67,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
     }
     else
     {
-      this.snackBar.open("Something went wrong. Couldn't connect to api");
+      this.snackBar.open("Please enter a valid skill to Add");
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
