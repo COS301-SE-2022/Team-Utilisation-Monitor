@@ -49,7 +49,6 @@ export class AdminHomePageComponent implements OnInit {
   nrOfTeams=0;
   companyName="0";
   skillsData:any;
-
   //I use these values to subscribe to the ngxs
   tempData!:number;
   dynamicProjects!:number;
@@ -114,8 +113,8 @@ export class AdminHomePageComponent implements OnInit {
       
     })
 
-    
 
-    
+
+
   }
 }

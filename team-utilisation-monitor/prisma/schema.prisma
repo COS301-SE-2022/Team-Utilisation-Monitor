@@ -70,6 +70,8 @@ model Skills{
   skill String @unique
 
   people PersonOnSkills [] //multiple people can hold one skill
+  projects SkillsOnProjects[]  //Multiple projects can hold the same skill
+  teams SkillsOnTeams[] //Multiple teams can hold multiple skills
 
   @@map("skills")
 }
@@ -147,6 +149,7 @@ model Team{
   projects TeamsOnProjects []
 
   utilisation Float @default(0)
+  skills SkillsOnTeams[] //Multiple skills on one team
 
   @@map("team")
 }
@@ -178,6 +181,7 @@ model Project{
   workers Person[] @relation("workOn")
 
   teams TeamsOnProjects []
+  skills SkillsOnProjects[]  //A project can hold many skills
 
   man_hours Int @default(0)
 
@@ -185,6 +189,30 @@ model Project{
 
   @@map("project")
 }
+
+model SkillsOnProjects{
+
+  id Int @id @default(autoincrement())
+
+  skill Skills @relation(fields: [skill_id],references: [id])
+  skill_id Int
+
+  project Project @relation(fields: [project_id],references: [id])
+  project_id Int
+}
+
+model SkillsOnTeams{
+
+  id Int @id @default(autoincrement())
+
+  skill Skills @relation(fields: [skill_id],references: [id])
+  skill_id Int
+
+  team Team @relation(fields: [team_id],references: [id])
+  team_id Int
+
+}
+
 
 model HistoricUtilisation{
 
@@ -200,7 +228,7 @@ model HistoricUtilisation{
 
   monthy_avg Float @default(0)
 
-  month String?
+  month Month?
 
   person Person @relation(name: "utility",fields: [person_id],references: [id])
   person_id Int
@@ -229,5 +257,20 @@ enum Status{
   //For Project
   ACTIVE
   INACTIVE
+}
+
+enum Month{
+  JAN
+  FEB
+  MAR
+  APR
+  MAY
+  JUN
+  JUL
+  AUG
+  SEP
+  OCT
+  NOV
+  DEC
 }
 

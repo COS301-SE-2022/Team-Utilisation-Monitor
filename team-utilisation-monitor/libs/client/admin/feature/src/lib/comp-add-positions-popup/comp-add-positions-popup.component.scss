@@ -1,9 +1,11 @@
 mat-form-field{
-    width:100%;
+    width:95%;
+    padding-left: 2.5%;
 }
 
 button{
-    width: 100%;
+    width:95%;
+    margin-left: 2.5%;
 }
 
 mat-selection-list {
@@ -15,4 +17,12 @@ mat-selection-list {
 .DivContent{
     height: 95%;
     width: 95%;
+}
+
+h2{
+    text-align: center;
+}
+
+p{
+    padding-left: 6px;
 }
