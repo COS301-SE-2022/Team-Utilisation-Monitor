@@ -282,6 +282,27 @@ describe('ServiceFeatureService', () => {
 
           return all_projects;
         }
+      
+      } else if (query instanceof GetAllocatedTeamsQuery) {
+        if (query.Email === 'rourke@gmail.com') {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 19;
+          team_entity.team_name = "Liverpool"
+          team_entity.members = null;
+          team_entity.company_id = 17;
+          team_entity.project_name = "premier league"
+          team_entity.projects = null;
+          team_entity.project_id = 5;
+          team_entity.completed = 6;
+
+          all_teams[0] = team_entity;
+
+          return all_projects;
+        }
       }
 
       return undefined;
