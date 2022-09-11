@@ -677,5 +677,15 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("AssignHours", () => {
+    it('should assign hours to a User', async () => {
+      let test = new UserPerson();
+      try {
+        test = await createService.AssignHours('rourke@gmail.com', 90);
+      } catch (err) { return }
+      expect(test.weekly_Hours).toEqual(90);
+    });
+  });
+
 });
 
