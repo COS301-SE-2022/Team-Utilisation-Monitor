@@ -40,6 +40,7 @@ import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
+import { AssignHoursCommand } from './commands/impl/AssignHours.command';
 
 import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
@@ -423,6 +424,31 @@ describe('ServiceFeatureService', () => {
           skills.skill = command.skillType;
 
           return skills;
+        }
+
+      } else if (command instanceof AssignHoursCommand) {
+        if (command.UserEmail === 'rourke@gmail.com') {
+          
+          const user_person = new UserPerson();
+
+          user_person.id = 129;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = command.UserEmail;
+          user_person.role = "admin";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = "car show";
+          user_person.utilisation = 81;
+          user_person.position = "team lead";
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 8;
+          user_person.project_id = 1;
+          user_person.team_id = 0;
+          user_person.weekly_Hours = command.Hours;
+          
+          return user_person;
         }
 
       }
