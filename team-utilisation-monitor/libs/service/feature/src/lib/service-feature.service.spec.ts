@@ -41,6 +41,8 @@ import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
+import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
+
 
 import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
@@ -304,6 +306,27 @@ describe('ServiceFeatureService', () => {
 
           return all_teams;
         }
+
+      } else if (query instanceof GetTeamsOnProjectQuery) {
+        if (query.projectName === 'UCL') {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 4;
+          team_entity.team_name = "West Ham"
+          team_entity.members = null;
+          team_entity.company_id = 11;
+          team_entity.project_name = query.projectName;
+          team_entity.projects = null;
+          team_entity.project_id = 5;
+          team_entity.completed = 6;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
+        }
       }
 
       return undefined;
@@ -451,7 +474,7 @@ describe('ServiceFeatureService', () => {
           return user_person;
         }
 
-      }
+      } 
 
       return undefined;
     })
@@ -599,6 +622,8 @@ describe('ServiceFeatureService', () => {
       expect(test[0]).toBeInstanceOf(TeamEntity);
       });
   });
+
+
 
   // commandsBus
 
