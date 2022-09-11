@@ -301,7 +301,7 @@ describe('ServiceFeatureService', () => {
 
           all_teams[0] = team_entity;
 
-          return all_projects;
+          return all_teams;
         }
       }
 
@@ -561,6 +561,16 @@ describe('ServiceFeatureService', () => {
         test = await service.GetAllocatedProjects('rourke@gmail.com');
       } catch (err) { return }
       expect(test[0]).toBeInstanceOf(ProjectEntity);
+      });
+  });
+
+  describe("GetAllocatedTeams", () => {
+    it('should return all teams of A User', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetAllocatedTeams('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0]).toBeInstanceOf(TeamEntity);
       });
   });
 
