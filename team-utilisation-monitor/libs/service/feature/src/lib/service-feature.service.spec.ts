@@ -41,6 +41,9 @@ import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 
+import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
+import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
+
 describe('ServiceFeatureService', () => {
 
   let service: ServiceFeatureService;
@@ -507,6 +510,16 @@ describe('ServiceFeatureService', () => {
         test = await service.GetUserSkills('rourke@gmail.com');
       } catch (err) { return }
       expect(test[0].skill).toEqual('eating');
+      });
+  });
+
+  describe("GetAllocatedProjects", () => {
+    it('should return projects of A User', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await service.GetAllocatedProjects('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0]).toBeInstanceOf(ProjectEntity);
       });
   });
 
