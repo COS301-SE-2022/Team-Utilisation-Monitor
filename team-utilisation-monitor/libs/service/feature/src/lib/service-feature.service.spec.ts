@@ -623,7 +623,15 @@ describe('ServiceFeatureService', () => {
       });
   });
 
-
+  describe("GetTeamsOnProject", () => {
+    it('should return all teams of a project', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetTeamsOnProject('UCL');
+      } catch (err) { return }
+      expect(test[0].team_name).toEqual('West Ham');
+      });
+  });
 
   // commandsBus
 
