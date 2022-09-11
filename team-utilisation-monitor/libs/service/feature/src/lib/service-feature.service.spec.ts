@@ -737,5 +737,16 @@ describe('ServiceFeatureService', () => {
     });
   });
 
+  describe("CompleteProject", () => {
+    it('should complete a ProjectEntity', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await createService.CompleteProject('Top Gear');
+      } catch (err) { return }
+      expect(test.project_name).toEqual('Top Gear');
+      expect(test.completed).toEqual(true);
+    });
+  });
+
 });
 
