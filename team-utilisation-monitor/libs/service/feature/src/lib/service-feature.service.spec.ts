@@ -262,6 +262,26 @@ describe('ServiceFeatureService', () => {
 
           return all_skills;
         }
+
+      } else if (query instanceof GetAllocatedProjectsQuery) {
+        if (query.email === 'rourke@gmail.com') {
+
+          const all_projects = [];
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 983;
+          project_entity.project_name = "Master Chef";
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = false;
+          project_entity.teams = null;
+          project_entity.man_hours = 60;
+
+          all_projects[0] = project_entity;
+
+          return all_projects;
+        }
       }
 
       return undefined;
