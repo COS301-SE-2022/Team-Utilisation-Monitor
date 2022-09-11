@@ -43,6 +43,7 @@ import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
 import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
 
+import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
 
 import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
@@ -474,7 +475,23 @@ describe('ServiceFeatureService', () => {
           return user_person;
         }
 
-      } 
+      } else if (command instanceof CompleteProjectCommand) {
+        if (command.projectName === "Top Gear") {
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 65;
+          project_entity.project_name = command.projectName;
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = true;
+          project_entity.teams = null;
+          project_entity.man_hours = 60;
+
+          return project_entity;
+        }
+
+      }
 
       return undefined;
     })
