@@ -45,6 +45,7 @@ export class CompTeamListComponent implements OnInit {
           obj.TeamName=this.Teams.teamName;
           this.OutEmployeeName.push(obj);
         }
+
       })
   }
 
