@@ -425,6 +425,8 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
+          try{
+
             const new_team=await this.prisma.team.create({
                 data:{
                     team_name:teamName,
@@ -439,11 +441,48 @@ export class DataAccessRepository {
             return_team.company_id=new_team.company_id;
 
             return return_team;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Team Name Duplicate");
+              return null;
+            }
+            return null;
+          }
 
         }
 
 
         throw new NullException().stack;
+    }
+
+    async DeleteTeam(teamName:string):Promise<string>
+    {
+      const id= await this.getTeamIDVName(teamName);
+      const projects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:id;
+          }
+        }
+
+      
+      try{
+        this.ResetAssignedHoursForOneTeam()
+          this.prisma.team.delete
+        }
+      catch(e)
+      {
+          if(e instanceof Prisma.PrismaClientKnownRequestError)
+          {
+
+            return "Team Deletion Failed";
+          }
+      }
+    }
     }
 
     /***
@@ -455,14 +494,15 @@ export class DataAccessRepository {
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
+      try
+      {
+
         const existing_project=await this.prisma.project.findUnique({
             where:{
                 project_name:projectName
             }
         })
 
-        if(existing_project) //project already in the db
-            throw new NullException().stack; //project already exists
 
         const c_id=await this.getCompanyID(companyName); //company_id
 
@@ -525,7 +565,15 @@ export class DataAccessRepository {
 
           return return_project;
         }
-
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          console.log("Project Name already exists");
+          return null;
+        }
+      }
     }
 
     /****
