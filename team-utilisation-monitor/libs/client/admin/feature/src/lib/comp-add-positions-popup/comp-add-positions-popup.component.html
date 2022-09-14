@@ -1,0 +1,35 @@
+<mat-grid-list cols="2" rowHeight="100%">
+    <mat-grid-tile style="display: flex; align-content: flex-start;">
+        <div class="DivContent">
+            <form [formGroup]="addPositionForm">
+                <h2>Add A new Position</h2>
+                <mat-form-field appearance="fill" >
+                    <mat-label>Enter the name of a new Position</mat-label>
+                    <input id="new_Position_name" matInput placeholder="UI/UX Developer" formControlName="positionName">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="AddPosition()">Add Position</button>
+            </form>
+
+            <br>
+            <br>
+            <hr width="95%">             
+            <h2>Remove Positions</h2>
+            <p>Select Positions from the right that you want to remove from the company</p>
+            <button mat-raised-button color="primary">Remove Selected Positions</button>
+            <p>
+                Options selected: {{positions.selectedOptions.selected.length}}
+            </p>
+
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="DivContent">
+            <h2>Current Positions in the company</h2>
+            <mat-selection-list #positions>
+                <mat-list-option *ngFor="let position of positionsList">
+                    {{position}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

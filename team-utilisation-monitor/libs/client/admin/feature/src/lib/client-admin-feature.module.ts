@@ -48,6 +48,8 @@ import { FormsModule } from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popup/comp-project-data-view-popup.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CompAddPositionsPopupComponent } from './comp-add-positions-popup/comp-add-positions-popup.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -81,6 +83,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatListModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatTabsModule,
     RouterModule.forChild([]),
   ],
   providers: [CookieService],
@@ -106,6 +109,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CompAddTeamToProjectPopupComponent,
     CompTeamIndividualComponent,
     CompProjectDataViewPopupComponent,
+    CompAddPositionsPopupComponent,
   ],
   exports: [
     AdminRoutingModule,
