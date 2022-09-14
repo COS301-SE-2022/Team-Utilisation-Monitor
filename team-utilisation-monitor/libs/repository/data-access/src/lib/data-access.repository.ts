@@ -72,6 +72,9 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
+          try  //Catch email constraint
+          {
+
             const new_admin=await this.prisma.person.create({
                 data:{
                     name:f_name,
@@ -97,8 +100,18 @@ export class DataAccessRepository {
             this.superCreateCompany(f_company_name,return_admin);
 
             return return_admin;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Email duplicates");
+              return null;
+            }
+          }
+
+
       }
-      throw new NullException().stack;
 
     }
 
@@ -129,6 +142,10 @@ export class DataAccessRepository {
 
             if(c_id>0)
             {
+
+              try
+              {
+
                 const new_admin=await this.prisma.person.create({
                     data:{
                         name:f_name,
@@ -160,9 +177,17 @@ export class DataAccessRepository {
                 this.superCreateCompany(f_company_name,return_admin);
 
                 return return_admin;
+              }
+              catch(e)
+              {
+                if(e instanceof Prisma.PrismaClientKnownRequestError)
+                {
+                  console.log("Email duplicates");
+                  return null;
+                }
+              }
+
             }
-            else
-              throw new NullException().stack;
 
         }
 
@@ -345,6 +370,9 @@ export class DataAccessRepository {
 
         if(local_company_id>0) //link is valid
         {
+          try
+          {
+
             const new_user=await this.prisma.person.create({
                 data:{
                     name:f_name,
@@ -368,10 +396,19 @@ export class DataAccessRepository {
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
             return return_user;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Email duplicates");
+              return null;
+            }
+          }
         }
         else
         {
-          throw new NullException().stack;
+          return null;  //Link does not exist
         }
 
 
