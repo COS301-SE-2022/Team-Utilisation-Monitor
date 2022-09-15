@@ -49,6 +49,7 @@ import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmploy
 import { FunctionsService } from './functions/functions.service';
 import { SetTokenCommand } from './commands/impl/set-token.command';
 import { VerifyTokenCommand } from './commands/impl/verify-token.command';
+import { DeleteTeamCommand } from './commands/impl/DeleteTeam.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -292,5 +293,10 @@ export class ServiceFeatureService {
     async verifyToken(email:string,token:string):Promise<boolean>
     {
       return this.commandBus.execute(new VerifyTokenCommand(email,token));
+    }
+
+    async DeleteTeam(teamName:string)
+    {
+      return this.commandBus.execute(new DeleteTeamCommand(teamName));
     }
 }

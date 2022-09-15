@@ -1,3 +1,4 @@
+import { DeleteTeamHandler } from './DeleteTeam.handler';
 import { DeleteProjectHandler } from './DeleteProject.handler';
 import { CompleteProjectHandler } from './CompleteProject.handler';
 import { DeleteTeamMemberHandler } from './DeleteTeamMember.handler';
@@ -24,5 +25,5 @@ export const CommandHandlers=[
   ApproveRequestVEmailHandler,CreateAdminHandler,CreateTeamHandler,CreateProjectHandler,
   CreateCompanyHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler,
   DeleteEmployeeHandler,AddSkillHandler,UpdateProfileHandler,AssignProjectToTeamHandler,AssignProjectToTeamVNamesHandler,
-  UpdateUserSkillHandler,AssignHoursHandler,CalculateUtilizationHandler,CompleteProjectHandler,DeleteProjectHandler,SetTokeHandler,VerifyTokenHandler
+  UpdateUserSkillHandler,AssignHoursHandler,CalculateUtilizationHandler,CompleteProjectHandler,DeleteProjectHandler,SetTokeHandler,VerifyTokenHandler,DeleteTeamHandler
 ];
