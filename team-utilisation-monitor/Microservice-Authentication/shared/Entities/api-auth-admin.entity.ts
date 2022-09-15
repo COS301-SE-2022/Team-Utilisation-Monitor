@@ -22,5 +22,8 @@ export class AuthAdminEntity{
     token?:string;
 
     @Field({nullable:true})
-    role?:string
+    role?:string;
+
+    @Field()
+    exists!:boolean;
 }

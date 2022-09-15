@@ -42,6 +42,8 @@ model Person{
 
   status Status @default(UNDER_UTILISED)
 
+  Project_Points Float? @default(0)
+
   active_Token String? @default("null")//value is set whenever the user logs in
 
   utilisations HistoricUtilisation [] @relation("utility")
