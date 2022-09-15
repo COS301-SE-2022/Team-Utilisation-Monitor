@@ -283,8 +283,6 @@ export class DataAccessRepository {
 
 
         }
-        else
-            throw new NullException().stack;
     }
 
 
@@ -350,8 +348,6 @@ export class DataAccessRepository {
 
             }
         }
-        else
-          throw new NullException().stack;
     }
 
     /***
@@ -454,25 +450,40 @@ export class DataAccessRepository {
 
         }
 
-
-        throw new NullException().stack;
     }
 
     async DeleteTeam(teamName:string):Promise<string>
     {
-      const id= await this.getTeamIDVName(teamName);
-      const projects=await this.prisma.teamsOnProjects.findMany(
+
+      try{
+
+        const id= await this.getTeamIDVName(teamName);
+        //Find all projects that this team is a part off
+        const projects=await this.prisma.teamsOnProjects.findMany(
         {
           where:
           {
-            team_id:id;
+            team_id:id
           }
-        }
+        })
 
-      
-      try{
-        this.ResetAssignedHoursForOneTeam()
-          this.prisma.team.delete
+          for(let i=0;i<projects.length;i++)
+          {
+            const projectName=await (await this.getProject(projects[i].project_id)).project_name;
+            await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
+
+            await this.prisma.team.delete(
+              {
+                where:
+                {
+                  id:id
+                }
+              }
+            )
+
+            this.CalculateUtilizationVProject(projectName);
+
+          }
         }
       catch(e)
       {
@@ -482,7 +493,6 @@ export class DataAccessRepository {
             return "Team Deletion Failed";
           }
       }
-    }
     }
 
     /***
