@@ -6,6 +6,7 @@ import { CompAddUserPopupComponent } from '../comp-add-user-popup/comp-add-user-
 import { CompCreateProjectPopupComponent } from '../comp-create-project-popup/comp-create-project-popup.component';
 import { CompCreateTeamPopupComponent } from '../comp-create-team-popup/comp-create-team-popup.component';
 import { CompAddSkillsPopupComponent } from '../comp-add-skills-popup/comp-add-skills-popup.component';
+import { CompAddPositionsPopupComponent } from '../comp-add-positions-popup/comp-add-positions-popup.component';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { NumberOfEmployees } from '../models/admin-number-of-employees';
@@ -78,11 +79,21 @@ export class CompNavbarComponent implements OnInit {
   }
 
   onOpenCreateProjectClick(){
-    this.matDialog.open(CompCreateProjectPopupComponent);
+    this.matDialog.open(CompCreateProjectPopupComponent,{
+      height: '450px',
+      width: '700px',
+    });
   }
 
   onOpenAddSkillsClick(){
     this.matDialog.open(CompAddSkillsPopupComponent,{
+      height: '450px',
+      width: '700px',
+    });
+  }
+
+  onOpenAddPositionsClick(){
+    this.matDialog.open(CompAddPositionsPopupComponent,{
       height: '450px',
       width: '700px',
     });

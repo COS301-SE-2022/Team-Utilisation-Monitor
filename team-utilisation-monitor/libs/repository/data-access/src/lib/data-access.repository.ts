@@ -72,6 +72,9 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
+          try  //Catch email constraint
+          {
+
             const new_admin=await this.prisma.person.create({
                 data:{
                     name:f_name,
@@ -97,8 +100,18 @@ export class DataAccessRepository {
             this.superCreateCompany(f_company_name,return_admin);
 
             return return_admin;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Email duplicates");
+              return null;
+            }
+          }
+
+
       }
-      throw new NullException().stack;
 
     }
 
@@ -129,6 +142,10 @@ export class DataAccessRepository {
 
             if(c_id>0)
             {
+
+              try
+              {
+
                 const new_admin=await this.prisma.person.create({
                     data:{
                         name:f_name,
@@ -160,9 +177,17 @@ export class DataAccessRepository {
                 this.superCreateCompany(f_company_name,return_admin);
 
                 return return_admin;
+              }
+              catch(e)
+              {
+                if(e instanceof Prisma.PrismaClientKnownRequestError)
+                {
+                  console.log("Email duplicates");
+                  return null;
+                }
+              }
+
             }
-            else
-              throw new NullException().stack;
 
         }
 
@@ -345,6 +370,9 @@ export class DataAccessRepository {
 
         if(local_company_id>0) //link is valid
         {
+          try
+          {
+
             const new_user=await this.prisma.person.create({
                 data:{
                     name:f_name,
@@ -368,10 +396,19 @@ export class DataAccessRepository {
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
             return return_user;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Email duplicates");
+              return null;
+            }
+          }
         }
         else
         {
-          throw new NullException().stack;
+          return null;  //Link does not exist
         }
 
 
@@ -1876,6 +1913,28 @@ export class DataAccessRepository {
 
     }
 
+    async RemoveSkill(skillType:string):Promise<string>
+    {
+      try
+      {
+        await this.prisma.skills.delete({
+          where:
+          {
+            skill:skillType
+          }
+        })
+
+        return "Skill Deleted"
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "Skill Deletion went wrong"
+        }
+      }
+    }
+
     async getSkills():Promise<Skill[]>
     {
       const Skills=await this.prisma.skills.findMany();
@@ -2463,7 +2522,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -2559,7 +2627,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -2656,7 +2733,17 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+
+            let Utilization=0;
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             let Statuss:Status
 
@@ -3266,14 +3353,29 @@ export class DataAccessRepository {
 
         if(p_id>0){
 
+            const person=await this.prisma.person.findUnique({
+            where:{
+                id:p_id,
+            }
+            })
 
+            let Utilization=0;
+            if(hours>0)
+            {
+              Utilization=person.assigned_hours/hours;
+            }
+            else
+            {
+              Utilization=0;
+            }
 
             await this.prisma.person.update({
                 where:{
                     id:p_id,
                 },
                 data:{
-                    weekly_hours:hours
+                    weekly_hours:hours,
+                    utilisation:Utilization
                 }
             })
 

@@ -49,7 +49,6 @@ export class AdminHomePageComponent implements OnInit {
   nrOfTeams=0;
   companyName="0";
   skillsData:any;
-
   //I use these values to subscribe to the ngxs
   tempData!:number;
   dynamicProjects!:number;
@@ -102,19 +101,20 @@ export class AdminHomePageComponent implements OnInit {
       })
 
       this.adminService.getSkills().subscribe(data=>{
-        this.skillsData=data
-        console.log("Initialising ngxs!!!!!!")
+        this.skillsData=data;
   
-        for(const requests of this.skillsData.data.GetSkill)
+        for(let i=0;i<this.skillsData.data.GetSkill.length;++i)
         {
-          this.store.dispatch(new AddSkill({skillName:requests.skill}));
+          this.store.dispatch(new AddSkill({skillName:this.skillsData.data.GetSkill[i].skill}));
         }
       })
+
+      
       
     })
 
-    
 
-    
+
+
   }
 }

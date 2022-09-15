@@ -1,29 +1,45 @@
-<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" >
-    <h2>Create a New Project</h2>
-    <mat-form-field appearance="fill">
-        <mat-label>Enter Project name</mat-label>
-        <input id="Project_Name" matInput placeholder="Project" formControlName="projectName">
-    </mat-form-field>
-    <br>
+<mat-tab-group>
+    <mat-tab label="Create a Project">
+        <mat-grid-list cols="2" Height="100%">
+            <mat-grid-tile>
+                <div class="DivContent">
+                    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" >
+                        <h2>Create a New Project</h2>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter Project name</mat-label>
+                            <input id="Project_Name" matInput placeholder="Project" formControlName="projectName">
+                        </mat-form-field>
+                        <br>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Weekly hours assigned to the project</mat-label>
-      <input id="Team_Name" matInput placeholder="Hours" formControlName="manHours">
-    </mat-form-field>
-    <br>
-
-    <h2>Select Teams assigned to the project</h2>
-    <mat-selection-list #name [(ngModel)]="selectedTeams" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
-        <mat-list-option *ngFor="let name of TeamNames" [value]="name">
-            {{name}}
-        </mat-list-option>
-    </mat-selection-list>
-
-    <p>
-        Options selected: {{name.selectedOptions.selected.length}}
-    </p>
-    <p>
-      Teams can also be added to the project via the Team/Project View
-    </p>
-    <button type="submit" mat-raised-button color="primary" [disabled]="!projectForm.valid">Create Project</button>
-</form>
+                        <mat-form-field appearance="fill">
+                        <mat-label>Weekly hours assigned to the project</mat-label>
+                        <input id="Team_Name" matInput placeholder="Hours" formControlName="manHours">
+                        </mat-form-field>
+                        <br>
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!projectForm.valid">Create Project</button>
+                        <p>
+                            Options selected: {{name.selectedOptions.selected.length}}
+                        </p>
+                        <p>
+                        Teams can also be added to the project via the Team/Project View or via the Suggested Teams Tab
+                        </p>  
+                    </form>
+                </div>    
+            </mat-grid-tile>
+            <mat-grid-tile>
+                    <div class="DivContent">
+                        <h2>Select Teams for the project</h2>
+                        <mat-selection-list #name [(ngModel)]="selectedTeams" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
+                            <mat-list-option *ngFor="let name of TeamNames" [value]="name">
+                                {{name}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        
+    </mat-tab>
+    <mat-tab label="Suggested Team for the Project">
+        <p>Suggested Teams Tab</p>
+    </mat-tab>
+</mat-tab-group>
