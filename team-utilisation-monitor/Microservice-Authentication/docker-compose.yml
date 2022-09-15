@@ -1,16 +1,33 @@
-version: '3.4'
+version: '3.9'
 
 services:
-  web:
-    image: polar-thicket-16073
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 6565:3000
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    container_name: authentication
+    env_file: .env
+    environment:
+      POSTGRES_USER: icreatesoftware
+      POSTGRES_PASSWORD: authentication
+      POSTGRES_DB: authentication
+      PGDATA: /var/lib/postgresql/data/pg-auth-pgdata
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - postgres-auth-data:/var/lib/postgresql/data/pg-auth-data
+    ports:
+      - "35000:5432"
+    networks:
+      - icreatesoftware-private
+
+  api-authentication:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env 
+    ports:
+      - "8080:3000"
 
 
 volumes:

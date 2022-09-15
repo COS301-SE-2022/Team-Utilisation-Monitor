@@ -23,7 +23,7 @@ export class AuthenticationService {
         'Content-Type': 'application/json'
         })
     }
-    const object=this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query}),options)
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query}),options)
     return object;
   }
 
@@ -38,7 +38,7 @@ export class AuthenticationService {
         'Content-Type': 'application/json'
         })
     }
-    const object=this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }),options)
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }),options)
 
     return object;
 
@@ -61,7 +61,7 @@ export class AuthenticationService {
       })
     }
 
-    const object=this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
     return object;
     
@@ -77,7 +77,7 @@ export class AuthenticationService {
         })
     }
 
-    const obj= this.client.post<any>('http://ec2-54-226-238-32.compute-1.amazonaws.com:6565/graphql',JSON.stringify({ query: query }), options);
+    const obj= this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: query }), options);
 
     return obj;
   }
@@ -98,7 +98,7 @@ export class AuthenticationService {
       })
     }
 
-    const object=this.client.post<any>('http://ec2-54-226-238-32.compute-1.amazonaws.com:6565/graphql',JSON.stringify({ query: Query }), options)
+    const object=this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: Query }), options)
     return object;
   }
 
@@ -118,8 +118,7 @@ export class AuthenticationService {
       })
     }
 
-    const object=this.client.post<any>('http://ec2-54-226-238-32.compute-1.amazonaws.com:6565/graphql', JSON.stringify({ query: Query }), options);
-    
+    const object=this.client.post<any>('http://localhost:8080/graphql', JSON.stringify({ query: Query }), options)
     return object;
 
   }
@@ -141,7 +140,7 @@ export class AuthenticationService {
       })
     }
 
-    const object=this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
     return object;
   }
