@@ -17,8 +17,6 @@ import { AddProjectState, AddSkillState, AddTeamState, IncreaseNumberOfEmployees
 import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/admin/feature';
 import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
 
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
   imports: [FormsModule,
@@ -27,7 +25,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule, 
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
 
     NgxsModule.forRoot([
       IncreaseNumberOfEmployeesState,
