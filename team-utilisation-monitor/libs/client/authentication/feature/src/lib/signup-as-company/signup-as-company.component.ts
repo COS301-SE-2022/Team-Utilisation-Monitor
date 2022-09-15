@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../Authentication.service';
 
@@ -28,8 +29,7 @@ export class SignupAsCompanyComponent implements OnInit {
     console.log();
   }
 
-  //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
-  constructor(private service:AuthenticationService ,private router:Router) {}
+  constructor(private service:AuthenticationService ,private router:Router,private snackBar:MatSnackBar) {}
 
   onSubmit()
   {
@@ -43,34 +43,57 @@ export class SignupAsCompanyComponent implements OnInit {
       const password=this.profileForm.get("password")?.value!;
       const company=this.profileForm.get('companyName')?.value!;
 
-      //register in mainDB
-      this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
-      {
-        this.Admin=data;
-        if(this.Admin.data!=null)
-        {
-          //
-        }
-      });
+    
 
-      //register on authentication DB
-      this.service.registerAdmin(firstname,lastname,email,password).subscribe(data=>
-      {
-        if(data!=null)
-        {
-          //some logic here
-        }
-        else{
-          alert("Unable to register user. Returned null");
-        }
-      });
+      this.service.registerAdmin(firstname,lastname,email,password).subscribe({
+        next:(item)=>{
 
-      //Redirect to the login page
-      this.router.navigate(['']);
+          //add to the authentication db
+          if(item!=null){
+            //check for duplicate accounts
+            console.log(item.data.registerAdminGateway)
+            
+            if(item.data.registerAdminGateway.exists==true){
+              this.snackBar.open("User Account Already Exists")
+        	    setTimeout(() => {
+              this.snackBar.dismiss();
+              }, 5000)
+            }
+            else{
+              //add to the main DB
+              this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
+              {
+                this.Admin=data;
+                if(this.Admin.data!=null){
+
+                  this.snackBar.open("Welcome to "+company+" "+firstname)
+        	        setTimeout(() => {
+                  this.snackBar.dismiss();
+                  }, 4000)
+
+                  //Redirect to the login page
+                  this.router.navigate(['']);
+                }
+                else{
+                  this.snackBar.open("API returned null")
+        	        setTimeout(() => {
+                  this.snackBar.dismiss();
+                  }, 5000)
+                }
+              });
+            }
+          }
+          else{
+            this.snackBar.open("API returned null")
+        	    setTimeout(() => {
+              this.snackBar.dismiss();
+            }, 5000)
+          }
+      }})   
     }
     else
     {
-      //Console an error message
+      
       alert("Passwords not matching");
     }
 
