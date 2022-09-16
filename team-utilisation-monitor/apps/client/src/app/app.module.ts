@@ -16,6 +16,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin'
 import { AddProjectState, AddSkillState, AddTeamState, IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client/admin/feature';
 import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/admin/feature';
 import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
@@ -25,6 +26,7 @@ import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/adm
     AppRoutingModule, 
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
 
     NgxsModule.forRoot([
       IncreaseNumberOfEmployeesState,

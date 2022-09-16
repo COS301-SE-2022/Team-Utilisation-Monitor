@@ -27,9 +27,13 @@ export class AuthenticationService {
     return object;
   }
 
+  /***
+   * Create user adds the individual user to the main database
+   */
+
   createUser(firstName:string,lastname :string,email:string,inviteCode:string):Observable<any>
   {
-    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",inviteCode:"'+inviteCode+'"){name,surname,email,company_name,company_id,role,utilisation}}';
+    const Query='mutation{createUser(name:"'+firstName+'",surname:"'+lastname+'",email:"'+email+'",inviteCode:"'+inviteCode+'"){name,surname,email,company_name,company_id,role,utilisation,error_string}}';
 
     console.log(Query);
 
@@ -90,7 +94,7 @@ export class AuthenticationService {
 
   registerUser(name:string,surname:string,username:string,password:string):Observable<any>
   {
-    const Query='mutation{registerUserGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname}}';
+    const Query='mutation{registerUserGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname,exists_person}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -110,7 +114,7 @@ export class AuthenticationService {
 
   registerAdmin(name:string,surname:string,username:string,password:string):Observable<any>
   {
-    const Query='mutation{registerAdminGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname}}';
+    const Query='mutation{registerAdminGateway(name:"'+name+'",surname:"'+surname+'",username:"'+username+'",password:"'+password+'"){id,username,token,role,name,surname,exists_person}}';
 
     const options = {
       headers: new HttpHeaders({
