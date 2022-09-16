@@ -904,6 +904,7 @@ export class DataAccessRepository {
         let numTeams=0;
         let numEmployees=0;
         let numAdmins=0;
+        let numCompleteProjects=0;
 
         if(company_object)
         {
@@ -913,10 +914,21 @@ export class DataAccessRepository {
 
             for(let i=0;i<company_object.employees.length;++i)
             {
-                if(company_object.employees[i].role==Role.ADMIN)
-                {
-                    ++numAdmins;
-                }
+              if(company_object.employees[i].role==Role.ADMIN)
+              {
+                ++numAdmins;
+              }
+            }
+
+            console.log("Repository");
+            console.log(company_object.projects[1].project_name);
+            console.log(company_object.projects[1].completed);
+            console.log(company_object);
+
+            for(let i=0;i<company_object.projects.length;++i){
+              if(company_object.projects[i].completed==true){
+                ++numCompleteProjects;
+              }
             }
 
             const return_stats=new CompanyStatsEntity();
@@ -926,6 +938,7 @@ export class DataAccessRepository {
             return_stats.numEmployees=numEmployees;
             return_stats.numAdmins=numAdmins;
             return_stats.Utilization=await this.companyOveralUtilisation();
+            return_stats.numCompleteProjects=numCompleteProjects;
 
             return return_stats;
 
@@ -1227,14 +1240,15 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.projects.length;++i)
                 {
-                    const project=new ProjectEntity();
+                  const project=new ProjectEntity();
 
-                    project.id=company.projects[i].id;
-                    project.project_name=company.projects[i].project_name;
-                    project.ownwer_id=company.projects[i].owner_id;
-                    project.man_hours=company.projects[i].man_hours
+                  project.id=company.projects[i].id;
+                  project.project_name=company.projects[i].project_name;
+                  project.ownwer_id=company.projects[i].owner_id;
+                  project.man_hours=company.projects[i].man_hours;
+                  project.completed=company.projects[i].completed;
 
-                    projects_arr.push(project);
+                  projects_arr.push(project);
                 }
             }
 
@@ -3389,7 +3403,7 @@ export class DataAccessRepository {
 
     async completeProject(projectName:string):Promise<string>
     {
-      //
+      
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 

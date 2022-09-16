@@ -7,6 +7,8 @@ import { CompProjectDataViewPopupComponent } from '../comp-project-data-view-pop
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { RemoveProject } from '../actions/mutate-remove-project.action';
+import { IncreaseNumberOfClosedProjects } from '../actions/mutate-number-of-closed-projects.action';
+import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-project-list',
@@ -19,6 +21,7 @@ export class CompProjectListComponent implements OnInit {
   constructor(private matDialog: MatDialog,private readonly cookie:CookieService,private service:AdminService, private snackBar: MatSnackBar,private store:Store) {}
 
   @Input() Projects!:{projectName:string, manHours:number};
+  companyName="default";
 
 
 
@@ -27,6 +30,7 @@ export class CompProjectListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log();
+    this.companyName=this.companyName=this.cookie.get("CompanyName");
   }
 
   onOpenAddTeams(){
@@ -42,12 +46,22 @@ export class CompProjectListComponent implements OnInit {
   CompleteProject()
   {
     this.service.CompleteProject(this.Projects.projectName).subscribe(Data=>
-      {
-        this.snackBar.open(Data.data.CompleteProject + " has been completed")
-        setTimeout(() => {
-          this.snackBar.dismiss();
-        }, 5000)
+    {
+      this.snackBar.open(Data.data.CompleteProject + " has been completed")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+
+      this.service.getCompanyStats(this.companyName).subscribe(Data2=>{
+
+        //increase the number of complete projects
+        this.store.dispatch(new IncreaseNumberOfClosedProjects({value:Data2.data.completeProject.numCompleteProjects+1}))
+
+        //remove the project
+        this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
       })
+
+    })
   }
 
   DeleteProject()
@@ -58,9 +72,16 @@ export class CompProjectListComponent implements OnInit {
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-    })
 
-    this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
+        this.service.getCompanyStats(this.companyName).subscribe(Data2=>{
+
+          //increase the number of complete projects
+          this.store.dispatch(new IncreaseNumberOfProjects({value:Data2.data.completeProject.numberOfProjects-1}))
+  
+          //remove the project
+          this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
+        })
+    })
   }
 
 
