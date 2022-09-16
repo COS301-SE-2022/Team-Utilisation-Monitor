@@ -47,41 +47,27 @@ export class CompProjectListComponent implements OnInit {
   {
     this.service.CompleteProject(this.Projects.projectName).subscribe(Data=>
     {
-      this.snackBar.open(Data.data.CompleteProject + " has been completed")
+      this.snackBar.open("Project "+this.Projects.projectName + " has been completed")
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
-
-      this.service.getCompanyStats(this.companyName).subscribe(Data2=>{
-
-        //increase the number of complete projects
-        this.store.dispatch(new IncreaseNumberOfClosedProjects({value:Data2.data.completeProject.numCompleteProjects+1}))
-
-        //remove the project
-        this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
-      })
-
     })
+
+    //remove the project
+    //this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
   }
 
   DeleteProject()
   {
     this.service.DeleteProject(this.Projects.projectName).subscribe(Data=>
       {
-        this.snackBar.open(this.Projects.projectName + " has been deleted")
+        this.snackBar.open("Project "+this.Projects.projectName + " has been deleted")
         setTimeout(() => {
           this.snackBar.dismiss();
         }, 5000)
-
-        this.service.getCompanyStats(this.companyName).subscribe(Data2=>{
-
-          //increase the number of complete projects
-          this.store.dispatch(new IncreaseNumberOfProjects({value:Data2.data.completeProject.numberOfProjects-1}))
-  
-          //remove the project
-          this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
-        })
     })
+
+    this.store.dispatch(new RemoveProject({projectName:this.Projects.projectName,manHours:this.Projects.manHours}));
   }
 
 
