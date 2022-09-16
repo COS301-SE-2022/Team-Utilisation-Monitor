@@ -123,7 +123,7 @@ export class AuthRepositoryService {
         if(existing_user!=null)
         {
 
-            console.log("User Already exists");
+            console.log("Admin Already exists");
             
             
             returnObject.id=existing_user.id;
