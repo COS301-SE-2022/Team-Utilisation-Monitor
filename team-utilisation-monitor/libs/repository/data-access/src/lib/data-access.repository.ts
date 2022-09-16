@@ -3445,6 +3445,36 @@ export class DataAccessRepository {
         return "Delete Project"
     }
 
+    /***
+     * Use this function to get all the teams in the company and their members and all
+     * details associated with the teams
+    */
+
+    async getAllTeamsAndTheirMembers(companyName:string):Promise<any>
+    {
+      const company_id=await this.getCompanyID(companyName);
+      let teams:TeamEntity[]=[];
+
+      if(company_id>0){
+        return await this.prisma.team.findMany(
+          {
+            where:{
+              company_id:company_id,
+            }
+          }
+        )
+      }
+      else{//company doesn't exist
+        teams[0]=new TeamEntity();
+        teams[0].error_string=ErrorStrings.COMPANY_DOESNT_EXIST;
+        return teams;
+      }
+    }
+
+    /***
+     * Use this function to get all the teams working on a project.
+    */
+
     async GetTeams(projectName:string):Promise<TeamEntity[]>
     {
 
