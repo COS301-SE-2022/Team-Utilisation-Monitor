@@ -23,6 +23,7 @@ export class IndividualExplorePageComponent implements OnInit {
     console.log();
     const Email=this.cookie.get("Email");
 
+    //TO BE ADJUSTED TO GET TECHNOLOGIES. THIS IS HERE FOR THE MATTER OF LINKING IN THE FRONT END
     this.service.getAllocatedProjects(Email).subscribe(Data=>
       {
         for(const req of Data.data.GetAllocateProjects)
