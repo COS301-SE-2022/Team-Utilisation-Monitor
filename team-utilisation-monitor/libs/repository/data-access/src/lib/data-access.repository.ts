@@ -920,10 +920,7 @@ export class DataAccessRepository {
               }
             }
 
-            console.log("Repository");
-            console.log(company_object.projects[1].project_name);
-            console.log(company_object.projects[1].completed);
-            console.log(company_object);
+            
 
             for(let i=0;i<company_object.projects.length;++i){
               if(company_object.projects[i].completed==true){
