@@ -21,12 +21,33 @@ import { GetAllocatedProjectsHandler } from "./getAllocatedProjects.handler";
 import { GetUserSkillsHandler } from "./GetUserSkills.handler";
 import { GetUserStatsHandler } from "./GetUserStats.handler";
 import { GetTeamsOnProjectHandler } from './GetTeamsOnProject.handler';
+import { GetAllTeamsOfACompanyHandler } from './get-all-Teams-Of-A-Company.handler';
 
 
 export const QueryHandlers=[
-    GetAllProjectsOrTeamsOfCompanyHandler,GetAllEmployeesOfCompanyHandler,GetCompanyStatsHandler,GetUserIDQueryHandler,
-    GetPendingRequestsHandler,GetAllPersonsQueryHandler,GetOnePersonQueryHandler,LoginHandler,GetCompanyQueryHandler,GetInviteCodeHandler, GetTeamMembersHandler,GetSkillsHandler,
-    GetAllTeamsWorkingOnProjectHandler,GetUtilizedEmployeesHandler,
-    GetAllTeamsWorkingOnProjectHandler,GetAllProjectsOfTeamsHandler,GetAllocatedTeamsHandler,GetAllocatedProjectsHandler,GetUserSkillsHandler,
-    GetUserStatsHandler,GetAvailableTeamsHandler,GetMonthlyUtilizationHandler,GetCompanyUtilizationHandler,GetTeamsOnProjectHandler
+    GetAllProjectsOrTeamsOfCompanyHandler,
+    GetAllEmployeesOfCompanyHandler,
+    GetCompanyStatsHandler,
+    GetUserIDQueryHandler,
+    GetPendingRequestsHandler,
+    GetAllPersonsQueryHandler,
+    GetOnePersonQueryHandler,
+    LoginHandler,
+    GetCompanyQueryHandler,
+    GetInviteCodeHandler, 
+    GetTeamMembersHandler,
+    GetSkillsHandler,
+    GetAllTeamsWorkingOnProjectHandler,
+    GetUtilizedEmployeesHandler,
+    GetAllTeamsWorkingOnProjectHandler,
+    GetAllProjectsOfTeamsHandler,
+    GetAllocatedTeamsHandler,
+    GetAllocatedProjectsHandler,
+    GetUserSkillsHandler,
+    GetUserStatsHandler,
+    GetAvailableTeamsHandler,
+    GetMonthlyUtilizationHandler,
+    GetCompanyUtilizationHandler,
+    GetTeamsOnProjectHandler,
+    GetAllTeamsOfACompanyHandler,
 ]
