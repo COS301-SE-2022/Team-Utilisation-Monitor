@@ -11,6 +11,8 @@ import { IncreaseNumberOfProjects } from '../actions/mutate-number-of-project.ac
 import { IncreaseNumberOfTeams } from '../actions/mutate-number-of-teams.action';
 import { IncreaseNumberOfTeamsState } from '../states/number-of-teams.state';
 import { AddSkill } from '../actions/mutate-add-skill.action';
+import { IncreaseNumberOfClosedProjectsState } from '../states/number-of-closed-projects.state';
+import { IncreaseNumberOfClosedProjects } from '../actions/mutate-number-of-closed-projects.action';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-home-page',
@@ -22,6 +24,7 @@ export class AdminHomePageComponent implements OnInit {
   @Select(IncreaseNumberOfEmployeesState.getNumberOfEmployees)employees$!:Observable<number>
   @Select(IncreaseNumberOfProjectsState.getNumberOfProjects)projects$!:Observable<number>;
   @Select(IncreaseNumberOfTeamsState.getNumberOfTeams)teams$!:Observable<number>;
+  @Select(IncreaseNumberOfClosedProjectsState.getNumberOfClosedProjects)closedProjects$!:Observable<number>;
 
   constructor(private adminService:AdminService,private cookie:CookieService,private store:Store) {
 
@@ -49,10 +52,14 @@ export class AdminHomePageComponent implements OnInit {
   nrOfTeams=0;
   companyName="0";
   skillsData:any;
-  //I use these values to subscribe to the ngxs
+
+  //I use these values to subscribe to the ngxs.
+  //"dynamic" because these values are changing
+
   tempData!:number;
   dynamicProjects!:number;
   dynamicTeams!:number;
+  dynamicClosedProjects!:number;
 
   someFunc(){
     this.projects$.subscribe(data3=>{
@@ -76,10 +83,14 @@ export class AdminHomePageComponent implements OnInit {
     this.companyName=this.cookie.get("CompanyName");
 
     this.adminService.getCompanyStats(this.companyName).subscribe(data=>{
+
+      console.log("Company Stats");
+      console.log(data);
+      
       this.nrOfEmployees=data.data.getCompanyStats.numEmployees;
       //utilizationPersentage=data.data.getCompanyStats.numEmployees;
       this.nrOfOpenProjects =data.data.getCompanyStats.numProjects;
-      //nrOfClosedProjects = 0;
+      this.nrOfClosedProjects=data.data.getCompanyStats.numCompleteProjects;
       this.nrOfTeams=data.data.getCompanyStats.numTeams;
       this.utilizationPersentage=Math.round((data.data.getCompanyStats.Utilization)*100)/100;
 
@@ -87,6 +98,7 @@ export class AdminHomePageComponent implements OnInit {
       this.store.dispatch(new IncreaseNumberOfEmployees({value:this.nrOfEmployees}));
       this.store.dispatch(new IncreaseNumberOfProjects({value:this.nrOfOpenProjects}));
       this.store.dispatch(new IncreaseNumberOfTeams({value:this.nrOfTeams}));
+      this.store.dispatch(new IncreaseNumberOfClosedProjects({value:this.nrOfClosedProjects}));
 
       this.employees$.subscribe(data2=>{
         this.tempData=data2;
@@ -99,6 +111,13 @@ export class AdminHomePageComponent implements OnInit {
       this.teams$.subscribe(data4=>{
         this.dynamicTeams=data4;
       })
+
+      this.closedProjects$.subscribe(data5=>{
+        this.dynamicClosedProjects=data5;
+      })
+
+      console.log("ASIE");
+      console.log(this.nrOfClosedProjects);
 
       this.adminService.getSkills().subscribe(data=>{
         this.skillsData=data;

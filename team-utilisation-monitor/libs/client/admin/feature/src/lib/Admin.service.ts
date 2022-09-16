@@ -39,7 +39,7 @@ export class AdminService {
       const token=this.cookie.get("token");
       const email=this.cookie.get("Email");
 
-      const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
+      const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization,numCompleteProjects}}'
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
