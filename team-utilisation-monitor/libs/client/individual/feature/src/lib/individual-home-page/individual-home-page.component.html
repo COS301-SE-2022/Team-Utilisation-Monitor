@@ -11,11 +11,12 @@
   <mat-card class="mat">
     <div class="util">
       <mat-accordion >
-        <mat-expansion-panel (opened)="panelOpenState = true"
+        <div class="center"> 
+        <mat-expansion-panel class="accordion" (opened)="panelOpenState = true"
                              (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Utilization
+              
             </mat-panel-title>
             <mat-panel-description>
               {{panelOpenState ? 'close' : 'View'}} My Utilization
@@ -48,6 +49,7 @@
           </div>
 
         </mat-expansion-panel>
+        </div>
       </mat-accordion>
     </div>
 

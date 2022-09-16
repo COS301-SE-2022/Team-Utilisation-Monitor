@@ -56,3 +56,36 @@ mat-grid-tile {
   margin-top: 10%;
 }
 
+.center{
+  display: flex;
+  justify-content: center; /* align horizontal */
+}
+
+.util{
+  margin-bottom: 3%;
+  margin-top: 2%;
+  width:100%;
+}
+
+.accordion{
+  width: 90%;
+}
+
+hr{
+  width: 90%;
+}
+
+
+.mid{
+  margin-top: 2%;
+   float: left;
+   width: 98%;
+   max-height: 90%;
+   overflow-y: auto;
+ }
+ 
+ .list{
+   float: left;
+   width: 90%;
+   cursor: pointer;
+ }
