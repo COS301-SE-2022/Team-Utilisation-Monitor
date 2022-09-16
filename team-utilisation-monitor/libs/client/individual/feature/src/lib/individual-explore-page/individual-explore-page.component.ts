@@ -30,7 +30,7 @@ export class IndividualExplorePageComponent implements OnInit {
           this.projects.push(req.project_name)
         }
       })
-      
+
     this.service.getAllocatedTeams(Email).subscribe(Data=>
       {
         for(const req of Data.data.GetAllocatedTeams)
@@ -38,6 +38,9 @@ export class IndividualExplorePageComponent implements OnInit {
           this.teams.push(req.team_name)
         }
       })
+  }
+  showInfo(link: string) {
+    console.log()
   }
 
 }
