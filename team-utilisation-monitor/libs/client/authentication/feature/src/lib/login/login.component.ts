@@ -6,6 +6,7 @@ import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class User {
   constructor(public email: string, public password: string) {
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('',[Validators.required,Validators.minLength(4),Validators.pattern("")]),
   });
 
-  constructor(private service:AuthenticationService,private router:Router,private cookie:CookieService) {
+  constructor(private service:AuthenticationService,private router:Router,private cookie:CookieService,private snackBar:MatSnackBar) {
    }
 
 
@@ -88,6 +89,7 @@ export class LoginComponent implements OnInit {
                 if(item2.data!=null)
                 {
                   console.log("logging in");
+                  
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
                   const approved=item2.data.getOnePerson.approved;
 
@@ -99,7 +101,10 @@ export class LoginComponent implements OnInit {
                   {
                     if(!approved) //user not yet approved
                     {
-                      alert("Oops! Looks like you Request is still Pending Approval. Please contact Admin");
+                      this.snackBar.open("Oops! Looks like you Request is still Pending Approval. Please contact Admin")
+                      setTimeout(() => {
+                      this.snackBar.dismiss();
+                      }, 5000)
                     }
                     else
                       this.router.navigate(['individual_home_page'])
@@ -110,13 +115,19 @@ export class LoginComponent implements OnInit {
                   }
               }
               else{
-                  alert("Something went wrong; Failed to contact main DB")
+                  this.snackBar.open("Something went wrong; Failed to contact main DB")
+                  setTimeout(() => {
+                  this.snackBar.dismiss();
+                  }, 5000)
                 }
               }
             })}
           )}
           else{
-            alert("Incorrect Details, Please Try Again");
+            this.snackBar.open("Incorrect Details, Please Try Again")
+            setTimeout(() => {
+            this.snackBar.dismiss();
+            }, 5000)
           }
         },
         error: (err) => { console.log(err); }

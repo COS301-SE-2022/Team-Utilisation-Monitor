@@ -1,33 +1,35 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { ErrorStrings } from "@team-utilisation-monitor/shared/services/prisma-services";
+
 
 @ObjectType({description:'Object encapsulating the users details'})
 export class UserPerson{
 
     @Field(() => ID)
-    id!:number;
+    id?:number;
 
-    @Field()
-    name!:string;
+    @Field({nullable:true})
+    name?:string;
 
-    @Field()
-    surname!:string;
+    @Field({nullable:true})
+    surname?:string;
 
-    @Field()
-    email!:string;
+    @Field({nullable:true})
+    email?:string;
 
-    @Field()
-    role!:string;
+    @Field({nullable:true})
+    role?:string;
 
-    @Field()
-    suspended!:boolean;
+    @Field({nullable:true})
+    suspended?:boolean;
 
-    @Field()
+    @Field({nullable:true})
     approved?:boolean;
 
     @Field({ nullable: true })
     company_name?:string;
 
-    @Field()
+    @Field({nullable:true})
     utilisation:number;
 
     @Field({ nullable: true })
@@ -49,6 +51,10 @@ export class UserPerson{
     team_id?:number;
 
     @Field({nullable:true})
-    weekly_Hours?:number
+    weekly_Hours?:number;
+
+    @Field(()=>ErrorStrings,)
+    error_string?:ErrorStrings;
+    
 
 }

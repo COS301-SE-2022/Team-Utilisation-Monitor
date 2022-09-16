@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../Authentication.service';
 
@@ -29,7 +30,7 @@ export class SignupAsCompanyComponent implements OnInit {
   }
 
   //Companies=["EPI Use","GeoTech","StarTech","Hauwei"];  //Temporary company names
-  constructor(private service:AuthenticationService ,private router:Router) {}
+  constructor(private service:AuthenticationService ,private router:Router,private snackbar:MatSnackBar) {}
 
   onSubmit()
   {
@@ -43,35 +44,57 @@ export class SignupAsCompanyComponent implements OnInit {
       const password=this.profileForm.get("password")?.value!;
       const company=this.profileForm.get('companyName')?.value!;
 
-      //register in mainDB
-      this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
-      {
-        this.Admin=data;
-        if(this.Admin.data!=null)
-        {
-          //
-        }
-      });
+      this.service.registerAdmin(firstname,lastname,email,password).subscribe({
+        next:(item)=>{
+          
+          if(item!=null){
+            
+              
+            if(item.data.registerAdminGateway.exists_person==true){ //user already exists
+              this.snackbar.open("Admin Already Exists")
+              setTimeout(() => {
+              this.snackbar.dismiss();
+              }, 5000)
+            }
+            else{
+                //register in mainDB
+                this.service.addAdmin(firstname,lastname,company,email).subscribe(data=>
+                {
+                  this.Admin=data;
+                  if(this.Admin.data!=null)
+                  {
+                    this.snackbar.open("Registration successful. Welcome to "+company+" "+firstname)
+                    setTimeout(() => {
+                    this.snackbar.dismiss();
+                    }, 6000)
 
-      //register on authentication DB
-      this.service.registerAdmin(firstname,lastname,email,password).subscribe(data=>
-      {
-        if(data!=null)
-        {
-          //some logic here
+                    //Redirect to the login page
+                    this.router.navigate(['']);
+                  }
+                  else{
+                    this.snackbar.open("Main Api Returned null")
+                    setTimeout(() => {
+                    this.snackbar.dismiss();
+                    }, 5000)
+                  }
+                });
+            }
+          }
+          else{
+            this.snackbar.open("Api Returned null")
+            setTimeout(() => {
+            this.snackbar.dismiss();
+            }, 5000)
+          }
         }
-        else{
-          alert("Unable to register user. Returned null");
-        }
-      });
-
-      //Redirect to the login page
-      this.router.navigate(['']);
+      })
     }
     else
     {
-      //Console an error message
-      alert("Passwords not matching");
+      this.snackbar.open("Passwords Not Matching")
+      setTimeout(() => {
+        this.snackbar.dismiss();
+      }, 5000)
     }
 
   }
