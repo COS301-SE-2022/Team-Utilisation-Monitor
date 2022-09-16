@@ -23,6 +23,14 @@ export class IndividualExplorePageComponent implements OnInit {
     console.log();
     const Email=this.cookie.get("Email");
 
+    this.service.getAllocatedProjects(Email).subscribe(Data=>
+      {
+        for(const req of Data.data.GetAllocateProjects)
+        {
+          this.projects.push(req.project_name)
+        }
+      })
+      
     this.service.getAllocatedTeams(Email).subscribe(Data=>
       {
         for(const req of Data.data.GetAllocatedTeams)
