@@ -99,6 +99,31 @@ export class ApiFeatureResolver {
     return userObj;
   }
 
+
+  /***
+   * Use this query to get all the teams associated with a company
+  */
+
+  @Query(()=>[TeamEntity])
+  async getAllTeamsOfAcompanyWithTheirMembers(@Args("email")email:string,@Args("token")token:string,@Args("company_name")companyName:string){
+    
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=this.service.getAllTeamsOfACompanyService(companyName);
+
+      return resp;
+    }
+    else{
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+    
+    }
+    
+  }
+
   /***
    * This function returns a single user object based on the email argument
    */
@@ -218,7 +243,7 @@ export class ApiFeatureResolver {
 
   /***
    * This function returns all the teams of a company as an array
-   * The 1 indicates that you want a teams, not teams
+   * The 1 indicates that you want a teams, not projects
   */
 
   @Query(()=>[TeamEntity])

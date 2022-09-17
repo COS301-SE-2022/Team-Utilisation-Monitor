@@ -12,9 +12,20 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <button class="userRequestButton" (click)="onOpenAddTeamMemberClick(Teams.teamName)" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
-        <team-utilisation-monitor-comp-team-individual
-        *ngFor="let user of OutEmployeeName"
-        [IndivName] = "user" [Team]="Teams"></team-utilisation-monitor-comp-team-individual>
+        
+        <mat-card-content *ngFor="let member of OutEmployeeName">
+            <mat-card class="Mat-Individual">
+                <mat-card-content class="InvdividualBox">
+                        <p class="InvdividualName">{{member.Name}} {{member.Surname}}<span id="emailText"> {{member.Email}} </span></p>
+        
+                        <span class="example-spacer"></span>
+                        <button mat-raised-button class="InvdividualButton" color="warn" (click)="RemoveFromTeam(member.Email)" matTooltip="Remove member from team">
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+        
     </mat-expansion-panel>
 </mat-accordion>
 <!---TeamName.Name is a parent variable i.e inherited from the parent. I'm putting it in the cook

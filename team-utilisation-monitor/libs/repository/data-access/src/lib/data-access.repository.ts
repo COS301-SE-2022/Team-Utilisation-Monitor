@@ -7,6 +7,7 @@ import { ErrorStrings, NullException, PrismaService } from '@team-utilisation-mo
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
+import { pid } from 'process';
 
 
 @Injectable()
@@ -793,11 +794,11 @@ export class DataAccessRepository {
               return false; //tokens don't match up
         }
         else
-          throw new NullException().stack;
+          return false;
 
       }
       else
-        throw new Error("failed to person");
+        return false;
 
     }
 
@@ -810,7 +811,7 @@ export class DataAccessRepository {
     {
       const p_id=(await this.getUserIDVEmail(f_email)).id;
 
-      if(p_id>0){
+      if(pid!=null && p_id>0){
 
         const existing_person=await this.prisma.person.findUnique({
           where:{
@@ -821,11 +822,22 @@ export class DataAccessRepository {
         if(existing_person){
           return existing_person.active_Token;
         }
-        else
-          throw new NullException().stack;
+        else{
+          try {
+            throw new Error("Unable to find user token");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+          
       }
-      else
-        throw new Error("failed to person");
+      else{
+        try {
+          throw new Error("Unable to find user");
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
 
@@ -1497,10 +1509,13 @@ export class DataAccessRepository {
 
         if(person)
         {
-            return this.returnUserID(person.id);
+          return this.returnUserID(person.id);
         }
-        else
-            throw new NullException().stack;
+        else{
+          const non_user=new UserPerson();
+          non_user.id=-1;
+          return non_user;
+        }
     }
 
     /***
@@ -3452,22 +3467,24 @@ export class DataAccessRepository {
 
     async getAllTeamsAndTheirMembers(companyName:string):Promise<any>
     {
+      console.log("Data Access repo");
       const company_id=await this.getCompanyID(companyName);
-      let teams:TeamEntity[]=[];
+      
 
       if(company_id>0){
         return await this.prisma.team.findMany(
           {
             where:{
               company_id:company_id,
+            },
+            include:{
+              members:true
             }
           }
         )
       }
       else{//company doesn't exist
-        teams[0]=new TeamEntity();
-        teams[0].error_string=ErrorStrings.COMPANY_DOESNT_EXIST;
-        return teams;
+        return null; //all logic is in the command handler
       }
     }
 

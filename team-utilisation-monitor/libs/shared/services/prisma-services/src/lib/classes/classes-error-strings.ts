@@ -6,6 +6,7 @@ export enum ErrorStrings{
     COMPANY_DOESNT_EXIST,
     INVALID_INVITE_CODE,
     NONE,
+    USER_DOESNT_EXIST,
 }
 
 registerEnumType(ErrorStrings,{

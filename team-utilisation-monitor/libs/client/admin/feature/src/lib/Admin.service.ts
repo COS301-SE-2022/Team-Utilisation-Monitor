@@ -36,15 +36,15 @@ export class AdminService {
 
   getCompanyStats(companyName: string):Observable<any>
   {
-      const token=this.cookie.get("token");
-      const email=this.cookie.get("Email");
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
 
-      const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization,numCompleteProjects}}'
-      const options = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      }
+    const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization,numCompleteProjects}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
 
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
@@ -206,6 +206,21 @@ export class AdminService {
     const email=this.cookie.get("Email");
 
     const query='query{GetTeamsOnProject(project_name:"'+projectName+'",token:"'+token+'",email:"'+email+'"){team_name}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  getTeamsOfACompanyWithTheirMembers(companyName:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{getAllTeamsOfAcompanyWithTheirMembers(email:"'+email+'",token:"'+token+'",company_name:"'+companyName+'"){ team_name,error_string,members{name,surname,email}}}';
 
     const options = {
       headers: new HttpHeaders({

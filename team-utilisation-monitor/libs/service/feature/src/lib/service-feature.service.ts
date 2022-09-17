@@ -20,7 +20,7 @@ import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company } from '@prisma/client';
-import { UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { TeamEntity, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
@@ -49,6 +49,7 @@ import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmploy
 import { FunctionsService } from './functions/functions.service';
 import { SetTokenCommand } from './commands/impl/set-token.command';
 import { VerifyTokenCommand } from './commands/impl/verify-token.command';
+import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -232,6 +233,11 @@ export class ServiceFeatureService {
     async GetUserStats(UserEmail:string)
     {
       return this.queryBus.execute(new GetUserStatsQuery(UserEmail));
+    }
+
+    async getAllTeamsOfACompanyService(companyName:string):Promise<TeamEntity[]>
+    {
+      return this.queryBus.execute(new GetAllTeamsOfACompany(companyName));
     }
 
     async AssignHours(UserEmail:string,Hours:number)
