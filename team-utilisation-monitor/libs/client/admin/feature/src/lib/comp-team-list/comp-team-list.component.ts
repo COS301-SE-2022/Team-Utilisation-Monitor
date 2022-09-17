@@ -4,13 +4,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { CompAddTeamMemberPopupComponent } from '../comp-add-team-member-popup/comp-add-team-member-popup.component';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Select, Store } from '@ngxs/store';
+import { AddTeamMemberState } from '../states/team-members.state';
+import { Observable } from 'rxjs';
+import { TeamMember } from '../models/admin-team-member';
+import { RemoveTeamMember } from '../actions/mutate-remove-team-member.action';
+
+
 @Component({
   selector: 'team-utilisation-monitor-comp-team-list',
   templateUrl: './comp-team-list.component.html',
   styleUrls: ['./comp-team-list.component.scss'],
 })
 export class CompTeamListComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
+  
+  @Select(AddTeamMemberState.getTeamMembers)teamMembers$!:Observable<TeamMember[]>;
+  
+  constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar,private store:Store) {}
 
   @Input() Teams!:{teamName:string};
 
@@ -22,20 +32,21 @@ export class CompTeamListComponent implements OnInit {
 
   OutEmployeeName:any[]=[]
   TeamData:any
+  blackList:any[]=[];
 
   ngOnInit(): void {
     console.log();
 
+    type nameObject=
+    {
+      Name:string
+      Surname:string
+      Email:string
+      TeamName:string
+    }
+
     this.service.getTeamMembers(this.Teams.teamName).subscribe(data=>{
       this.TeamData=data;
-
-      type nameObject=
-      {
-        Name:string
-        Surname:string
-        Email:string
-        TeamName:string
-      }
 
       for(const requests of this.TeamData.data.GetTeamMembers)
       {
@@ -48,11 +59,54 @@ export class CompTeamListComponent implements OnInit {
       }
 
     })
+
+    this.teamMembers$.subscribe(data=>{
+      console.log(data);
+
+      let found=false;
+
+      if(data && data.length>0)
+      {
+        for(let i=0;i<data.length;++i)
+        {
+          found=false;
+          
+          for(let k=0;k<this.OutEmployeeName.length;++k)
+          {
+            if(data[i].email==this.OutEmployeeName[k].Email)
+            {
+              found=true;
+              break;
+            }
+          }
+
+          //blacklist some names so that they wo
+
+          if(found==false){ // it doesn't exist in the current OutEmployees array
+
+            const memberObj={} as nameObject
+            memberObj.Name=data[i].name;
+            memberObj.Surname=data[i].surname;
+            memberObj.Email=data[i].email;
+  
+            this.OutEmployeeName.push(memberObj);
+          }
+        }
+
+        for(let i=0;i<data.length;++i){
+          this.store.dispatch(new RemoveTeamMember({name:data[i].name,surname:data[i].surname,email:data[i].email}));
+        }
+      }
+
+     
+    })
+
   }
 
   onOpenAddTeamMemberClick(team_name:string){
     this.cookie.set("team_name",team_name);  //i'm saving the team name in the cookie
     this.matDialog.open(CompAddTeamMemberPopupComponent);
+
   }
 
   RemoveFromTeam(email:string){
@@ -64,6 +118,12 @@ export class CompTeamListComponent implements OnInit {
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
+
+      for(let i=0;i<this.OutEmployeeName.length;++i){
+        if(this.OutEmployeeName[i]!=null && this.OutEmployeeName[i].Email==email){
+          this.OutEmployeeName.splice(i,1);
+        }
+      }
 
     })
 
