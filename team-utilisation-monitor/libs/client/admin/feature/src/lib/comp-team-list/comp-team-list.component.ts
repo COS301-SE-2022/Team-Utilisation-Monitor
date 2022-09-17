@@ -3,13 +3,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CompAddTeamMemberPopupComponent } from '../comp-add-team-member-popup/comp-add-team-member-popup.component';
 import { CookieService } from 'ngx-cookie-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'team-utilisation-monitor-comp-team-list',
   templateUrl: './comp-team-list.component.html',
   styleUrls: ['./comp-team-list.component.scss'],
 })
 export class CompTeamListComponent implements OnInit {
-  constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService) {}
+  constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
 
   @Input() Teams!:{teamName:string};
 
@@ -26,32 +27,47 @@ export class CompTeamListComponent implements OnInit {
     console.log();
 
     this.service.getTeamMembers(this.Teams.teamName).subscribe(data=>{
-        this.TeamData=data;
+      this.TeamData=data;
 
-        type nameObject=
-        {
-          Name:string
-          Surname:string
-          Email:string
-          TeamName:string
-        }
+      type nameObject=
+      {
+        Name:string
+        Surname:string
+        Email:string
+        TeamName:string
+      }
 
-        for(const requests of this.TeamData.data.GetTeamMembers)
-        {
-          const  obj={} as nameObject;
-          obj.Name=requests.name;
-          obj.Surname=requests.surname;
-          obj.Email=requests.email;
-          obj.TeamName=this.Teams.teamName;
-          this.OutEmployeeName.push(obj);
-        }
+      for(const requests of this.TeamData.data.GetTeamMembers)
+      {
+        const  obj={} as nameObject;
+        obj.Name=requests.name;
+        obj.Surname=requests.surname;
+        obj.Email=requests.email;
+        obj.TeamName=this.Teams.teamName;
+        this.OutEmployeeName.push(obj);
+      }
 
-      })
+    })
   }
 
   onOpenAddTeamMemberClick(team_name:string){
     this.cookie.set("team_name",team_name);  //i'm saving the team name in the cookie
     this.matDialog.open(CompAddTeamMemberPopupComponent);
+  }
+
+  RemoveFromTeam(email:string){
+    console.log(email);
+
+    this.service.DeleteTeamMember(this.Teams.teamName,email).subscribe(Data=>
+    {
+      this.snackBar.open("Member has been removed from " + this.Teams.teamName)
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+
+    })
+
+
   }
 
 
