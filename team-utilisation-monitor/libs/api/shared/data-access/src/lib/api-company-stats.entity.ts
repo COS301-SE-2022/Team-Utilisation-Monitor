@@ -18,5 +18,8 @@ export class CompanyStatsEntity{
     @Field()
     Utilization?:number
 
+    @Field()
+    numCompleteProjects?:number;
+
 
 }

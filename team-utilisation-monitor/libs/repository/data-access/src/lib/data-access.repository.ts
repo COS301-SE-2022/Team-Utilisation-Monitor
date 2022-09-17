@@ -3,7 +3,7 @@ import { Person, Status } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { ErrorStrings, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
@@ -12,7 +12,7 @@ import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
 @Injectable()
 export class DataAccessRepository {
 
-    constructor(private readonly prisma:PrismaService, ){}
+    constructor(private readonly prisma:PrismaService){}
 
     async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,company_id:number)
     {
@@ -109,8 +109,6 @@ export class DataAccessRepository {
               return null;
             }
           }
-
-
       }
 
     }
@@ -359,17 +357,18 @@ export class DataAccessRepository {
      * The database
      */
 
-    async createUser(f_name:string,f_surname:string,f_email:string,inviteLink:string):Promise<UserPerson|null>
+    async createUser(f_name:string,f_surname:string,f_email:string,inviteLink:string):Promise<UserPerson>
     {
         //use the invitation link to get the company id
 
-       // console.log("in repository layer!!")
+        const return_user=new UserPerson(); 
 
         const local_company_id=await this.verifyCode(inviteLink);
-        const company_name=(await this.getCompanyVID(local_company_id)).company_name;
 
         if(local_company_id>0) //link is valid
         {
+          const company_name=(await this.getCompanyVID(local_company_id)).company_name;
+          
           try
           {
 
@@ -382,7 +381,7 @@ export class DataAccessRepository {
                 }
             })
 
-            const return_user=new UserPerson();
+            
 
             return_user.id=new_user.id;
             return_user.name=new_user.name;
@@ -392,6 +391,7 @@ export class DataAccessRepository {
             return_user.company_id=local_company_id;
             return_user.role=new_user.role;
             return_user.utilisation=new_user.utilisation;
+            return_user.error_string=ErrorStrings.NONE;
 
             //DEV Note: There's no need to add the user to the company relation. Prisma magic
 
@@ -401,14 +401,15 @@ export class DataAccessRepository {
           {
             if(e instanceof Prisma.PrismaClientKnownRequestError)
             {
-              console.log("Email duplicates");
-              return null;
+              return_user.error_string=ErrorStrings.DUPLICATE_EMAIL;
+              return return_user;
             }
           }
         }
         else
         {
-          return null;  //Link does not exist
+          return_user.error_string= ErrorStrings.INVALID_INVITE_CODE;  //Link does not exist
+          return return_user;
         }
 
 
@@ -903,6 +904,7 @@ export class DataAccessRepository {
         let numTeams=0;
         let numEmployees=0;
         let numAdmins=0;
+        let numCompleteProjects=0;
 
         if(company_object)
         {
@@ -912,10 +914,18 @@ export class DataAccessRepository {
 
             for(let i=0;i<company_object.employees.length;++i)
             {
-                if(company_object.employees[i].role==Role.ADMIN)
-                {
-                    ++numAdmins;
-                }
+              if(company_object.employees[i].role==Role.ADMIN)
+              {
+                ++numAdmins;
+              }
+            }
+
+            
+
+            for(let i=0;i<company_object.projects.length;++i){
+              if(company_object.projects[i].completed==true){
+                ++numCompleteProjects;
+              }
             }
 
             const return_stats=new CompanyStatsEntity();
@@ -925,6 +935,7 @@ export class DataAccessRepository {
             return_stats.numEmployees=numEmployees;
             return_stats.numAdmins=numAdmins;
             return_stats.Utilization=await this.companyOveralUtilisation();
+            return_stats.numCompleteProjects=numCompleteProjects;
 
             return return_stats;
 
@@ -1226,14 +1237,15 @@ export class DataAccessRepository {
             {
                 for(let i=0;i<company.projects.length;++i)
                 {
-                    const project=new ProjectEntity();
+                  const project=new ProjectEntity();
 
-                    project.id=company.projects[i].id;
-                    project.project_name=company.projects[i].project_name;
-                    project.ownwer_id=company.projects[i].owner_id;
-                    project.man_hours=company.projects[i].man_hours
+                  project.id=company.projects[i].id;
+                  project.project_name=company.projects[i].project_name;
+                  project.ownwer_id=company.projects[i].owner_id;
+                  project.man_hours=company.projects[i].man_hours;
+                  project.completed=company.projects[i].completed;
 
-                    projects_arr.push(project);
+                  projects_arr.push(project);
                 }
             }
 
@@ -3388,7 +3400,7 @@ export class DataAccessRepository {
 
     async completeProject(projectName:string):Promise<string>
     {
-      //
+      
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 
@@ -3432,6 +3444,36 @@ export class DataAccessRepository {
       )
         return "Delete Project"
     }
+
+    /***
+     * Use this function to get all the teams in the company and their members and all
+     * details associated with the teams
+    */
+
+    async getAllTeamsAndTheirMembers(companyName:string):Promise<any>
+    {
+      const company_id=await this.getCompanyID(companyName);
+      let teams:TeamEntity[]=[];
+
+      if(company_id>0){
+        return await this.prisma.team.findMany(
+          {
+            where:{
+              company_id:company_id,
+            }
+          }
+        )
+      }
+      else{//company doesn't exist
+        teams[0]=new TeamEntity();
+        teams[0].error_string=ErrorStrings.COMPANY_DOESNT_EXIST;
+        return teams;
+      }
+    }
+
+    /***
+     * Use this function to get all the teams working on a project.
+    */
 
     async GetTeams(projectName:string):Promise<TeamEntity[]>
     {

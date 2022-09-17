@@ -80,6 +80,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
                     setTimeout(() => {
                       this.snackBar.dismiss();
                     }, 5000)
+                    // alert(Data.data.CalculateUtilization)
                   }
                 )
               }
