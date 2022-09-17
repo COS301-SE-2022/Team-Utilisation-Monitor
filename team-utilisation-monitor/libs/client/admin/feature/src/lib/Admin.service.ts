@@ -319,6 +319,10 @@ export class AdminService {
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  /***
+   * Removes teamMember from a team
+  */
+
   DeleteTeamMember(teamName:string,email:string):Observable<any>
   {
     const token=this.cookie.get("token");
@@ -332,6 +336,10 @@ export class AdminService {
     }
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
+
+  /***
+   * Permanently removes employee from the system. 
+  */
 
   DeleteEmployee(email:string):Observable<any>
   {

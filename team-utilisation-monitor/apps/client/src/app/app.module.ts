@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule} from '@ngxs/devtools-plugin'
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin'
-import { AddProjectState, AddSkillState, AddTeamMemberState, AddTeamState, IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client/admin/feature';
+import { AddProjectState, AddSkillState, AddTeamMemberState, AddTeamState, EmployeesState, IncreaseNumberOfEmployeesState } from '@team-utilisation-monitor/client/admin/feature';
 import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/admin/feature';
 import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -41,6 +41,7 @@ import { IncreaseNumberOfClosedProjectsState } from '@team-utilisation-monitor/c
       AddSkillState,
       IncreaseNumberOfClosedProjectsState,
       AddTeamMemberState,
+      EmployeesState,
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot()

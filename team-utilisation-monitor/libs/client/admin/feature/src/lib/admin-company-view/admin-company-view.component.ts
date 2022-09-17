@@ -21,8 +21,6 @@ export class AdminCompanyViewComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit(): void {
-    console.log();
-   // this.adminName=this.cookie.get("UserName");
 
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getCompany(this.companyName).subscribe(data=>{
@@ -53,7 +51,6 @@ export class AdminCompanyViewComponent implements OnInit {
             obj.Surname=requests.surname;
             obj.Email=requests.email;
             obj.WeeklyHours=requests.weekly_Hours;
-            console.log(obj.WeeklyHours)
             this.OutEmployeeName.push(obj);
           }
         }
