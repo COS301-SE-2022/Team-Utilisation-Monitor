@@ -3656,4 +3656,40 @@ export class DataAccessRepository {
       return await (await this.GetCompanyUtilization()).Utilisation
     }
 
+    async RecomendedTeams(numberOfPeople:number,experience:number,skill:string,utilization:number):Promise<TeamEntity[]>
+    {
+
+      if(skill!=null)
+      {
+
+        try{
+          const people=await this.prisma.person.findMany(
+            {
+              where:
+              {
+                utilisation:
+                {
+                  lte:80,   //Return all users that are underUtized
+                },
+              },
+              orderBy:
+              {
+                utilisation:'asc'
+              }
+            }
+          )
+
+        }
+        catch(e)
+        {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Team Name Duplicate");
+              return null;
+            }
+            return null;
+        }
+      }
+    }
+
 }
