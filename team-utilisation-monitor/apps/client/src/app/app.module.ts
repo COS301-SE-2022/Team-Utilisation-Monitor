@@ -18,7 +18,7 @@ import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/
 import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IncreaseNumberOfClosedProjectsState } from '@team-utilisation-monitor/client/admin/feature';
-import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
       AddTeamState,
       AddSkillState,
       IncreaseNumberOfClosedProjectsState,
-      AddTeamMemberState
+      AddTeamMemberState,
     ]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot()

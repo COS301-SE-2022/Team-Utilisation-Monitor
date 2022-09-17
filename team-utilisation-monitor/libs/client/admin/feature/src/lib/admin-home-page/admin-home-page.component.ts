@@ -116,9 +116,6 @@ export class AdminHomePageComponent implements OnInit {
         this.dynamicClosedProjects=data5;
       })
 
-      console.log("ASIE");
-      console.log(this.nrOfClosedProjects);
-
       this.adminService.getSkills().subscribe(data=>{
         this.skillsData=data;
   

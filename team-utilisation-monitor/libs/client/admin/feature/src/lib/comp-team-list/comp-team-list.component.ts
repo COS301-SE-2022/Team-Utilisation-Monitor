@@ -65,6 +65,12 @@ export class CompTeamListComponent implements OnInit {
         this.snackBar.dismiss();
       }, 5000)
 
+      for(let i=0;i<this.OutEmployeeName.length;++i){
+        if(this.OutEmployeeName[i]!=null && this.OutEmployeeName[i].Email==email){
+          this.OutEmployeeName.splice(i,1);
+        }
+      }
+
     })
 
 
