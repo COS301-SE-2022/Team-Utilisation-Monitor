@@ -8,6 +8,7 @@ import { AddSkill } from '../actions/mutate-add-skill.action';
 import { Observable } from 'rxjs';
 import { Skill } from '../models/admin-skill';
 import { AddSkillState } from '../states/skills.state';
+import { RemoveSkill } from '../actions/mutate-remove-skill.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-skills-popup',
@@ -21,6 +22,8 @@ export class CompAddSkillsPopupComponent implements OnInit {
   skillsList: string[] = [];
   skillsData:any;
   skillName:any;
+
+  selectedSkills:string[]=[];
   
 
   addSkillForm=new FormGroup({
@@ -30,21 +33,39 @@ export class CompAddSkillsPopupComponent implements OnInit {
   constructor(private service:AdminService, private snackBar: MatSnackBar,private store:Store) { }
 
   ngOnInit(): void {
-    this.skills$.subscribe((data: any)=>{
-      for(let i=0;i<data.length;++i){
-        if(!this.checkDuplicateSkill(data[i].skillName))
-          this.skillsList.push(data[i].skillName);
+
+    this.service.getSkills().subscribe(data=>{
+      this.skillsData=data;
+
+      for(let i=0;i<this.skillsData.data.GetSkill.length;++i)
+      {
+        this.skillsList[i]=this.skillsData.data.GetSkill[i].skill;
       }
+    })
+
+
+
+    this.skills$.subscribe((data: any)=>{
+
+      if(data!=null && data.length>0)
+      {
+        for(let i=0;i<data.length;++i){
+          this.skillsList.push(data[i].skillName)
+        }
+
+         //dump the contents of the store
+
+        for(let i=0;i<data.length;++i){
+          this.store.dispatch(new RemoveSkill({skillName:data[i].skillName}));
+        }
+      }
+
+     
     })    
   }
 
-  checkDuplicateSkill(skill:string):boolean{
-    for(let i=0;i<this.skillsList.length;++i){
-      if(this.skillsList[i]==skill){
-        return true; //duplicate
-      }
-    }
-    return false; //no duplicate skill
+  func(){
+    console.log(this.selectedSkills);
   }
 
   AddSkill()

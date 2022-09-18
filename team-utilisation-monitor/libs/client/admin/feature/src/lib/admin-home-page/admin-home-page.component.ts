@@ -116,14 +116,7 @@ export class AdminHomePageComponent implements OnInit {
         this.dynamicClosedProjects=data5;
       })
 
-      this.adminService.getSkills().subscribe(data=>{
-        this.skillsData=data;
-  
-        for(let i=0;i<this.skillsData.data.GetSkill.length;++i)
-        {
-          this.store.dispatch(new AddSkill({skillName:this.skillsData.data.GetSkill[i].skill}));
-        }
-      })
+      
 
       
       
