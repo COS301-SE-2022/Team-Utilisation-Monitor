@@ -1946,7 +1946,12 @@ export class DataAccessRepository {
 
     }
 
-    async RemoveSkill(skillType:string):Promise<string>
+    /***
+     * Function returns true if the skill has been successfully defeated.
+     * And false if not successfully deleted.
+     */
+
+    async RemoveSkill(skillType:string):Promise<boolean>
     {
       try
       {
@@ -1957,13 +1962,13 @@ export class DataAccessRepository {
           }
         })
 
-        return "Skill Deleted"
+        return true;
       }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
         {
-          return "Skill Deletion went wrong"
+          return false;
         }
       }
     }
