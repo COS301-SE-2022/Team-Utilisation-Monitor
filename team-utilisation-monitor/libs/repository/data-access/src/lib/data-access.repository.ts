@@ -1879,6 +1879,12 @@ export class DataAccessRepository {
         return "Team Member DELETED"
     }
 
+
+    /***
+     * Permanantly removes employee from the system.
+     * 
+     */
+
     async deleteEmployee(Email:string):Promise<Person>
     {
       const empl_id= (await this.getUserIDVEmail(Email)).id;
