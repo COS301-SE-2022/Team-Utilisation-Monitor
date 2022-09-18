@@ -25,7 +25,8 @@
         <div class="DivContent">
             <h2>Current Skills in the company</h2>
             <mat-selection-list #skills>
-                <mat-list-option *ngFor="let skill of skillsList">
+                <mat-list-option #skill  *ngFor="let skill of skillsList" [(ngModel)]="selectedSkills"
+                [ngModelOptions]="{standalone:true}" ngDefaultControl [value]="skill" (click)="func()">
                     {{skill}}
                 </mat-list-option>
             </mat-selection-list>
