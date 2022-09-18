@@ -19,10 +19,29 @@ import { AssignHoursHandler } from './AssignHours.handler';
 import { CalculateUtilizationHandler } from './CalculateUtilisation.handler';
 import { SetTokeHandler } from './set-token.handler';
 import { VerifyTokenHandler } from './verify-token.handler';
+import { RemoveSkillHandler } from './remove-skills.handler';
 
 export const CommandHandlers=[
-  ApproveRequestVEmailHandler,CreateAdminHandler,CreateTeamHandler,CreateProjectHandler,
-  CreateCompanyHandler,CreateUserHandler,CreateInviteCodeHandler,AddTeamMemberHandler,DeleteTeamMemberHandler,
-  DeleteEmployeeHandler,AddSkillHandler,UpdateProfileHandler,AssignProjectToTeamHandler,AssignProjectToTeamVNamesHandler,
-  UpdateUserSkillHandler,AssignHoursHandler,CalculateUtilizationHandler,CompleteProjectHandler,DeleteProjectHandler,SetTokeHandler,VerifyTokenHandler
+  ApproveRequestVEmailHandler,
+  CreateAdminHandler,
+  CreateTeamHandler,
+  CreateProjectHandler,
+  CreateCompanyHandler,
+  CreateUserHandler,
+  CreateInviteCodeHandler,
+  AddTeamMemberHandler,
+  DeleteTeamMemberHandler,
+  DeleteEmployeeHandler,
+  AddSkillHandler,
+  UpdateProfileHandler,
+  AssignProjectToTeamHandler,
+  AssignProjectToTeamVNamesHandler,
+  UpdateUserSkillHandler,
+  AssignHoursHandler,
+  CalculateUtilizationHandler,
+  CompleteProjectHandler,
+  DeleteProjectHandler,
+  SetTokeHandler,
+  VerifyTokenHandler,
+  RemoveSkillHandler,
 ];

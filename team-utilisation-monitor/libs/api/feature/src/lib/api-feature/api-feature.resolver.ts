@@ -640,6 +640,21 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>String)
+  async removeSkill(@Args("skill_name")skill_name:string,@Args("email") email:string,@Args("token")token:string){
+    const verification=await this.VerifyToken(email,token);
+    
+    if(verification){
+      return await this.service.DeleteSkill(skill_name);
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+    
+  }
+
+  @Mutation(()=>String)
   async UpdateUserSkill(@Args("email") UserEmail:string,@Args("skillName") skillName:string,@Args("token")token:string)
   {
     return await this.service.UpdateUserSkill(UserEmail,skillName)

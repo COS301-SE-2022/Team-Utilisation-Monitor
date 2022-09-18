@@ -357,7 +357,7 @@ export class AdminService {
 
   AddSkill(skillName:string):Observable<any>
   {
-    console.log("AddSkill admin service");
+    
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
@@ -369,6 +369,21 @@ export class AdminService {
     }
 
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  removeSkill(skill_name:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{removeSkill(skill_name:"'+skill_name+'",token:"'+token+'",email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   CalculateUtilization(projectName:string):Observable<any>

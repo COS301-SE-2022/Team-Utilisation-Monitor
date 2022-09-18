@@ -53,7 +53,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
           this.skillsList.push(data[i].skillName)
         }
 
-         //dump the contents of the store
+        //dump the contents of the store
 
         for(let i=0;i<data.length;++i){
           this.store.dispatch(new RemoveSkill({skillName:data[i].skillName}));
@@ -64,7 +64,10 @@ export class CompAddSkillsPopupComponent implements OnInit {
     })    
   }
 
-  func(){
+  //test function
+  func(skill:string){
+    console.log("In func()");
+    console.log(skill);
     console.log(this.selectedSkills);
   }
 
@@ -92,6 +95,49 @@ export class CompAddSkillsPopupComponent implements OnInit {
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
+    }
+  }
+
+  removeSkill()
+  {
+    if(this.selectedSkills.length>0){
+
+      let out="";
+
+      for(let i=0;i<this.selectedSkills.length;++i)
+      {
+        this.service.removeSkill(this.selectedSkills[i]).subscribe(item=>{
+          
+          if(item.data.removeSkill)
+          {
+            console.log("True");
+            console.log("I''m here");
+
+            if(i!=this.selectedSkills.length-1)
+              out=out+this.selectedSkills[i]+", ";
+            else
+              out=out+this.selectedSkills[i];
+
+            //remove from the skillsList
+           
+
+            for(let k=0;k<this.skillsList.length;++k){
+              if(this.selectedSkills[i]==this.skillsList[k]){
+                
+                this.skillsList.splice(k,1);
+              }
+            }
+
+            this.selectedSkills.splice(i,1);
+          }
+
+          this.snackBar.open("Successfully removed skill(s): "+out);
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 2000)
+
+        })
+      }
     }
   }
 
