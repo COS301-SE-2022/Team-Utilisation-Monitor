@@ -18,6 +18,7 @@ import { IncreaseNumberOfProjectsState } from '@team-utilisation-monitor/client/
 import { IncreaseNumberOfTeamsState } from '@team-utilisation-monitor/client/admin/feature';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IncreaseNumberOfClosedProjectsState } from '@team-utilisation-monitor/client/admin/feature';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -31,6 +32,7 @@ import { IncreaseNumberOfClosedProjectsState } from '@team-utilisation-monitor/c
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    CommonModule,
 
     NgxsModule.forRoot([
       IncreaseNumberOfEmployeesState,
