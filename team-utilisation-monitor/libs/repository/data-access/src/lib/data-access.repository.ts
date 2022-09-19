@@ -358,14 +358,14 @@ export class DataAccessRepository {
     {
         //use the invitation link to get the company id
 
-        const return_user=new UserPerson(); 
+        const return_user=new UserPerson();
 
         const local_company_id=await this.verifyCode(inviteLink);
 
         if(local_company_id>0) //link is valid
         {
           const company_name=(await this.getCompanyVID(local_company_id)).company_name;
-          
+
           try
           {
 
@@ -378,7 +378,7 @@ export class DataAccessRepository {
                 }
             })
 
-            
+
 
             return_user.id=new_user.id;
             return_user.name=new_user.name;
@@ -887,7 +887,7 @@ export class DataAccessRepository {
             console.log(error);
           }
         }
-          
+
       }
       else{
         try {
@@ -990,7 +990,7 @@ export class DataAccessRepository {
               }
             }
 
-            
+
 
             for(let i=0;i<company_object.projects.length;++i){
               if(company_object.projects[i].completed==true){
@@ -1150,6 +1150,9 @@ export class DataAccessRepository {
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
     {
+
+      try
+      {
         const person=await this.prisma.person.findUnique({
             where:{
                 email:arg_email,
@@ -1161,10 +1164,6 @@ export class DataAccessRepository {
             }
         })
 
-        //console.log(person);
-
-        if(person)
-        {
             let local_project:string;
             let local_company:string;
             let title:string;
@@ -1188,16 +1187,19 @@ export class DataAccessRepository {
                 else
                   title=person.position.title;
 
-
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
-
             return return_user;
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "Email not found"
         }
-        else
-            throw new NullException().stack;
+      }
     }
 
 
@@ -1940,7 +1942,7 @@ export class DataAccessRepository {
 
     /***
      * Permanantly removes employee from the system.
-     * 
+     *
      */
 
     async deleteEmployee(Email:string):Promise<Person>
@@ -3484,7 +3486,7 @@ export class DataAccessRepository {
 
     async completeProject(projectName:string):Promise<string>
     {
-      
+
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 
@@ -3538,7 +3540,7 @@ export class DataAccessRepository {
     {
       console.log("Data Access repo");
       const company_id=await this.getCompanyID(companyName);
-      
+
 
       if(company_id>0){
         return await this.prisma.team.findMany(
@@ -3739,7 +3741,7 @@ export class DataAccessRepository {
               {
                 utilisation:
                 {
-                  lte:80,   //Return all users that are underUtized
+                  lte:80,   //Return all users that are underUtized in ascending order ,meaning the least utilized
                 },
               },
               orderBy:
