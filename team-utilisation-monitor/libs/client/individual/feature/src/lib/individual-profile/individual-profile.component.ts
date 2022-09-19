@@ -36,9 +36,9 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=[] //['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
-  newSkills: string[]=['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
+  newSkills: string[]=[] //['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
   lastName="Thane";
   email="gift@gmail.co.za";
