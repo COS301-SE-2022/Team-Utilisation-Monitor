@@ -40,13 +40,15 @@
                 <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
                 <!-- <button mat-icon-button (click)="showInfo(link)">
                 </button> -->
-                <div class="hoursDiv">
-                  <input class="hours" type="number" placeholder="experience">
-                  <button class="primary">s</button>
-                    
-                </div>
+                <form>
+                  <div class="hoursDiv">
+                    <input class="hours" type="number" placeholder="experience">
+                   <!-- <button class="primary">s</button> -->
+                  </div>
+                </form>
+                
               </mat-list-item>
-              <button class="primary">s</button>
+          
               <div class="button">
                 <button mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
               </div>
