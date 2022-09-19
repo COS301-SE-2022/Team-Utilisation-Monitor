@@ -12,13 +12,13 @@
                         <br>
 
                         <mat-form-field appearance="fill">
-                        <mat-label>Weekly hours assigned to the project</mat-label>
-                        <input id="Team_Name" matInput placeholder="Hours" formControlName="manHours">
+                            <mat-label>Weekly hours assigned to the project</mat-label>
+                            <input id="Team_Name" matInput placeholder="Hours" formControlName="manHours">
                         </mat-form-field>
                         <br>
                         <button type="submit" mat-raised-button color="primary" [disabled]="!projectForm.valid">Create Project</button>
                         <p>
-                            Options selected: {{name.selectedOptions.selected.length}}
+                            Number of Teams selected: {{name.selectedOptions.selected.length}}
                         </p>
                         <p>
                         Teams can also be added to the project via the Team/Project View or via the Suggested Teams Tab
@@ -37,9 +37,49 @@
                     </div>
             </mat-grid-tile>
         </mat-grid-list>
-        
     </mat-tab>
     <mat-tab label="Suggested Team for the Project">
-        <p>Suggested Teams Tab</p>
+        <mat-grid-list cols="2" Height="100%">
+            Select options for your Project and a custom team that suits the description will be generated for you.
+            <mat-grid-tile>
+                <div class="DivContent">
+                    <form [formGroup]="TeamForm" (ngSubmit)="onSubmit()">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter Project name</mat-label>
+                            <input id="Project_Name" matInput placeholder="Project" formControlName="projectName">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter Weekly Hours</mat-label>
+                            <input id="Project_Hours" matInput placeholder="Hours" formControlName="projectHours">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter Number of Members Required for the Project</mat-label>
+                            <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="projectMemNumber">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Skills Required for the Project</mat-label>
+                            <input id="Project_Skills" matInput placeholder="Skills Required for the Project" formControlName="projectSkills">
+                        </mat-form-field>
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!TeamForm.valid">Generate Custom Team</button>
+                    </form>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <div class="DivContent">
+                    <form (ngSubmit)="onSubmit()">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Give your Team a Name</mat-label>
+                            <input id="Project_TeamName" matInput placeholder="Team Name" formControlName="projectTeamName">
+                        </mat-form-field>
+                        <mat-selection-list id="MemberName" #MemberName [(ngModel)]="selectedMembers" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
+                            <mat-list-option *ngFor="let MemberName of MembersNames" [value]="MemberName" [selected]="true">
+                                {{MemberName}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                        <button type="submit" mat-raised-button color="primary">Save Team and add to new Project</button>
+                    </form>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
     </mat-tab>
 </mat-tab-group>
