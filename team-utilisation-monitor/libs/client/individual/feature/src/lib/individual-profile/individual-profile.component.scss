@@ -199,7 +199,7 @@ div{
 
 .mid{
   margin-top: 15%;
-  width: 98%;
+  width: 100%;
   overflow-y: auto;
   margin-left: -80%;
 }
@@ -207,7 +207,7 @@ div{
 .list{
   float: left;
   justify-content: start;
-  width: 90%;
+  width: 100%;
   cursor: pointer;
 }
 
@@ -247,6 +247,10 @@ mat-list-item:hover {
 
 mat-checkbox{
   vertical-align: sub;
+}
+
+.hours{
+  border: 5%;
 }
 
 //FOR SMALLER DEVICES
