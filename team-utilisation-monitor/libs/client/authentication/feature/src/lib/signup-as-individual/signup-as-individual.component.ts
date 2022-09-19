@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../Authentication.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-signup-as-individual',
@@ -27,7 +28,7 @@ export class SignupAsIndividualComponent implements OnInit {
   User:any
 
 
-  constructor(private service:AuthenticationService ,private router:Router) {}
+  constructor(private service:AuthenticationService ,private router:Router,private snackBar:MatSnackBar) {}
 
   onSubmit()
   {
@@ -39,39 +40,56 @@ export class SignupAsIndividualComponent implements OnInit {
       const email=this.profileForm.get('email')?.value!;
       const inviteCode=this.profileForm.get('Invitecode')?.value!;
 
-      console.log(firstname);
-
       if(this.profileForm.valid)
       {
 
         this.service.createUser(firstname,lastname,email,inviteCode).subscribe({
           next:(item)=>{
+
+            console.log(item);
+            
             if(item.data!=null){
 
-              /***
-               * I put this guy in here because of the validation issue regarding the 
-               * Invite code. It has to be valid.
-               */
-
-              //register on authentication DB
-              this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
+              if(item.data.createUser.error_string=="DUPLICATE_EMAIL")
               {
-                if(data!=null)
+                this.snackBar.open("User Already Exists")
+                setTimeout(() => {
+                this.snackBar.dismiss();
+                }, 5000)
+              }
+              else if(item.data.createUser.error_string=="INVALID_INVITE_CODE"){
+                this.snackBar.open("Invite link doesn't exist on our system")
+                setTimeout(() => {
+                this.snackBar.dismiss();
+                }, 5000)
+              }
+              else{
+                this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
                 {
-                  //some logic here
-                }
-                else{
-                  //console.log("data is null "+data);
-                  alert("Unable to register user. Returned null");
-                }
-              });
+                  if(data!=null)
+                  {
+                    this.snackBar.open("Registration successful. Welcome "+firstname+" "+lastname)
+                    setTimeout(() => {
+                    this.snackBar.dismiss();
+                    }, 5000)
 
-              this.router.navigate(['']);
+                    this.router.navigate(['']);
+                  }
+                  else{
+                    this.snackBar.open("API returned null")
+                    setTimeout(() => {
+                    this.snackBar.dismiss();
+                    }, 5000)
+                  }
+                });
+              }
             }
             else
             {
-              //console.log(item.data);
-              alert("something went wrong. Couldn't connect to main DB");
+              this.snackBar.open("Main Api returned null")
+              setTimeout(() => {
+              this.snackBar.dismiss();
+              }, 5000)
             }
           },
           error: (err)=>{console.log(err)}
@@ -80,11 +98,14 @@ export class SignupAsIndividualComponent implements OnInit {
     }
     else
     {
-      alert("Passwords are not matching!");
-      //console.log("Passwords not matching")
+      this.snackBar.open("Password do not Match")
+      setTimeout(() => {
+      this.snackBar.dismiss();
+      }, 5000)
     }
 
   }
+
   ngOnInit(): void {
     console.log();
   }

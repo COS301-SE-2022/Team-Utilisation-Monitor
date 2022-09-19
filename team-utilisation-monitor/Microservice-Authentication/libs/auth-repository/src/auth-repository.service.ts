@@ -32,7 +32,7 @@ export class AuthRepositoryService {
         if(existing_user!=null)
         {
 
-            console.log("Found");
+            console.log("User Already Exists");
             console.log(existing_user);
             
             returnObject.id=existing_user.id;
@@ -41,6 +41,7 @@ export class AuthRepositoryService {
             returnObject.token=existing_user.token;
             returnObject.name=existing_user.name;
             returnObject.surname=existing_user.surname;
+            returnObject.exists_person=true;
 
             return returnObject; //for testing purposes. Remove in production.
         }
@@ -90,6 +91,7 @@ export class AuthRepositoryService {
             returnObject.token=new_admin.token;
             returnObject.name=new_admin.name;
             returnObject.surname=new_admin.surname;
+            returnObject.exists_person=false;
 
             console.log(new_admin);
             console.log(returnObject)
@@ -121,8 +123,8 @@ export class AuthRepositoryService {
         if(existing_user!=null)
         {
 
-            console.log("Found");
-            console.log(existing_user);
+            console.log("Admin Already exists");
+            
             
             returnObject.id=existing_user.id;
             returnObject.username=existing_user.username;
@@ -130,6 +132,9 @@ export class AuthRepositoryService {
             returnObject.token=existing_user.token;
             returnObject.name=existing_user.name;
             returnObject.surname=existing_user.surname;
+            returnObject.exists_person=true;
+
+            console.log(returnObject);
 
             return returnObject; //for testing purposes. Remove in production.
         }
@@ -179,6 +184,7 @@ export class AuthRepositoryService {
             returnObject.token=new_admin.token;
             returnObject.name=new_admin.name;
             returnObject.surname=new_admin.surname;
+            returnObject.exists_person=false;
 
             console.log(new_admin);
             console.log(returnObject)

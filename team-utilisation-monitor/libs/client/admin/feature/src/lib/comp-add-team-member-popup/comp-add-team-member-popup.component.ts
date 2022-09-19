@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validate } from 'graphql';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngxs/store';
+import { AddTeamMember } from '../actions/mutate-add-team-member.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-team-member-popup',
@@ -12,11 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CompAddTeamMemberPopupComponent implements OnInit {
 
-  constructor(private service:AdminService,private cookie:CookieService, private snackBar: MatSnackBar) {}
+  constructor(private service:AdminService,private cookie:CookieService, private snackBar: MatSnackBar,private store:Store) {}
 
   @Input() TeamName!: { Name: string };
-
-  
 
   //employeeNames: string[] =[] //['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
   employeeObjects: any[] =[];
@@ -31,17 +31,20 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
 
   addTeamMembers(){
 
-    //console.log(this.cookie.get("team_name"));
-    //console.log(this.selectedEmployees);
-
+   if(this.selectedEmployees.length>0){
     for(let i=0;i<this.selectedEmployees.length;++i)
     {
       this.service.AddTeamMember(this.cookie.get("team_name"),this.selectedEmployees[i]).subscribe(
         data=>{
-          //some logic *1
+          for(let k=0;k<this.employeeObjects.length;++k){
+            if(this.employeeObjects[k].Email==this.selectedEmployees[i]){
+              this.store.dispatch(new AddTeamMember({name:this.employeeObjects[k].Name,surname:this.employeeObjects[k].Surname,email:this.employeeObjects[k].Email}))
+            }
+          }
         }
       )
     }
+   }
 
     if(this.selectedEmployees.length == 0){
       this.snackBar.open("Please Select at least one Employee to add to" + this.cookie.get("team_name"));
