@@ -29,7 +29,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="mat-card1">s
+        <mat-card class="mat-card1">
           <mat-card-header>
             <mat-card-title>Current Skills</mat-card-title>
           </mat-card-header>
@@ -40,8 +40,13 @@
                 <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
                 <!-- <button mat-icon-button (click)="showInfo(link)">
                 </button> -->
-                <div >
-                  <input class="hours" type="number" placeholder="years of experience">
+                <div class="hoursDiv">
+                  <input class="hours" type="number" placeholder="experience">
+                </div>
+
+                <div class="hoursDiv">
+                  <button class="primary">confirm</button>
+                  
                 </div>
               </mat-list-item>
             </mat-nav-list>
