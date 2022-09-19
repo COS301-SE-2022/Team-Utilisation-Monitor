@@ -40,11 +40,13 @@
                 <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
                 <!-- <button mat-icon-button (click)="showInfo(link)">
                 </button> -->
-                <div class="hoursDiv">
-                  <input class="hours" type="number" placeholder="experience">
-                  <button class="primary">s</button>
-                  
-                </div>
+    
+                  <mat-form-field>
+                    <mat-label></mat-label>
+                    <input placeholder="Just a placeholder">
+                  </mat-form-field>
+                    
+              
               </mat-list-item>
             </mat-nav-list>
           </mat-card-content>
