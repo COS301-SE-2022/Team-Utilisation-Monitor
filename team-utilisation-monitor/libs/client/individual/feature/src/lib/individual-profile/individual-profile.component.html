@@ -158,7 +158,6 @@
                         <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                           <mat-list-option *ngFor="let name of newSkills" [value]="name">
                             <div class="skillAndExperience">
-                              
                               <div class="skill">
                                 {{name}}
                               </div>

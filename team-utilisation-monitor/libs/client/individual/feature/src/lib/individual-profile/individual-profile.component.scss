@@ -232,6 +232,12 @@ div{
   margin: 0 auto;
   overflow-y: auto;
 }
+
+.skillAndExperience{
+  display:flex;
+  justify-content: space-evenly;
+
+}
 mat-list-item:hover {
   color: rgb(41, 80, 152);
   font-size: large;
