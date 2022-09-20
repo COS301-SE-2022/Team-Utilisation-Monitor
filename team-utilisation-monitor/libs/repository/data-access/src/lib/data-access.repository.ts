@@ -2567,6 +2567,7 @@ export class DataAccessRepository {
         }
       )
 
+
       //Project manHours/Numberofeams
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
 
@@ -2785,6 +2786,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);  //Update Team utilization
         }
         else
         {
@@ -2989,6 +2991,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);
         }
         else
         {
@@ -3736,6 +3739,58 @@ export class DataAccessRepository {
     async companyOveralUtilisation():Promise<number>
     {
       return await (await this.GetCompanyUtilization()).Utilisation
+    }
+
+    async CalculateAverageTeamUtilization(teamName:string)
+    {
+      const tID=(await this.prisma.team.findUnique(
+        {
+          where:
+          {
+            team_name:teamName
+          }
+        }
+      )).id
+
+      /** Get Members of a team*/
+      const Persons=await this.prisma.personOnTeams.findMany(
+        {
+          where:
+          {
+            team_id:tID
+          }
+        }
+      )
+
+      let avg=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        let personID=Persons[i].person_id
+        const util=(await this.prisma.person.findUnique(
+          {
+            where:{
+              id:personID
+            }
+          }
+        )).utilisation
+
+        avg+=util;
+      }
+
+      avg=avg/Persons.length;
+
+      await this.prisma.team.update(
+        {
+          where:
+          {
+            team_name:teamName
+          },
+          data:
+          {
+            utilisation:avg
+          }
+        }
+      )
     }
 
 
