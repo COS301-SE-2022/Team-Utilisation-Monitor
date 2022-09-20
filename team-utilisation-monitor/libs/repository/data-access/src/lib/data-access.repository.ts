@@ -1900,6 +1900,7 @@ export class DataAccessRepository {
         obj.name=person.name
         obj.surname=person.surname
         obj.email=person.email
+        obj.utilisation=person.utilisation
         members_Arr.push(obj)
       }
 
