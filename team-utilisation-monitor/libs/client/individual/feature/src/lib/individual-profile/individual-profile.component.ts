@@ -36,7 +36,7 @@ export class IndividualProfileComponent implements OnInit {
 
 
   boolshow = true;
-  currSkills: string[]=['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
+  currSkills: string[]=[]//['UX designing', 'UI Designing', 'unit testing', 'e2e testing', 'unit testing', 'e2e testing'];
 
   newSkills: string[]=[] //['UX designing', 'C++', 'Debugger','Front-end','Backend','C#','Database'];
   fName= "Faresa";
@@ -54,6 +54,7 @@ export class IndividualProfileComponent implements OnInit {
 
     const email=this.cookies.get("Email");
     this.companyName=this.cookies.get("CompanyName");
+    document.getElementById('submitID').disabled = true;
 
     this.result=this.service.getPersonDetails(email).subscribe({
       next:(item)=>{
