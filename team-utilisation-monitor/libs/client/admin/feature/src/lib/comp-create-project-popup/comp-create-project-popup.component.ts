@@ -19,11 +19,20 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
+  MembersNames:string[]=["awe","awe","awe","awe","awe"];
+  selectedMembers:string[]=[];
   teams:any;
 
   projectForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
     manHours:new FormControl('',[Validators.required]),
+  })
+
+  TeamForm=new FormGroup({
+    projectName:new FormControl('',[Validators.required]),
+    projectHours:new FormControl('',[Validators.required]),
+    projectMemNumber:new FormControl('',[Validators.required]),
+    projectSkills:new FormControl('',[Validators.required]),
   })
 
   companyName='';
@@ -80,6 +89,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
                     setTimeout(() => {
                       this.snackBar.dismiss();
                     }, 5000)
+                    // alert(Data.data.CalculateUtilization)
                   }
                 )
               }

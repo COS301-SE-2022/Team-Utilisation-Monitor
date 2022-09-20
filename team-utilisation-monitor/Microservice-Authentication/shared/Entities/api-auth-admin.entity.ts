@@ -15,6 +15,9 @@ export class AuthAdminEntity{
     @Field()
     surname:string;
 
+    @Field()
+    exists_person!:boolean;
+
     @Field({nullable:true})
     password?:string;
 
@@ -24,6 +27,5 @@ export class AuthAdminEntity{
     @Field({nullable:true})
     role?:string;
 
-    @Field()
-    exists!:boolean;
+    
 }

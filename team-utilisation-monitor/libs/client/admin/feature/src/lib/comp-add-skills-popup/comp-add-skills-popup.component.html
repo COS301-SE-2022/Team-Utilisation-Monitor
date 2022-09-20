@@ -14,7 +14,7 @@
             <hr width="95%">             
             <h2>Remove Skills</h2>
             <p>Select Skills from the right that you want to remove from the company</p>
-            <button mat-raised-button color="primary">Remove Selected Skills</button>
+            <button mat-raised-button color="primary" (click)="removeSkill()" >Remove Selected Skills</button>
             <p>
                 Options selected: {{skills.selectedOptions.selected.length}}
             </p>
@@ -24,8 +24,8 @@
     <mat-grid-tile>
         <div class="DivContent">
             <h2>Current Skills in the company</h2>
-            <mat-selection-list #skills>
-                <mat-list-option *ngFor="let skill of skillsList">
+            <mat-selection-list #skills  [(ngModel)]="selectedSkills" [ngModelOptions]="{standalone:true}" ngDefaultControl>
+                <mat-list-option *ngFor="let skill of skillsList" [value]="skill">
                     {{skill}}
                 </mat-list-option>
             </mat-selection-list>

@@ -30,23 +30,23 @@ export class AdminService {
         'Content-Type': 'application/json'
     })}
 
-    return this.client.post<any>("http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql",JSON.stringify({ query: Query}),options)
+    return this.client.post<any>("http://localhost:3333/graphql",JSON.stringify({ query: Query}),options)
   }
 
 
   getCompanyStats(companyName: string):Observable<any>
   {
-      const token=this.cookie.get("token");
-      const email=this.cookie.get("Email");
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
 
-      const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization}}'
-      const options = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-      }
+    const query='query{getCompanyStats(company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){numTeams,numAdmins,numProjects,numEmployees,Utilization,numCompleteProjects}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
 
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   getPendingRequests(companyName:string):Observable<any>
@@ -60,7 +60,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   getInviteCode(companyName:string):Observable<any>
@@ -74,7 +74,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   getAllTeamsOfACompany(companyName:string):Observable<any>
@@ -90,7 +90,7 @@ export class AdminService {
       })
     }
 
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -105,7 +105,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   GetUnderUtilizedEmps(cName:string):Observable<any>
@@ -119,7 +119,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   getSkills():Observable<any>
@@ -130,7 +130,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -144,7 +144,7 @@ export class AdminService {
       })
     }
     
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -160,7 +160,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -182,7 +182,7 @@ export class AdminService {
       })
     }
 
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
   }
 
@@ -197,7 +197,7 @@ export class AdminService {
       })
     }
 
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   GetTeamsOnProject(projectName:string):Observable<any>
@@ -212,7 +212,22 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  getTeamsOfACompanyWithTheirMembers(companyName:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{getAllTeamsOfAcompanyWithTheirMembers(email:"'+email+'",token:"'+token+'",company_name:"'+companyName+'"){ team_name,error_string,members{name,surname,email}}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   //MUTATIONS
@@ -229,7 +244,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
 
   }
 
@@ -244,7 +259,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
 
@@ -259,7 +274,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   createProject(projectName:string,companyName:string,teamName:string,manHours:number)
@@ -273,7 +288,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
 
   approveRequest(employeeEmail:string):Observable<any>
@@ -287,7 +302,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   AddTeamMember(teamName:string,email:string):Observable<any>
@@ -301,8 +316,12 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
+
+  /***
+   * Removes teamMember from a team
+  */
 
   DeleteTeamMember(teamName:string,email:string):Observable<any>
   {
@@ -315,8 +334,12 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
+
+  /***
+   * Permanently removes employee from the system. 
+  */
 
   DeleteEmployee(email:string):Observable<any>
   {
@@ -329,12 +352,12 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   AddSkill(skillName:string):Observable<any>
   {
-    console.log("AddSkill admin service");
+    
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
@@ -345,7 +368,22 @@ export class AdminService {
       })
     }
 
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  removeSkill(skill_name:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{removeSkill(skill_name:"'+skill_name+'",token:"'+token+'",email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   CalculateUtilization(projectName:string):Observable<any>
@@ -359,7 +397,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
 
@@ -376,7 +414,7 @@ export class AdminService {
       })
     }
 
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   CompleteProject(projectName:string):Observable<any>
@@ -390,7 +428,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
   DeleteProject(projectName:string):Observable<any>
@@ -404,7 +442,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://ec2-50-17-136-20.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
 }
