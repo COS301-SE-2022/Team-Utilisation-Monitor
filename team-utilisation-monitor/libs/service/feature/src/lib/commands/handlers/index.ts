@@ -1,3 +1,4 @@
+import { DeleteTeamHandler } from './DeleteTeam.handler';
 import { DeleteProjectHandler } from './DeleteProject.handler';
 import { CompleteProjectHandler } from './CompleteProject.handler';
 import { DeleteTeamMemberHandler } from './DeleteTeamMember.handler';
@@ -44,4 +45,5 @@ export const CommandHandlers=[
   SetTokeHandler,
   VerifyTokenHandler,
   RemoveSkillHandler,
+  DeleteTeamHandler
 ];

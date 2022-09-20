@@ -22,6 +22,7 @@ import { GetUserSkillsHandler } from "./GetUserSkills.handler";
 import { GetUserStatsHandler } from "./GetUserStats.handler";
 import { GetTeamsOnProjectHandler } from './GetTeamsOnProject.handler';
 import { GetAllTeamsOfACompanyHandler } from './get-all-Teams-Of-A-Company.handler';
+import { GetRecomendedTeamHandler } from './GetRecomendedTeam.handler';
 
 
 export const QueryHandlers=[
@@ -34,7 +35,7 @@ export const QueryHandlers=[
     GetOnePersonQueryHandler,
     LoginHandler,
     GetCompanyQueryHandler,
-    GetInviteCodeHandler, 
+    GetInviteCodeHandler,
     GetTeamMembersHandler,
     GetSkillsHandler,
     GetAllTeamsWorkingOnProjectHandler,
@@ -50,4 +51,5 @@ export const QueryHandlers=[
     GetCompanyUtilizationHandler,
     GetTeamsOnProjectHandler,
     GetAllTeamsOfACompanyHandler,
+    GetRecomendedTeamHandler
 ]
