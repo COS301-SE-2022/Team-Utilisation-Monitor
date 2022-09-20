@@ -106,7 +106,7 @@ export class ApiFeatureResolver {
 
   @Query(()=>[TeamEntity])
   async getAllTeamsOfAcompanyWithTheirMembers(@Args("email")email:string,@Args("token")token:string,@Args("company_name")companyName:string){
-    
+
     const verification=await this.VerifyToken(email,token);
 
     if(verification){
@@ -119,9 +119,9 @@ export class ApiFeatureResolver {
       status: HttpStatus.FORBIDDEN,
       error: 'Token cannot be verified',
     }, HttpStatus.FORBIDDEN);
-    
+
     }
-    
+
   }
 
   /***
@@ -642,7 +642,7 @@ export class ApiFeatureResolver {
   @Mutation(()=>String)
   async removeSkill(@Args("skill_name")skill_name:string,@Args("email") email:string,@Args("token")token:string){
     const verification=await this.VerifyToken(email,token);
-    
+
     if(verification){
       return await this.service.DeleteSkill(skill_name);
     }
@@ -651,7 +651,7 @@ export class ApiFeatureResolver {
       status: HttpStatus.FORBIDDEN,
       error: 'Token cannot be verified',
     }, HttpStatus.FORBIDDEN);
-    
+
   }
 
   @Mutation(()=>String)
@@ -816,6 +816,21 @@ export class ApiFeatureResolver {
 
     if(verification){
       return await this.service.DeleteTeam(teamName);
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+  @Query(()=>[UserPerson])
+  async GetRecomendedTeam(@Args("num_people") numberOfPeople:number,@Args("skill_name") skillName:string,@Args("token")token:string,@Args("email")email:string)
+  {
+    const verification=await this.service.verifyToken(email,token);
+
+    if(verification){
+      return await this.service.GetRecomendedTeam(numberOfPeople,skillName);
     }
     else
       throw new HttpException({

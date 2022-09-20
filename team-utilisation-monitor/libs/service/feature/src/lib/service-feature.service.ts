@@ -1,3 +1,4 @@
+import { GetRecomendedTeamQuery } from './queries/impl/GetRecomendedTeam.query';
 import { DeleteProjectCommand } from './commands/impl/DeleteProject.command';
 import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
 import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
@@ -310,5 +311,10 @@ export class ServiceFeatureService {
     async DeleteTeam(teamName:string)
     {
       return this.commandBus.execute(new DeleteTeamCommand(teamName));
+    }
+
+    async GetRecomendedTeam(numPeople:number,skillName:string)
+    {
+      return this.queryBus.execute(new GetRecomendedTeamQuery(numPeople,skillName))
     }
 }

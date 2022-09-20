@@ -3737,7 +3737,7 @@ export class DataAccessRepository {
 
 
     /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
-    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<TeamEntity[]>
+    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<UserPerson[]>
     {
 
      // if(skill!=null)
