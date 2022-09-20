@@ -31,11 +31,11 @@ export class CompTeamListComponent implements OnInit {
 
 
   OutEmployeeName:any[]=[]
-  TeamData:any
-  blackList:any[]=[];
+  TeamData:any;
+  
 
   ngOnInit(): void {
-    console.log();
+    
 
     type nameObject=
     {
@@ -80,7 +80,6 @@ export class CompTeamListComponent implements OnInit {
             }
           }
 
-          //blacklist some names so that they wo
 
           if(found==false){ // it doesn't exist in the current OutEmployees array
 
@@ -88,17 +87,19 @@ export class CompTeamListComponent implements OnInit {
             memberObj.Name=data[i].name;
             memberObj.Surname=data[i].surname;
             memberObj.Email=data[i].email;
+            memberObj.TeamName=data[i].teamName;
+
+            console.log("Kasper");
+            console.log(memberObj.TeamName);
   
             this.OutEmployeeName.push(memberObj);
           }
         }
 
         for(let i=0;i<data.length;++i){
-          this.store.dispatch(new RemoveTeamMember({name:data[i].name,surname:data[i].surname,email:data[i].email}));
+          this.store.dispatch(new RemoveTeamMember({name:data[i].name,surname:data[i].surname,email:data[i].email,teamName:this.Teams.teamName}));
         }
-      }
-
-     
+      }     
     })
 
   }
@@ -106,7 +107,6 @@ export class CompTeamListComponent implements OnInit {
   onOpenAddTeamMemberClick(team_name:string){
     this.cookie.set("team_name",team_name);  //i'm saving the team name in the cookie
     this.matDialog.open(CompAddTeamMemberPopupComponent);
-
   }
 
   RemoveFromTeam(email:string){
