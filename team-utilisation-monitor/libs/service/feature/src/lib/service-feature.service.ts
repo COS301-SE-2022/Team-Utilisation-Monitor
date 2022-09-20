@@ -1,3 +1,4 @@
+import { GetRecomendedTeamQuery } from './queries/impl/GetRecomendedTeam.query';
 import { DeleteProjectCommand } from './commands/impl/DeleteProject.command';
 import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
 import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
@@ -49,6 +50,7 @@ import { GetUtilizedEmployeesQuery } from './queries/impl/GetUnderUtilizedEmploy
 import { FunctionsService } from './functions/functions.service';
 import { SetTokenCommand } from './commands/impl/set-token.command';
 import { VerifyTokenCommand } from './commands/impl/verify-token.command';
+import { DeleteTeamCommand } from './commands/impl/DeleteTeam.command';
 import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
 import { RemoveSkillCommand } from './commands/impl/remove-skill.command';
 
@@ -304,5 +306,15 @@ export class ServiceFeatureService {
     async verifyToken(email:string,token:string):Promise<boolean>
     {
       return this.commandBus.execute(new VerifyTokenCommand(email,token));
+    }
+
+    async DeleteTeam(teamName:string)
+    {
+      return this.commandBus.execute(new DeleteTeamCommand(teamName));
+    }
+
+    async GetRecomendedTeam(numPeople:number,skillName:string)
+    {
+      return this.queryBus.execute(new GetRecomendedTeamQuery(numPeople,skillName))
     }
 }
