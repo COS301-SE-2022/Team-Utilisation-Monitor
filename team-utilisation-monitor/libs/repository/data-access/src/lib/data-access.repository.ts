@@ -780,19 +780,18 @@ export class DataAccessRepository {
 
     async setToken(f_email:string,token:string):Promise<boolean>
     {
-      console.log("data-access");
 
-      const p_id=(await this.getUserIDVEmail(f_email)).id;
-
-      if(p_id>0)
+      try
       {
-        const person=await this.prisma.person.findUnique({
-            where:{
-              email:f_email,
-            }
-        })
+        const p_id=(await this.getUserIDVEmail(f_email)).id;
 
-        if(person){
+        if(p_id>0)
+        {
+          const person=await this.prisma.person.findUnique({
+              where:{
+                email:f_email,
+              }
+          })
 
           if(person.active_Token=='null')
           {
@@ -816,13 +815,21 @@ export class DataAccessRepository {
           {
             return true;
           }
+
         }
         else
-          throw new NullException().stack;
+          console.log("Failed to find person");
 
       }
-      else
-        throw new Error("Failed to find person");
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          console.log("Person email can't be found on the db");
+          return false;
+        }
+      }
+
     }
 
     /***
@@ -3728,10 +3735,12 @@ export class DataAccessRepository {
       return await (await this.GetCompanyUtilization()).Utilisation
     }
 
-    async RecomendedTeams(numberOfPeople:number,experience:number,skill:string,utilization:number):Promise<TeamEntity[]>
+
+    /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
+    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<TeamEntity[]>
     {
 
-      if(skill!=null)
+     // if(skill!=null)
       {
 
         try{
@@ -3743,6 +3752,7 @@ export class DataAccessRepository {
                 {
                   lte:80,   //Return all users that are underUtized in ascending order ,meaning the least utilized
                 },
+
               },
               orderBy:
               {
@@ -3750,6 +3760,21 @@ export class DataAccessRepository {
               }
             }
           )
+
+          /*The least Utilized people are first in the array*/
+
+          let Peeps:UserPerson[]=[]
+
+          //filter based on skills
+         /* for(let i=0;i<people.length;i++)
+          {
+
+          }*/
+
+          //filter based on Utilization
+
+
+          //filter based on
 
         }
         catch(e)
