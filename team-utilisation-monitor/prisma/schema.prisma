@@ -166,6 +166,8 @@ model TeamsOnProjects{
   project Project @relation(fields: [project_id],references: [id])
   project_id Int
 
+  TeamHours Float @default(0)
+
 }
 
 //a project can be worked on mutliple users

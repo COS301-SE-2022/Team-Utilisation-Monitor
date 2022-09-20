@@ -143,7 +143,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    
+
    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
@@ -254,6 +254,20 @@ export class AdminService {
     const email=this.cookie.get("Email");
 
     const query='mutation{createTeam(team_name:"'+teamName+'",company_name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){members{id,name}}}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+  deleteTeam(teamName:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='mutation{createTeam(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'")'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
