@@ -61,7 +61,6 @@ export class CompTeamListComponent implements OnInit {
         this.value+=obj.Utilisation;
         this.OutEmployeeName.push(obj);
       }
-      console.log(this.value);
       this.value=this.value/this.OutEmployeeName.length;   //Average Team Utilization
 
     })
