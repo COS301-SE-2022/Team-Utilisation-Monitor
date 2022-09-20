@@ -192,12 +192,16 @@
                         <mat-nav-list class="list" #exp [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                           <mat-list-item *ngFor="let link of currSkills">
                             <a matLine >{{ link }}</a>      <!--redirect to a respective Team view here-->
-                            <form>
+                          
                               <div class="hoursDiv">
-                                <input class="hours" type="number" placeholder="experience" formControlName="experience">
+                               
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label for="exp">years</mat-label>
+                                  <input type="number" required minlength="4" matInput value={{fName}}>
+                                </mat-form-field>
                                <!-- <button class="primary">s</button> -->
                               </div>
-                            </form>
+                          
                           </mat-list-item>
                       <br>
           
