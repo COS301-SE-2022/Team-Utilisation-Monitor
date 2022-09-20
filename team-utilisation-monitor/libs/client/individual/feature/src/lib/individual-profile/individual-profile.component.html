@@ -189,7 +189,7 @@
                       </mat-expansion-panel-header>
 
                       <div class="setHeight">
-                        <mat-nav-list class="list">
+                        <mat-nav-list class="list" #exp [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                           <mat-list-item *ngFor="let link of currSkills">
                             <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
                             <!-- <button mat-icon-button (click)="showInfo(link)">
