@@ -47,7 +47,8 @@ export class SignupAsCompanyComponent implements OnInit {
       this.service.registerAdmin(firstname,lastname,email,password).subscribe({
         next:(item)=>{
 
-          if(item.data.registerAdminGateway!=null){
+          if(item!=null){
+
 
             if(item.data.registerAdminGateway.exists_person==true){ //user already exists
               this.snackbar.open("Admin Already Exists")
@@ -80,7 +81,7 @@ export class SignupAsCompanyComponent implements OnInit {
             }
           }
           else{
-            this.snackbar.open("Api Returned null")
+            this.snackbar.open("Admin Already exists")
             setTimeout(() => {
             this.snackbar.dismiss();
             }, 5000)
