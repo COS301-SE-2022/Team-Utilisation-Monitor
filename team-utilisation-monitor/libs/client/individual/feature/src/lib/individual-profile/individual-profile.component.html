@@ -46,7 +46,6 @@
                    <!-- <button class="primary">s</button> -->
                   </div>
                 </form>
-                
               </mat-list-item>
           <br>
               <div class="button2">
@@ -194,11 +193,24 @@
 
                       <div class="setHeight">
 
-                        <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
-                          <mat-list-option *ngFor="let name of currSkills" [value]="name">
-                            {{name}}
-                          </mat-list-option>
-                        </mat-selection-list>
+                        <mat-nav-list class="list">
+                          <mat-list-item *ngFor="let link of currSkills">
+                            <a matLine (click)="showInfo(link)">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                            <!-- <button mat-icon-button (click)="showInfo(link)">
+                            </button> -->
+                            <form>
+                              <div class="hoursDiv">
+                                <input class="hours" type="number" placeholder="experience">
+                               <!-- <button class="primary">s</button> -->
+                              </div>
+                            </form>
+                          </mat-list-item>
+                      <br>
+                          <div class="button2">
+                            <button type="submit" disabled="true" class="button2" id="submitID" mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
+                          </div><br>
+            
+                        </mat-nav-list>
                       </div>
                     </mat-expansion-panel>
                   </mat-accordion>
