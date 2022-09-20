@@ -1463,7 +1463,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             }
         });
         if (existing_user != null) {
-            console.log("Found");
+            console.log("User Already Exists");
             console.log(existing_user);
             returnObject.id = existing_user.id;
             returnObject.username = existing_user.username;
@@ -1471,9 +1471,10 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.token = existing_user.token;
             returnObject.name = existing_user.name;
             returnObject.surname = existing_user.surname;
+            returnObject.exists_person = true;
             return returnObject;
         }
-        else {
+        else if (existing_user == null) {
             console.log("not found");
             const rand = () => {
                 return Math.random().toString(36).substr(2);
@@ -1501,6 +1502,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.token = new_admin.token;
             returnObject.name = new_admin.name;
             returnObject.surname = new_admin.surname;
+            returnObject.exists_person = false;
             console.log(new_admin);
             console.log(returnObject);
             return returnObject;
@@ -1514,17 +1516,18 @@ let AuthRepositoryService = class AuthRepositoryService {
             }
         });
         if (existing_user != null) {
-            console.log("Found");
-            console.log(existing_user);
+            console.log("Admin Already exists");
             returnObject.id = existing_user.id;
             returnObject.username = existing_user.username;
             returnObject.role = existing_user.role;
             returnObject.token = existing_user.token;
             returnObject.name = existing_user.name;
             returnObject.surname = existing_user.surname;
+            returnObject.exists_person = true;
+            console.log(returnObject);
             return returnObject;
         }
-        else {
+        else if (existing_user == null) {
             console.log("not found");
             const rand = () => {
                 return Math.random().toString(36).substr(2);
@@ -1552,6 +1555,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.token = new_admin.token;
             returnObject.name = new_admin.name;
             returnObject.surname = new_admin.surname;
+            returnObject.exists_person = false;
             console.log(new_admin);
             console.log(returnObject);
             return returnObject;
@@ -1669,6 +1673,10 @@ __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
 ], AuthAdminEntity.prototype, "surname", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", Boolean)
+], AuthAdminEntity.prototype, "exists_person", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
@@ -2130,7 +2138,6 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello() {
-        console.log("I am running on heroku");
         return this.appService.getHello();
     }
 };
