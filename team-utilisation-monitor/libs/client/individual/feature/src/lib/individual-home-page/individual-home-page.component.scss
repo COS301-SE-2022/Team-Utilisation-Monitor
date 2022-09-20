@@ -29,13 +29,23 @@ mat-progress-bar{
 
 .mat{
   height: fit-content;
-  margin-top: 10%;
   background-color: transparent;
 }
 
 .util{
   margin-bottom: 3%;
+  margin-top: 2%;
+  width:100%;
 }
+
+.accordion{
+  width: 90%;
+}
+
+hr{
+  width: 90%;
+}
+
 #inline{
   display: flex;
   align-content: space-evenly;
