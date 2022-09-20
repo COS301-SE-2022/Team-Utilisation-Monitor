@@ -50,7 +50,7 @@
               </mat-list-item>
           <br>
               <div class="button2">
-                <button class="button2" id="submitID" mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
+                <button type="submit" disabled="true" class="button2" id="submitID" mat-raised-button color="primary" (click)="UpdateProfile()">Update</button>
               </div><br>
 
             </mat-nav-list>
@@ -169,6 +169,33 @@
 
                         <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                           <mat-list-option *ngFor="let name of newSkills" [value]="name">
+                            {{name}}
+                          </mat-list-option>
+                        </mat-selection-list>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+
+                </div>
+                <br><br>
+
+                <div class="two">
+                  <mat-accordion >
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Skills
+                        </mat-panel-title>
+                        <mat-panel-description>
+                           Add to my skills
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+
+                      <div class="setHeight">
+
+                        <mat-selection-list #name [(ngModel)]="selectedSkill" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
+                          <mat-list-option *ngFor="let name of currSkills" [value]="name">
                             {{name}}
                           </mat-list-option>
                         </mat-selection-list>
