@@ -3884,10 +3884,19 @@ export class DataAccessRepository {
 
 
     /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
-    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<UserPerson[]>
+    async RecomendedTeam(numberOfPeople:number,skillName:string):Promise<UserPerson[]>
     {
 
-     // if(skill!=null)
+      const skillID=(await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )).id
+
+     if(skillID>0)
       {
 
         try{
@@ -3897,13 +3906,17 @@ export class DataAccessRepository {
               {
                 utilisation:
                 {
-                  lte:80,   //Return all users that are underUtized in ascending order ,meaning the least utilized
+                  lte:90,   //Return all users that are underUtized in ascending order ,meaning the least utilized
                 },
-
+                approved:true
               },
               orderBy:
               {
                 utilisation:'asc'
+              }
+              ,include:
+              {
+                skills:true
               }
             }
           )
@@ -3911,6 +3924,30 @@ export class DataAccessRepository {
           /*The least Utilized people are first in the array*/
 
           let Peeps:UserPerson[]=[]
+
+          for(let i=0;i<people.length;i++)
+          {
+            //Search the person's skills to see if they have this skill
+            for(let j=0;j<people[i].skills.length;j++)
+            {
+              if(people[i].skills[j].skill_id==skillID)
+              {
+                let person=new UserPerson();
+                person.name=people[i].name;
+                person.surname=people[i].surname;
+                person.email=people[i].email;
+
+                Peeps.push(person);
+                if(j==numberOfPeople)
+                {
+                  return Peeps;
+                }
+                break;
+              }
+            }
+          }
+
+
 
           //filter based on skills
          /* for(let i=0;i<people.length;i++)
