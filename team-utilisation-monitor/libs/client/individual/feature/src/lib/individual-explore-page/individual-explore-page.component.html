@@ -8,32 +8,36 @@
 
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-    <mat-card class="mat">
-      <mat-card>
-        <mat-card-header class="center">
-          <mat-card-title>
-            Recommendations <br><br>
-            <mat-card-subtitle>
-              New trending skills and technology that you 
-              might find useful and easy to learn
-            </mat-card-subtitle>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="scroll">
-            <div class="inline" *ngFor ="let recSkill of teams; index as NoOfskills">
-              <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
-                <mat-card-header>
-                  <mat-card-title>{{recSkill}}</mat-card-title>
-                </mat-card-header>
-            
-                <mat-card-content class="mid">
-                 
-                </mat-card-content>
-              </mat-card>
-            </div>
+   
+    <mat-card>
+      <mat-card-header class="center">
+        <mat-card-title>
+          Recommendations <br><br>
+          <mat-card-subtitle>
+            New trending skills and technology that you 
+            might find useful and easy to learn
+          </mat-card-subtitle>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <div class="inline" *ngFor ="let recSkill of teams; index as NoOfskills">
+            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
+              <mat-card-header>
+                <mat-card-title>{{recSkill}}</mat-card-title>
+              </mat-card-header>
+          
+              <mat-card-content class="mid">
+                <p>Short description about how the element, somethimng like recSkill.info that will
+                  give information about or brief description about the technology/
+                </p>
+              </mat-card-content>
+              <mat-card-footer>
+                <button mat-raised-button color="primary">UpSkill</button>
+              </mat-card-footer>
+            </mat-card>
+          </div>
 
-        </mat-card-content>
-      </mat-card>
+      </mat-card-content>
     </mat-card>
 
   </mat-sidenav-content>

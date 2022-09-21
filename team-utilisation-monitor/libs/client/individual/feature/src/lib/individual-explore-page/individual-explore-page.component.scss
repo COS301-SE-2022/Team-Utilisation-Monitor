@@ -61,7 +61,6 @@ mat-grid-tile {
   justify-content: center; /* align horizontal */
 }
 
-
 hr{
   width: 90%;
 }
@@ -82,15 +81,21 @@ hr{
   margin: auto;
   text-align: center;
   width:40%;
-  min-width: fit-content;
+  //min-width: fit-content;
   height: 25em;
   box-shadow: 0px 0px 10px black;
 }
 
+.align{
+ 
+}
+mat-grid-tile {
+  background: lightblue;
+}
 .mid{
   margin-top: 2%;
    float: left;
-   width: 98%;
+   width: 95%;
    max-height: 90%;
    overflow-y: auto;
  }
