@@ -58,12 +58,15 @@
         <mat-card-header class="center">
           <mat-card-title>
             Recommendations <br><br>
+            <mat-card-subtitle>
+              New trending skills and technology that you 
+              might find useful and easy to learn
+            </mat-card-subtitle>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p>why is this not displaying here?</p>
-            <div *ngFor ="let recSkill of teams; index as NoOfskills">
-              <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=3">
+            <div class="inline" *ngFor ="let recSkill of teams; index as NoOfskills">
+              <mat-card class="mat-card1" id="size" *ngIf="NoOfskills>0">
                 <mat-card-header>
                   <mat-card-title>{{recSkill}}</mat-card-title>
                 </mat-card-header>

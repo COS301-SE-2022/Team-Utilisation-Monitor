@@ -79,6 +79,13 @@ hr{
   display: flex;
   align-content: space-evenly;
 }
+
+.inline{
+  margin: 2%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 .mat-card1{
   margin: auto;
   text-align: center;
