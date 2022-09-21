@@ -1900,6 +1900,7 @@ export class DataAccessRepository {
         obj.name=person.name
         obj.surname=person.surname
         obj.email=person.email
+        obj.utilisation=person.utilisation
         members_Arr.push(obj)
       }
 
@@ -2540,12 +2541,15 @@ export class DataAccessRepository {
         }
         else
         {
+          if(Employees[i].approved==true)
+          {
             emp.name=Employees[i].name;
             emp.surname=Employees[i].surname;
             emp.email=Employees[i].email;
             emp.role=Employees[i].role;
 
             employees_arr.push(emp);
+          }
         }
       }
 
@@ -2563,6 +2567,7 @@ export class DataAccessRepository {
           }
         }
       )
+
 
       //Project manHours/Numberofeams
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
@@ -2782,6 +2787,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);  //Update Team utilization
         }
         else
         {
@@ -2847,7 +2853,7 @@ export class DataAccessRepository {
             }
             else
             {
-              Utilization=0;
+              AssignedHours=0;
             }
 
             let Statuss:Status
@@ -2944,7 +2950,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              AssignedHours=0;
+            }
 
             let Statuss:Status
 
@@ -2986,6 +3001,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);
         }
         else
         {
@@ -3494,11 +3510,12 @@ export class DataAccessRepository {
     async completeProject(projectName:string):Promise<string>
     {
 
+      this.AssignProjectPoints(projectName);  //Give everyone that worked on this project reward points
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 
 
-      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+      await this.prisma.teamsOnProjects.deleteMany(
         {
           where:
           {
@@ -3519,6 +3536,84 @@ export class DataAccessRepository {
         }
       )
       return "Project Completed"
+    }
+
+    /**This function assigns Project points to all employees who worked on a particula
+     * project,this works as a competence indicator,the more points you have
+     * the more project hours you have worked in the company
+     * 1 point=10 hours
+     */
+    async AssignProjectPoints(projectName:string):Promise<string>
+    {
+      const projectId=await this.getProjectID(projectName);
+
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let ProjectPoints=0;
+
+            if(AssignedHours>0)
+            {
+              ProjectPoints=  Math.round((PersonObj.Project_Points+(AssignedHours/10))*100)/100;
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  Project_Points:ProjectPoints
+                }
+              }
+            )
+          }
+        }
+      }
+
+     //await this.updateHistoricUtilization();
+    const date=(new Date());
+    const day=date.getDate();
+     if(day%7==0) //last day of the week(day 7/14/21/)
+     {
+        await this.updateHistoricUtilization();
+     }
+
+      return "Utilization complete"
     }
 
     async DeleteProject(projectName:string):Promise<string>
@@ -3735,12 +3830,73 @@ export class DataAccessRepository {
       return await (await this.GetCompanyUtilization()).Utilisation
     }
 
+    async CalculateAverageTeamUtilization(teamName:string)
+    {
+      const tID=(await this.prisma.team.findUnique(
+        {
+          where:
+          {
+            team_name:teamName
+          }
+        }
+      )).id
+
+      /** Get Members of a team*/
+      const Persons=await this.prisma.personOnTeams.findMany(
+        {
+          where:
+          {
+            team_id:tID
+          }
+        }
+      )
+
+      let avg=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        let personID=Persons[i].person_id
+        const util=(await this.prisma.person.findUnique(
+          {
+            where:{
+              id:personID
+            }
+          }
+        )).utilisation
+
+        avg+=util;
+      }
+
+      avg=avg/Persons.length;
+
+      await this.prisma.team.update(
+        {
+          where:
+          {
+            team_name:teamName
+          },
+          data:
+          {
+            utilisation:avg
+          }
+        }
+      )
+    }
+
 
     /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
-    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<UserPerson[]>
+    async RecomendedTeam(numberOfPeople:number,skillName:string):Promise<UserPerson[]>
     {
 
-     // if(skill!=null)
+      const skillID=(await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )).id
+
+     if(skillID>0)
       {
 
         try{
@@ -3750,13 +3906,17 @@ export class DataAccessRepository {
               {
                 utilisation:
                 {
-                  lte:80,   //Return all users that are underUtized in ascending order ,meaning the least utilized
+                  lte:90,   //Return all users that are underUtized in ascending order ,meaning the least utilized
                 },
-
+                approved:true
               },
               orderBy:
               {
                 utilisation:'asc'
+              }
+              ,include:
+              {
+                skills:true
               }
             }
           )
@@ -3764,6 +3924,33 @@ export class DataAccessRepository {
           /*The least Utilized people are first in the array*/
 
           let Peeps:UserPerson[]=[]
+
+          for(let i=0;i<people.length;i++)
+          {
+            //Search the person's skills to see if they have this skill
+            for(let j=0;j<people[i].skills.length;j++)
+            {
+              if(people[i].skills[j].skill_id==skillID)
+              {
+                let person=new UserPerson();
+                person.name=people[i].name;
+                person.surname=people[i].surname;
+                person.email=people[i].email;
+                person.utilisation=people[i].utilisation;
+
+                Peeps.push(person);
+                if(j==numberOfPeople)
+                {
+                  return Peeps;
+                }
+                break;
+              }
+            }
+          }
+
+          return Peeps;
+
+
 
           //filter based on skills
          /* for(let i=0;i<people.length;i++)
