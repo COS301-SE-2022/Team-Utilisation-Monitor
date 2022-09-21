@@ -71,15 +71,16 @@ export class LoginComponent implements OnInit {
             this.result3=this.service.setActiveToken(email,this.cookie.get("token")).subscribe(
               data=>{
                 const resp=data;
-                console.log("setting token");
+                console.log("setting token [......]");
 
-                if(resp.data.SetToken==true){
-                  console.log("Token successfully set");
-                }
-                else if(resp.data==null)
+                if(resp.data==null)
                   console.log("Failed be set");
+                else if(resp.data.SetToken==true) {
+                  console.log("Token successfully set.");
+                }
+                
 
-                  /****
+            /****
              * Even if the main database i.e result2, fails, the user will still be 
              * able to login using data from the authentication database
              */

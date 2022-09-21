@@ -14,7 +14,7 @@
         <button class="userRequestButton" (click)="onOpenAddTeamMemberClick(Teams.teamName)" mat-button>Add Team Members <span class="example-spacer"></span><mat-icon>add</mat-icon></button>
         
         <mat-card-content ngDefaultControl [(ngModel)]="OutEmployeeName" *ngFor="let member of OutEmployeeName">
-            <mat-card class="Mat-Individual">
+            <mat-card class="Mat-Individual" *ngIf="Teams.teamName===member.TeamName">
                 <mat-card-content class="InvdividualBox">
                         <p class="InvdividualName">{{member.Name}} {{member.Surname}}<span id="emailText"> {{member.Email}} </span></p>
         
