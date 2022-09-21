@@ -53,45 +53,38 @@
         </mat-accordion>
       </div>
 
-    <div class="recomendation">
+    
+      <mat-card>
+        <mat-card-header class="center">
+          <mat-card-title>
+            Recommendations <br><br>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
 
-        <div class="slideshow">
-          <mat-card>
-            <mat-card-header class="center">
-              <mat-card-title>
-                Recommendations <br><br>
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
+          <div class="container" id="inline">
 
-              <div class="container" id="inline">
-
-                <mat-nav-list>
-                  <mat-list-item *ngFor ="let link of teams; index as NoOfskills">
-                    <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=3">
-                      <mat-card-header>
-                        <mat-card-title>Allocated Teams</mat-card-title>
-                      </mat-card-header>
-                  
-                      <mat-card-content class="mid">
-                        <mat-nav-list class="list">
-                          <mat-list-item *ngFor="let link of teams">
-                            <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                           
-                          </mat-list-item>
-                        </mat-nav-list>
-                      </mat-card-content>
-                    </mat-card>
-                  </mat-list-item>
-                </mat-nav-list>
+            <mat-nav-list>
+              <mat-list-item *ngFor ="let recSkill of teams; index as NoOfskills">
+                <div class="row" *ngIf="NoOfskills>0">
+                  <mat-card class="mat-card1" id="size" >
+                    <mat-card-header>
+                      <mat-card-title>{{recSkill}}</mat-card-title>
+                    </mat-card-header>
                 
-              </div>
+                    <mat-card-content class="mid">
+                     
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+                
+              </mat-list-item>
+            </mat-nav-list>
+            
+          </div>
 
-            </mat-card-content>
-          </mat-card>
-      </div>
-    </div>
-
+        </mat-card-content>
+      </mat-card>
     </mat-card>
 
   </mat-sidenav-content>
