@@ -33,39 +33,41 @@ export class AdminCompanyViewComponent implements OnInit {
 
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getCompany(this.companyName).subscribe(data=>{
-        this.companyData=data;
+    this.companyData=data;
 
-        //if(this.companyData.data.GetCompanyQuery!=null)
-        {
-          type nameObject=
-          {
-            Name:string
-            Surname:string
-            Email:string
-            WeeklyHours:string
-          }
+    if(this.companyData.data.GetCompanyQuery!=null)
+    {
+      type nameObject=
+      {
+        Name:string
+        Surname:string
+        Email:string
+        WeeklyHours:string
+      }
 
 
-          for(const requests of this.companyData.data.GetCompanyQuery.admins)
-          {
-            const  obj={} as nameObject;
-            obj.Name=requests.name;
-            obj.Surname=requests.surname;
-            obj.Email=requests.email;
-            this.OutAdminNames.push(obj);
-          }
+      for(const requests of this.companyData.data.GetCompanyQuery.admins)
+      {
+        const  obj={} as nameObject;
+        obj.Name=requests.name;
+        obj.Surname=requests.surname;
+        obj.Email=requests.email;
+        this.OutAdminNames.push(obj);
+      }
 
-          for(const requests of this.companyData.data.GetCompanyQuery.employees)
-          {
-            const  obj={} as nameObject;
-            obj.Name=requests.name;
-            obj.Surname=requests.surname;
-            obj.Email=requests.email;
-            obj.WeeklyHours=requests.weekly_Hours;
-            this.OutEmployeeName.push(obj);
-          }
+      for(const requests of this.companyData.data.GetCompanyQuery.employees)
+      {
+        if(requests.role=="USER"){
+          const  obj={} as nameObject;
+          obj.Name=requests.name;
+          obj.Surname=requests.surname;
+          obj.Email=requests.email;
+          obj.WeeklyHours=requests.weekly_Hours;
+          this.OutEmployeeName.push(obj);
         }
-    })
+      }
+
+    }})
   }
 
   updateWeeklyHours(email:string){

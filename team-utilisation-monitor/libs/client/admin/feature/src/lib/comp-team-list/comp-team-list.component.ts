@@ -89,8 +89,8 @@ export class CompTeamListComponent implements OnInit {
             memberObj.Email=data[i].email;
             memberObj.TeamName=data[i].teamName;
 
-            console.log("Kasper");
-            console.log(memberObj.TeamName);
+            //console.log("Kasper");
+            //console.log(memberObj.TeamName);
   
             this.OutEmployeeName.push(memberObj);
           }
