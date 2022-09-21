@@ -2853,7 +2853,6 @@ export class DataAccessRepository {
             }
             else
             {
-              Utilization=0;
               AssignedHours=0;
             }
 
@@ -2951,7 +2950,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              AssignedHours=0;
+            }
 
             let Statuss:Status
 
