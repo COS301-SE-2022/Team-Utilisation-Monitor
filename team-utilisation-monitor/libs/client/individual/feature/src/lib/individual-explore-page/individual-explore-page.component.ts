@@ -14,7 +14,7 @@ export class IndividualExplorePageComponent implements OnInit {
   opened = true;
   panelOpenState=false;
   boolshow = true;
-  teams: string[]=['Java','c++','angular', 'prisma','Java','c++','angular', 'prisma'];
+  teams: string[]=['Java','c++','angular', 'prisma'];
   projects: string[]=[]; 
 
   //constructor() { }

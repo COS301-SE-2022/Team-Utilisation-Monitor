@@ -9,51 +9,6 @@
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
     <mat-card class="mat">
-      <div class="util">
-        <mat-accordion >
-          <div class="center"> 
-          <mat-expansion-panel class="accordion" (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                
-              </mat-panel-title>
-              <mat-panel-description>
-                {{panelOpenState ? 'close' : 'View'}} My Utilization
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-  
-            <div class="tc">
-  
-              <mat-card class="smc">
-                <mat-card-header>
-                  <mat-card-title>Utilization Summary</mat-card-title>
-                  <br>
-                </mat-card-header>
-                <mat-card-content>
-  
-                  <mat-tab-group mat-align-tabs="center">
-                    <mat-tab label="Monthly utilization">
-                      <br>
-                      <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
-                    </mat-tab>
-  
-                    <mat-tab label="Weekly utilization">
-                      <br>
-                      <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
-                    </mat-tab>
-                  </mat-tab-group>
-  
-                </mat-card-content>
-              </mat-card>
-            </div>
-  
-          </mat-expansion-panel>
-          </div>
-        </mat-accordion>
-      </div>
-
-    
       <mat-card>
         <mat-card-header class="center">
           <mat-card-title>
@@ -76,6 +31,7 @@
                 </mat-card-content>
               </mat-card>
             </div>
+
         </mat-card-content>
       </mat-card>
     </mat-card>
