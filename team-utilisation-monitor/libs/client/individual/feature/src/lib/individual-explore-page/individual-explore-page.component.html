@@ -65,23 +65,26 @@
             <mat-card-content>
 
               <div class="container" id="inline">
-            
-                <mat-card class="mat-card1" id="size">
 
-                    <mat-card-header>
-                      <mat-card-title>Allocated Teams</mat-card-title>
-                    </mat-card-header>
-
-                    <mat-card-content class="mid">
-                      <mat-nav-list class="list">
-                        <mat-list-item *ngFor="let link of teams">
-                          <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                          <button mat-icon-button (click)="showInfo(link)">
-                          </button>
-                        </mat-list-item>
-                      </mat-nav-list>
-                    </mat-card-content>
-                  </mat-card>
+                <mat-nav-list>
+                  <mat-list-item *ngFor ="let link of teams; index as NoOfskills">
+                    <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=3">
+                      <mat-card-header>
+                        <mat-card-title>Allocated Teams</mat-card-title>
+                      </mat-card-header>
+                  
+                      <mat-card-content class="mid">
+                        <mat-nav-list class="list">
+                          <mat-list-item *ngFor="let link of teams">
+                            <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                           
+                          </mat-list-item>
+                        </mat-nav-list>
+                      </mat-card-content>
+                    </mat-card>
+                  </mat-list-item>
+                </mat-nav-list>
+                
               </div>
 
             </mat-card-content>
