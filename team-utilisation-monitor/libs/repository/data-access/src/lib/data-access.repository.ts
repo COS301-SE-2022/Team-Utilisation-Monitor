@@ -3,7 +3,7 @@ import { Person, Status } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { ErrorStrings, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
@@ -153,10 +153,16 @@ export class DataAccessRepository {
                         company_id:c_id,
                         role:Role.ADMIN,
                         approved: true,
-                        position:{
-                            create:{
-                                title:"Administrator"
-                            }
+                        positions:{
+                            create: [
+                              {
+                                position:{
+                                  create:{
+                                    title:"Administrator"
+                                  }
+                                }
+                              }
+                            ]
                         }
                     }
                 })
@@ -1127,7 +1133,7 @@ export class DataAccessRepository {
         //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
-                position:true,
+                positions:true,
                 company:true,
             }
         });
@@ -1140,7 +1146,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].company_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,"edit",people[i].company_id));
             }
         }
         else
@@ -1165,7 +1171,7 @@ export class DataAccessRepository {
                 email:arg_email,
             },
             include:{
-                position:true,
+                positions:true,
                 company:true,
                 project:true,
             }
@@ -1186,13 +1192,7 @@ export class DataAccessRepository {
             else
                 local_company=person.company.company_name;
 
-            if(person.position==null)
-                title=null;
-            else
-                if(person.position.title==null)
-                  title=null;
-                else
-                  title=person.position.title;
+            //edit
 
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
@@ -1951,7 +1951,7 @@ export class DataAccessRepository {
     /***
      * Permanantly removes employee from the system.
      *
-     */
+    */
 
     async deleteEmployee(Email:string):Promise<Person>
     {
@@ -2069,9 +2069,6 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
-
-
-
       const empID=await this.prisma.person.update(
         {
           where:
@@ -2096,9 +2093,37 @@ export class DataAccessRepository {
       }
     }
 
+    async addPosition(position_name:string):Promise<MessageObject>{
 
+      const existing_position=await this.prisma.position.findUnique({
+        where:{
+          title:position_name,
+        }
+      })
 
+      if(existing_position){
+        return new MessageObject("POSITION_ALREADY_EXISTS");
+      }
+      else{//
 
+        try {
+          await this.prisma.position.create({
+            data:{
+              title:position_name,
+            }
+          })
+
+          return new MessageObject("SUCCESS"); //ErrorString is NONE
+          
+        } catch (err) {
+          if(err instanceof Prisma.PrismaClientKnownRequestError){
+            return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
+          }
+        }
+
+        
+      }
+    }
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
@@ -2520,7 +2545,7 @@ export class DataAccessRepository {
       const compEmployees=await this.prisma.company.findUnique(
         {
           where:{
-            id:comID
+            id:comID,
           },
           include:
           {
@@ -2547,7 +2572,6 @@ export class DataAccessRepository {
             emp.surname=Employees[i].surname;
             emp.email=Employees[i].email;
             emp.role=Employees[i].role;
-
             employees_arr.push(emp);
           }
         }

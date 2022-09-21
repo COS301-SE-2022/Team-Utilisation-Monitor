@@ -115,15 +115,7 @@ export class AdminHomePageComponent implements OnInit {
       this.closedProjects$.subscribe(data5=>{
         this.dynamicClosedProjects=data5;
       })
-
-      
-
-      
-      
     })
-
-
-
 
   }
 }
