@@ -99,7 +99,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='query{GetTeamMembers(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'"){name,surname,email}}'
+    const Query='query{GetTeamMembers(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'"){name,surname,email,utilisation}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -352,7 +352,7 @@ export class AdminService {
   }
 
   /***
-   * Permanently removes employee from the system. 
+   * Permanently removes employee from the system.
   */
 
   DeleteEmployee(email:string):Observable<any>
@@ -371,7 +371,7 @@ export class AdminService {
 
   AddSkill(skillName:string):Observable<any>
   {
-    
+
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
