@@ -53,8 +53,8 @@ export class UserPerson{
     @Field({nullable:true})
     weekly_Hours?:number;
 
-    @Field(()=>ErrorStrings,)
+    @Field(()=>ErrorStrings,{nullable:true})
     error_string?:ErrorStrings;
-    
+
 
 }

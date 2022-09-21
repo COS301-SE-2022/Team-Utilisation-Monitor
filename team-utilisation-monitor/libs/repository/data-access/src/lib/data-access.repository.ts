@@ -3936,6 +3936,7 @@ export class DataAccessRepository {
                 person.name=people[i].name;
                 person.surname=people[i].surname;
                 person.email=people[i].email;
+                person.utilisation=people[i].utilisation;
 
                 Peeps.push(person);
                 if(j==numberOfPeople)
@@ -3946,6 +3947,8 @@ export class DataAccessRepository {
               }
             }
           }
+
+          return Peeps;
 
 
 
