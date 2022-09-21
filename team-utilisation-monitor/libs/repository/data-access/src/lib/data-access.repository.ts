@@ -2519,7 +2519,7 @@ export class DataAccessRepository {
       const compEmployees=await this.prisma.company.findUnique(
         {
           where:{
-            id:comID
+            id:comID,
           },
           include:
           {
@@ -2540,12 +2540,14 @@ export class DataAccessRepository {
         }
         else
         {
+          if(Employees[i].approved==true)
+          {
             emp.name=Employees[i].name;
             emp.surname=Employees[i].surname;
             emp.email=Employees[i].email;
             emp.role=Employees[i].role;
-
             employees_arr.push(emp);
+          }
         }
       }
 
