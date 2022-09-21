@@ -80,10 +80,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
       this.projects$.subscribe(data=>{
         //get the latest update of the state Model <Add Model>
-      })
-
-      
-      
+      })     
 
     })
   }

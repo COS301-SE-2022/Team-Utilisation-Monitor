@@ -19,6 +19,8 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
+  MembersNames:string[]=["awe","awe","awe","awe","awe"];
+  selectedMembers:string[]=[];
   teams:any;
 
   projectForm=new FormGroup({
@@ -26,17 +28,25 @@ export class CompCreateProjectPopupComponent implements OnInit {
     manHours:new FormControl('',[Validators.required]),
   })
 
+
+  TeamForm=new FormGroup({
+    projectName:new FormControl('',[Validators.required]),
+    projectHours:new FormControl('',[Validators.required,Validators.pattern('([1-9]*[])')]),
+    projectMemNumber:new FormControl('',[Validators.required]),
+    projectSkills:new FormControl('',[Validators.required]),
+  })
+
   companyName='';
   tempData:any;
-  
+
 
   constructor(private adminService:AdminService,private cookie:CookieService, private snackBar: MatSnackBar,private store:Store) {}
 
-  
+
   ngOnInit(): void {
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getAllTeamsOfACompany(this.companyName).subscribe(data=>{
-      
+
       this.teams=data;
 
       //console.log(this.projects.data.getAllProjectsOfACompany.length);
@@ -56,7 +66,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   onSubmit()
   {
-    
+
     if(this.projectForm.valid)
     {
       const projectName=this.projectForm.get('projectName')?.value!;
@@ -65,7 +75,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
       //create the project in isolation
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data=>{
-            
+
         //assign the project to the selected teams
         for(let i=0;i<this.selectedTeams.length;++i)
         {
@@ -85,7 +95,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
                 )
               }
           });
-            
+
           }
 
       })
@@ -102,5 +112,10 @@ export class CompCreateProjectPopupComponent implements OnInit {
       //add the project to the ngxs AddProjectState
       this.store.dispatch(new AddProject({projectName:projectName,manHours:Number(projectHours)}));
     }
+  }
+
+  OnGetTeam()
+  {
+    //
   }
 }

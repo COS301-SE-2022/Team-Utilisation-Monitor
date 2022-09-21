@@ -33,7 +33,7 @@ export class TeamEntity{
     @Field({nullable:true})
     utilisation?:number;
 
-    @Field(()=>ErrorStrings,{nullable:true})
+    @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
 
 

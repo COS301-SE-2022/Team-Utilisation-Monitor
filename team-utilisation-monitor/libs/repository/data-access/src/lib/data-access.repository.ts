@@ -3,10 +3,11 @@ import { Person, Status } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
 import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { ErrorStrings, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
+import { pid } from 'process';
 
 
 @Injectable()
@@ -152,10 +153,16 @@ export class DataAccessRepository {
                         company_id:c_id,
                         role:Role.ADMIN,
                         approved: true,
-                        position:{
-                            create:{
-                                title:"Administrator"
-                            }
+                        positions:{
+                            create: [
+                              {
+                                position:{
+                                  create:{
+                                    title:"Administrator"
+                                  }
+                                }
+                              }
+                            ]
                         }
                     }
                 })
@@ -281,8 +288,6 @@ export class DataAccessRepository {
 
 
         }
-        else
-            throw new NullException().stack;
     }
 
 
@@ -348,8 +353,6 @@ export class DataAccessRepository {
 
             }
         }
-        else
-          throw new NullException().stack;
     }
 
     /***
@@ -361,14 +364,14 @@ export class DataAccessRepository {
     {
         //use the invitation link to get the company id
 
-        const return_user=new UserPerson(); 
+        const return_user=new UserPerson();
 
         const local_company_id=await this.verifyCode(inviteLink);
 
         if(local_company_id>0) //link is valid
         {
           const company_name=(await this.getCompanyVID(local_company_id)).company_name;
-          
+
           try
           {
 
@@ -381,7 +384,7 @@ export class DataAccessRepository {
                 }
             })
 
-            
+
 
             return_user.id=new_user.id;
             return_user.name=new_user.name;
@@ -426,6 +429,8 @@ export class DataAccessRepository {
 
         if(c_id>0)
         {
+          try{
+
             const new_team=await this.prisma.team.create({
                 data:{
                     team_name:teamName,
@@ -440,11 +445,62 @@ export class DataAccessRepository {
             return_team.company_id=new_team.company_id;
 
             return return_team;
+          }
+          catch(e)
+          {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Team Name Duplicate");
+              return null;
+            }
+            return null;
+          }
 
         }
 
+    }
 
-        throw new NullException().stack;
+    async DeleteTeam(teamName:string):Promise<string>
+    {
+
+      try{
+
+        const id= await this.getTeamIDVName(teamName);
+        //Find all projects that this team is a part off
+        const projects=await this.prisma.teamsOnProjects.findMany(
+        {
+          where:
+          {
+            team_id:id
+          }
+        })
+
+          for(let i=0;i<projects.length;i++)
+          {
+            const projectName=await (await this.getProject(projects[i].project_id)).project_name;
+            await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
+
+            await this.prisma.team.delete(
+              {
+                where:
+                {
+                  id:id
+                }
+              }
+            )
+
+            this.CalculateUtilizationVProject(projectName);
+
+          }
+        }
+      catch(e)
+      {
+          if(e instanceof Prisma.PrismaClientKnownRequestError)
+          {
+
+            return "Team Deletion Failed";
+          }
+      }
     }
 
     /***
@@ -456,14 +512,15 @@ export class DataAccessRepository {
 
     async createProject(projectName:string,companyName:string,hoursToComplete:number,teamName:string):Promise<ProjectEntity>
     {
+      try
+      {
+
         const existing_project=await this.prisma.project.findUnique({
             where:{
                 project_name:projectName
             }
         })
 
-        if(existing_project) //project already in the db
-            throw new NullException().stack; //project already exists
 
         const c_id=await this.getCompanyID(companyName); //company_id
 
@@ -526,7 +583,15 @@ export class DataAccessRepository {
 
           return return_project;
         }
-
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          console.log("Project Name already exists");
+          return null;
+        }
+      }
     }
 
     /****
@@ -721,19 +786,18 @@ export class DataAccessRepository {
 
     async setToken(f_email:string,token:string):Promise<boolean>
     {
-      console.log("data-access");
 
-      const p_id=(await this.getUserIDVEmail(f_email)).id;
-
-      if(p_id>0)
+      try
       {
-        const person=await this.prisma.person.findUnique({
-            where:{
-              email:f_email,
-            }
-        })
+        const p_id=(await this.getUserIDVEmail(f_email)).id;
 
-        if(person){
+        if(p_id>0)
+        {
+          const person=await this.prisma.person.findUnique({
+              where:{
+                email:f_email,
+              }
+          })
 
           if(person.active_Token=='null')
           {
@@ -757,13 +821,21 @@ export class DataAccessRepository {
           {
             return true;
           }
+
         }
         else
-          throw new NullException().stack;
+          console.log("Failed to find person");
 
       }
-      else
-        throw new Error("Failed to find person");
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          console.log("Person email can't be found on the db");
+          return false;
+        }
+      }
+
     }
 
     /***
@@ -793,11 +865,11 @@ export class DataAccessRepository {
               return false; //tokens don't match up
         }
         else
-          throw new NullException().stack;
+          return false;
 
       }
       else
-        throw new Error("failed to person");
+        return false;
 
     }
 
@@ -810,7 +882,7 @@ export class DataAccessRepository {
     {
       const p_id=(await this.getUserIDVEmail(f_email)).id;
 
-      if(p_id>0){
+      if(pid!=null && p_id>0){
 
         const existing_person=await this.prisma.person.findUnique({
           where:{
@@ -821,11 +893,22 @@ export class DataAccessRepository {
         if(existing_person){
           return existing_person.active_Token;
         }
-        else
-          throw new NullException().stack;
+        else{
+          try {
+            throw new Error("Unable to find user token");
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
       }
-      else
-        throw new Error("failed to person");
+      else{
+        try {
+          throw new Error("Unable to find user");
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
 
@@ -920,7 +1003,7 @@ export class DataAccessRepository {
               }
             }
 
-            
+
 
             for(let i=0;i<company_object.projects.length;++i){
               if(company_object.projects[i].completed==true){
@@ -1050,7 +1133,7 @@ export class DataAccessRepository {
         //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
-                position:true,
+                positions:true,
                 company:true,
             }
         });
@@ -1063,7 +1146,7 @@ export class DataAccessRepository {
 
             for(let i=0;i<people.length;++i)
             {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].company_id));
+                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,"edit",people[i].company_id));
             }
         }
         else
@@ -1080,21 +1163,20 @@ export class DataAccessRepository {
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
     {
+
+      try
+      {
         const person=await this.prisma.person.findUnique({
             where:{
                 email:arg_email,
             },
             include:{
-                position:true,
+                positions:true,
                 company:true,
                 project:true,
             }
         })
 
-        //console.log(person);
-
-        if(person)
-        {
             let local_project:string;
             let local_company:string;
             let title:string;
@@ -1110,24 +1192,21 @@ export class DataAccessRepository {
             else
                 local_company=person.company.company_name;
 
-            if(person.position==null)
-                title=null;
-            else
-                if(person.position.title==null)
-                  title=null;
-                else
-                  title=person.position.title;
-
+            //edit
 
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
-
             return return_user;
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return "Email not found"
         }
-        else
-            throw new NullException().stack;
+      }
     }
 
 
@@ -1497,10 +1576,13 @@ export class DataAccessRepository {
 
         if(person)
         {
-            return this.returnUserID(person.id);
+          return this.returnUserID(person.id);
         }
-        else
-            throw new NullException().stack;
+        else{
+          const non_user=new UserPerson();
+          non_user.id=-1;
+          return non_user;
+        }
     }
 
     /***
@@ -1818,6 +1900,7 @@ export class DataAccessRepository {
         obj.name=person.name
         obj.surname=person.surname
         obj.email=person.email
+        obj.utilisation=person.utilisation
         members_Arr.push(obj)
       }
 
@@ -1863,6 +1946,12 @@ export class DataAccessRepository {
 
         return "Team Member DELETED"
     }
+
+
+    /***
+     * Permanantly removes employee from the system.
+     *
+    */
 
     async deleteEmployee(Email:string):Promise<Person>
     {
@@ -1925,7 +2014,12 @@ export class DataAccessRepository {
 
     }
 
-    async RemoveSkill(skillType:string):Promise<string>
+    /***
+     * Function returns true if the skill has been successfully defeated.
+     * And false if not successfully deleted.
+     */
+
+    async RemoveSkill(skillType:string):Promise<boolean>
     {
       try
       {
@@ -1936,13 +2030,13 @@ export class DataAccessRepository {
           }
         })
 
-        return "Skill Deleted"
+        return true;
       }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
         {
-          return "Skill Deletion went wrong"
+          return false;
         }
       }
     }
@@ -1975,9 +2069,6 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
-
-
-
       const empID=await this.prisma.person.update(
         {
           where:
@@ -2002,9 +2093,37 @@ export class DataAccessRepository {
       }
     }
 
+    async addPosition(position_name:string):Promise<MessageObject>{
 
+      const existing_position=await this.prisma.position.findUnique({
+        where:{
+          title:position_name,
+        }
+      })
 
+      if(existing_position){
+        return new MessageObject("POSITION_ALREADY_EXISTS");
+      }
+      else{//
 
+        try {
+          await this.prisma.position.create({
+            data:{
+              title:position_name,
+            }
+          })
+
+          return new MessageObject("SUCCESS"); //ErrorString is NONE
+          
+        } catch (err) {
+          if(err instanceof Prisma.PrismaClientKnownRequestError){
+            return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
+          }
+        }
+
+        
+      }
+    }
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
@@ -2426,7 +2545,7 @@ export class DataAccessRepository {
       const compEmployees=await this.prisma.company.findUnique(
         {
           where:{
-            id:comID
+            id:comID,
           },
           include:
           {
@@ -2447,12 +2566,14 @@ export class DataAccessRepository {
         }
         else
         {
+          if(Employees[i].approved==true)
+          {
             emp.name=Employees[i].name;
             emp.surname=Employees[i].surname;
             emp.email=Employees[i].email;
             emp.role=Employees[i].role;
-
             employees_arr.push(emp);
+          }
         }
       }
 
@@ -2470,6 +2591,7 @@ export class DataAccessRepository {
           }
         }
       )
+
 
       //Project manHours/Numberofeams
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
@@ -2689,6 +2811,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);  //Update Team utilization
         }
         else
         {
@@ -2754,7 +2877,7 @@ export class DataAccessRepository {
             }
             else
             {
-              Utilization=0;
+              AssignedHours=0;
             }
 
             let Statuss:Status
@@ -2851,7 +2974,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              AssignedHours=0;
+            }
 
             let Statuss:Status
 
@@ -2893,6 +3025,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);
         }
         else
         {
@@ -3400,12 +3533,13 @@ export class DataAccessRepository {
 
     async completeProject(projectName:string):Promise<string>
     {
-      
+
+      this.AssignProjectPoints(projectName);  //Give everyone that worked on this project reward points
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 
 
-      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+      await this.prisma.teamsOnProjects.deleteMany(
         {
           where:
           {
@@ -3426,6 +3560,84 @@ export class DataAccessRepository {
         }
       )
       return "Project Completed"
+    }
+
+    /**This function assigns Project points to all employees who worked on a particula
+     * project,this works as a competence indicator,the more points you have
+     * the more project hours you have worked in the company
+     * 1 point=10 hours
+     */
+    async AssignProjectPoints(projectName:string):Promise<string>
+    {
+      const projectId=await this.getProjectID(projectName);
+
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let ProjectPoints=0;
+
+            if(AssignedHours>0)
+            {
+              ProjectPoints=  Math.round((PersonObj.Project_Points+(AssignedHours/10))*100)/100;
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  Project_Points:ProjectPoints
+                }
+              }
+            )
+          }
+        }
+      }
+
+     //await this.updateHistoricUtilization();
+    const date=(new Date());
+    const day=date.getDate();
+     if(day%7==0) //last day of the week(day 7/14/21/)
+     {
+        await this.updateHistoricUtilization();
+     }
+
+      return "Utilization complete"
     }
 
     async DeleteProject(projectName:string):Promise<string>
@@ -3452,22 +3664,24 @@ export class DataAccessRepository {
 
     async getAllTeamsAndTheirMembers(companyName:string):Promise<any>
     {
+      console.log("Data Access repo");
       const company_id=await this.getCompanyID(companyName);
-      let teams:TeamEntity[]=[];
+
 
       if(company_id>0){
         return await this.prisma.team.findMany(
           {
             where:{
               company_id:company_id,
+            },
+            include:{
+              members:true
             }
           }
         )
       }
       else{//company doesn't exist
-        teams[0]=new TeamEntity();
-        teams[0].error_string=ErrorStrings.COMPANY_DOESNT_EXIST;
-        return teams;
+        return null; //all logic is in the command handler
       }
     }
 
@@ -3638,6 +3852,152 @@ export class DataAccessRepository {
     async companyOveralUtilisation():Promise<number>
     {
       return await (await this.GetCompanyUtilization()).Utilisation
+    }
+
+    async CalculateAverageTeamUtilization(teamName:string)
+    {
+      const tID=(await this.prisma.team.findUnique(
+        {
+          where:
+          {
+            team_name:teamName
+          }
+        }
+      )).id
+
+      /** Get Members of a team*/
+      const Persons=await this.prisma.personOnTeams.findMany(
+        {
+          where:
+          {
+            team_id:tID
+          }
+        }
+      )
+
+      let avg=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        let personID=Persons[i].person_id
+        const util=(await this.prisma.person.findUnique(
+          {
+            where:{
+              id:personID
+            }
+          }
+        )).utilisation
+
+        avg+=util;
+      }
+
+      avg=avg/Persons.length;
+
+      await this.prisma.team.update(
+        {
+          where:
+          {
+            team_name:teamName
+          },
+          data:
+          {
+            utilisation:avg
+          }
+        }
+      )
+    }
+
+
+    /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
+    async RecomendedTeam(numberOfPeople:number,skillName:string):Promise<UserPerson[]>
+    {
+
+      const skillID=(await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )).id
+
+     if(skillID>0)
+      {
+
+        try{
+          const people=await this.prisma.person.findMany(
+            {
+              where:
+              {
+                utilisation:
+                {
+                  lte:90,   //Return all users that are underUtized in ascending order ,meaning the least utilized
+                },
+                approved:true
+              },
+              orderBy:
+              {
+                utilisation:'asc'
+              }
+              ,include:
+              {
+                skills:true
+              }
+            }
+          )
+
+          /*The least Utilized people are first in the array*/
+
+          let Peeps:UserPerson[]=[]
+
+          for(let i=0;i<people.length;i++)
+          {
+            //Search the person's skills to see if they have this skill
+            for(let j=0;j<people[i].skills.length;j++)
+            {
+              if(people[i].skills[j].skill_id==skillID)
+              {
+                let person=new UserPerson();
+                person.name=people[i].name;
+                person.surname=people[i].surname;
+                person.email=people[i].email;
+                person.utilisation=people[i].utilisation;
+
+                Peeps.push(person);
+                if(j==numberOfPeople)
+                {
+                  return Peeps;
+                }
+                break;
+              }
+            }
+          }
+
+          return Peeps;
+
+
+
+          //filter based on skills
+         /* for(let i=0;i<people.length;i++)
+          {
+
+          }*/
+
+          //filter based on Utilization
+
+
+          //filter based on
+
+        }
+        catch(e)
+        {
+            if(e instanceof Prisma.PrismaClientKnownRequestError)
+            {
+              console.log("Team Name Duplicate");
+              return null;
+            }
+            return null;
+        }
+      }
     }
 
 }
