@@ -53,7 +53,7 @@
         </mat-accordion>
       </div>
 
-      <div class="recomendation">
+    <div class="recomendation">
 
         <div class="slideshow">
           <mat-card>
@@ -64,46 +64,30 @@
             </mat-card-header>
             <mat-card-content>
 
-    <div class="container" id="inline">
-    
-      <mat-card class="mat-card1" id="size">
+              <div class="container" id="inline">
+            
+                <mat-card class="mat-card1" id="size">
 
-          <mat-card-header>
-            <mat-card-title>Allocated Teams</mat-card-title>
-          </mat-card-header>
+                    <mat-card-header>
+                      <mat-card-title>Allocated Teams</mat-card-title>
+                    </mat-card-header>
 
-          <mat-card-content class="mid">
-            <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of teams">
-                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
+                    <mat-card-content class="mid">
+                      <mat-nav-list class="list">
+                        <mat-list-item *ngFor="let link of teams">
+                          <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
+                          <button mat-icon-button (click)="showInfo(link)">
+                          </button>
+                        </mat-list-item>
+                      </mat-nav-list>
+                    </mat-card-content>
+                  </mat-card>
+              </div>
 
-        <mat-card class="mat-card1" id="size">                             <!--FULL CARD THAT INCLUDES THE INNER CONTENT/LIST-->
-          <mat-card-header>
-            <mat-card-title>Allocated Projects</mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content class="mid">                            <!--THE START OF THE LIST THAT IS DISPLAYED FROM THE DB-->
-            <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of projects">
-                <a matLine href="#">{{ link }}</a>                      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
-    </div>
             </mat-card-content>
           </mat-card>
-        </div>
-
       </div>
+    </div>
 
     </mat-card>
 
