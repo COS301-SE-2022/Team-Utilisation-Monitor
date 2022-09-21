@@ -38,7 +38,7 @@ export class CompAddTeamMemberPopupComponent implements OnInit {
         data=>{
           for(let k=0;k<this.employeeObjects.length;++k){
             if(this.employeeObjects[k].Email==this.selectedEmployees[i]){
-              this.store.dispatch(new AddTeamMember({name:this.employeeObjects[k].Name,surname:this.employeeObjects[k].Surname,email:this.employeeObjects[k].Email}))
+              this.store.dispatch(new AddTeamMember({name:this.employeeObjects[k].Name,surname:this.employeeObjects[k].Surname,email:this.employeeObjects[k].Email,teamName:this.cookie.get("team_name")}))
             }
           }
         }
