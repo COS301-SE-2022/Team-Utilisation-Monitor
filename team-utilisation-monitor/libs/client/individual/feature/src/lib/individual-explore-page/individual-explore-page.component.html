@@ -8,103 +8,48 @@
 
     <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-    <mat-card class="mat">
-      <div class="util">
-        <mat-accordion >
-          <div class="center"> 
-          <mat-expansion-panel class="accordion" (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false" >          <!--BEGINNIGN OF EXPANSION PANEL THAT EXPAND TO DISPLAY GRAPH-->
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                
-              </mat-panel-title>
-              <mat-panel-description>
-                {{panelOpenState ? 'close' : 'View'}} My Utilization
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-  
-            <div class="tc">
-  
-              <mat-card class="smc">
-                <mat-card-header>
-                  <mat-card-title>Utilization Summary</mat-card-title>
-                  <br>
-                </mat-card-header>
-                <mat-card-content>
-  
-                  <mat-tab-group mat-align-tabs="center">
-                    <mat-tab label="Monthly utilization">
-                      <br>
-                      <team-utilisation-monitor-utilization-graph></team-utilisation-monitor-utilization-graph>
-                    </mat-tab>
-  
-                    <mat-tab label="Weekly utilization">
-                      <br>
-                      <team-utilisation-monitor-weekly-utilisation-graph></team-utilisation-monitor-weekly-utilisation-graph>
-                    </mat-tab>
-                  </mat-tab-group>
-  
-                </mat-card-content>
-              </mat-card>
-            </div>
-  
-          </mat-expansion-panel>
+   
+    <mat-card>
+      <mat-card-header class="center">
+        <mat-card-title>
+          Recommendations <br><br>
+          <mat-card-subtitle>
+            New trending skills and technology that you 
+            might find useful and easy to learn
+          </mat-card-subtitle>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="left">
+          <div class="inline" *ngFor ="let recSkill of teams; index as NoOfskills">
+            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
+              <mat-card-header>
+                <mat-card-title>{{recSkill}}</mat-card-title>
+              </mat-card-header>
+          
+              <mat-card-content class="mid">
+                <p>Short description about how the element, somethimng like recSkill.info that will
+                  give information about or brief description about the technology/
+                  Short description about how the element, somethimng like recSkill.info that will
+                  give information about or brief 
+                  Short description about how the element, somethimng like recSkill.info that will
+                  give information about or brief description about the technology/
+                  Short description about how the element, somethimng like recSkill.info that will
+                  give information about or briefShort description about how the element, somethimng like recSkill.info that will
+                  give information about or brief description about the technology/
+                  Short description about how the element, somethimng like recSkill.info that will
+                  give information about or briefShort description about how the element, somethimng like recSkill.info that will
+                  give information about or brief description about the technology/
+                  Short description about how the element, somethimng like recSkill.info that will
+                  give information about or brief
+                </p>
+              </mat-card-content>
+              <mat-card-footer class="card-footer">
+                <button mat-raised-button color="primary">UpSkill</button>
+              </mat-card-footer>
+            </mat-card>
           </div>
-        </mat-accordion>
-      </div>
 
-      <div class="recomendation">
-
-        <div class="slideshow">
-          <mat-card>
-            <mat-card-header class="center">
-              <mat-card-title>
-                Recommendations <br><br>
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-
-    <div class="container" id="inline">
-    
-      <mat-card class="mat-card1" id="size">
-
-          <mat-card-header>
-            <mat-card-title>Allocated Teams</mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content class="mid">
-            <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of teams">
-                <a matLine href="#">{{ link }}</a>      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card class="mat-card1" id="size">                             <!--FULL CARD THAT INCLUDES THE INNER CONTENT/LIST-->
-          <mat-card-header>
-            <mat-card-title>Allocated Projects</mat-card-title>
-          </mat-card-header>
-
-          <mat-card-content class="mid">                            <!--THE START OF THE LIST THAT IS DISPLAYED FROM THE DB-->
-            <mat-nav-list class="list">
-              <mat-list-item *ngFor="let link of projects">
-                <a matLine href="#">{{ link }}</a>                      <!--redirect to a respective Team view here-->
-                <button mat-icon-button (click)="showInfo(link)">
-                </button>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
-    </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-      </div>
-
+      </mat-card-content>
     </mat-card>
 
   </mat-sidenav-content>
