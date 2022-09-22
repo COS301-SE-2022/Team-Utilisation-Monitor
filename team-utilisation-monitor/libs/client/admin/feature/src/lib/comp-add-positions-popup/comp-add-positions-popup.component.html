@@ -26,7 +26,7 @@
         <div class="DivContent">
             <h2>Current Positions in the company</h2>
             <mat-selection-list #positions>
-                <mat-list-option *ngFor="let position of positionsList">
+                <mat-list-option ngDefaultControl [(ngModel)]="positionsList" *ngFor="let position of positionsList">
                     {{position}}
                 </mat-list-option>
             </mat-selection-list>
