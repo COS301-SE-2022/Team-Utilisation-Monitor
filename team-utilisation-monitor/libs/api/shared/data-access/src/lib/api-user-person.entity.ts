@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { ErrorStrings } from "@team-utilisation-monitor/shared/services/prisma-services";
+import { PositionEntity } from "./api-position.entity";
 
 
 @ObjectType({description:'Object encapsulating the users details'})
@@ -32,8 +33,7 @@ export class UserPerson{
     @Field({nullable:true})
     utilisation:number;
 
-    @Field({ nullable: true })
-    position?:string;
+    
 
     @Field({ nullable: true })
     project_name?:string;

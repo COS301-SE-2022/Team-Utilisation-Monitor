@@ -25,7 +25,6 @@ export class DataAccessRepository {
         user_person.email=email;
         user_person.role=role;
         user_person.suspended=suspended;
-        user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
 
