@@ -55,6 +55,8 @@ import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.q
 import { RemoveSkillCommand } from './commands/impl/remove-skill.command';
 import { AddPositionCommand } from './commands/impl/AddPosition.command';
 import { GetAllPositionsOfCompanyCommand } from './queries/impl/get-all-positions-of-company.query';
+import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
+import { AssignPositionToUserCommand } from './commands/impl/assign-position-to-user.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -325,8 +327,18 @@ export class ServiceFeatureService {
       return this.commandBus.execute(new AddPositionCommand(position_name));
     }
 
-    async GetAllPositions()
+    async GetAllPositions():Promise<any>
     {
       return this.queryBus.execute(new GetAllPositionsOfCompanyCommand());
+    }
+
+    async GetPositionsOfUser(email:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetPositionsOfUserQuery(email));
+    }
+
+    async AssignPositionToUser(email:string,position_name:string)
+    {
+      return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name));
     }
 }

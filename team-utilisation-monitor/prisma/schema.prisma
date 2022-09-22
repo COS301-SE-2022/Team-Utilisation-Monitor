@@ -49,7 +49,6 @@ model Person{
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
-
 }
 
 model PersonOnSkills{
