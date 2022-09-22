@@ -211,10 +211,23 @@ export class ApiFeatureResolver {
    */
 
   @Query(()=>[UserPerson])
-  async getAllPeople(){
-    const resp=await this.service.getAllUserPerson();
+  async getAllPeople(@Args("token")token:string,@Args("email")email:string){
+    
+    const verification=await this.service.verifyToken(email,token);
+    
+    if(verification){
+      const resp=await this.service.getAllUserPerson();
    
-    return resp;
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+    
+
+    
   }
 
 
