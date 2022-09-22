@@ -459,4 +459,21 @@ export class AdminService {
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
+  createPosition(position_name:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{addPosition(position_name:"'+position_name+'",email:"'+email+'",token:"'+token+'"){message,error_string}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options); 
+  }
+
+
+
 }
