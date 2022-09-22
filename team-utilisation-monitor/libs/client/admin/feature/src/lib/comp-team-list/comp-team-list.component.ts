@@ -130,21 +130,18 @@ export class CompTeamListComponent implements OnInit {
 
   }
 
-  RemoveTeam(teamName:string){
-    console.log(teamName);
+  RemoveTeam(teamToDelete:string){
+    //console.log(teamToDelete);
 
-    this.service.deleteTeam(this.Teams.teamName).subscribe(Data=>{
-      for(let index=0; index<this.Teams.teamName.length; ++index){ //this has to be the length of teams not teamName
-        if(this.Teams[index] !=null && this.Teams[index].teamName==teamName){
-          this.Teams[index].splice(index,1);
-        }
-      }
+    this.service.deleteTeam(teamToDelete).subscribe(Data=>{
+      //teamData?
+      console.log(teamToDelete);
+
+      this.snackBar.open(teamToDelete +" has been removed from Teams")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
     })
-
-    this.snackBar.open(teamName +" has been removed from Teams")
-    setTimeout(() => {
-      this.snackBar.dismiss();
-    }, 5000)
   }
 
 
