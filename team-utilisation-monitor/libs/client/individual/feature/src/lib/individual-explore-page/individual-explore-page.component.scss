@@ -96,7 +96,7 @@ mat-grid-tile {
   margin-top: 2%;
    float: left;
    width: 95%;
-   max-height: 90%;
+   height: 70%;
    overflow-y: auto;
  }
  
@@ -105,5 +105,10 @@ mat-grid-tile {
    width: 90%;
    cursor: pointer;
  }
+
+
+ .card-footer {
+  //background-color: black;
+}
 
 
