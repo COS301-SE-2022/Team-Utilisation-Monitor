@@ -19,8 +19,6 @@ model Person{
   suspended Boolean @default(false)
   approved Boolean @default(false)
 
-  position Position?
-
   admin Company? @relation(name: "setOfAdmins",fields: [admin_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
   admin_id Int?
 
@@ -33,6 +31,8 @@ model Person{
   teams PersonOnTeams []
 
   skills PersonOnSkills [] //one person can have many skills
+
+  positions PersonsOnPositions []
 
   weekly_hours Float @default(0)
 
@@ -49,7 +49,6 @@ model Person{
   utilisations HistoricUtilisation [] @relation("utility")
 
   @@map("person")
-
 }
 
 model PersonOnSkills{
@@ -115,12 +114,23 @@ model Invites{
   @@map("invites")
 }
 
+model PersonsOnPositions{
+
+  id Int @id @default(autoincrement())
+
+  person Person @relation(fields: [person_id], references: [id],onDelete: Cascade,onUpdate: Cascade)
+  person_id Int
+
+  position Position @relation(fields: [position_id],references: [id],onDelete: Cascade,onUpdate: Cascade)
+  position_id Int
+}
+
 model Position{
   id Int @id @default(autoincrement())
-  title String @default("newbie")
+  
+  title String @default("newbie") @unique
 
-  person Person? @relation(fields: [person_id],references: [id], onDelete: Cascade, onUpdate: Cascade)
-  person_id Int? @unique
+  people PersonsOnPositions[]
 
   @@map("position")
 }

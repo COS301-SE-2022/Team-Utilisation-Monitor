@@ -53,6 +53,10 @@ import { VerifyTokenCommand } from './commands/impl/verify-token.command';
 import { DeleteTeamCommand } from './commands/impl/DeleteTeam.command';
 import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
 import { RemoveSkillCommand } from './commands/impl/remove-skill.command';
+import { AddPositionCommand } from './commands/impl/AddPosition.command';
+import { GetAllPositionsOfCompanyCommand } from './queries/impl/get-all-positions-of-company.query';
+import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
+import { AssignPositionToUserCommand } from './commands/impl/assign-position-to-user.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -316,5 +320,25 @@ export class ServiceFeatureService {
     async GetRecomendedTeam(numPeople:number,skillName:string)
     {
       return this.queryBus.execute(new GetRecomendedTeamQuery(numPeople,skillName))
+    }
+
+    async AddPosition(position_name:string)
+    {
+      return this.commandBus.execute(new AddPositionCommand(position_name));
+    }
+
+    async GetAllPositions():Promise<any>
+    {
+      return this.queryBus.execute(new GetAllPositionsOfCompanyCommand());
+    }
+
+    async GetPositionsOfUser(email:string):Promise<any>
+    {
+      return this.queryBus.execute(new GetPositionsOfUserQuery(email));
+    }
+
+    async AssignPositionToUser(email:string,position_name:string)
+    {
+      return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name));
     }
 }

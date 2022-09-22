@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Query, Args, Resolver, Mutation } from '@nestjs/graphql';
-import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization } from '@team-utilisation-monitor/api/shared/data-access';
+import { CompanyStatsEntity, InviteCodeEntity, ProjectEntity, TeamEntity, UserCompany, UserPerson, UserStatsEntity, Skill, Utilization, CompanyUtilization, PositionEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import {ServiceFeatureService} from '@team-utilisation-monitor/service/feature'
-import { NullException } from '@team-utilisation-monitor/shared/services/prisma-services';
+import { MessageObject, NullException } from '@team-utilisation-monitor/shared/services/prisma-services';
 import { UserInputError } from 'apollo-server-express';
 import { Token } from 'graphql';
 
@@ -311,10 +311,78 @@ export class ApiFeatureResolver {
     }, HttpStatus.FORBIDDEN);
   }
 
+
+  @Mutation(()=>MessageObject)
+  async addPosition(@Args("position_name")position_name:string,@Args("token")token:string,@Args("email")email:string)
+  {
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.AddPosition(position_name);
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+  @Mutation(()=>MessageObject)
+  async assignPositionToUser(@Args("position_name")position_name:string,@Args("token")token:string,@Args("email")email:string,@Args("assignee_email")assignee_email:string)
+  {
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.AssignPositionToUser(position_name,assignee_email);
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+  @Query(()=>[PositionEntity])
+  async getAllPositions(@Args("token")token:string,@Args("email")email:string){
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.GetAllPositions();
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+  @Query(()=>[PositionEntity])
+  async getPositionsOfUser(@Args("token")token:string,@Args("email")email:string){
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.GetPositionsOfUser(email);
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+
   /***
    * This function creates an inviteCode to be used by the user to login.
    * There's a 1-1 mapping between the invite code and a company
-   */
+  */
 
   @Mutation(()=>InviteCodeEntity)
   async createInviteCode(@Args("company_name") company_name:string,@Args("token")token:string,@Args("email")email:string)

@@ -47,7 +47,6 @@ export class CompAddUserPopupComponent implements OnInit {
       setTimeout(() => {
         this.snackBar.dismiss();
       }, 5000)
-      //alert("Please Enter an Eamil address to send the invite link to")
     }
   }
 

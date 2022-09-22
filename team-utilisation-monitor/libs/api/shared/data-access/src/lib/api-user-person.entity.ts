@@ -55,6 +55,6 @@ export class UserPerson{
 
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
-    
+
 
 }
