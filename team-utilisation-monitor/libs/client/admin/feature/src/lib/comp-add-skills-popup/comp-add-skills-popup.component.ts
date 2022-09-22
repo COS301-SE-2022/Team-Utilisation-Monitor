@@ -77,7 +77,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const skillName=this.addSkillForm.get('skillName')?.value!;
-      //this.skillsList.push(skillName);
+      
 
       this.store.dispatch(new AddSkill({skillName:skillName}));
 

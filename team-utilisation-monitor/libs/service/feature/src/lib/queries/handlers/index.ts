@@ -23,6 +23,8 @@ import { GetUserStatsHandler } from "./GetUserStats.handler";
 import { GetTeamsOnProjectHandler } from './GetTeamsOnProject.handler';
 import { GetAllTeamsOfACompanyHandler } from './get-all-Teams-Of-A-Company.handler';
 import { GetRecomendedTeamHandler } from './GetRecomendedTeam.handler';
+import { GetAllPositionsOfCompanyHandler } from './get-all-positions-of-company.handler';
+import { GetPositionsOfUserHandler } from './get-positions-of-user.handler';
 
 
 export const QueryHandlers=[
@@ -51,5 +53,7 @@ export const QueryHandlers=[
     GetCompanyUtilizationHandler,
     GetTeamsOnProjectHandler,
     GetAllTeamsOfACompanyHandler,
-    GetRecomendedTeamHandler
+    GetRecomendedTeamHandler,
+    GetAllPositionsOfCompanyHandler,
+    GetPositionsOfUserHandler
 ]

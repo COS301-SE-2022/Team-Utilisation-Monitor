@@ -59,41 +59,46 @@ mat-grid-tile {
 .center{
   display: flex;
   justify-content: center; /* align horizontal */
+
 }
 
-.util{
-  margin-bottom: 3%;
-  margin-top: 2%;
-  width:100%;
-}
-
-.accordion{
-  width: 90%;
+.left{
+  display:inline-block;
+  width: 100%;
+  align-content: left;
 }
 
 hr{
   width: 90%;
 }
 
-#inline{
+.inline{
+  margin: 2%;
   display: flex;
-  align-content: space-evenly;
+  align-content: left;
 }
 .mat-card1{
   margin: auto;
   text-align: center;
   width:40%;
-  min-width: fit-content;
+  //min-width: fit-content;
   height: 25em;
-  box-shadow: 0px 0px 25px black;
+  box-shadow: 0px 0px 10px black;
 }
 
+mat-grid-tile {
+  background: lightblue;
+}
 .mid{
   margin-top: 2%;
    float: left;
-   width: 98%;
-   max-height: 90%;
+   width: 95%;
+   height: 70%;
    overflow-y: auto;
+
+   p{
+    font-size:16px;
+   }
  }
  
  .list{
@@ -101,3 +106,10 @@ hr{
    width: 90%;
    cursor: pointer;
  }
+
+
+ .card-footer {
+  //background-color: black;
+}
+
+

@@ -136,5 +136,19 @@ export class CompTeamListComponent implements OnInit {
 
   }
 
+  RemoveTeam(teamToDelete:string){
+    //console.log(teamToDelete);
+
+    this.service.deleteTeam(teamToDelete).subscribe(Data=>{
+      //teamData?
+      console.log(teamToDelete);
+
+      this.snackBar.open(teamToDelete +" has been removed from Teams")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+    })
+  }
+
 
 }
