@@ -11,7 +11,7 @@ export class PositionEntity{
     @Field()
     position?:string;
 
-    @Field(()=>ErrorStrings,{defaultValue:"NONE"})
+    @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
 
 }
