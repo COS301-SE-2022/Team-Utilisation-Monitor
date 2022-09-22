@@ -2,8 +2,8 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
-import { ErrorStrings, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Utilization } from '@team-utilisation-monitor/api/shared/data-access';
@@ -153,10 +153,16 @@ export class DataAccessRepository {
                         company_id:c_id,
                         role:Role.ADMIN,
                         approved: true,
-                        position:{
-                            create:{
-                                title:"Administrator"
-                            }
+                        positions:{
+                            create: [
+                              {
+                                position:{
+                                  create:{
+                                    title:"Administrator"
+                                  }
+                                }
+                              }
+                            ]
                         }
                     }
                 })
@@ -1127,21 +1133,24 @@ export class DataAccessRepository {
         //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
-                position:true,
+                positions:true,
                 company:true,
             }
         });
 
         const people_arr=[];
-
+        let defaultPosition="Unknown"; //position will return the first position of the person.
 
         if(people)
         {
+          for(let i=0;i<people.length;++i)
+          {
+            
+            if(people[i].positions!=null)
+              defaultPosition=(await this.getPositionVID(people[i].positions[0].id));
 
-            for(let i=0;i<people.length;++i)
-            {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,people[i].position.title,people[i].company_id));
-            }
+            people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,defaultPosition,people[i].company_id));
+          }
         }
         else
             console.log("Object people returned null");
@@ -1152,7 +1161,29 @@ export class DataAccessRepository {
     }
 
     /***
-     * Returns one user via their email address.
+     * This function returns the position as a string based on the id
+     * it gets. Returns Unknown if it's unable to find the position.
+    */
+    async getPositionVID(pos_id:number):Promise<string>{
+      
+      const position=await this.prisma.position.findUnique({
+        where:{
+          id:pos_id
+        }
+      })
+
+      if(position){
+        return position.title;
+      }
+      else{
+        return "Unknown";
+      }
+      
+    }
+
+    /***
+     * Returns one user via their email address.Returns a string "Email not found" if
+     * position doesn't exist.
     */
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
@@ -1165,7 +1196,7 @@ export class DataAccessRepository {
                 email:arg_email,
             },
             include:{
-                position:true,
+                positions:true,
                 company:true,
                 project:true,
             }
@@ -1186,13 +1217,8 @@ export class DataAccessRepository {
             else
                 local_company=person.company.company_name;
 
-            if(person.position==null)
-                title=null;
-            else
-                if(person.position.title==null)
-                  title=null;
-                else
-                  title=person.position.title;
+            if(person.positions!=null)
+              title=(await this.getPositionVID(person.positions[0].id));
 
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
@@ -1562,8 +1588,7 @@ export class DataAccessRepository {
 
     /**
      * This function returns the user id. Returns an object with the user id
-     * @param arg_email
-     * @returns
+     * Returns -1 if the user doesn't exist.
      */
 
     async getUserIDVEmail(arg_email:string):Promise<UserPerson>
@@ -1900,6 +1925,7 @@ export class DataAccessRepository {
         obj.name=person.name
         obj.surname=person.surname
         obj.email=person.email
+        obj.utilisation=person.utilisation
         members_Arr.push(obj)
       }
 
@@ -1950,7 +1976,7 @@ export class DataAccessRepository {
     /***
      * Permanantly removes employee from the system.
      *
-     */
+    */
 
     async deleteEmployee(Email:string):Promise<Person>
     {
@@ -2068,9 +2094,6 @@ export class DataAccessRepository {
 
     async UpdatePersonProfile(Email:string,Name:string,Surname:string):Promise<string>
     {
-
-
-
       const empID=await this.prisma.person.update(
         {
           where:
@@ -2095,9 +2118,113 @@ export class DataAccessRepository {
       }
     }
 
+    async addPosition(position_name:string):Promise<MessageObject>{
+
+      const existing_position=await this.prisma.position.findUnique({
+        where:{
+          title:position_name,
+        }
+      })
+
+      if(existing_position){
+        return new MessageObject("POSITION_ALREADY_EXISTS",ErrorStrings.DUPLICATE_POSITION);
+      }
+      else{//
+
+        try {
+          await this.prisma.position.create({
+            data:{
+              title:position_name,
+            }
+          })
+
+          return new MessageObject("SUCCESS"); //ErrorString is NONE
+          
+        } catch (err) {
+          if(err instanceof Prisma.PrismaClientKnownRequestError){
+            return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
+          }
+        }
+
+        
+      }
+    }
+
+    /***
+     * Use this function to assign a position to a user via email. Use the user's email
+     * Returns: USER_DOESNT_EXIST if user isn't in the database.
+     * Returns: 
+    */
+
+    async assignPositionToUser(email:string, position_name:string):Promise<MessageObject>
+    { 
+      const p_id=await this.getPersonIDVEmail(email);
+      const pos_id=await this.getPositionIDVName(position_name);
+
+      if(p_id>0){
+        if(pos_id>0)
+        {
+          await this.prisma.personsOnPositions.create({
+            data:{
+              person_id:p_id,
+              position_id:pos_id
+            }
+          })
+
+          const msg=new MessageObject("SUCCESS",ErrorStrings.NONE);
+          return msg;
+        }
+        else{
+          const msg=new MessageObject("Position doesn't exist",ErrorStrings.NO_POSITIONS_FOUND);
+          return msg;
+        }
+      }
+      else{
+        const msg= new MessageObject("Person doesn't exist",ErrorStrings.USER_DOESNT_EXIST);
+        return msg;
+      }
 
 
+    }
 
+    /***
+     * This gets all the positions in the company. Returns
+     * an empty array if company doesn't have any positions.
+    */
+
+    async getAllPositions():Promise<PositionEntity[]>{
+
+      const positions=await this.prisma.position.findMany();
+      let return_arr:PositionEntity[]=[];
+      
+
+      if(positions!=null)
+      {
+        for(let i=0;i<positions.length;++i){
+          const position_obj=new PositionEntity();
+
+          position_obj.position=positions[i].title;
+          position_obj.id=positions[i].id;
+
+          return_arr.push(position_obj)
+        }
+      }
+      else if(positions.length==0){
+        const position_obj=new PositionEntity();
+        position_obj.error_string=ErrorStrings.NO_POSITIONS_FOUND;
+
+        return_arr.push(position_obj);
+      }
+      else
+      {
+        const position_obj=new PositionEntity();
+        position_obj.error_string=ErrorStrings.PRISMA_QUERY_FAILED;
+
+        return_arr.push(position_obj);
+      }
+
+      return return_arr;
+    }
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
@@ -2130,6 +2257,30 @@ export class DataAccessRepository {
         return team_arr;
 
     }
+
+
+    /***
+     * Use this function to get the position_id using the name of the positioin.
+     * Returns -1, if position's id doesn't exist
+    */
+
+    async getPositionIDVName(position_name:string):Promise<number>{
+
+      const position= await this.prisma.position.findUnique({
+        where:{
+          title:position_name
+        }
+      })
+
+      if(position){
+        return position.id;
+      }
+      else{
+        return -1;
+      }
+
+    }
+
 
     async getAllocatedProjects(userEmail:string):Promise<ProjectEntity[]>
     {
@@ -2211,7 +2362,7 @@ export class DataAccessRepository {
     /***
      * The function is used to get the skills of a user. The function takes
      * in a userEmail.
-     */
+    */
 
     async GetUserSkills(UserEmail:string):Promise<string[]>
     {
@@ -2238,6 +2389,43 @@ export class DataAccessRepository {
     }
 
     /***
+     * Use this function to get all the positions of an individual user.
+     * A user can have many positions.
+     * Returns and array of PositionEntities
+    */
+
+    async getUserPositions(userEmail:string):Promise<PositionEntity[]>
+    {
+      const user_id=(await this.getUserIDVEmail(userEmail)).id;
+      const return_arr=[];
+
+      if(user_id>0){
+        const positions=await this.prisma.personsOnPositions.findMany({
+          where:{
+            person_id:user_id
+          }
+        })
+
+        for(let i=0;i<positions.length;++i){
+
+          const new_position=new PositionEntity();
+          new_position.position=(await this.getPositionVID(positions[i].position_id));
+          new_position.id=positions[i].position_id;
+
+          return_arr.push(new_position);
+        }
+      }
+      else if(user_id<0){
+        const obj=new PositionEntity();
+
+        obj.error_string=ErrorStrings.EMAIL_DOESNT_EXISTS;
+        return_arr.push(obj);
+      }
+      
+      return return_arr;
+    }
+
+    /***
      * Use this function to get the statistics of the individual.
      * Returns null if the user doesn't exist.
      */
@@ -2255,7 +2443,7 @@ export class DataAccessRepository {
 
       if(user){ //user does exist.
 
-        const UserStats=new UserStatsEntity
+        const UserStats=new UserStatsEntity();
 
         UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
 
@@ -2519,7 +2707,7 @@ export class DataAccessRepository {
       const compEmployees=await this.prisma.company.findUnique(
         {
           where:{
-            id:comID
+            id:comID,
           },
           include:
           {
@@ -2540,12 +2728,14 @@ export class DataAccessRepository {
         }
         else
         {
+          if(Employees[i].approved==true)
+          {
             emp.name=Employees[i].name;
             emp.surname=Employees[i].surname;
             emp.email=Employees[i].email;
             emp.role=Employees[i].role;
-
             employees_arr.push(emp);
+          }
         }
       }
 
@@ -2563,6 +2753,7 @@ export class DataAccessRepository {
           }
         }
       )
+
 
       //Project manHours/Numberofeams
       const HoursPerTeam=((await this.getProject(projectID)).man_hours)/NumberOfTeams
@@ -2782,6 +2973,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);  //Update Team utilization
         }
         else
         {
@@ -2847,7 +3039,7 @@ export class DataAccessRepository {
             }
             else
             {
-              Utilization=0;
+              AssignedHours=0;
             }
 
             let Statuss:Status
@@ -2944,7 +3136,16 @@ export class DataAccessRepository {
 
             let AssignedHours=Math.round((PersonObj.assigned_hours-(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
             let WeeklyHours=PersonObj.weekly_hours;
-            let Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            let Utilization=0
+
+            if(AssignedHours>0)
+            {
+              Utilization=Math.round(((AssignedHours/WeeklyHours)*100)*100)/100;
+            }
+            else
+            {
+              AssignedHours=0;
+            }
 
             let Statuss:Status
 
@@ -2986,6 +3187,7 @@ export class DataAccessRepository {
               }
             )
           }
+          await this.CalculateAverageTeamUtilization(teamName);
         }
         else
         {
@@ -3494,11 +3696,12 @@ export class DataAccessRepository {
     async completeProject(projectName:string):Promise<string>
     {
 
+      this.AssignProjectPoints(projectName);  //Give everyone that worked on this project reward points
       const projectId=await this.getProjectID(projectName);
       await this.ResetAssignedHours(projectName)
 
 
-      const TeamsOnProjects=await this.prisma.teamsOnProjects.deleteMany(
+      await this.prisma.teamsOnProjects.deleteMany(
         {
           where:
           {
@@ -3519,6 +3722,84 @@ export class DataAccessRepository {
         }
       )
       return "Project Completed"
+    }
+
+    /**This function assigns Project points to all employees who worked on a particula
+     * project,this works as a competence indicator,the more points you have
+     * the more project hours you have worked in the company
+     * 1 point=10 hours
+     */
+    async AssignProjectPoints(projectName:string):Promise<string>
+    {
+      const projectId=await this.getProjectID(projectName);
+
+
+      //get all teams working on the project[]
+      const TeamsOnProject=await this.prisma.teamsOnProjects.findMany({
+        where:{
+            project_id:projectId
+        }}
+      )
+
+
+      for(let i=0;i<TeamsOnProject.length;i++)
+      {
+        const Team=await this.prisma.personOnTeams.findMany(
+          {
+            where:
+            {
+              team_id:TeamsOnProject[i].team_id   //Get All Team Members
+            }
+          }
+        )
+
+        if(Team)  //Team can be null
+        {
+          for(let j=0;j<Team.length;j++)  //Number of team Members
+          {
+            //Find and Update every team member
+            const PersonObj=(await this.prisma.person.findUnique(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                }
+              }
+            ))
+
+            let AssignedHours=Math.round((PersonObj.assigned_hours+(await this.HoursPerTeamMemberOnProject(TeamsOnProject[i].team_id,projectId)))*100)/100;
+            let ProjectPoints=0;
+
+            if(AssignedHours>0)
+            {
+              ProjectPoints=  Math.round((PersonObj.Project_Points+(AssignedHours/10))*100)/100;
+            }
+
+            await this.prisma.person.update(
+              {
+                where:
+                {
+                  id:Team[j].person_id
+                },
+                data:
+                {
+                  Project_Points:ProjectPoints
+                }
+              }
+            )
+          }
+        }
+      }
+
+     //await this.updateHistoricUtilization();
+    const date=(new Date());
+    const day=date.getDate();
+     if(day%7==0) //last day of the week(day 7/14/21/)
+     {
+        await this.updateHistoricUtilization();
+     }
+
+      return "Utilization complete"
     }
 
     async DeleteProject(projectName:string):Promise<string>
@@ -3735,12 +4016,73 @@ export class DataAccessRepository {
       return await (await this.GetCompanyUtilization()).Utilisation
     }
 
+    async CalculateAverageTeamUtilization(teamName:string)
+    {
+      const tID=(await this.prisma.team.findUnique(
+        {
+          where:
+          {
+            team_name:teamName
+          }
+        }
+      )).id
+
+      /** Get Members of a team*/
+      const Persons=await this.prisma.personOnTeams.findMany(
+        {
+          where:
+          {
+            team_id:tID
+          }
+        }
+      )
+
+      let avg=0;
+      for(let i=0;i<Persons.length;i++)
+      {
+        let personID=Persons[i].person_id
+        const util=(await this.prisma.person.findUnique(
+          {
+            where:{
+              id:personID
+            }
+          }
+        )).utilisation
+
+        avg+=util;
+      }
+
+      avg=avg/Persons.length;
+
+      await this.prisma.team.update(
+        {
+          where:
+          {
+            team_name:teamName
+          },
+          data:
+          {
+            utilisation:avg
+          }
+        }
+      )
+    }
+
 
     /*This function suggests a team based on the skills required for a project,the number of people and overall utilization,optional parameters can include average experience*/
-    async RecomendedTeam(numberOfPeople:number,skill:string):Promise<UserPerson[]>
+    async RecomendedTeam(numberOfPeople:number,skillName:string):Promise<UserPerson[]>
     {
 
-     // if(skill!=null)
+      const skillID=(await this.prisma.skills.findUnique(
+        {
+          where:
+          {
+            skill:skillName
+          }
+        }
+      )).id
+
+     if(skillID>0)
       {
 
         try{
@@ -3750,13 +4092,17 @@ export class DataAccessRepository {
               {
                 utilisation:
                 {
-                  lte:80,   //Return all users that are underUtized in ascending order ,meaning the least utilized
+                  lte:90,   //Return all users that are underUtized in ascending order ,meaning the least utilized
                 },
-
+                approved:true
               },
               orderBy:
               {
                 utilisation:'asc'
+              }
+              ,include:
+              {
+                skills:true
               }
             }
           )
@@ -3764,6 +4110,33 @@ export class DataAccessRepository {
           /*The least Utilized people are first in the array*/
 
           let Peeps:UserPerson[]=[]
+
+          for(let i=0;i<people.length;i++)
+          {
+            //Search the person's skills to see if they have this skill
+            for(let j=0;j<people[i].skills.length;j++)
+            {
+              if(people[i].skills[j].skill_id==skillID)
+              {
+                let person=new UserPerson();
+                person.name=people[i].name;
+                person.surname=people[i].surname;
+                person.email=people[i].email;
+                person.utilisation=people[i].utilisation;
+
+                Peeps.push(person);
+                if(j==numberOfPeople)
+                {
+                  return Peeps;
+                }
+                break;
+              }
+            }
+          }
+
+          return Peeps;
+
+
 
           //filter based on skills
          /* for(let i=0;i<people.length;i++)

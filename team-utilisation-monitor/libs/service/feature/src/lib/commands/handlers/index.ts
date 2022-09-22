@@ -21,6 +21,8 @@ import { CalculateUtilizationHandler } from './CalculateUtilisation.handler';
 import { SetTokeHandler } from './set-token.handler';
 import { VerifyTokenHandler } from './verify-token.handler';
 import { RemoveSkillHandler } from './remove-skills.handler';
+import { AddPositionHandler } from './AddPosition.handler';
+import { AssignPositionToUserHandler } from './assign-position-to-user.handler';
 
 export const CommandHandlers=[
   ApproveRequestVEmailHandler,
@@ -45,5 +47,7 @@ export const CommandHandlers=[
   SetTokeHandler,
   VerifyTokenHandler,
   RemoveSkillHandler,
-  DeleteTeamHandler
+  DeleteTeamHandler,
+  AddPositionHandler,
+  AssignPositionToUserHandler,
 ];

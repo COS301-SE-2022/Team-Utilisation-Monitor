@@ -1474,7 +1474,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             returnObject.exists_person = true;
             return returnObject;
         }
-        else {
+        else if (existing_user == null) {
             console.log("not found");
             const rand = () => {
                 return Math.random().toString(36).substr(2);
@@ -1527,7 +1527,7 @@ let AuthRepositoryService = class AuthRepositoryService {
             console.log(returnObject);
             return returnObject;
         }
-        else {
+        else if (existing_user == null) {
             console.log("not found");
             const rand = () => {
                 return Math.random().toString(36).substr(2);

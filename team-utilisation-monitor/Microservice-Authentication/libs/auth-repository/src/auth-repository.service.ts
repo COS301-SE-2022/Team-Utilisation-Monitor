@@ -45,7 +45,7 @@ export class AuthRepositoryService {
 
             return returnObject; //for testing purposes. Remove in production.
         }
-        else
+        else if(existing_user==null)
         {
             //generate a token
 
@@ -138,7 +138,7 @@ export class AuthRepositoryService {
 
             return returnObject; //for testing purposes. Remove in production.
         }
-        else
+        else if(existing_user==null)
         {
             //generate a token
 
@@ -200,7 +200,7 @@ export class AuthRepositoryService {
      * The function returns an object with the user's details upon successful login.
      * The logic for the password is found in the command handler.
      * returns null if user doesn't exist
-     */
+    */
 
 
     async login(f_username:string,f_password:string):Promise<AuthAdminEntity|null>
@@ -221,6 +221,7 @@ export class AuthRepositoryService {
             returnObject.token=returning_user.token;
             returnObject.name=returning_user.name;
             returnObject.surname=returning_user.surname;
+            
 
             return returnObject;
         }

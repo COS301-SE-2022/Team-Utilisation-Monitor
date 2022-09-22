@@ -51,7 +51,9 @@ export class SignupAsIndividualComponent implements OnInit {
             if(item.data!=null){
 
               if(item.data.createUser.error_string=="DUPLICATE_EMAIL")
-              {
+              { 
+                console.log(item.data.createUser);
+                
                 this.snackBar.open("User Already Exists")
                 setTimeout(() => {
                 this.snackBar.dismiss();
@@ -63,7 +65,8 @@ export class SignupAsIndividualComponent implements OnInit {
                 this.snackBar.dismiss();
                 }, 5000)
               }
-              else{
+              else if(item.data.createUser.error_string=="NONE")
+              {
                 this.service.registerUser(firstname,lastname,email,password).subscribe(data =>
                 {
                   if(data!=null)
