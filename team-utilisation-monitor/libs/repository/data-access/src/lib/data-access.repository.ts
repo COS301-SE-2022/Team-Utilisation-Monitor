@@ -477,29 +477,55 @@ export class DataAccessRepository {
 
           for(let i=0;i<projects.length;i++)
           {
-            const projectName=await (await this.getProject(projects[i].project_id)).project_name;
+            const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-            await this.prisma.team.delete(
+
+            await this.prisma.teamsOnProjects.deleteMany(
               {
                 where:
                 {
-                  id:id
+                  team_id:id,
+                  project_id:projects[i].project_id
                 }
               }
             )
 
             this.CalculateUtilizationVProject(projectName);
 
+
+            if(i==(projects.length-1))
+            {
+              await this.prisma.personOnTeams.deleteMany(
+                {
+                  where:
+                  {
+                    team_id:id
+                  }
+                }
+              )
+
+              await this.prisma.team.delete(
+                  {
+                    where:
+                    {
+                      id:id
+                    }
+                  }
+                )
+            }
+
           }
-        }
+
+
+
+          return "Team  Deleted"
+
+      }
       catch(e)
       {
-          if(e instanceof Prisma.PrismaClientKnownRequestError)
-          {
+        return "Team Deletion Failed";
 
-            return "Team Deletion Failed";
-          }
       }
     }
 
@@ -2114,14 +2140,14 @@ export class DataAccessRepository {
           })
 
           return new MessageObject("SUCCESS"); //ErrorString is NONE
-          
+
         } catch (err) {
           if(err instanceof Prisma.PrismaClientKnownRequestError){
             return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
           }
         }
 
-        
+
       }
     }
 
@@ -2134,7 +2160,7 @@ export class DataAccessRepository {
 
       const positions=await this.prisma.position.findMany();
       let return_arr:PositionEntity[]=[];
-      
+
 
       if(positions!=null)
       {
