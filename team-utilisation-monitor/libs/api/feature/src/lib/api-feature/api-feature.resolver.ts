@@ -213,7 +213,7 @@ export class ApiFeatureResolver {
   @Query(()=>[UserPerson])
   async getAllPeople(){
     const resp=await this.service.getAllUserPerson();
-    console.log(resp);
+   
     return resp;
   }
 

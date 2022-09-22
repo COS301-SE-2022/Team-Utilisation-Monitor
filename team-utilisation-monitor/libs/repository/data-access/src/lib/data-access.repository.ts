@@ -25,7 +25,6 @@ export class DataAccessRepository {
         user_person.email=email;
         user_person.role=role;
         user_person.suspended=suspended;
-        user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
 
@@ -1129,28 +1128,63 @@ export class DataAccessRepository {
 
     async getAllPersons():Promise<UserPerson[]>
     {
-        //absolutely brilliant. The include tag includes other details i.e other dchema data
-        //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
                 positions:true,
                 company:true,
+                skills:true,
             }
         });
 
         const people_arr=[];
-        let defaultPosition="Unknown"; //position will return the first position of the person.
-
+        
+        
         if(people)
         {
           for(let i=0;i<people.length;++i)
           {
-            
-            if(people[i].positions!=null)
-              defaultPosition=(await this.getPositionVID(people[i].positions[0].id));
+            const person=new UserPerson();
+            person.positions=[];
+            person.skill=[];
 
-            people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,defaultPosition,people[i].company_id));
-          }
+            person.id=people[i].id;
+            person.name=people[i].name;
+            person.surname=people[i].surname;
+            person.email=people[i].email;
+            person.role=people[i].role;
+            person.suspended=people[i].suspended;
+            person.approved=people[i].approved;
+            person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
+            person.utilisation=people[i].utilisation;
+            
+            //positions
+            if(people[i].positions)
+            {   
+              for(let k=0;k<people[i].positions.length;++k){
+                const pos_obj=new PositionEntity();
+
+                pos_obj.id=people[i].positions[k].position_id;
+                pos_obj.position=(await this.getPositionVID(people[i].positions[k].position_id));
+
+                person.positions.push(pos_obj);
+              }
+            }
+
+            //skills
+            if(people[i].skills)
+            {
+              for(let k=0;k<people[i].skills.length;++k)
+              {
+                const skills_obj=new Skill();
+  
+                skills_obj.id=people[i].skills[k].skill_id;
+                skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
+
+                person.skill.push(skills_obj);
+              }
+            }
+            people_arr.push(person);
+          } 
         }
         else
             console.log("Object people returned null");
