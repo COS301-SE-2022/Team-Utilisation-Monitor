@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
 import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -2102,7 +2102,7 @@ export class DataAccessRepository {
       })
 
       if(existing_position){
-        return new MessageObject("POSITION_ALREADY_EXISTS");
+        return new MessageObject("POSITION_ALREADY_EXISTS",ErrorStrings.DUPLICATE_POSITION);
       }
       else{//
 
@@ -2123,6 +2123,45 @@ export class DataAccessRepository {
 
         
       }
+    }
+
+    /***
+     * This gets all the positions in the company. Returns
+     * an empty array if company doesn't have any positions.
+    */
+
+    async getAllPositions():Promise<PositionEntity[]>{
+
+      const positions=await this.prisma.position.findMany();
+      let return_arr:PositionEntity[]=[];
+      
+
+      if(positions!=null)
+      {
+        for(let i=0;i<positions.length;++i){
+          const position_obj=new PositionEntity();
+
+          position_obj.position=positions[i].title;
+          position_obj.id=positions[i].id;
+
+          return_arr.push(position_obj)
+        }
+      }
+      else if(positions.length==0){
+        const position_obj=new PositionEntity();
+        position_obj.error_string=ErrorStrings.NO_POSITIONS_FOUND;
+
+        return_arr.push(position_obj);
+      }
+      else
+      {
+        const position_obj=new PositionEntity();
+        position_obj.error_string=ErrorStrings.PRISMA_QUERY_FAILED;
+
+        return_arr.push(position_obj);
+      }
+
+      return return_arr;
     }
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
