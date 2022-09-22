@@ -134,9 +134,9 @@ export class CompTeamListComponent implements OnInit {
     console.log(teamName);
 
     this.service.deleteTeam(this.Teams.teamName).subscribe(Data=>{
-      for(let index=0; index<this.Teams.teamName.length; ++index){
-        if(this.Teams.teamName[index] !=null && this.Teams.teamName==teamName){
-          
+      for(let index=0; index<this.Teams.teamName.length; ++index){ //this has to be the length of teams not teamName
+        if(this.Teams[index] !=null && this.Teams[index].teamName==teamName){
+          this.Teams[index].splice(index,1);
         }
       }
     })
