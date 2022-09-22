@@ -19,7 +19,16 @@
 
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
                 <mat-expansion-panel-header><mat-panel-title>
-                        Projects
+                        Open Projects
+                </mat-panel-title></mat-expansion-panel-header>
+                <team-utilisation-monitor-comp-project-list
+                *ngFor="let project of (projects$|async)"
+                [Projects] = "project"></team-utilisation-monitor-comp-project-list>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header><mat-panel-title>
+                        Completed Projects
                 </mat-panel-title></mat-expansion-panel-header>
                 <team-utilisation-monitor-comp-project-list
                 *ngFor="let project of (projects$|async)"
