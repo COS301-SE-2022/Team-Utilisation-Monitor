@@ -130,5 +130,13 @@ export class CompTeamListComponent implements OnInit {
 
   }
 
+  RemoveTeam(teamName:string){
+    console.log(teamName);
+
+    this.service.deleteTeam(this.Teams.teamName).subscribe(Data=>{
+      
+    })
+  }
+
 
 }
