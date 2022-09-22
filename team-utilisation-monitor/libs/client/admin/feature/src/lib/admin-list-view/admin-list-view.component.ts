@@ -14,10 +14,9 @@ export class AdminListViewComponent implements OnInit {
   company:any;
   companyName=''
   employeeData:any
-  OutEmployeeName:any[]=[] ; /*[{Name: "Mr Cornel", Surname:"Coetzee"},
-                    {Name: "Mr Cornel", Surname:"Coetzee"},
-                    {Name: "Mr Cornel", Surname:"Coetzee"},
-                  ];*/
+  OutEmployeeName:any[]=[] ; 
+
+  
   ngOnInit(): void {
     console.log();
     this.companyName=this.cookie.get("CompanyName");
