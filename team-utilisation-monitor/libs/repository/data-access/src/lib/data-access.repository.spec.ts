@@ -21,9 +21,29 @@ describe('DataAccessRepository', () => {
     expect(repository).toBeDefined();
   });
 
+  describe('@returnObject', () => {
+        
+    const id = 1;
+    const name = "Rourke";
+    const surname = "Amiss";
+    const email= "test@example.com";
+    const role = "tester";
+    const suspended = false;
+    const position = "intern";
+    const company_name = "UP";
+    const company_id = 123;
+
+    it('should return a user object', () => {
+      try {
+        const user = repository.returnObject(id, name, surname, email, suspended, role, company_name, position, company_id);
+        expect(user).toEqual(user);
+      } catch (error) { 
+        fail(error)
+      }
+    })
+  }); 
+
   // to do
-  // it('should be defined', () => {
-  //   expect(provider).getTeam();
-  // });
+
   
 });
