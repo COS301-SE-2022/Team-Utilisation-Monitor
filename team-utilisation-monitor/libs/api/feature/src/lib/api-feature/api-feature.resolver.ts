@@ -329,12 +329,45 @@ export class ApiFeatureResolver {
     }, HttpStatus.FORBIDDEN);
   }
 
+  @Mutation(()=>MessageObject)
+  async assignPositionToUser(@Args("position_name")position_name:string,@Args("token")token:string,@Args("email")email:string,@Args("assignee_email")assignee_email:string)
+  {
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.AssignPositionToUser(position_name,assignee_email);
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
   @Query(()=>[PositionEntity])
   async getAllPositions(@Args("token")token:string,@Args("email")email:string){
     const verification=await this.VerifyToken(email,token);
 
     if(verification){
       const resp=await this.service.GetAllPositions();
+
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+  }
+
+  @Query(()=>[PositionEntity])
+  async getPositionsOfUser(@Args("token")token:string,@Args("email")email:string){
+    const verification=await this.VerifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.GetPositionsOfUser(email);
 
       return resp;
     }

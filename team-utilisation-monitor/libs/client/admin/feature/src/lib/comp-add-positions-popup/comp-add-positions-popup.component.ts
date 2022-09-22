@@ -58,7 +58,6 @@ export class CompAddPositionsPopupComponent implements OnInit {
       this.service.createPosition(positionName).subscribe(item=>{
         if(item!=null){
 
-
           if(item.data.addPosition.error_string=="DUPLICATE_POSITION"){
             this.snackBar.open("Position Already in the system. Please try again.");
             setTimeout(() => {
