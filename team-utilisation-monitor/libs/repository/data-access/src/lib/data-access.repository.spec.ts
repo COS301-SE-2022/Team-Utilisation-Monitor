@@ -1,19 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataAccessRepository } from './data-access.repository';
 
-describe('DataAccessRepository', () => {
-  let provider: DataAccessRepository;
+import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services';
 
-  beforeEach(async () => {
+
+
+describe('DataAccessRepository', () => {
+
+  let repository: DataAccessRepository;
+
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DataAccessRepository],
+      providers: [DataAccessRepository, PrismaService],
     }).compile();
 
-    provider = module.get<DataAccessRepository>(DataAccessRepository);
+    repository = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
   it('should be defined', () => {
-    expect(provider).toBeDefined();
+    expect(repository).toBeDefined();
   });
 
   // to do
