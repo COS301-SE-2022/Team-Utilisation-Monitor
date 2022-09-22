@@ -19,7 +19,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
-  MembersNames:string[]=["awe","awe","awe","awe","awe"];
+  MembersNames:any[]=[];
   selectedMembers:string[]=[];
   teams:any;
 
@@ -31,7 +31,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
-    projectHours:new FormControl('',[Validators.required,Validators.pattern('([1-9]*[])')]),
+    projectHours:new FormControl('',[Validators.required]),
     projectMemNumber:new FormControl('',[Validators.required]),
     projectSkills:new FormControl('',[Validators.required]),
   })
@@ -117,5 +117,39 @@ export class CompCreateProjectPopupComponent implements OnInit {
   OnGetTeam()
   {
     //
+    if(this.TeamForm.valid)
+    {
+      const projectName=this.TeamForm.get('projectName')?.value!;
+      const projectHours=this.TeamForm.get('manHours')?.value!;
+      const projectSkill=this.TeamForm.get('projectSkills')?.value!;
+      const projectMemNumber=this.TeamForm.get('')?.value!;
+
+      this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
+        data=>{
+          //
+          this.adminService.GetRecomendedTeam(Number(projectMemNumber),projectSkill).subscribe(
+            data2=>
+            {
+              type nameObject=
+              {
+                Name:string
+                Surname:string
+                Email:string
+              }
+
+              for(const requests of data2.data.GetRecomendedTeam)
+              {
+                const  obj={} as nameObject;
+                obj.Name=requests.name;
+                obj.Surname=requests.surname;
+                obj.Email=requests.email;
+
+                this.MembersNames.push(obj)
+              }
+            }
+          )
+        }
+      )
+    }
   }
 }
