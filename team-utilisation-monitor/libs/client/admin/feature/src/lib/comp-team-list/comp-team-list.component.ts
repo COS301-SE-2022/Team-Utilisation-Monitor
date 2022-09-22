@@ -140,6 +140,11 @@ export class CompTeamListComponent implements OnInit {
         }
       }
     })
+
+    this.snackBar.open(teamName +" has been removed from Teams")
+    setTimeout(() => {
+      this.snackBar.dismiss();
+    }, 5000)
   }
 
 
