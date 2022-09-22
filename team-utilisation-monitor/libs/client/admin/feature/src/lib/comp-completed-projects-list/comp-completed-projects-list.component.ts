@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-completed-projects-list',
@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class CompCompletedProjectsListComponent implements OnInit {
 
   constructor() { }
+
+  @Input() Projects!:{projectName:string, manHours:number};
 
   ngOnInit(): void {
   }
