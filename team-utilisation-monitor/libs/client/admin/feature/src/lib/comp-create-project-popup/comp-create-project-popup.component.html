@@ -54,7 +54,7 @@
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Enter Number of Members Required for the Project</mat-label>
-                            <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="projectMemNumber">
+                            <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="projectMemberNumber">
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Skills Required for the Project</mat-label>
@@ -66,10 +66,10 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <div class="DivContent">
-                    <form (ngSubmit)="onSubmit()">
+                    <form [formGroup]="SuggestedForm" (ngSubmit)="onSubmit()">
                         <mat-form-field appearance="fill">
                             <mat-label>Give your Team a Name</mat-label>
-                            <input id="Project_TeamName" matInput placeholder="Team Name" formControlName="projectTeamName">
+                            <input id="Project_TeamName" matInput placeholder="Team Name" formControlName="TeamName">
                         </mat-form-field>
                         <mat-selection-list id="MemberName" #MemberName [(ngModel)]="selectedMembers" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                             <mat-list-option *ngFor="let MemberName of MembersNames" [value]="MemberName" [selected]="true">

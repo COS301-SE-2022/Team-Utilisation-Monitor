@@ -32,9 +32,14 @@ export class CompCreateProjectPopupComponent implements OnInit {
   TeamForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
     projectHours:new FormControl('',[Validators.required]),
-    projectMemNumber:new FormControl('',[Validators.required]),
+    projectMemberNumber:new FormControl('',[Validators.required]),
     projectSkills:new FormControl('',[Validators.required]),
   })
+
+  SuggestedForm=new FormGroup({
+    TeamName:new FormControl('',[Validators.required]),
+  }
+  )
 
   companyName='';
   tempData:any;
@@ -74,13 +79,13 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
       //create the project in isolation
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
-        data=>{
+        data1=>{
 
         //assign the project to the selected teams
         for(let i=0;i<this.selectedTeams.length;++i)
         {
           this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
-          data=>{
+          data2=>{
 
               if(i==this.selectedTeams.length-1)
               {
@@ -122,7 +127,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
       const projectName=this.TeamForm.get('projectName')?.value!;
       const projectHours=this.TeamForm.get('manHours')?.value!;
       const projectSkill=this.TeamForm.get('projectSkills')?.value!;
-      const projectMemNumber=this.TeamForm.get('')?.value!;
+      const projectMemNumber=this.TeamForm.get('projectMemberNumber')?.value!;
 
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data=>{
