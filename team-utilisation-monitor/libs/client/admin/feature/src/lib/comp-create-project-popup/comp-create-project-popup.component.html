@@ -43,7 +43,7 @@
             Select options for your Project and a custom team that suits the description will be generated for you.
             <mat-grid-tile>
                 <div class="DivContent">
-                    <form [formGroup]="TeamForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="TeamForm" (ngSubmit)="OnGetTeam()">
                         <mat-form-field appearance="fill">
                             <mat-label>Enter Project name</mat-label>
                             <input id="Project_Name" matInput placeholder="Project" formControlName="projectName">
@@ -73,7 +73,7 @@
                         </mat-form-field>
                         <mat-selection-list id="MemberName" #MemberName [(ngModel)]="selectedMembers" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                             <mat-list-option *ngFor="let MemberName of MembersNames" [value]="MemberName" [selected]="true">
-                                {{MemberName}}
+                                {{MemberName.Name}}
                             </mat-list-option>
                         </mat-selection-list>
                         <button type="submit" mat-raised-button color="primary">Save Team and add to new Project</button>
