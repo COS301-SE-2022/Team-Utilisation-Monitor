@@ -19,9 +19,7 @@ export class UserPerson{
     @Field({nullable:true})
     preRequisites?:string;
    
-
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
-
 
 }
