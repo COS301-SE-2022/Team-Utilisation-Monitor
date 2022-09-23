@@ -34,8 +34,11 @@ export class CompTeamListComponent implements OnInit {
   value = 0;
 
 
-  OutEmployeeName:any[]=[]
+  OutEmployeeName:any[]=[];
   TeamData:any;
+  positionList:any[]=[];
+  selectedPositon:any;
+
 
   foods = [
     {value: 'steak-0', viewValue: 'Steak'},
@@ -49,12 +52,16 @@ export class CompTeamListComponent implements OnInit {
 
     type nameObject=
     {
-      Name:string
-      Surname:string
-      Email:string
-      Utilisation:number
-      TeamName:string
+      Name:string,
+      Surname:string,
+      Email:string,
+      Utilisation:number,
+      TeamName:string,
+      position:string
+    }
 
+    type positionObject={
+      position_name:string,
     }
 
     this.service.getTeamMembers(this.Teams.teamName).subscribe(data=>{
@@ -69,6 +76,12 @@ export class CompTeamListComponent implements OnInit {
         obj.TeamName=this.Teams.teamName;
         obj.Utilisation=requests.utilisation
         this.value+=obj.Utilisation;
+
+        if(requests.positions!=null)
+        {
+          obj.position=requests.positions[requests.positions.length-1].position; //will always use the last position added
+        }
+        
         this.OutEmployeeName.push(obj);
       }
 
@@ -99,7 +112,7 @@ export class CompTeamListComponent implements OnInit {
 
           if(found==false){ // it doesn't exist in the current OutEmployees array
 
-            const memberObj={} as nameObject
+            const memberObj={} as nameObject;
             memberObj.Name=data[i].name;
             memberObj.Surname=data[i].surname;
             memberObj.Email=data[i].email;
@@ -119,6 +132,73 @@ export class CompTeamListComponent implements OnInit {
       }
     })
 
+
+    //popoulate the positionList
+    this.service.getAllPositions().subscribe(item=>{
+      
+      if(item!=null){
+        for(let i=0;i<item.data.getAllPositions.length;++i){
+          const pos_obj={} as positionObject;
+
+          pos_obj.position_name=item.data.getAllPositions[i].position;
+          this.positionList.push(pos_obj);
+        }
+      }
+      else{
+        this.snackBar.open("API returned null")
+        setTimeout(() => {
+        this.snackBar.dismiss();
+        }, 5000)
+      }
+    })
+  }
+
+  assignPosition(assignee_email:string,Name:string)
+  {
+    
+    this.service.assignPositionToUser(this.selectedPositon,this.Teams.teamName,assignee_email).subscribe(item=>{
+
+      if(item!=null){
+        if(item.data.assignPositionToUser.error_string=="NO_POSITIONS_FOUND")
+        {
+          this.snackBar.open(this.selectedPositon+" is not a valid position")
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 5000)
+        }
+        else if(item.data.assignPositionToUser.error_string=="USER_DOESNT_EXIST")
+        {
+          this.snackBar.open("User doesn't exist in the system")
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 5000)
+        }
+        else if(item.data.assignPositionToUser.error_string=="NONE"){
+          this.snackBar.open("Successfully assigned "+this.selectedPositon+" to "+Name);
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 5000)
+
+          for(let i=0;i<this.OutEmployeeName.length;++i){
+            if(this.OutEmployeeName[i].Email==assignee_email){
+              this.OutEmployeeName[i].position=this.selectedPositon;
+            }
+          }
+        }
+      }
+      else{
+        this.snackBar.open("API returned null")
+        setTimeout(() => {
+        this.snackBar.dismiss();
+        }, 5000)
+      }
+
+    })
+    
+  }
+
+  changePosition(value:any){
+    this.selectedPositon=value;
   }
 
   onOpenAddTeamMemberClick(team_name:string){
