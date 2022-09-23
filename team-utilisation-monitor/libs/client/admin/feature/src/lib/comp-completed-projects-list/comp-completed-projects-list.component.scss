@@ -31,44 +31,23 @@ mat-card-content{
 	height: 34px;
 }
 
-.InvdividualName{
-	padding-top: 7px;
-}
-
-mat-progress-bar{
-    margin-top: 6px;
-    height: 150%;
-}
-
-mat-accordion{
-    margin: 1px;
-}
-
-.userRequestButton{
-    width: 99%;
-}
-
-mat-panel-title{
-	width: 20px;
-}
-
-button{
-	margin-left: 10px;
-}
-
 .CheckMarkButton{
     height: 34px;
     margin-right: 5px;
 }
 
-#positions_drop_down{
-	min-width: 140px;
-	max-width: 140px;
-	font-size: 10px;
-	width: 140px;
-	font-weight: bold;
+.InvdividualName{
+	padding-top: 7px;
+	font-size: medium;
+	width: 31.2%;
+	text-align: left;
+	margin-right: 16px;
 }
 
-#emailText{
-	font-weight: bold;
+mat-icon{
+	padding-bottom: 3px; 
+}
+
+span{
+	height: 35px;
 }

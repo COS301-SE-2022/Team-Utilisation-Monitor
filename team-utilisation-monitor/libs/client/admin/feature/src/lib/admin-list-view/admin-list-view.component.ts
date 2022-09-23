@@ -2,6 +2,7 @@ import { Role } from '@prisma/client';
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-list-view',
@@ -9,46 +10,74 @@ import { AdminService } from '../Admin.service';
   styleUrls: ['./admin-list-view.component.scss'],
 })
 export class AdminListViewComponent implements OnInit {
-  constructor(private service:AdminService,private cookie:CookieService) {}
+  constructor(private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
   boolshow = true;
   company:any;
   companyName=''
   employeeData:any
-  OutEmployeeName:any[]=[] ; /*[{Name: "Mr Cornel", Surname:"Coetzee"},
-                    {Name: "Mr Cornel", Surname:"Coetzee"},
-                    {Name: "Mr Cornel", Surname:"Coetzee"},
-                  ];*/
+  OutEmployeeName:any[]=[] ; 
+
+
   ngOnInit(): void {
     console.log();
     this.companyName=this.cookie.get("CompanyName");
 
-    this.service.getCompany(this.companyName).subscribe(data=>{
-      //
-      this.employeeData=data;
-        if(this.employeeData.data.GetCompanyQuery.employees!=null)
-        {
-          type nameObject=
-          {
-            Name:string
-            Surname:string
-            Email:string
-            Role:string
-            Utilization:number
+    
+
+    this.service.getAllPersons().subscribe(item=>{
+
+      this.employeeData=item;
+
+      if(item.data.getAllPeople!=null){
+
+        type nameObject={
+          Name:string
+          Surname:string
+          Email:string
+          Role:string
+          Utilization:number
+          positions:string[],
+          skills:string[],
+        }
+
+        for(let i=0;i<item.data.getAllPeople.length;++i){
+          const obj={} as nameObject;
+
+          obj.Name=item.data.getAllPeople[i].name;
+          obj.Surname=item.data.getAllPeople[i].surname;
+          obj.Email=item.data.getAllPeople[i].email;
+          obj.Utilization=item.data.getAllPeople[i].utilisation;
+          obj.positions=[];
+          obj.skills=[];
+          
+          if(item.data.getAllPeople[i].skill.length>0){
+
+            for(let k=0;k<item.data.getAllPeople[i].skill.length;++k)
+            {
+              obj.skills[k]=item.data.getAllPeople[i].skill[k];
+            }
           }
 
-          for(const requests of this.employeeData.data.GetCompanyQuery.employees)
-          {
-            const  obj={} as nameObject;
-            obj.Name=requests.name
-            obj.Surname=requests.surname;
-            obj.Email=requests.email;
-            //console.log(obj.Email)
-            //console.log(obj.Role=requests.role);
-            //console.log(requests.utilisation);
-            obj.Utilization=requests.utilisation;
-            this.OutEmployeeName.push(obj);
+          if(item.data.getAllPeople[i].positions.length>0){
+            for(let k=0;k<item.data.getAllPeople[i].positions.length;++k)
+            {
+              obj.positions[k]=item.data.getAllPeople[i].positions[k];
+            }
           }
+
+          this.OutEmployeeName.push(obj);
+
         }
+
+
+      }
+      else{
+        this.snackBar.open("Something went wrong. API returned null")
+        setTimeout(() => {
+        this.snackBar.dismiss();
+        }, 5000)
+      }
+
     })
   }
 
