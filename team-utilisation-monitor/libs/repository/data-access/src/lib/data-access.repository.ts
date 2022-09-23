@@ -28,7 +28,7 @@ export class DataAccessRepository {
         user_person.company_name=company;
         user_person.company_id=company_id;
 
-        
+
         return user_person;
 
     }
@@ -1162,8 +1162,8 @@ export class DataAccessRepository {
         });
 
         const people_arr=[];
-        
-        
+
+
         if(people)
         {
           for(let i=0;i<people.length;++i)
@@ -1181,10 +1181,10 @@ export class DataAccessRepository {
             person.approved=people[i].approved;
             person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
             person.utilisation=people[i].utilisation;
-            
+
             //positions
             if(people[i].positions)
-            {   
+            {
               for(let k=0;k<people[i].positions.length;++k){
                 const pos_obj=new PositionEntity();
 
@@ -1201,7 +1201,7 @@ export class DataAccessRepository {
               for(let k=0;k<people[i].skills.length;++k)
               {
                 const skills_obj=new Skill();
-  
+
                 skills_obj.id=people[i].skills[k].skill_id;
                 skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
 
@@ -1209,7 +1209,7 @@ export class DataAccessRepository {
               }
             }
             people_arr.push(person);
-          } 
+          }
         }
         else
             console.log("Object people returned null");
@@ -1224,7 +1224,7 @@ export class DataAccessRepository {
      * it gets. Returns Unknown if it's unable to find the position.
     */
     async getPositionVID(pos_id:number):Promise<string>{
-      
+
       const position=await this.prisma.position.findUnique({
         where:{
           id:pos_id
@@ -1237,7 +1237,7 @@ export class DataAccessRepository {
       else{
         return "Unknown";
       }
-      
+
     }
 
     /***
@@ -2217,7 +2217,7 @@ export class DataAccessRepository {
     */
 
     async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
-    { 
+    {
       const p_id=await this.getPersonIDVEmail(email);
       const pos_id=await this.getPositionIDVName(position_name);
 
@@ -2482,7 +2482,7 @@ export class DataAccessRepository {
         obj.error_string=ErrorStrings.EMAIL_DOESNT_EXISTS;
         return_arr.push(obj);
       }
-      
+
       return return_arr;
     }
 
@@ -4222,5 +4222,6 @@ export class DataAccessRepository {
         }
       }
     }
+
 
 }
