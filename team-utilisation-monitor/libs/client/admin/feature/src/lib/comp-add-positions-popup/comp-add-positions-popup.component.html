@@ -15,7 +15,7 @@
             <hr width="95%">             
             <h2>Remove Positions</h2>
             <p>Select Positions from the right that you want to remove from the company</p>
-            <button mat-raised-button color="primary">Remove Selected Positions</button>
+            <button mat-raised-button color="primary" (click)="removePosition()">Remove Selected Positions</button>
             <p>
                 Options selected: {{positions.selectedOptions.selected.length}}
             </p>
@@ -25,8 +25,8 @@
     <mat-grid-tile>
         <div class="DivContent">
             <h2>Current Positions in the company</h2>
-            <mat-selection-list #positions>
-                <mat-list-option ngDefaultControl [(ngModel)]="positionsList" *ngFor="let position of positionsList">
+            <mat-selection-list #positions [(ngModel)]="selectedPositions" [ngModelOptions]="{standalone:true}" ngDefaultControl (click)="func()">
+                <mat-list-option ngDefaultControl [(ngModel)]="positionsList" *ngFor="let position of positionsList" [value]="position">
                     {{position}}
                 </mat-list-option>
             </mat-selection-list>

@@ -85,7 +85,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
           this.snackBar.open(data.data.AddSkill+" Added");
           setTimeout(() => {
             this.snackBar.dismiss();
-          }, 5000)
+          }, 1000)
         }
       )
     }
@@ -94,7 +94,7 @@ export class CompAddSkillsPopupComponent implements OnInit {
       this.snackBar.open("Please enter a valid skill to Add");
       setTimeout(() => {
         this.snackBar.dismiss();
-      }, 5000)
+      }, 2000)
     }
   }
 
@@ -103,39 +103,39 @@ export class CompAddSkillsPopupComponent implements OnInit {
     if(this.selectedSkills.length>0){
 
       let out="";
+      let counter=0;
 
       for(let i=0;i<this.selectedSkills.length;++i)
       {
         this.service.removeSkill(this.selectedSkills[i]).subscribe(item=>{
           
-          if(item.data.removeSkill)
-          {
-            console.log("True");
-            console.log("I''m here");
-
-            if(i!=this.selectedSkills.length-1)
-              out=out+this.selectedSkills[i]+", ";
-            else
-              out=out+this.selectedSkills[i];
-
-            //remove from the skillsList
-           
-
-            for(let k=0;k<this.skillsList.length;++k){
-              if(this.selectedSkills[i]==this.skillsList[k]){
-                
-                this.skillsList.splice(k,1);
-              }
-            }
-
-            this.selectedSkills.splice(i,1);
+          if(item.data.removeSkill){
+            ++counter;
           }
 
-          this.snackBar.open("Successfully removed skill(s): "+out);
-          setTimeout(() => {
-          this.snackBar.dismiss();
-          }, 2000)
+          if(this.selectedSkills.length==counter){
 
+            while(counter>0){
+              for(let k=0;k<this.skillsList.length;++k){
+                if(this.skillsList[k]==this.selectedSkills[counter-1]){
+                  
+                  out=out+this.skillsList[k]+", ";
+                  this.skillsList.splice(k,1);
+                }
+              }
+              --counter;
+            }
+
+            this.snackBar.open("Removed Position(s) "+out);
+            setTimeout(() => {
+            this.snackBar.dismiss();
+            }, 3000)
+
+            this.selectedSkills=[];
+
+          }
+
+        
         })
       }
     }

@@ -57,6 +57,7 @@ import { AddPositionCommand } from './commands/impl/AddPosition.command';
 import { GetAllPositionsOfCompanyCommand } from './queries/impl/get-all-positions-of-company.query';
 import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
 import { AssignPositionToUserCommand } from './commands/impl/assign-position-to-user.command';
+import { RemovePositionCommand } from './commands/impl/remove-position.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -340,5 +341,9 @@ export class ServiceFeatureService {
     async AssignPositionToUser(email:string,position_name:string,team_name:string)
     {
       return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name,team_name));
+    }
+
+    async RemovePosition(position_name:string){
+      return this.commandBus.execute(new RemovePositionCommand(position_name));
     }
 }

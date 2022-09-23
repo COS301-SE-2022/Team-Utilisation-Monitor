@@ -58,11 +58,11 @@ export class DataAccessRepository {
 
     async returnUserID(id:number)
     {
-        const user_person=new UserPerson();
+      const user_person=new UserPerson();
 
-        user_person.id=id;
+      user_person.id=id;
 
-        return user_person;
+      return user_person;
 
     }
 
@@ -2282,8 +2282,6 @@ export class DataAccessRepository {
         const msg= new MessageObject("Person doesn't exist",ErrorStrings.USER_DOESNT_EXIST);
         return msg;
       }
-
-
     }
 
     /***
@@ -2324,6 +2322,36 @@ export class DataAccessRepository {
 
       return return_arr;
     }
+
+    /***
+     * This function is used to remove the position from the company.
+     * Returns true if the removal was successful, false otherwise
+    */
+
+    async removePosition(position_name:string):Promise<boolean>
+    {
+      try {
+
+        await this.prisma.position.delete({
+          where:{
+            title:position_name,
+          }
+        })
+
+        return true;
+        
+      } 
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return false;
+        }
+      }
+    }
+
+
+
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {

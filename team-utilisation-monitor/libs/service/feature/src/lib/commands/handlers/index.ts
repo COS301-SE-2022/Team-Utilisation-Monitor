@@ -23,6 +23,7 @@ import { VerifyTokenHandler } from './verify-token.handler';
 import { RemoveSkillHandler } from './remove-skills.handler';
 import { AddPositionHandler } from './AddPosition.handler';
 import { AssignPositionToUserHandler } from './assign-position-to-user.handler';
+import { RemovePositionHandler } from './remove-position.handler';
 
 export const CommandHandlers=[
   ApproveRequestVEmailHandler,
@@ -50,4 +51,5 @@ export const CommandHandlers=[
   DeleteTeamHandler,
   AddPositionHandler,
   AssignPositionToUserHandler,
+  RemovePositionHandler,
 ];
