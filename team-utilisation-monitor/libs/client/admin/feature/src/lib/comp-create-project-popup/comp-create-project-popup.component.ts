@@ -20,7 +20,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
   MembersNames:any[]=[];
-  SkillsList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  SkillsList: string[] = [];
   selectedMembers:string[]=[];
   teams:any;
 
@@ -36,7 +36,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   })
 
   TeamForm=new FormGroup({
-    projectName:new FormControl('',[Validators.required]),
+    project_Name:new FormControl('',[Validators.required]),
     projectHours:new FormControl('',[Validators.required]),
     projectMemberNumber:new FormControl('',[Validators.required]),
     projectSkills:new FormControl('',[Validators.required]),
@@ -67,6 +67,14 @@ export class CompCreateProjectPopupComponent implements OnInit {
         //get each individual element
         this.TeamNames.push(this.teams.data.getAllTeamsOfACompany[i].team_name)
       }
+
+      this.adminService.getSkills().subscribe(data=>{
+        //
+        for(const request of data.data.GetSkill)
+        {
+          this.SkillsList.push(request.skill)
+        }
+      })
 
     })
   }
@@ -130,8 +138,8 @@ export class CompCreateProjectPopupComponent implements OnInit {
     //
     if(this.TeamForm.valid)
     {
-      const projectName=this.TeamForm.get('projectName')?.value!;
-      const projectHours=this.TeamForm.get('manHours')?.value!;
+      const projectName=this.TeamForm.get('project_Name')?.value!;
+      const projectHours=this.TeamForm.get('projectHours')?.value!;
       const projectSkill=this.TeamForm.get('projectSkills')?.value!;
       const projectMemNumber=this.TeamForm.get('projectMemberNumber')?.value!;
 
