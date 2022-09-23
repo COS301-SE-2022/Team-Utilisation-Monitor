@@ -19,9 +19,11 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
-  MembersNames:string[]=["Richard Hammond","James May","Jermey Clarckson","The Stig","Chris Harris"];
-  SkillsList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  MembersNames:any[]=[];
+  SkillsList: string[] = [];
+  selectedSkills:string[]=[];
   selectedMembers:string[]=[];
+  panelOpenState = false;
   teams:any;
 
   projectForm=new FormGroup({
@@ -36,8 +38,16 @@ export class CompCreateProjectPopupComponent implements OnInit {
   })
 
   TeamForm=new FormGroup({
-    projectTeamName:new FormControl('',[Validators.required])
+    project_Name:new FormControl('',[Validators.required]),
+    projectHours:new FormControl('',[Validators.required]),
+    projectMemberNumber:new FormControl('',[Validators.required]),
+    projectSkills:new FormControl('',[Validators.required]),
   })
+
+  SuggestedForm=new FormGroup({
+    TeamName:new FormControl('',[Validators.required]),
+  }
+  )
 
   companyName='';
   tempData:any;
@@ -60,6 +70,14 @@ export class CompCreateProjectPopupComponent implements OnInit {
         this.TeamNames.push(this.teams.data.getAllTeamsOfACompany[i].team_name)
       }
 
+      this.adminService.getSkills().subscribe(data=>{
+        //
+        for(const request of data.data.GetSkill)
+        {
+          this.SkillsList.push(request.skill)
+        }
+      })
+
     })
   }
 
@@ -77,13 +95,13 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
       //create the project in isolation
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
-        data=>{
+        data1=>{
 
         //assign the project to the selected teams
         for(let i=0;i<this.selectedTeams.length;++i)
         {
           this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
-          data=>{
+          data2=>{
 
               if(i==this.selectedTeams.length-1)
               {
@@ -120,5 +138,44 @@ export class CompCreateProjectPopupComponent implements OnInit {
   OnGetTeam()
   {
     //
+    if(this.TeamForm.valid)
+    {
+      const projectName=this.TeamForm.get('project_Name')?.value!;
+      const projectHours=this.TeamForm.get('projectHours')?.value!;
+      const projectSkill=this.TeamForm.get('projectSkills')?.value!;
+      const projectMemNumber=this.TeamForm.get('projectMemberNumber')?.value!;
+
+      this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
+        data=>{
+          //
+          this.adminService.GetRecomendedTeam(Number(projectMemNumber),projectSkill).subscribe(
+            data2=>
+            {
+              type nameObject=
+              {
+                Name:string
+                Surname:string
+                Email:string
+              }
+
+              for(const requests of data2.data.GetRecomendedTeam)
+              {
+                const  obj={} as nameObject;
+                obj.Name=requests.name;
+                obj.Surname=requests.surname;
+                obj.Email=requests.email;
+                console.log(obj.Name)
+                this.MembersNames.push(obj)
+              }
+            }
+          )
+        }
+      )
+    }
+  }
+
+  Display()
+  {
+    console.log(this.selectedSkills)
   }
 }

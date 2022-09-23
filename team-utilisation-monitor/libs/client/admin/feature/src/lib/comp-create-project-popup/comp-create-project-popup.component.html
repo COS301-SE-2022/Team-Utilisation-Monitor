@@ -22,9 +22,9 @@
                         </p>
                         <p>
                         Teams can also be added to the project via the Team/Project View or via the Suggested Teams Tab
-                        </p>  
+                        </p>
                     </form>
-                </div>    
+                </div>
             </mat-grid-tile>
             <mat-grid-tile>
                     <div class="DivContent">
@@ -43,39 +43,46 @@
             Select options for your Project and a custom team that suits the description will be generated for you.
             <mat-grid-tile>
                 <div class="DivContent">
-                    <form [formGroup]="SuggestedProjectForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="TeamForm" (ngSubmit)="OnGetTeam()">
                         <mat-form-field appearance="fill">
                             <mat-label>Enter Project name</mat-label>
-                            <input id="Project_Name" matInput placeholder="Project" formControlName="SuggProjectName">
+                            <input id="Project_Name" matInput placeholder="Project" formControlName="project_Name">
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Enter Weekly Hours</mat-label>
-                            <input id="Project_Hours" matInput placeholder="Hours" formControlName="SuggProjectHours">
+                            <input id="Project_Hours" matInput placeholder="Hours" formControlName="projectHours">
                         </mat-form-field>
                         <mat-form-field appearance="fill">
                             <mat-label>Enter Number of Members Required for the Project</mat-label>
-                            <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="SuggProjectMemNumber">
+                            <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="projectMemberNumber">
                         </mat-form-field>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Skills</mat-label>
-                            <mat-select formControlName="SuggProjectSkills" multiple>
+
+                            <mat-label>Skills Required</mat-label>
+                            <mat-select #name [(ngModel)]="selectedSkills" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}"  multiple>
                               <mat-option *ngFor="let skill of SkillsList" [value]="skill">{{skill}}</mat-option>
                             </mat-select>
-                          </mat-form-field>
+
+                          <!--mat-form-field appearance="fill">
+                            <mat-label>Skills</mat-label>
+                            <mat-select formControlName="projectSkills" multiple>
+                              <mat-option *ngFor="let skill of SkillsList" [value]="skill">{{skill}}</mat-option>
+                            </mat-select>
+                          </mat-form-field-->
+
                         <button type="submit" mat-raised-button color="primary" [disabled]="!SuggestedProjectForm.valid">Generate Custom Team</button>
                     </form>
                 </div>
             </mat-grid-tile>
             <mat-grid-tile>
                 <div class="DivContent">
-                    <form [formGroup]="TeamForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="SuggestedForm" (ngSubmit)="onSubmit()">
                         <mat-form-field appearance="fill">
                             <mat-label>Give your Team a Name</mat-label>
-                            <input id="Project_TeamName" matInput placeholder="Team Name" formControlName="projectTeamName">
+                            <input id="Project_TeamName" matInput placeholder="Team Name" formControlName="TeamName">
                         </mat-form-field>
                         <mat-selection-list id="MemberName" #MemberName [(ngModel)]="selectedMembers" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                             <mat-list-option *ngFor="let MemberName of MembersNames" [value]="MemberName" [selected]="true">
-                                {{MemberName}}
+                                {{MemberName.Name}}
                             </mat-list-option>
                         </mat-selection-list>
                         <button type="submit" mat-raised-button color="primary" [disabled]="!TeamForm.valid">Save Team and add to new Project</button>

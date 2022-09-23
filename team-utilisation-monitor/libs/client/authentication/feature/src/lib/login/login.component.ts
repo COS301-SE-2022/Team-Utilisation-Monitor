@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {CookieService} from 'ngx-cookie-service'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConsoleLogger } from '@nestjs/common';
 
 export class User {
   constructor(public email: string, public password: string) {
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     console.log("In login function: "+this.loginForm);
 
-    if(this.loginForm.valid) 
+    if(this.loginForm.valid)
     {
       const email:string=this.loginForm.get("email")?.value!;
       const pass=this.loginForm.get("password")?.value!;
@@ -64,10 +65,10 @@ export class LoginComponent implements OnInit {
 
 
             /***
-             * This section is used to set the active token for the logged in 
+             * This section is used to set the active token for the logged in
              * user.
             */
-            
+
             this.result3=this.service.setActiveToken(email,this.cookie.get("token")).subscribe(
               data=>{
                 const resp=data;
@@ -78,10 +79,10 @@ export class LoginComponent implements OnInit {
                 else if(resp.data.SetToken==true) {
                   console.log("Token successfully set.");
                 }
-                
+
 
             /****
-             * Even if the main database i.e result2, fails, the user will still be 
+             * Even if the main database i.e result2, fails, the user will still be
              * able to login using data from the authentication database
             */
 
@@ -90,7 +91,7 @@ export class LoginComponent implements OnInit {
                 if(item2.data!=null)
                 {
                   console.log("logging in");
-                  
+
                   this.cookie.set("CompanyName",item2.data.getOnePerson.company_name);
                   const approved=item2.data.getOnePerson.approved;
 
