@@ -50,6 +50,7 @@ import { CompProjectDataViewPopupComponent } from './comp-project-data-view-popu
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CompAddPositionsPopupComponent } from './comp-add-positions-popup/comp-add-positions-popup.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { CompCompletedProjectsListComponent } from './comp-completed-projects-list/comp-completed-projects-list.component';
 
 @NgModule({
   imports: [
@@ -110,6 +111,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     CompTeamIndividualComponent,
     CompProjectDataViewPopupComponent,
     CompAddPositionsPopupComponent,
+    CompCompletedProjectsListComponent,
   ],
   exports: [
     AdminRoutingModule,
