@@ -168,6 +168,20 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getAllMemebrsOfTeam', () => {
+
+    const teamName = "Car Show";
+
+    it('should return all memebers of teams of a company', async () =>{
+      try {
+        const users = repository.getAllMemebrsOfTeam(teamName);
+        expect(await users).toHaveReturned;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
