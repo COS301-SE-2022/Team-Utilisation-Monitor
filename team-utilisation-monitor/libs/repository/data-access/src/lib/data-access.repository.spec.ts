@@ -105,7 +105,7 @@ describe('DataAccessRepository', () => {
     const teams = null;
     const invite_code = "inv123";
 
-    it('should return a company object', () => {
+    it('should return a company object', async () => {
       try {
         const company = repository.returnCompanyObject(id, company_name, admins, employees, projects, teams, invite_code);
         expect(company).toEqual(company);
@@ -114,6 +114,25 @@ describe('DataAccessRepository', () => {
       }
     })
   }); 
+
+  describe('@createUserAdmin', () => {
+
+    const f_name = "Rourke";
+    const f_surname = "Amiss";
+    const f_email= "car@example.com";
+    const f_company_name = "car";
+
+    it('should create a user admin', async () => {
+      try {
+        const userAdmin = repository.createUserAdmin(f_name, f_surname, f_email, f_company_name);
+        expect(userAdmin).toEqual(userAdmin);
+      } catch (error) {
+        fail(error)
+      }
+
+    })
+
+  })
 
   
 });
