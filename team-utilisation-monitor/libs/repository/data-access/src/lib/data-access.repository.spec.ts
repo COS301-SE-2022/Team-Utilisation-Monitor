@@ -23,6 +23,18 @@ describe('DataAccessRepository', () => {
     repository = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
+  const userP: UserPerson = {
+    id: 1,
+    name: "Rob",
+    surname: "Amiss",
+    email: "test@example.com",
+    role: "tester",
+    suspended: false,
+    company_name: "UP",
+    company_id: 123,
+    utilisation: 0
+};
+
   it('should be defined', () => {
     expect(prisma).toBeDefined();
     expect(repository).toBeDefined();
@@ -179,6 +191,24 @@ describe('DataAccessRepository', () => {
       } catch (error) {
         fail(error)
       }    
+    })
+  });
+
+  describe('@createUser', () => {
+
+    const f_name = "Rourke";
+    const f_surname = "Amiss";
+    const f_email= "rob@example.com";
+    const inviteLink = "abc123";
+
+    it('should create a user', async () => {
+      try {
+        const user = repository.createUser(f_name, f_surname, f_email, inviteLink);
+        expect(user).toEqual(user);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
     })
   });
 
