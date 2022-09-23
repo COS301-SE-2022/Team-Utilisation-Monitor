@@ -129,10 +129,21 @@ describe('DataAccessRepository', () => {
       } catch (error) {
         fail(error)
       }
-
     })
+  });
 
-  })
+  describe('@getAllProjectsOrTeamsOfCompany', () => {
 
+    const companyName = "car show";
+
+    it('should return all projects or teams of a company', async () =>{
+        try {
+            const allProjects = repository.getAllProjectsOrTeamsOfCompany(companyName, 0);
+            expect(allProjects).toHaveReturned;
+        } catch (error) {
+            fail(error);
+        }    
+    });
+});
   
 });
