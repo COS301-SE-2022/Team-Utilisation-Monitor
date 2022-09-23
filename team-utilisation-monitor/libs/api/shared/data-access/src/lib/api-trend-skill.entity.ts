@@ -13,7 +13,11 @@ export class UserPerson{
     @Field({nullable:true})
     description?:string;
 
+    @Field({nullable:true})
+    type?:string;
 
+    @Field({nullable:true})
+    preRequisites?:string;
    
 
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
