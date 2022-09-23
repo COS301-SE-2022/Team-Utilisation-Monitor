@@ -246,7 +246,7 @@ export class AdminService {
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
-  
+
 
   GetRecomendedTeam(numberOfMembers:number,skillName:string):Observable<any>
   {
@@ -262,6 +262,8 @@ export class AdminService {
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
+
+
 
   //MUTATIONS
 

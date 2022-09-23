@@ -20,6 +20,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
   MembersNames:any[]=[];
+  SkillsList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   selectedMembers:string[]=[];
   teams:any;
 
@@ -28,6 +29,11 @@ export class CompCreateProjectPopupComponent implements OnInit {
     manHours:new FormControl('',[Validators.required]),
   })
 
+  SuggestedProjectForm=new FormGroup({
+    SuggProjectName:new FormControl('',[Validators.required]),
+    SuggProjectHours:new FormControl('',[Validators.required]),
+    SuggProjectMemNumber:new FormControl('',[Validators.required]),
+  })
 
   TeamForm=new FormGroup({
     projectName:new FormControl('',[Validators.required]),
