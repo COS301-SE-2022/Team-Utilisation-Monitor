@@ -2187,10 +2187,11 @@ export class DataAccessRepository {
     /***
      * Use this function to assign a position to a user via email. Use the user's email
      * Returns: USER_DOESNT_EXIST if user isn't in the database.
-     * Returns: 
+     * Returns: NO_POSITIONS_FOUND if position isn't in the sytem
+     * The email is for the assignees.
     */
 
-    async assignPositionToUser(email:string, position_name:string):Promise<MessageObject>
+    async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
     { 
       const p_id=await this.getPersonIDVEmail(email);
       const pos_id=await this.getPositionIDVName(position_name);
@@ -2201,7 +2202,8 @@ export class DataAccessRepository {
           await this.prisma.personsOnPositions.create({
             data:{
               person_id:p_id,
-              position_id:pos_id
+              position_id:pos_id,
+              team_name:teamName,
             }
           })
 

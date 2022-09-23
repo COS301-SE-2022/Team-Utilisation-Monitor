@@ -123,6 +123,8 @@ model PersonsOnPositions{
 
   position Position @relation(fields: [position_id],references: [id],onDelete: Cascade,onUpdate: Cascade)
   position_id Int
+
+  team_name String? //This is the team the position applies to
 }
 
 model Position{
