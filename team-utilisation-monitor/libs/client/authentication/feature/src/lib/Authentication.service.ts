@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 
 export class AuthenticationService {
-  
+
   Admin:any
 
   constructor(private client:HttpClient,private readonly cookie:CookieService){}
@@ -49,7 +49,7 @@ export class AuthenticationService {
   }
   /***
    * Use this function to get a user object.
-   * The object accepts a valid email address. 
+   * The object accepts a valid email address.
    * This function fetches the details from the main DB
   */
 
@@ -66,9 +66,8 @@ export class AuthenticationService {
     }
 
     const object=this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
-
     return object;
-    
+
   }
 
   login(username:string,password:string):Observable<any>
@@ -84,6 +83,7 @@ export class AuthenticationService {
     const obj= this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: query }), options);
     
 
+   // console.log(JSON.stringify(obj));
     return obj;
   }
 
