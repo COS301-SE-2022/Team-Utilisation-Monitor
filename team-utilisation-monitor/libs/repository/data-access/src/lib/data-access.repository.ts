@@ -28,8 +28,7 @@ export class DataAccessRepository {
         user_person.company_name=company;
         user_person.company_id=company_id;
 
-
-
+        
         return user_person;
 
     }

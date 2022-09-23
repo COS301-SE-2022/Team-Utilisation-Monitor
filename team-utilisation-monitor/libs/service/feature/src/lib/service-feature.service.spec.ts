@@ -12,6 +12,7 @@ import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access'
 import { Company } from '@prisma/client';
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
+import { PositionEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
@@ -40,6 +41,13 @@ import { GetCompanyQuery } from './queries/impl/getCompany.query';
 import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
+import { AssignHoursCommand } from './commands/impl/AssignHours.command';
+import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
+
+import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
+
+import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
+import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -52,6 +60,10 @@ describe('ServiceFeatureService', () => {
 
         const user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
@@ -61,7 +73,7 @@ describe('ServiceFeatureService', () => {
         user_person.approved = true;
         user_person.company_name = "icreatesoftware";
         user_person.utilisation = 9;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.project_name = "tum";
         user_person.team_name = "team";
         user_person.company_id = 2;
@@ -105,13 +117,19 @@ describe('ServiceFeatureService', () => {
 
         let user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
+        positions[1] = "admin";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
         user_person.email = "rourke@gmail.com";
         user_person.role = "intern";
         user_person.suspended = false;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -129,7 +147,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "ssmith@gmail.com";
         user_person.role = "developer";
         user_person.suspended = false;
-        //user_person.position = "admin";
+        user_person.positions = positions[1];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -147,13 +165,21 @@ describe('ServiceFeatureService', () => {
 
         let user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
+        positions[1] = "admin";
+
+        positions[2] = "senior";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
         user_person.email = "rourke@gmail.com";
         user_person.role = "intern";
         user_person.suspended = false;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -171,7 +197,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "ssmith@gmail.com";
         user_person.role = "developer";
         user_person.suspended = false;
-        //user_person.position = "admin";
+        user_person.positions = positions[1];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -189,7 +215,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "fakeemail@gmail.com";
         user_person.role = "back-end";
         user_person.suspended = true;
-        //user_person.position = "senior";
+        user_person.positions = positions[2];
         user_person.company_name = "MI6";
         user_person.project_name = "QSS";
         user_person.team_name = "00";
@@ -259,6 +285,68 @@ describe('ServiceFeatureService', () => {
 
           return all_skills;
         }
+
+      } else if (query instanceof GetAllocatedProjectsQuery) {
+        if (query.email === 'rourke@gmail.com') {
+
+          const all_projects = [];
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 983;
+          project_entity.project_name = "Master Chef";
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = false;
+          project_entity.teams = null;
+          project_entity.man_hours = 60;
+
+          all_projects[0] = project_entity;
+
+          return all_projects;
+        }
+      
+      } else if (query instanceof GetAllocatedTeamsQuery) {
+        if (query.Email === 'rourke@gmail.com') {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 19;
+          team_entity.team_name = "Liverpool"
+          team_entity.members = null;
+          team_entity.company_id = 17;
+          team_entity.project_name = "premier league"
+          team_entity.projects = null;
+          team_entity.project_id = 5;
+          team_entity.completed = 6;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
+        }
+
+      } else if (query instanceof GetTeamsOnProjectQuery) {
+        if (query.projectName === 'UCL') {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 4;
+          team_entity.team_name = "West Ham"
+          team_entity.members = null;
+          team_entity.company_id = 11;
+          team_entity.project_name = query.projectName;
+          team_entity.projects = null;
+          team_entity.project_id = 5;
+          team_entity.completed = 6;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
+        }
       }
 
       return undefined;
@@ -273,6 +361,10 @@ describe('ServiceFeatureService', () => {
 
           const user_person = new UserPerson();
 
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
           user_person.id = 124;
           user_person.name = command.name;
           user_person.surname = command.surname;
@@ -282,7 +374,7 @@ describe('ServiceFeatureService', () => {
           user_person.approved = true;
           user_person.company_name = "icreatesoftware";
           user_person.utilisation = 9;
-          //user_person.position = "team lead";
+          user_person.positions = positions[0];
           user_person.project_name = "tum";
           user_person.team_name = "team";
           user_person.company_id = 2;
@@ -328,6 +420,10 @@ describe('ServiceFeatureService', () => {
 
           const user_person = new UserPerson();
 
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
           user_person.id = 129;
           user_person.name = command.name;
           user_person.surname = command.surname;
@@ -337,7 +433,7 @@ describe('ServiceFeatureService', () => {
           user_person.approved = true;
           user_person.company_name = command.companyName;
           user_person.utilisation = 81;
-          //user_person.position = "team lead";
+          user_person.positions = positions[0];
           user_person.project_name = "tum";
           user_person.team_name = "team";
           user_person.company_id = 8;
@@ -381,6 +477,51 @@ describe('ServiceFeatureService', () => {
           return skills;
         }
 
+      } else if (command instanceof AssignHoursCommand) {
+        if (command.UserEmail === 'rourke@gmail.com') {
+          
+          const user_person = new UserPerson();
+
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
+          user_person.id = 129;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = command.UserEmail;
+          user_person.role = "admin";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = "car show";
+          user_person.utilisation = 81;
+          user_person.positions = positions[0];
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 8;
+          user_person.project_id = 1;
+          user_person.team_id = 0;
+          user_person.weekly_Hours = command.Hours;
+          
+          return user_person;
+        }
+
+      } else if (command instanceof CompleteProjectCommand) {
+        if (command.projectName === "Top Gear") {
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 65;
+          project_entity.project_name = command.projectName;
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = true;
+          project_entity.teams = null;
+          project_entity.man_hours = 60;
+
+          return project_entity;
+        }
+
       }
 
       return undefined;
@@ -388,7 +529,7 @@ describe('ServiceFeatureService', () => {
   }
   
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [CqrsModule, FunctionsModule],
       providers: [
@@ -510,6 +651,36 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("GetAllocatedProjects", () => {
+    it('should return projects of A User', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await service.GetAllocatedProjects('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0]).toBeInstanceOf(ProjectEntity);
+      });
+  });
+
+  describe("GetAllocatedTeams", () => {
+    it('should return all teams of A User', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetAllocatedTeams('rourke@gmail.com');
+      } catch (err) { return }
+      expect(test[0]).toBeInstanceOf(TeamEntity);
+      });
+  });
+
+  describe("GetTeamsOnProject", () => {
+    it('should return all teams of a project', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetTeamsOnProject('UCL');
+      } catch (err) { return }
+      expect(test[0].team_name).toEqual('West Ham');
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
@@ -584,6 +755,27 @@ describe('ServiceFeatureService', () => {
         test = await createService.AddSkill('python');
       } catch (err) { return }
       expect(test.skill).toEqual('python');
+    });
+  });
+
+  describe("AssignHours", () => {
+    it('should assign hours to a User', async () => {
+      let test = new UserPerson();
+      try {
+        test = await createService.AssignHours('rourke@gmail.com', 90);
+      } catch (err) { return }
+      expect(test.weekly_Hours).toEqual(90);
+    });
+  });
+
+  describe("CompleteProject", () => {
+    it('should complete a ProjectEntity', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await createService.CompleteProject('Top Gear');
+      } catch (err) { return }
+      expect(test.project_name).toEqual('Top Gear');
+      expect(test.completed).toEqual(true);
     });
   });
 
