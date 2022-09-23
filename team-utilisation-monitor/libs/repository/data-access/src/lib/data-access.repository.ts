@@ -35,7 +35,6 @@ export class DataAccessRepository {
 
         user_person.positions.push(pos_obj);
 
-
         return user_person;
 
     }
@@ -1268,7 +1267,7 @@ export class DataAccessRepository {
      * position doesn't exist.
     */
 
-    async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
+    async getOnePersonVEmail(arg_email:string):Promise<UserPerson>
     {
 
 
@@ -1281,39 +1280,28 @@ export class DataAccessRepository {
             include:{
                 positions:true,
                 company:true,
-                project:true,
+                project:true
             }
         })
 
-          let local_project:string;
-          let local_company:string;
-          let title:string;
+        let ReturnPerson=new UserPerson();
+        ReturnPerson.id=person.id;
+        ReturnPerson.name=person.name;
+        ReturnPerson.surname=person.surname;
+        ReturnPerson.email=person.email;
+        ReturnPerson.approved=person.approved;
+        ReturnPerson.company_name=person.company.company_name;
+        ReturnPerson.role=person.role;
+        ReturnPerson.utilisation=person.utilisation
 
+        return ReturnPerson;
 
-          if(person.project==null)
-              local_project=null;
-          else
-              local_project=person.project.project_name
-
-          if(person.company==null)
-              local_company=null;
-          else
-              local_company=person.company.company_name;
-
-          if(person.positions!=null)
-            title=(await this.getPositionVID(person.positions[person.positions.length-1].id)); //latest position.
-
-          const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
-
-          return_user.utilisation=person.utilisation;
-          return_user.approved=person.approved;
-          return return_user;
       }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
         {
-          return "Email not found"
+          return null
         }
       }
     }
