@@ -8,6 +8,6 @@ export class AssignPositionToUserHandler implements ICommandHandler<AssignPositi
     constructor(private repository:DataAccessRepository){}
 
     execute(command: AssignPositionToUserCommand): Promise<any> {
-        return this.repository.assignPositionToUser(command.assignee_email,command.position_name);
+        return this.repository.assignPositionToUser(command.assignee_email,command.position_name,command.teamName);
     }
 }
