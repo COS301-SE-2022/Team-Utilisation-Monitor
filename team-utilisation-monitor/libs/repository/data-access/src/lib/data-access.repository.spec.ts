@@ -168,19 +168,6 @@ describe('DataAccessRepository', () => {
     })
   });
 
-
-  describe('getPersonVID',() => {
-    it('should return the user with the user ID', async () => {
-      jest
-        .spyOn(repository, 'getPersonVID')
-        .mockImplementation((): Promise<UserPerson> => Promise.resolve(userMock));
-
-      expect(await repository.getPersonVID(1)).toMatchObject(
-        projectMock
-        );
-    }); 
-  });
-
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
