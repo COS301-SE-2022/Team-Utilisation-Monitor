@@ -41,7 +41,6 @@ export class CompCreateProjectPopupComponent implements OnInit {
     project_Name:new FormControl('',[Validators.required]),
     projectHours:new FormControl('',[Validators.required]),
     projectMemberNumber:new FormControl('',[Validators.required]),
-    projectSkills:new FormControl('',[Validators.required]),
   })
 
   SuggestedForm=new FormGroup({
@@ -142,40 +141,43 @@ export class CompCreateProjectPopupComponent implements OnInit {
     {
       const projectName=this.TeamForm.get('project_Name')?.value!;
       const projectHours=this.TeamForm.get('projectHours')?.value!;
-      const projectSkill=this.TeamForm.get('projectSkills')?.value!;
       const projectMemNumber=this.TeamForm.get('projectMemberNumber')?.value!;
 
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data=>{
-          //
-          this.adminService.GetRecomendedTeam(Number(projectMemNumber),projectSkill).subscribe(
-            data2=>
-            {
-              type nameObject=
-              {
-                Name:string
-                Surname:string
-                Email:string
-              }
 
-              for(const requests of data2.data.GetRecomendedTeam)
+          for(let i=0;i<this.selectedSkills.length;i++)
+          {
+            this.adminService.GetRecomendedTeam(Number(projectMemNumber),this.selectedSkills[i]).subscribe(
+              data2=>
               {
-                const  obj={} as nameObject;
-                obj.Name=requests.name;
-                obj.Surname=requests.surname;
-                obj.Email=requests.email;
-                console.log(obj.Name)
-                this.MembersNames.push(obj)
+                type nameObject=
+                {
+                  Name:string
+                  Surname:string
+                  Email:string
+                }
+
+                for(const requests of data2.data.GetRecomendedTeam)
+                {
+                  const  obj={} as nameObject;
+                  obj.Name=requests.name;
+                  obj.Surname=requests.surname;
+                  obj.Email=requests.email;
+                  console.log(obj.Name)
+                  this.MembersNames.push(obj)
+                }
               }
-            }
-          )
+            )
+          }
+
         }
       )
     }
   }
 
-  Display()
+  /*Display()
   {
     console.log(this.selectedSkills)
-  }
+  }*/
 }
