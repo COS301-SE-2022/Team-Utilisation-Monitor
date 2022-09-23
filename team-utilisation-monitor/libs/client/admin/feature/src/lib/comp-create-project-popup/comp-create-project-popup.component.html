@@ -57,9 +57,11 @@
                             <input id="Project_MemNumber" matInput placeholder="Number of Members" formControlName="projectMemNumber">
                         </mat-form-field>
                         <mat-form-field appearance="fill">
-                            <mat-label>Skills Required for the Project</mat-label>
-                            <input id="Project_Skills" matInput placeholder="Skills Required for the Project" formControlName="projectSkills">
-                        </mat-form-field>
+                            <mat-label>Skills</mat-label>
+                            <mat-select multiple>
+                              <mat-option *ngFor="let skill of SkillsList" [value]="skill">{{skill}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
                         <button type="submit" mat-raised-button color="primary" [disabled]="!TeamForm.valid">Generate Custom Team</button>
                     </form>
                 </div>

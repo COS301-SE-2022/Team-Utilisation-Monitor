@@ -20,6 +20,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
   TeamNames: string[] = [];
   selectedTeams:string[]=[]; //all the teams selected will be here
   MembersNames:string[]=["Richard Hammond","James May","Jermey Clarckson","The Stig","Chris Harris"];
+  SkillsList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   selectedMembers:string[]=[];
   teams:any;
 
