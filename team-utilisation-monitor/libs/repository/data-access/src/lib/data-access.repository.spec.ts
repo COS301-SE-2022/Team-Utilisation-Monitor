@@ -154,6 +154,20 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getNumberOfTeamsOfCompany', () => {
+
+    const companyName = "UP";
+
+    it('should return the number of teams of a company', async () =>{
+      try {
+        const teams = repository.getAllProjectsOrTeamsOfCompany(companyName, 0);
+        expect(await teams).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
 
   describe('getPersonVID',() => {
     it('should return the user with the user ID', async () => {
