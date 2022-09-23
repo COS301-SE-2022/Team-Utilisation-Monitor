@@ -28,6 +28,13 @@ export class DataAccessRepository {
         user_person.company_name=company;
         user_person.company_id=company_id;
 
+        user_person.positions=[];
+
+        const pos_obj=new PositionEntity();
+        pos_obj.position=position;
+
+        user_person.positions.push(pos_obj);
+
 
         return user_person;
 
@@ -83,8 +90,24 @@ export class DataAccessRepository {
                     admin_id:c_id,
                     role:Role.ADMIN,
                     approved:true
+                },
+                include:{
+                  positions:true,
                 }
             })
+
+            if(new_admin.positions.length==0){
+
+              console.log(new_admin.positions);
+
+              await this.prisma.personsOnPositions.create({
+                data:{
+                  person_id:new_admin.id,
+                  position_id:1,
+                  team_name:"N/A",
+                }
+              })
+            }
 
             const return_admin=new UserPerson();
 
@@ -145,23 +168,23 @@ export class DataAccessRepository {
 
                 const new_admin=await this.prisma.person.create({
                     data:{
-                        name:f_name,
-                        surname:f_surname,
-                        email:f_email,
-                        company_id:c_id,
-                        role:Role.ADMIN,
-                        approved: true,
-                        positions:{
-                            create: [
-                              {
-                                position:{
-                                  create:{
-                                    title:"Administrator"
-                                  }
-                                }
-                              }
-                            ]
+                      name:f_name,
+                      surname:f_surname,
+                      email:f_email,
+                      company_id:c_id,
+                      role:Role.ADMIN,
+                      approved: true,
+                      positions:{
+                        create:{
+                          position:{
+                            create:{
+                              title:"Administrator"
+                            }
+                          }
                         }
+                      }
+                    },include:{
+                      positions:true
                     }
                 })
 
@@ -1248,6 +1271,7 @@ export class DataAccessRepository {
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
     {
 
+
       try
       {
         const person=await this.prisma.person.findUnique({
@@ -1261,36 +1285,29 @@ export class DataAccessRepository {
             }
         })
 
-            let local_project:string;
-            let local_company:string;
-            let title:string;
+          let local_project:string;
+          let local_company:string;
+          let title:string;
 
 
-            if(person.project==null)
-                local_project=null;
-            else
-                local_project=person.project.project_name
+          if(person.project==null)
+              local_project=null;
+          else
+              local_project=person.project.project_name
 
-            if(person.company==null)
-                local_company=null;
-            else
-                local_company=person.company.company_name;
+          if(person.company==null)
+              local_company=null;
+          else
+              local_company=person.company.company_name;
 
-            if(person.positions!=null)
-              title=(await this.getPositionVID(person.positions[0].id));
+          if(person.positions!=null)
+            title=(await this.getPositionVID(person.positions[person.positions.length-1].id)); //latest position.
 
-            //const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
-            let return_user=new UserPerson();
-            return_user.name=person.name;
-            return_user.surname=person.surname;
-            return_user.email=person.email;
-            return_user.role=person.role;
-            return_user.approved=person.approved;
-            return_user.company_name=person.company.company_name;
+          const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
-            return_user.utilisation=person.utilisation;
-            return_user.approved=person.approved;
-            return return_user;
+          return_user.utilisation=person.utilisation;
+          return_user.approved=person.approved;
+          return return_user;
       }
       catch(e)
       {
@@ -1983,15 +2000,55 @@ export class DataAccessRepository {
             where:
             {
               id:Team_members[i].person_id
+            },
+            include:{
+              positions:true,
             }
           }
         )
 
         const obj=new UserPerson()
-        obj.name=person.name
-        obj.surname=person.surname
-        obj.email=person.email
-        obj.utilisation=person.utilisation
+        obj.positions=[];
+
+
+        obj.name=person.name;
+        obj.surname=person.surname;
+        obj.email=person.email;
+        obj.utilisation=person.utilisation;
+
+        if(person.positions.length>0)
+        {
+          for(let k=0;k<person.positions.length;++k)
+          {
+            if(person.positions[k].team_name==teamName)
+            {
+              const pos_object=new PositionEntity();
+              pos_object.team_name=person.positions[k].team_name;
+              pos_object.position=(await this.getPositionVID(person.positions[k].position_id));
+
+              obj.positions.push(pos_object);
+            }
+          }
+
+          //if the user has positions, but not in this team.
+          if(obj.positions.length==0)
+          {
+            const pos_object=new PositionEntity();
+            pos_object.team_name=teamName;
+            pos_object.position="No Position Assigned";
+
+            obj.positions.push(pos_object);
+          }
+
+        }
+        else if(person.positions.length==0){//doesn't occupy any positions
+          const pos_object=new PositionEntity();
+          pos_object.team_name=teamName;
+          pos_object.position="No Position Assigned";
+
+          obj.positions.push(pos_object);
+        }
+
         members_Arr.push(obj)
       }
 
