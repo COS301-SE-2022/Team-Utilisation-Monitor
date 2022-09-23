@@ -14,4 +14,8 @@ export class PositionEntity{
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
 
+    //essentially, the skill the team applies to.
+    @Field({defaultValue:"default"})
+    team_name?:string;
+
 }

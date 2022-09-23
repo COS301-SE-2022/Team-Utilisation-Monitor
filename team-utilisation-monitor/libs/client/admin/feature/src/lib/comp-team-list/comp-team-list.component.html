@@ -17,8 +17,23 @@
             <mat-card class="Mat-Individual" *ngIf="Teams.teamName===member.TeamName">
                 <mat-card-content class="InvdividualBox">
                         <p class="InvdividualName">{{member.Name}} {{member.Surname}}<span id="emailText"> {{member.Email}} </span></p>
-        
+
+
+
                         <span class="example-spacer"></span>
+                        <mat-form-field appearance="fill" id="positions_drop_down">
+                            <mat-label>Position</mat-label>
+                            <mat-select>
+                              <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button mat-raised-button class="CheckMarkButton" color="primary"  matTooltip="Assign the position">
+                            <mat-icon>done</mat-icon>
+                        </button>
+
                         <button mat-raised-button class="InvdividualButton" color="warn" (click)="RemoveFromTeam(member.Email)" matTooltip="Remove member from team">
                             <mat-icon>delete_forever</mat-icon>
                         </button>
