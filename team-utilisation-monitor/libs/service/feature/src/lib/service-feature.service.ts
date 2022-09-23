@@ -337,8 +337,8 @@ export class ServiceFeatureService {
       return this.queryBus.execute(new GetPositionsOfUserQuery(email));
     }
 
-    async AssignPositionToUser(email:string,position_name:string)
+    async AssignPositionToUser(email:string,position_name:string,team_name:string)
     {
-      return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name));
+      return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name,team_name));
     }
 }

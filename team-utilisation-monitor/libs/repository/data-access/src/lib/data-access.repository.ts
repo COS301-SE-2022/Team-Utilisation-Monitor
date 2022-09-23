@@ -25,10 +25,15 @@ export class DataAccessRepository {
         user_person.email=email;
         user_person.role=role;
         user_person.suspended=suspended;
-        user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
+        
+        user_person.positions=[];
+        
+        const pos_obj=new PositionEntity();
+        pos_obj.position=position;
 
+        user_person.positions.push(pos_obj);
 
 
         return user_person;
@@ -85,8 +90,24 @@ export class DataAccessRepository {
                     admin_id:c_id,
                     role:Role.ADMIN,
                     approved:true
+                },
+                include:{
+                  positions:true,
                 }
             })
+
+            if(new_admin.positions.length==0){
+
+              console.log(new_admin.positions);
+
+              await this.prisma.personsOnPositions.create({
+                data:{
+                  person_id:new_admin.id,
+                  position_id:1,
+                  team_name:"N/A",
+                }
+              })
+            }
 
             const return_admin=new UserPerson();
 
@@ -147,25 +168,25 @@ export class DataAccessRepository {
 
                 const new_admin=await this.prisma.person.create({
                     data:{
-                        name:f_name,
-                        surname:f_surname,
-                        email:f_email,
-                        company_id:c_id,
-                        role:Role.ADMIN,
-                        approved: true,
-                        positions:{
-                            create: [
-                              {
-                                position:{
-                                  create:{
-                                    title:"Administrator"
-                                  }
-                                }
-                              }
-                            ]
+                      name:f_name,
+                      surname:f_surname,
+                      email:f_email,
+                      company_id:c_id,
+                      role:Role.ADMIN,
+                      approved: true,
+                      positions:{
+                        create:{
+                          position:{
+                            create:{
+                              title:"Administrator"
+                            }
+                          }
                         }
+                      }  
+                    },include:{
+                      positions:true
                     }
-                })
+                })      
 
                 //return new admin
 
@@ -1129,28 +1150,63 @@ export class DataAccessRepository {
 
     async getAllPersons():Promise<UserPerson[]>
     {
-        //absolutely brilliant. The include tag includes other details i.e other dchema data
-        //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
                 positions:true,
                 company:true,
+                skills:true,
             }
         });
 
         const people_arr=[];
-        let defaultPosition="Unknown"; //position will return the first position of the person.
-
+        
+        
         if(people)
         {
           for(let i=0;i<people.length;++i)
           {
-            
-            if(people[i].positions!=null)
-              defaultPosition=(await this.getPositionVID(people[i].positions[0].id));
+            const person=new UserPerson();
+            person.positions=[];
+            person.skill=[];
 
-            people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,defaultPosition,people[i].company_id));
-          }
+            person.id=people[i].id;
+            person.name=people[i].name;
+            person.surname=people[i].surname;
+            person.email=people[i].email;
+            person.role=people[i].role;
+            person.suspended=people[i].suspended;
+            person.approved=people[i].approved;
+            person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
+            person.utilisation=people[i].utilisation;
+            
+            //positions
+            if(people[i].positions)
+            {   
+              for(let k=0;k<people[i].positions.length;++k){
+                const pos_obj=new PositionEntity();
+
+                pos_obj.id=people[i].positions[k].position_id;
+                pos_obj.position=(await this.getPositionVID(people[i].positions[k].position_id));
+
+                person.positions.push(pos_obj);
+              }
+            }
+
+            //skills
+            if(people[i].skills)
+            {
+              for(let k=0;k<people[i].skills.length;++k)
+              {
+                const skills_obj=new Skill();
+  
+                skills_obj.id=people[i].skills[k].skill_id;
+                skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
+
+                person.skill.push(skills_obj);
+              }
+            }
+            people_arr.push(person);
+          } 
         }
         else
             console.log("Object people returned null");
@@ -1188,6 +1244,7 @@ export class DataAccessRepository {
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
     {
+      
 
       try
       {
@@ -1202,29 +1259,29 @@ export class DataAccessRepository {
             }
         })
 
-            let local_project:string;
-            let local_company:string;
-            let title:string;
+          let local_project:string;
+          let local_company:string;
+          let title:string;
 
 
-            if(person.project==null)
-                local_project=null;
-            else
-                local_project=person.project.project_name
+          if(person.project==null)
+              local_project=null;
+          else
+              local_project=person.project.project_name
 
-            if(person.company==null)
-                local_company=null;
-            else
-                local_company=person.company.company_name;
+          if(person.company==null)
+              local_company=null;
+          else
+              local_company=person.company.company_name;
 
-            if(person.positions!=null)
-              title=(await this.getPositionVID(person.positions[0].id));
+          if(person.positions!=null)
+            title=(await this.getPositionVID(person.positions[person.positions.length-1].id)); //latest position.
 
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
+          const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
-            return_user.utilisation=person.utilisation;
-            return_user.approved=person.approved;
-            return return_user;
+          return_user.utilisation=person.utilisation;
+          return_user.approved=person.approved;
+          return return_user;
       }
       catch(e)
       {
@@ -1917,15 +1974,55 @@ export class DataAccessRepository {
             where:
             {
               id:Team_members[i].person_id
+            },
+            include:{
+              positions:true,
             }
           }
         )
 
         const obj=new UserPerson()
-        obj.name=person.name
-        obj.surname=person.surname
-        obj.email=person.email
-        obj.utilisation=person.utilisation
+        obj.positions=[];
+        
+
+        obj.name=person.name;
+        obj.surname=person.surname;
+        obj.email=person.email;
+        obj.utilisation=person.utilisation;
+        
+        if(person.positions.length>0)
+        {
+          for(let k=0;k<person.positions.length;++k)
+          {
+            if(person.positions[k].team_name==teamName)
+            {
+              const pos_object=new PositionEntity();
+              pos_object.team_name=person.positions[k].team_name;
+              pos_object.position=(await this.getPositionVID(person.positions[k].position_id));
+              
+              obj.positions.push(pos_object);
+            }
+          }
+
+          //if the user has positions, but not in this team.
+          if(obj.positions.length==0) 
+          {
+            const pos_object=new PositionEntity();
+            pos_object.team_name=teamName;
+            pos_object.position="No Position Assigned";
+
+            obj.positions.push(pos_object);
+          }
+
+        }
+        else if(person.positions.length==0){//doesn't occupy any positions
+          const pos_object=new PositionEntity();
+          pos_object.team_name=teamName;
+          pos_object.position="No Position Assigned";
+
+          obj.positions.push(pos_object);
+        }
+
         members_Arr.push(obj)
       }
 
@@ -2153,10 +2250,11 @@ export class DataAccessRepository {
     /***
      * Use this function to assign a position to a user via email. Use the user's email
      * Returns: USER_DOESNT_EXIST if user isn't in the database.
-     * Returns: 
+     * Returns: NO_POSITIONS_FOUND if position isn't in the sytem
+     * The email is for the assignees.
     */
 
-    async assignPositionToUser(email:string, position_name:string):Promise<MessageObject>
+    async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
     { 
       const p_id=await this.getPersonIDVEmail(email);
       const pos_id=await this.getPositionIDVName(position_name);
@@ -2167,7 +2265,8 @@ export class DataAccessRepository {
           await this.prisma.personsOnPositions.create({
             data:{
               person_id:p_id,
-              position_id:pos_id
+              position_id:pos_id,
+              team_name:teamName,
             }
           })
 

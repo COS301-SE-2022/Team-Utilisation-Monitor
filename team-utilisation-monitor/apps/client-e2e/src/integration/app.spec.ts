@@ -22,6 +22,7 @@ describe('client', () => {
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
   })
 
+  /*
   it('should allow user to sign up as an individual',()=>{
     cy.get('#createAccountBtn').click();
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
@@ -34,7 +35,9 @@ describe('client', () => {
     cy.get('[formControlName="confirmPassword"]').type("password");
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
   })
+  */
 
+  /*
   it('should allow user to sign up as an admin',()=>{
     cy.get('#createAccountBtn').click();
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
@@ -48,6 +51,7 @@ describe('client', () => {
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
     
   })
+  */
 
   //please make sure that the api is running.
   /*
@@ -74,14 +78,18 @@ describe('client', () => {
   it('should allow admin to navigate to home page',()=>{
    
     cy.contains("Account Sign In");
-    cy.get('[formControlName="email"]').type('rourke9001@gmail.com'); 
-    cy.get('[formControlName="password"]').type("1234567890");
+    cy.get('[formControlName="email"]').type('wilman@gmail.com'); 
+    cy.get('[formControlName="password"]').type("wilman@123");
     cy.get('#submitLoginFormButton').click({force:true});
 
     cy.get('#AdminHome').click();
     cy.visit('/AdminHome');
   })
   
+  */
+ 
+  /*
+
   it('should allow admin to navigate to Admin List View',()=>{
    
     cy.contains("Account Sign In");
@@ -136,5 +144,6 @@ describe('client', () => {
     cy.visit('/AdminHome');
   })
   //testing new workflow
+
   */
 });
