@@ -35,11 +35,11 @@ export class UserPerson{
     utilisation:number;
 
     //essentially these are all the positions a user holds
-    @Field(()=>[PositionEntity])
+    @Field(()=>[PositionEntity],{nullable:true})
     positions?:PositionEntity[];
-    
+
     //essentially all the skills a person has.
-    @Field(()=>[Skill])
+    @Field(()=>[Skill],{nullable:true})
     skill?:Skill[];
 
     @Field({ nullable: true })
@@ -62,6 +62,5 @@ export class UserPerson{
 
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
-
 
 }

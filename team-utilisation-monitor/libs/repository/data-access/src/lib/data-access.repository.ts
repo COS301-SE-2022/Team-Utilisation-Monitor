@@ -1279,7 +1279,14 @@ export class DataAccessRepository {
             if(person.positions!=null)
               title=(await this.getPositionVID(person.positions[0].id));
 
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
+            //const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
+            let return_user=new UserPerson();
+            return_user.name=person.name;
+            return_user.surname=person.surname;
+            return_user.email=person.email;
+            return_user.role=person.role;
+            return_user.approved=person.approved;
+            return_user.company_name=person.company.company_name;
 
             return_user.utilisation=person.utilisation;
             return_user.approved=person.approved;
