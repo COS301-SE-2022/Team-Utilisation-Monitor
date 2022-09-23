@@ -38,7 +38,7 @@ describe('DataAccessRepository', () => {
       try {
         const user = repository.returnObject(id, name, surname, email, suspended, role, company_name, position, company_id);
         expect(user).toEqual(user);
-        expect(user).toHaveReturned;
+        expect(user).toHaveBeenCalled;
       } catch (error) { 
         fail(error)
       }
@@ -109,6 +109,7 @@ describe('DataAccessRepository', () => {
       try {
         const company = repository.returnCompanyObject(id, company_name, admins, employees, projects, teams, invite_code);
         expect(company).toEqual(company);
+        expect(company).toHaveBeenCalled;
       } catch (error) { 
         fail(error)
       }
@@ -126,6 +127,7 @@ describe('DataAccessRepository', () => {
       try {
         const userAdmin = repository.createUserAdmin(f_name, f_surname, f_email, f_company_name);
         expect(userAdmin).toEqual(userAdmin);
+        expect(userAdmin).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }
@@ -139,7 +141,7 @@ describe('DataAccessRepository', () => {
     it('should return all projects or teams of a company', async () =>{
       try {
         const allProjects = repository.getAllProjectsOrTeamsOfCompany(companyName, 0);
-        expect(allProjects).toHaveReturned;
+        expect(allProjects).toHaveBeenCalled;
       } catch (error) {
         fail(error);
       }    
