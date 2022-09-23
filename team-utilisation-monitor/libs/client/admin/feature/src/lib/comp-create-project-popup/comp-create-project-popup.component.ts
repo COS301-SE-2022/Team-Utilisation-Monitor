@@ -21,7 +21,9 @@ export class CompCreateProjectPopupComponent implements OnInit {
   selectedTeams:string[]=[]; //all the teams selected will be here
   MembersNames:any[]=[];
   SkillsList: string[] = [];
+  selectedSkills:string[]=[];
   selectedMembers:string[]=[];
+  panelOpenState = false;
   teams:any;
 
   projectForm=new FormGroup({
@@ -170,5 +172,10 @@ export class CompCreateProjectPopupComponent implements OnInit {
         }
       )
     }
+  }
+
+  Display()
+  {
+    console.log(this.selectedSkills)
   }
 }
