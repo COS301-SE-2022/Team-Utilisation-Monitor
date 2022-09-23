@@ -12,6 +12,7 @@ import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access'
 import { Company } from '@prisma/client';
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
+import { PositionEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
 import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
@@ -59,6 +60,10 @@ describe('ServiceFeatureService', () => {
 
         const user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
@@ -68,7 +73,7 @@ describe('ServiceFeatureService', () => {
         user_person.approved = true;
         user_person.company_name = "icreatesoftware";
         user_person.utilisation = 9;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.project_name = "tum";
         user_person.team_name = "team";
         user_person.company_id = 2;
@@ -112,13 +117,19 @@ describe('ServiceFeatureService', () => {
 
         let user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
+        positions[1] = "admin";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
         user_person.email = "rourke@gmail.com";
         user_person.role = "intern";
         user_person.suspended = false;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -136,7 +147,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "ssmith@gmail.com";
         user_person.role = "developer";
         user_person.suspended = false;
-        //user_person.position = "admin";
+        user_person.positions = positions[1];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -154,13 +165,21 @@ describe('ServiceFeatureService', () => {
 
         let user_person = new UserPerson();
 
+        const positions = new PositionEntity();
+
+        positions[0] = "team lead";
+
+        positions[1] = "admin";
+
+        positions[2] = "senior";
+
         user_person.id = 123;
         user_person.name = "Rourke";
         user_person.surname = "Amiss";
         user_person.email = "rourke@gmail.com";
         user_person.role = "intern";
         user_person.suspended = false;
-        //user_person.position = "team lead";
+        user_person.positions = positions[0];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -178,7 +197,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "ssmith@gmail.com";
         user_person.role = "developer";
         user_person.suspended = false;
-        //user_person.position = "admin";
+        user_person.positions = positions[1];
         user_person.company_name = "icreatesoftware";
         user_person.project_name = "tum";
         user_person.team_name = "team";
@@ -196,7 +215,7 @@ describe('ServiceFeatureService', () => {
         user_person.email = "fakeemail@gmail.com";
         user_person.role = "back-end";
         user_person.suspended = true;
-        //user_person.position = "senior";
+        user_person.positions = positions[2];
         user_person.company_name = "MI6";
         user_person.project_name = "QSS";
         user_person.team_name = "00";
@@ -342,6 +361,10 @@ describe('ServiceFeatureService', () => {
 
           const user_person = new UserPerson();
 
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
           user_person.id = 124;
           user_person.name = command.name;
           user_person.surname = command.surname;
@@ -351,7 +374,7 @@ describe('ServiceFeatureService', () => {
           user_person.approved = true;
           user_person.company_name = "icreatesoftware";
           user_person.utilisation = 9;
-          //user_person.position = "team lead";
+          user_person.positions = positions[0];
           user_person.project_name = "tum";
           user_person.team_name = "team";
           user_person.company_id = 2;
@@ -397,6 +420,10 @@ describe('ServiceFeatureService', () => {
 
           const user_person = new UserPerson();
 
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
           user_person.id = 129;
           user_person.name = command.name;
           user_person.surname = command.surname;
@@ -406,7 +433,7 @@ describe('ServiceFeatureService', () => {
           user_person.approved = true;
           user_person.company_name = command.companyName;
           user_person.utilisation = 81;
-          //user_person.position = "team lead";
+          user_person.positions = positions[0];
           user_person.project_name = "tum";
           user_person.team_name = "team";
           user_person.company_id = 8;
@@ -455,6 +482,10 @@ describe('ServiceFeatureService', () => {
           
           const user_person = new UserPerson();
 
+          const positions = new PositionEntity();
+
+          positions[0] = "team lead";
+
           user_person.id = 129;
           user_person.name = "Rourke";
           user_person.surname = "Amiss";
@@ -464,7 +495,7 @@ describe('ServiceFeatureService', () => {
           user_person.approved = true;
           user_person.company_name = "car show";
           user_person.utilisation = 81;
-          user_person.position = "team lead";
+          user_person.positions = positions[0];
           user_person.project_name = "tum";
           user_person.team_name = "team";
           user_person.company_id = 8;
@@ -498,7 +529,7 @@ describe('ServiceFeatureService', () => {
   }
   
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [CqrsModule, FunctionsModule],
       providers: [

@@ -19,17 +19,6 @@ export class DataAccessRepository {
     {
         const user_person=new UserPerson();
 
-<<<<<<< HEAD
-        user_person.id = id;
-        user_person.name = name;
-        user_person.surname = surname;
-        user_person.email = email;
-        user_person.suspended = suspended;
-        user_person.role = role;
-        user_person.company_name = company;
-        user_person.position = position;
-        user_person.company_id = company_id;
-=======
         user_person.id=id;
         user_person.name=name;
         user_person.surname=surname;
@@ -39,9 +28,7 @@ export class DataAccessRepository {
         user_person.company_name=company;
         user_person.company_id=company_id;
 
-
->>>>>>> 89c9ea2cbd6f4e500253b4a3ce52c6533216cff3
-
+        
         return user_person;
 
     }
