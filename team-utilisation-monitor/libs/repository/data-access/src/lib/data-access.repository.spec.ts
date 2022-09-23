@@ -6,19 +6,25 @@ import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-
 import { UserPerson, ProjectEntity, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill, UserStatsEntity, CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
 
 
+const userMock: jest.Mocked<UserPerson> = new UserPerson() as UserPerson;
+const projectMock: jest.Mocked<ProjectEntity> = new ProjectEntity() as ProjectEntity;
+
 describe('DataAccessRepository', () => {
 
   let repository: DataAccessRepository;
+  let prisma: PrismaService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [DataAccessRepository, PrismaService],
     }).compile();
 
+    prisma = module.get<PrismaService>(PrismaService);
     repository = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
   it('should be defined', () => {
+    expect(prisma).toBeDefined();
     expect(repository).toBeDefined();
   });
 
@@ -127,7 +133,7 @@ describe('DataAccessRepository', () => {
       try {
         const userAdmin = repository.createUserAdmin(f_name, f_surname, f_email, f_company_name);
         expect(userAdmin).toEqual(userAdmin);
-        expect(userAdmin).toHaveBeenCalled;
+        expect(await userAdmin).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }
@@ -141,9 +147,33 @@ describe('DataAccessRepository', () => {
     it('should return all projects or teams of a company', async () =>{
       try {
         const allProjects = repository.getAllProjectsOrTeamsOfCompany(companyName, 0);
-        expect(allProjects).toHaveBeenCalled;
+        expect(await allProjects).toHaveBeenCalled;
       } catch (error) {
-        fail(error);
+        fail(error)
+      }    
+    })
+  });
+
+
+  describe('getPersonVID',() => {
+    it('should return the user with the user ID', async () => {
+      jest
+        .spyOn(repository, 'getPersonVID')
+        .mockImplementation((): Promise<UserPerson> => Promise.resolve(userMock));
+
+      expect(await repository.getPersonVID(1)).toMatchObject(
+        projectMock
+        );
+    }); 
+  });
+
+  describe('@getPersonVID', () => {
+    it('should return the user with the user ID', async () =>{
+      try {
+        const user = repository.getPersonVID(1);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
       }    
     })
   });
