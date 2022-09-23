@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { ErrorStrings } from "@team-utilisation-monitor/shared/services/prisma-services";
 
 @ObjectType({description:'Object encapsulating the recommended skill details'})
-export class UserPerson{
+export class trendingSkill{
 
     @Field(() => ID)
     id?:number;
