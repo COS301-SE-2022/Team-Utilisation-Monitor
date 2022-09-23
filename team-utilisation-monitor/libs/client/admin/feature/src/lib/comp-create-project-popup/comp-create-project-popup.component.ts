@@ -29,12 +29,14 @@ export class CompCreateProjectPopupComponent implements OnInit {
     manHours:new FormControl('',[Validators.required]),
   })
 
+  SuggestedProjectForm=new FormGroup({
+    SuggProjectName:new FormControl('',[Validators.required]),
+    SuggProjectHours:new FormControl('',[Validators.required]),
+    SuggProjectMemNumber:new FormControl('',[Validators.required]),
+  })
 
   TeamForm=new FormGroup({
-    projectName:new FormControl('',[Validators.required]),
-    projectHours:new FormControl('',[Validators.required,Validators.pattern('([1-9]*[])')]),
-    projectMemNumber:new FormControl('',[Validators.required]),
-    projectSkills:new FormControl('',[Validators.required]),
+    projectTeamName:new FormControl('',[Validators.required])
   })
 
   companyName='';
