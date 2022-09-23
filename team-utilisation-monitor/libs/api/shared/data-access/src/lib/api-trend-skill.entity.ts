@@ -7,6 +7,13 @@ export class UserPerson{
     @Field(() => ID)
     id?:number;
 
+    @Field({nullable:true})
+    name?:string;
+
+    @Field({nullable:true})
+    description?:string;
+
+
    
 
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
