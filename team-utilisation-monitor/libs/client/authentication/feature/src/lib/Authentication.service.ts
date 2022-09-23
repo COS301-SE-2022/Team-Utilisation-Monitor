@@ -82,6 +82,7 @@ export class AuthenticationService {
     }
 
     const obj= this.client.post<any>('http://localhost:8080/graphql',JSON.stringify({ query: query }), options);
+    
 
     return obj;
   }
