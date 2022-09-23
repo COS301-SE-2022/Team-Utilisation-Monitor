@@ -3,7 +3,7 @@ import { DataAccessRepository } from './data-access.repository';
 
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services';
 
-import { UserPerson, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill, UserStatsEntity, CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson, ProjectEntity, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill, UserStatsEntity, CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
 
 
 describe('DataAccessRepository', () => {
@@ -82,14 +82,28 @@ describe('DataAccessRepository', () => {
     user_person.company_id = 123;
 
     all_users[1] = user_person;
+
+    const all_projects = [];
+
+    const project_entity = new ProjectEntity();
+
+    project_entity.id = 11;
+    project_entity.project_name = "Master Chef";
+    project_entity.ownwer_id = 1;
+    project_entity.workers = null;
+    project_entity.completed = false;
+    project_entity.teams = null;
+    project_entity.man_hours = 60;
+
+    all_projects[0] = project_entity;
         
     const id = 1;
     const company_name = "Grand Tour";
     const admins = all_users[0];
     const employees = all_users[1];
-    const projects = "tester";
-    const teams = false;
-    const invite_code = "intern";
+    const projects = all_projects[0];
+    const teams = null;
+    const invite_code = "inv123";
 
     it('should return a company object', () => {
       try {
