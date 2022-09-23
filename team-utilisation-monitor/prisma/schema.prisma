@@ -119,10 +119,12 @@ model PersonsOnPositions{
   id Int @id @default(autoincrement())
 
   person Person @relation(fields: [person_id], references: [id],onDelete: Cascade,onUpdate: Cascade)
-  person_id Int
+  person_id Int 
 
   position Position @relation(fields: [position_id],references: [id],onDelete: Cascade,onUpdate: Cascade)
-  position_id Int
+  position_id Int 
+
+  team_name String? //This is the team the position applies to
 }
 
 model Position{

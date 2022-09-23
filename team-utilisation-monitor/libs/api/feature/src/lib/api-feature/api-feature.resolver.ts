@@ -211,10 +211,23 @@ export class ApiFeatureResolver {
    */
 
   @Query(()=>[UserPerson])
-  async getAllPeople(){
-    const resp=await this.service.getAllUserPerson();
-    console.log(resp);
-    return resp;
+  async getAllPeople(@Args("token")token:string,@Args("email")email:string){
+    
+    const verification=await this.service.verifyToken(email,token);
+    
+    if(verification){
+      const resp=await this.service.getAllUserPerson();
+   
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
+    
+
+    
   }
 
 
@@ -330,12 +343,12 @@ export class ApiFeatureResolver {
   }
 
   @Mutation(()=>MessageObject)
-  async assignPositionToUser(@Args("position_name")position_name:string,@Args("token")token:string,@Args("email")email:string,@Args("assignee_email")assignee_email:string)
+  async assignPositionToUser(@Args("position_name")position_name:string,@Args("token")token:string,@Args("email")email:string,@Args("assignee_email")assignee_email:string,@Args("team_name")team_name:string)
   {
     const verification=await this.VerifyToken(email,token);
 
     if(verification){
-      const resp=await this.service.AssignPositionToUser(position_name,assignee_email);
+      const resp=await this.service.AssignPositionToUser(position_name,assignee_email,team_name);
 
       return resp;
     }

@@ -94,12 +94,29 @@ export class AdminService {
 
   }
 
+  getAllPersons():Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{getAllPeople(email:"'+email+'",token:"'+token+'"){id,name,surname,email,role,utilisation,positions{position},skill{skill}}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
   getTeamMembers(teamName:string):Observable<any>
   {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='query{GetTeamMembers(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'"){name,surname,email,utilisation}}'
+    const Query='query{GetTeamMembers(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'"){name,surname,email,utilisation,positions{position,team_name}}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -406,6 +423,20 @@ export class AdminService {
     const email=this.cookie.get("Email");
 
     const Query='mutation{CalculateUtilization(project_Name:"'+projectName+'",token:"'+token+'",email:"'+email+'")}'
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  assignPositionToUser(position_name:string,team_name:string,assignee_email:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{assignPositionToUser(position_name:"'+position_name+'",assignee_email:"'+assignee_email+'",email:"'+email+'",token:"'+token+'",team_name:"'+team_name+'"){message error_string}}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
