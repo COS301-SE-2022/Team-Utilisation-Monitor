@@ -148,7 +148,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
                 obj.Name=requests.name;
                 obj.Surname=requests.surname;
                 obj.Email=requests.email;
-
+                console.log(obj.Name)
                 this.MembersNames.push(obj)
               }
             }
