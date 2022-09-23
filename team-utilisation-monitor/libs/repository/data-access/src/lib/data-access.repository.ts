@@ -25,12 +25,10 @@ export class DataAccessRepository {
         user_person.email=email;
         user_person.role=role;
         user_person.suspended=suspended;
-        user_person.position=position;
         user_person.company_name=company;
         user_person.company_id=company_id;
 
-
-
+        
         return user_person;
 
     }
@@ -1155,25 +1153,63 @@ export class DataAccessRepository {
 
     async getAllPersons():Promise<UserPerson[]>
     {
-        //absolutely brilliant. The include tag includes other details i.e other dchema data
-        //that might be neglected
         const people=await this.prisma.person.findMany({
             include:{
                 positions:true,
                 company:true,
+                skills:true,
             }
         });
 
         const people_arr=[];
-
-
+        
+        
         if(people)
         {
+          for(let i=0;i<people.length;++i)
+          {
+            const person=new UserPerson();
+            person.positions=[];
+            person.skill=[];
 
-            for(let i=0;i<people.length;++i)
-            {
-                people_arr.push(this.returnObject(people[i].id,people[i].name,people[i].surname,people[i].email,people[i].suspended,people[i].role,people[i].company.company_name,"edit",people[i].company_id));
+            person.id=people[i].id;
+            person.name=people[i].name;
+            person.surname=people[i].surname;
+            person.email=people[i].email;
+            person.role=people[i].role;
+            person.suspended=people[i].suspended;
+            person.approved=people[i].approved;
+            person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
+            person.utilisation=people[i].utilisation;
+            
+            //positions
+            if(people[i].positions)
+            {   
+              for(let k=0;k<people[i].positions.length;++k){
+                const pos_obj=new PositionEntity();
+
+                pos_obj.id=people[i].positions[k].position_id;
+                pos_obj.position=(await this.getPositionVID(people[i].positions[k].position_id));
+
+                person.positions.push(pos_obj);
+              }
             }
+
+            //skills
+            if(people[i].skills)
+            {
+              for(let k=0;k<people[i].skills.length;++k)
+              {
+                const skills_obj=new Skill();
+  
+                skills_obj.id=people[i].skills[k].skill_id;
+                skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
+
+                person.skill.push(skills_obj);
+              }
+            }
+            people_arr.push(person);
+          } 
         }
         else
             console.log("Object people returned null");
@@ -1184,7 +1220,29 @@ export class DataAccessRepository {
     }
 
     /***
-     * Returns one user via their email address.
+     * This function returns the position as a string based on the id
+     * it gets. Returns Unknown if it's unable to find the position.
+    */
+    async getPositionVID(pos_id:number):Promise<string>{
+      
+      const position=await this.prisma.position.findUnique({
+        where:{
+          id:pos_id
+        }
+      })
+
+      if(position){
+        return position.title;
+      }
+      else{
+        return "Unknown";
+      }
+      
+    }
+
+    /***
+     * Returns one user via their email address.Returns a string "Email not found" if
+     * position doesn't exist.
     */
 
     async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
@@ -1218,7 +1276,8 @@ export class DataAccessRepository {
             else
                 local_company=person.company.company_name;
 
-            //edit
+            if(person.positions!=null)
+              title=(await this.getPositionVID(person.positions[0].id));
 
             const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
 
@@ -1588,8 +1647,7 @@ export class DataAccessRepository {
 
     /**
      * This function returns the user id. Returns an object with the user id
-     * @param arg_email
-     * @returns
+     * Returns -1 if the user doesn't exist.
      */
 
     async getUserIDVEmail(arg_email:string):Promise<UserPerson>
@@ -2152,6 +2210,45 @@ export class DataAccessRepository {
     }
 
     /***
+     * Use this function to assign a position to a user via email. Use the user's email
+     * Returns: USER_DOESNT_EXIST if user isn't in the database.
+     * Returns: NO_POSITIONS_FOUND if position isn't in the sytem
+     * The email is for the assignees.
+    */
+
+    async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
+    { 
+      const p_id=await this.getPersonIDVEmail(email);
+      const pos_id=await this.getPositionIDVName(position_name);
+
+      if(p_id>0){
+        if(pos_id>0)
+        {
+          await this.prisma.personsOnPositions.create({
+            data:{
+              person_id:p_id,
+              position_id:pos_id,
+              team_name:teamName,
+            }
+          })
+
+          const msg=new MessageObject("SUCCESS",ErrorStrings.NONE);
+          return msg;
+        }
+        else{
+          const msg=new MessageObject("Position doesn't exist",ErrorStrings.NO_POSITIONS_FOUND);
+          return msg;
+        }
+      }
+      else{
+        const msg= new MessageObject("Person doesn't exist",ErrorStrings.USER_DOESNT_EXIST);
+        return msg;
+      }
+
+
+    }
+
+    /***
      * This gets all the positions in the company. Returns
      * an empty array if company doesn't have any positions.
     */
@@ -2221,6 +2318,30 @@ export class DataAccessRepository {
         return team_arr;
 
     }
+
+
+    /***
+     * Use this function to get the position_id using the name of the positioin.
+     * Returns -1, if position's id doesn't exist
+    */
+
+    async getPositionIDVName(position_name:string):Promise<number>{
+
+      const position= await this.prisma.position.findUnique({
+        where:{
+          title:position_name
+        }
+      })
+
+      if(position){
+        return position.id;
+      }
+      else{
+        return -1;
+      }
+
+    }
+
 
     async getAllocatedProjects(userEmail:string):Promise<ProjectEntity[]>
     {
@@ -2302,7 +2423,7 @@ export class DataAccessRepository {
     /***
      * The function is used to get the skills of a user. The function takes
      * in a userEmail.
-     */
+    */
 
     async GetUserSkills(UserEmail:string):Promise<string[]>
     {
@@ -2329,6 +2450,43 @@ export class DataAccessRepository {
     }
 
     /***
+     * Use this function to get all the positions of an individual user.
+     * A user can have many positions.
+     * Returns and array of PositionEntities
+    */
+
+    async getUserPositions(userEmail:string):Promise<PositionEntity[]>
+    {
+      const user_id=(await this.getUserIDVEmail(userEmail)).id;
+      const return_arr=[];
+
+      if(user_id>0){
+        const positions=await this.prisma.personsOnPositions.findMany({
+          where:{
+            person_id:user_id
+          }
+        })
+
+        for(let i=0;i<positions.length;++i){
+
+          const new_position=new PositionEntity();
+          new_position.position=(await this.getPositionVID(positions[i].position_id));
+          new_position.id=positions[i].position_id;
+
+          return_arr.push(new_position);
+        }
+      }
+      else if(user_id<0){
+        const obj=new PositionEntity();
+
+        obj.error_string=ErrorStrings.EMAIL_DOESNT_EXISTS;
+        return_arr.push(obj);
+      }
+      
+      return return_arr;
+    }
+
+    /***
      * Use this function to get the statistics of the individual.
      * Returns null if the user doesn't exist.
      */
@@ -2346,7 +2504,7 @@ export class DataAccessRepository {
 
       if(user){ //user does exist.
 
-        const UserStats=new UserStatsEntity
+        const UserStats=new UserStatsEntity();
 
         UserStats.numberOfTeams=(await this.getAllocatedTeams(UserEmail)).length
 

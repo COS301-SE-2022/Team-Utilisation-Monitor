@@ -20,8 +20,12 @@ export class CompTeamListComponent implements OnInit {
 
   @Select(AddTeamMemberState.getTeamMembers)teamMembers$!:Observable<TeamMember[]>;
 
+  
+
+
   constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar,private store:Store) {}
 
+  
   @Input() Teams!:{teamName:string};
 
   requestOpenState = false;
@@ -33,9 +37,15 @@ export class CompTeamListComponent implements OnInit {
   OutEmployeeName:any[]=[]
   TeamData:any;
 
+  foods = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'},
+  ];
+
 
   ngOnInit(): void {
-
+    
 
     type nameObject=
     {
@@ -61,6 +71,7 @@ export class CompTeamListComponent implements OnInit {
         this.value+=obj.Utilisation;
         this.OutEmployeeName.push(obj);
       }
+
       this.value=this.value/this.OutEmployeeName.length;   //Average Team Utilization
 
     })
@@ -134,6 +145,20 @@ export class CompTeamListComponent implements OnInit {
     })
 
 
+  }
+
+  RemoveTeam(teamToDelete:string){
+    //console.log(teamToDelete);
+
+    this.service.deleteTeam(teamToDelete).subscribe(Data=>{
+      //teamData?
+      console.log(teamToDelete);
+
+      this.snackBar.open(teamToDelete +" has been removed from Teams")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+    })
   }
 
 

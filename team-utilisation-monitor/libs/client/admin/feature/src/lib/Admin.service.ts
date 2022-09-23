@@ -94,6 +94,23 @@ export class AdminService {
 
   }
 
+  getAllPersons():Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='query{getAllPeople(email:"'+email+'",token:"'+token+'"){id,name,surname,email,role,utilisation,positions{position},skill{skill}}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+
+  }
+
   getTeamMembers(teamName:string):Observable<any>
   {
     const token=this.cookie.get("token");
