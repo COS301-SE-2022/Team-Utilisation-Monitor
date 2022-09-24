@@ -14,16 +14,17 @@ export class ServiceFeatureController {
     return this.service.getAllUserPerson();
   }
 
-  /*@Get()
+  @Get()
   getTrendSkill():Promise<any|null>
   {
     return this.service.getTrendSkill();
-  }*/
+  }
 
   @Post(':email')
   async getOnePersonVEmailController(@Param('email')email:string):Promise<any|null>
   {
     return this.service.getOnePersonVEmailService(email);
+
   }
 
   @Post(':name/:surname/:email/:password/:role/:suspended/:company')
