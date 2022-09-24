@@ -981,6 +981,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("GetUserStatsQuery", () => {
+    it('should return the user stats', async () => {
+      let test = new UserStatsEntity();
+      try {
+        test = await service.GetUserStats('test@test.com');
+      } catch (err) { return }
+      expect(test.assignedHours).toEqual(30);
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
