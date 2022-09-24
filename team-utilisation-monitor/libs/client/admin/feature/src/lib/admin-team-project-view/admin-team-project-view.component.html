@@ -31,7 +31,7 @@
                         Completed Projects
                 </mat-panel-title></mat-expansion-panel-header>
                 <team-utilisation-monitor-comp-completed-projects-list
-                *ngFor="let project of (projects$|async)"
+                *ngFor="let project of (completedProjects$|async)"
                 [Projects] = "project"></team-utilisation-monitor-comp-completed-projects-list>
             </mat-expansion-panel>
         </mat-accordion>
