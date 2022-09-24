@@ -18,6 +18,12 @@ export class trendingSkill{
 
     @Field({nullable:true})
     preRequisites?:string;
+
+    @Field({nullable:true})
+    benefits?:string;
+
+    @Field({nullable:true})
+    level?:string;
    
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
