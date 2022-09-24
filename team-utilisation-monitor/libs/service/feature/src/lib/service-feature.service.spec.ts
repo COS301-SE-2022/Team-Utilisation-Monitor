@@ -357,7 +357,7 @@ describe('ServiceFeatureService', () => {
   
           positions[0] = "team lead";
   
-          user_person.id = 123;
+          user_person.id = 129;
           user_person.name = "Rourke";
           user_person.surname = "Amiss";
           user_person.email = query.email;
@@ -709,6 +709,16 @@ describe('ServiceFeatureService', () => {
         test = await service.GetTeamsOnProject('UCL');
       } catch (err) { return }
       expect(test[0].team_name).toEqual('West Ham');
+      });
+  });
+
+  describe("GetUserIDQuery", () => {
+    it('should return a UserPerson via email', async () => {
+      let test = new UserPerson();
+      try {
+        test = await service.getUserIDVEmail('test@test.com');
+      } catch (err) { return }
+      expect(test.id).toEqual(129);
       });
   });
 
