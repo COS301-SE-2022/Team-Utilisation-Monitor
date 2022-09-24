@@ -4312,13 +4312,23 @@ export class DataAccessRepository {
       Skill2.level="Beginner";
       Skill2.skillsNeeded="Problem-solving, abstract thinking";
       Skill2.type="Programming language";
-      
+
 
       let Skill3=new trendingSkill();
       Skill3.name="Go";
-      Skill3.description=" ";
-      Skill3.skillsNeeded="c++";
+      Skill3.description=" Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore "
+                          +"and networked systems and massive codebases."
+                          +"\n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity."
+                          +"\n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.";
+      Skill3.benefits=" 1. Widely considered a “minimalist” language "
+                      +"\n 2. Easy to learn"
+                      +"\n 3. Transparent code"
+                      +"\n 4. Compatible"
+                      +"\n 5. Fast"
+      Skill3.skillsNeeded="At least one other programming language; ";
       Skill3.type="programming language";
+      Skill3.level="Beginner to intermediate";
+      
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
