@@ -919,6 +919,26 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("GetAllTeamsWorkingOnProjectCommand", () => {
+    it('should return the teams working on a project', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.GetAllTeamsWorkingOnProjectServ('Capstone');
+      } catch (err) { return }
+      expect(test[0].id).toEqual(404);
+      });
+  });
+
+  describe("GetAllProjectsOfTeamsQuery", () => {
+    it('should return the projects assigned to a team', async () => {
+      let test = new ProjectEntity();
+      try {
+        test = await service.GetAllProjectsOfATeamServ('ICS');
+      } catch (err) { return }
+      expect(test[0].id).toEqual(401);
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
