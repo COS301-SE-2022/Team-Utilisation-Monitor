@@ -225,9 +225,24 @@ export class ApiFeatureResolver {
       status: HttpStatus.FORBIDDEN,
       error: 'Token cannot be verified',
     }, HttpStatus.FORBIDDEN);
-    
+        
+  }
 
-    
+  @Mutation(()=>Boolean)
+  async removePosition(@Args("token")token:string,@Args("email")email:string,@Args("position_name")position_name:string)
+  {
+    const verification=await this.service.verifyToken(email,token);
+
+    if(verification){
+      const resp=await this.service.RemovePosition(position_name);
+   
+      return resp;
+    }
+    else
+      throw new HttpException({
+      status: HttpStatus.FORBIDDEN,
+      error: 'Token cannot be verified',
+    }, HttpStatus.FORBIDDEN);
   }
 
 

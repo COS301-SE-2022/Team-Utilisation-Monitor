@@ -28,6 +28,12 @@ export class DataAccessRepository {
         user_person.company_name=company;
         user_person.company_id=company_id;
 
+        user_person.positions=[];
+
+        const pos_obj=new PositionEntity();
+        pos_obj.position=position;
+
+        user_person.positions.push(pos_obj);
 
         return user_person;
 
@@ -51,11 +57,11 @@ export class DataAccessRepository {
 
     async returnUserID(id:number)
     {
-        const user_person=new UserPerson();
+      const user_person=new UserPerson();
 
-        user_person.id=id;
+      user_person.id=id;
 
-        return user_person;
+      return user_person;
 
     }
 
@@ -83,8 +89,24 @@ export class DataAccessRepository {
                     admin_id:c_id,
                     role:Role.ADMIN,
                     approved:true
+                },
+                include:{
+                  positions:true,
                 }
             })
+
+            if(new_admin.positions.length==0){
+
+              console.log(new_admin.positions);
+
+              await this.prisma.personsOnPositions.create({
+                data:{
+                  person_id:new_admin.id,
+                  position_id:1,
+                  team_name:"N/A",
+                }
+              })
+            }
 
             const return_admin=new UserPerson();
 
@@ -145,23 +167,23 @@ export class DataAccessRepository {
 
                 const new_admin=await this.prisma.person.create({
                     data:{
-                        name:f_name,
-                        surname:f_surname,
-                        email:f_email,
-                        company_id:c_id,
-                        role:Role.ADMIN,
-                        approved: true,
-                        positions:{
-                            create: [
-                              {
-                                position:{
-                                  create:{
-                                    title:"Administrator"
-                                  }
-                                }
-                              }
-                            ]
+                      name:f_name,
+                      surname:f_surname,
+                      email:f_email,
+                      company_id:c_id,
+                      role:Role.ADMIN,
+                      approved: true,
+                      positions:{
+                        create:{
+                          position:{
+                            create:{
+                              title:"Administrator"
+                            }
+                          }
                         }
+                      }
+                    },include:{
+                      positions:true
                     }
                 })
 
@@ -475,29 +497,55 @@ export class DataAccessRepository {
 
           for(let i=0;i<projects.length;i++)
           {
-            const projectName=await (await this.getProject(projects[i].project_id)).project_name;
+            const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-            await this.prisma.team.delete(
+
+            await this.prisma.teamsOnProjects.deleteMany(
               {
                 where:
                 {
-                  id:id
+                  team_id:id,
+                  project_id:projects[i].project_id
                 }
               }
             )
 
             this.CalculateUtilizationVProject(projectName);
 
+
+            if(i==(projects.length-1))
+            {
+              await this.prisma.personOnTeams.deleteMany(
+                {
+                  where:
+                  {
+                    team_id:id
+                  }
+                }
+              )
+
+              await this.prisma.team.delete(
+                  {
+                    where:
+                    {
+                      id:id
+                    }
+                  }
+                )
+            }
+
           }
-        }
+
+
+
+          return "Team  Deleted"
+
+      }
       catch(e)
       {
-          if(e instanceof Prisma.PrismaClientKnownRequestError)
-          {
+        return "Team Deletion Failed";
 
-            return "Team Deletion Failed";
-          }
       }
     }
 
@@ -1136,8 +1184,8 @@ export class DataAccessRepository {
         });
 
         const people_arr=[];
-        
-        
+
+
         if(people)
         {
           for(let i=0;i<people.length;++i)
@@ -1155,10 +1203,10 @@ export class DataAccessRepository {
             person.approved=people[i].approved;
             person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
             person.utilisation=people[i].utilisation;
-            
+
             //positions
             if(people[i].positions)
-            {   
+            {
               for(let k=0;k<people[i].positions.length;++k){
                 const pos_obj=new PositionEntity();
 
@@ -1175,7 +1223,7 @@ export class DataAccessRepository {
               for(let k=0;k<people[i].skills.length;++k)
               {
                 const skills_obj=new Skill();
-  
+
                 skills_obj.id=people[i].skills[k].skill_id;
                 skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
 
@@ -1183,7 +1231,7 @@ export class DataAccessRepository {
               }
             }
             people_arr.push(person);
-          } 
+          }
         }
         else
             console.log("Object people returned null");
@@ -1198,7 +1246,7 @@ export class DataAccessRepository {
      * it gets. Returns Unknown if it's unable to find the position.
     */
     async getPositionVID(pos_id:number):Promise<string>{
-      
+
       const position=await this.prisma.position.findUnique({
         where:{
           id:pos_id
@@ -1211,7 +1259,7 @@ export class DataAccessRepository {
       else{
         return "Unknown";
       }
-      
+
     }
 
     /***
@@ -1219,8 +1267,9 @@ export class DataAccessRepository {
      * position doesn't exist.
     */
 
-    async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
+    async getOnePersonVEmail(arg_email:string):Promise<UserPerson>
     {
+
 
       try
       {
@@ -1231,39 +1280,28 @@ export class DataAccessRepository {
             include:{
                 positions:true,
                 company:true,
-                project:true,
+                project:true
             }
         })
 
-            let local_project:string;
-            let local_company:string;
-            let title:string;
+        let ReturnPerson=new UserPerson();
+        ReturnPerson.id=person.id;
+        ReturnPerson.name=person.name;
+        ReturnPerson.surname=person.surname;
+        ReturnPerson.email=person.email;
+        ReturnPerson.approved=person.approved;
+        ReturnPerson.company_name=person.company.company_name;
+        ReturnPerson.role=person.role;
+        ReturnPerson.utilisation=person.utilisation
 
+        return ReturnPerson;
 
-            if(person.project==null)
-                local_project=null;
-            else
-                local_project=person.project.project_name
-
-            if(person.company==null)
-                local_company=null;
-            else
-                local_company=person.company.company_name;
-
-            if(person.positions!=null)
-              title=(await this.getPositionVID(person.positions[0].id));
-
-            const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
-
-            return_user.utilisation=person.utilisation;
-            return_user.approved=person.approved;
-            return return_user;
       }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
         {
-          return "Email not found"
+          return null
         }
       }
     }
@@ -1950,15 +1988,55 @@ export class DataAccessRepository {
             where:
             {
               id:Team_members[i].person_id
+            },
+            include:{
+              positions:true,
             }
           }
         )
 
         const obj=new UserPerson()
-        obj.name=person.name
-        obj.surname=person.surname
-        obj.email=person.email
-        obj.utilisation=person.utilisation
+        obj.positions=[];
+
+
+        obj.name=person.name;
+        obj.surname=person.surname;
+        obj.email=person.email;
+        obj.utilisation=person.utilisation;
+
+        if(person.positions.length>0)
+        {
+          for(let k=0;k<person.positions.length;++k)
+          {
+            if(person.positions[k].team_name==teamName)
+            {
+              const pos_object=new PositionEntity();
+              pos_object.team_name=person.positions[k].team_name;
+              pos_object.position=(await this.getPositionVID(person.positions[k].position_id));
+
+              obj.positions.push(pos_object);
+            }
+          }
+
+          //if the user has positions, but not in this team.
+          if(obj.positions.length==0)
+          {
+            const pos_object=new PositionEntity();
+            pos_object.team_name=teamName;
+            pos_object.position="No Position Assigned";
+
+            obj.positions.push(pos_object);
+          }
+
+        }
+        else if(person.positions.length==0){//doesn't occupy any positions
+          const pos_object=new PositionEntity();
+          pos_object.team_name=teamName;
+          pos_object.position="No Position Assigned";
+
+          obj.positions.push(pos_object);
+        }
+
         members_Arr.push(obj)
       }
 
@@ -2172,14 +2250,14 @@ export class DataAccessRepository {
           })
 
           return new MessageObject("SUCCESS"); //ErrorString is NONE
-          
+
         } catch (err) {
           if(err instanceof Prisma.PrismaClientKnownRequestError){
             return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
           }
         }
 
-        
+
       }
     }
 
@@ -2191,7 +2269,7 @@ export class DataAccessRepository {
     */
 
     async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
-    { 
+    {
       const p_id=await this.getPersonIDVEmail(email);
       const pos_id=await this.getPositionIDVName(position_name);
 
@@ -2218,8 +2296,6 @@ export class DataAccessRepository {
         const msg= new MessageObject("Person doesn't exist",ErrorStrings.USER_DOESNT_EXIST);
         return msg;
       }
-
-
     }
 
     /***
@@ -2231,7 +2307,7 @@ export class DataAccessRepository {
 
       const positions=await this.prisma.position.findMany();
       let return_arr:PositionEntity[]=[];
-      
+
 
       if(positions!=null)
       {
@@ -2260,6 +2336,36 @@ export class DataAccessRepository {
 
       return return_arr;
     }
+
+    /***
+     * This function is used to remove the position from the company.
+     * Returns true if the removal was successful, false otherwise
+    */
+
+    async removePosition(position_name:string):Promise<boolean>
+    {
+      try {
+
+        await this.prisma.position.delete({
+          where:{
+            title:position_name,
+          }
+        })
+
+        return true;
+        
+      } 
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return false;
+        }
+      }
+    }
+
+
+
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
@@ -2456,7 +2562,7 @@ export class DataAccessRepository {
         obj.error_string=ErrorStrings.EMAIL_DOESNT_EXISTS;
         return_arr.push(obj);
       }
-      
+
       return return_arr;
     }
 
@@ -4196,5 +4302,6 @@ export class DataAccessRepository {
         }
       }
     }
+
 
 }
