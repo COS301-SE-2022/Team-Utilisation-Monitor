@@ -376,8 +376,47 @@ describe('ServiceFeatureService', () => {
           return user_person;
 
         }
-      }
 
+      } else if (query instanceof GetAllProjectsOrTeamsOfCompany) {
+        if (query.contentType === 0 ) {
+
+          const all_projects = [];
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 72;
+          project_entity.project_name = "Leaner Chef";
+          project_entity.ownwer_id = 81;
+          project_entity.workers = null;
+          project_entity.completed = false;
+          project_entity.teams = null;
+          project_entity.man_hours = 60;
+
+          all_projects[0] = project_entity;
+
+          return all_projects;
+
+        } else if (query.contentType === 1 ) {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 8;
+          team_entity.team_name = "East Ham"
+          team_entity.members = null;
+          team_entity.company_id = 11;
+          team_entity.project_name = "UEFA";
+          team_entity.projects = null;
+          team_entity.project_id = 5;
+          team_entity.completed = 6;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
+
+        }
+      }
 
 
       return undefined;
