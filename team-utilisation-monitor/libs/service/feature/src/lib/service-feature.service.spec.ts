@@ -43,11 +43,11 @@ import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
 import { GetTeamsOnProjectQuery } from './queries/impl/GetTeamsOnProject.query';
-
 import { CompleteProjectCommand } from './commands/impl/CompleteProject.command';
-
 import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.query';
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
+import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
+import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -385,7 +385,7 @@ describe('ServiceFeatureService', () => {
           const project_entity = new ProjectEntity();
 
           project_entity.id = 72;
-          project_entity.project_name = "Leaner Chef";
+          project_entity.project_name = "Learner Chef";
           project_entity.ownwer_id = 81;
           project_entity.workers = null;
           project_entity.completed = false;
@@ -501,6 +501,48 @@ describe('ServiceFeatureService', () => {
           user_company.invite_code = "ABC123"
   
           return user_company;
+        }
+
+      } else if (query instanceof GetAllTeamsWorkingOnProjectCommand) {
+        if (query.projectName === 'Capstone' ) {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 404;
+          team_entity.team_name = "ICS"
+          team_entity.members = null;
+          team_entity.company_id = 15;
+          team_entity.project_name = "UP";
+          team_entity.projects = null;
+          team_entity.project_id = 401;
+          team_entity.completed = 0;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
+        }
+
+      } else if (query instanceof GetAllProjectsOfTeamsQuery) {
+        if (query.teamName === 'ICS' ) {
+
+          const all_projects = [];
+
+          const project_entity = new ProjectEntity();
+
+          project_entity.id = 401;
+          project_entity.project_name = "Trophies";
+          project_entity.ownwer_id = 101;
+          project_entity.workers = null;
+          project_entity.completed = false;
+          project_entity.teams = null;
+          project_entity.man_hours = 80;
+
+          all_projects[0] = project_entity;
+
+          return all_projects;
+  
         }
 
       }
