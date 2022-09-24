@@ -9,6 +9,9 @@ import { AddTeamMemberState } from '../states/team-members.state';
 import { Observable } from 'rxjs';
 import { TeamMember } from '../models/admin-team-member';
 import { RemoveTeamMember } from '../actions/mutate-remove-team-member.action';
+import { AddPositionState } from '../states/positions.state';
+import { Position } from '../models/admin-positions';
+import { RemovePosition } from '../actions/mutate-remove-position.action';
 
 
 @Component({
@@ -19,10 +22,8 @@ import { RemoveTeamMember } from '../actions/mutate-remove-team-member.action';
 export class CompTeamListComponent implements OnInit {
 
   @Select(AddTeamMemberState.getTeamMembers)teamMembers$!:Observable<TeamMember[]>;
-
+  @Select(AddPositionState.getPositions)positions$!:Observable<Position[]>;
   
-
-
   constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar,private store:Store) {}
 
   
@@ -151,6 +152,24 @@ export class CompTeamListComponent implements OnInit {
         }, 5000)
       }
     })
+
+    this.positions$.subscribe(data=>{
+      if(data && data.length>0){
+        
+        for(let i=0;i<data.length;++i){
+          const pos_obj={} as positionObject;
+          pos_obj.position_name=data[i].position_name;
+          this.positionList.push(pos_obj);
+        }
+
+        //clear the ngxs state
+        for(let i=0;i<data.length;++i){
+          this.store.dispatch(new RemovePosition({position_name:data[i].position_name}));
+        }
+      }
+    })
+
+    
   }
 
   assignPosition(assignee_email:string,Name:string)

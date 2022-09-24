@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {FormGroup, FormControl, Validators } from '@angular/forms';
 import { AdminService } from '../Admin.service';
+import { Store } from '@ngxs/store';
+import { AddPosition } from '../actions/mutate-add-position.action';
 
 @Component({
   selector: 'team-utilisation-monitor-comp-add-positions-popup',
@@ -10,7 +12,7 @@ import { AdminService } from '../Admin.service';
 })
 export class CompAddPositionsPopupComponent implements OnInit {
 
-  constructor(private snackBar: MatSnackBar, private service:AdminService) { }
+  constructor(private snackBar: MatSnackBar, private service:AdminService,private store:Store) { }
 
   addPositionForm=new FormGroup({
     positionName:new FormControl('',[Validators.required])
@@ -129,6 +131,8 @@ export class CompAddPositionsPopupComponent implements OnInit {
             setTimeout(() => {
             this.snackBar.dismiss();
             }, 1000)
+
+            this.store.dispatch(new AddPosition({position_name:positionName}));
           }
 
         }
