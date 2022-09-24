@@ -767,7 +767,7 @@ describe('ServiceFeatureService', () => {
       try {
         test = await service.getAllProjectsAndTeamsOfCompany('Soccer', 1);
       } catch (err) { return }
-      expect(test.team_name).toEqual('East Ham');
+      expect(test[0].team_name).toEqual('East Ham');
       });
   });
 
