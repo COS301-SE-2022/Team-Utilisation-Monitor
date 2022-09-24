@@ -4298,6 +4298,17 @@ export class DataAccessRepository {
       Skill3.preRequisites="c++";
       Skill3.type="programming language";
 
+      let Skill4=new trendingSkill();
+      Skill4.name="C++";
+      Skill4.description=" ";
+      Skill4.preRequisites="";
+      Skill4.type="programming language";
+
+      let Skill5=new trendingSkill();
+      Skill5.name="R";
+      Skill5.description=" ";
+      Skill5.preRequisites="python";
+      Skill5.type="programming language";
 
       OBJECTS.push(Skill1);
 
