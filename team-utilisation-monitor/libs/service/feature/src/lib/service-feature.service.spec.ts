@@ -10,6 +10,7 @@ import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/da
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Company } from '@prisma/client';
+import { UserStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
 import { PositionEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -48,6 +49,7 @@ import { GetAllocatedProjectsQuery } from './queries/impl/getAllocatedProjects.q
 import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
 import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
+import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -543,6 +545,46 @@ describe('ServiceFeatureService', () => {
 
           return all_projects;
   
+        }
+
+      } else if (query instanceof GetUserStatsQuery) {
+        if (query.UserEmail === 'test@test.com' ) {
+
+          const all_users = [];
+
+          const user_person = new UserPerson();
+
+          const positions = new PositionEntity();
+
+          positions[0] = "tester";
+
+          user_person.id = 123;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = query.UserEmail;
+          user_person.role = "intern";
+          user_person.suspended = false;
+          user_person.positions = positions[0];
+          user_person.company_name = "icreatesoftware";
+          user_person.project_name = "tum";
+          user_person.team_name = "ICS";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+
+          all_users[0] = user_person;
+
+          const user_stats = new UserStatsEntity();
+
+          user_stats.teamMembers = all_users;
+          user_stats.weeklyHours = 30;
+          user_stats.assignedHours = 30;
+          user_stats.utilisation = 100;
+          user_stats.numberOfProjects = 1;
+          user_stats.numberOfTeams = 2;
+          user_stats.numberOfSkills = 9;
+
+          return user_stats;
         }
 
       }
