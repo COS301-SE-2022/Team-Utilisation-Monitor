@@ -4310,12 +4310,19 @@ export class DataAccessRepository {
       Skill5.preRequisites="python";
       Skill5.type="programming language";
 
-      OBJECTS.push(Skill1);
+      let Skill6=new trendingSkill();
+      Skill6.name="Python";
+      Skill6.description=" ";
+      Skill6.preRequisites=" ";
+      Skill6.type="programming language";
+
+
+
+      OBJECTS.push(Skill1); OBJECTS.push(Skill2); OBJECTS.push(Skill3);
+      OBJECTS.push(Skill4); OBJECTS.push(Skill5); OBJECTS.push(Skill6);
 
       return OBJECTS
 
-
-    
     }
 
 
