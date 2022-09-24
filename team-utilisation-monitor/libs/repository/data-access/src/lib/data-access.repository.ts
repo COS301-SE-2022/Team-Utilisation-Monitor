@@ -4275,5 +4275,10 @@ export class DataAccessRepository {
       }
     }
 
+    async trendSkill():Promise<trendingSkill>
+    {
+      //
+    }
+
 
 }
