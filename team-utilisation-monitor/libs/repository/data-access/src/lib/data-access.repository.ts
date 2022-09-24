@@ -4288,37 +4288,44 @@ export class DataAccessRepository {
                             +"Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java. 
                             +"As it evolved over time, JavaScript became a fully independent language. "
                             +"Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.";
-      Skill1.preRequisites="HTML and CSS to define the content and layout of web pages";
-      Skill1.type="Programming language";
 
+      Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
+      Skill1.type="Programming language";
+      Skill1.level="Beginner to Intermediate";
+      Skill1.benefits=" 1. Easy to learn and implement"
+                      +" 2. Used everywhere on the web"
+                      +" 3. Can run immediately within the client-side browser"
+                      +" 4. Reduces the demand on the website server";
+
+                      
       let Skill2=new trendingSkill();
       Skill2.name="Python";
       Skill2.description="backend";
-      Skill2.preRequisites="";
+      Skill2.skillsNeeded="";
       Skill2.type="Framework";
 
       let Skill3=new trendingSkill();
       Skill3.name="Go";
       Skill3.description=" ";
-      Skill3.preRequisites="c++";
+      Skill3.skillsNeeded="c++";
       Skill3.type="programming language";
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
       Skill4.description=" ";
-      Skill4.preRequisites="";
+      Skill4.skillsNeeded="";
       Skill4.type="programming language";
 
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
       Skill5.description=" ";
-      Skill5.preRequisites="python";
+      Skill5.skillsNeeded="python";
       Skill5.type="programming language";
 
       let Skill6=new trendingSkill();
       Skill6.name="PHP";
       Skill6.description=" ";
-      Skill6.preRequisites=" ";
+      Skill6.skillsNeeded=" ";
       Skill6.type="programming language";
 
 

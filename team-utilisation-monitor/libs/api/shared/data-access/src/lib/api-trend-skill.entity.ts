@@ -17,7 +17,7 @@ export class trendingSkill{
     type?:string;
 
     @Field({nullable:true})
-    preRequisites?:string;
+    skillsNeeded?:string;
 
     @Field({nullable:true})
     benefits?:string;
