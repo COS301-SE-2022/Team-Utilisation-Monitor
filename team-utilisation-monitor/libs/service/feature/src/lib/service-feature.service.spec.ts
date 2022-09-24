@@ -840,6 +840,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("getAllMembersOfTeam", () => {
+    it('should return all users of a team', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.getAllMembersOfTeam('Man City');
+      } catch (err) { return }
+      expect(test[2].name).toEqual("james");
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
