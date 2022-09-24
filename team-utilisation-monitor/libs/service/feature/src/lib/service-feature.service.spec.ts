@@ -486,6 +486,23 @@ describe('ServiceFeatureService', () => {
 
           return all_users;
         }
+
+      } else if (query instanceof getInviteCode) {
+        if (query.company === 'ABC') {
+
+          const user_company = new UserCompany();
+
+          user_company.id = 28;
+          user_company.company_name = query.company;
+          user_company.admins = null;
+          user_company.employees = null;
+          user_company.projects = null;
+          user_company.teams = null;
+          user_company.invite_code = "ABC123"
+  
+          return user_company;
+        }
+
       }
 
       return undefined;
