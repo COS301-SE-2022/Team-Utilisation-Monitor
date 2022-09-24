@@ -4282,19 +4282,19 @@ export class DataAccessRepository {
 
       let Skill1=new trendingSkill();
       Skill1.name="JavaScript";
-      Skill1.description=" JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. "
-                            +"It is used as a client-side programming language by 97.8 percent of all websites. "
-                            +"JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well. "
-                            +"\n Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java. 
-                            +"As it evolved over time, JavaScript became a fully independent language. "
-                            +"Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.";
+      Skill1.description=`JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. 
+                            It is used as a client-side programming language by 97.8 percent of all websites. "
+                            JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
+                            \n Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java
+                            As it evolved over time, JavaScript became a fully independent language. "
+                            Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
       Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
       Skill1.type="Programming language";
       Skill1.level="Beginner to Intermediate";
-      Skill1.benefits=" 1. Easy to learn and implement"
-                      +"\n 2. Used everywhere on the web"
-                      +"\n 3. Can run immediately within the client-side browser"
-                      +"\n 4. Reduces the demand on the website server";
+      Skill1.benefits=` 1. Easy to learn and implement
+                      \n 2. Used everywhere on the web
+                      \n 3. Can run immediately within the client-side browser
+                    \n 4. Reduces the demand on the website server`;
 
 
       let Skill2=new trendingSkill();
