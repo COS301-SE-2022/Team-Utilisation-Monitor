@@ -4281,10 +4281,17 @@ export class DataAccessRepository {
       let OBJECTS:trendingSkill[]=[];
 
       let Skill1=new trendingSkill();
-      Skill1.name="angular";
+      Skill1.name="Angular";
       Skill1.description="Frontend framework";
-      Skill1.preRequisites="c++";
+      Skill1.preRequisites="";
       Skill1.type="Framework";
+
+      let Skill2=new trendingSkill();
+      Skill2.name="JavaScript";
+      Skill2.description="backend";
+      Skill2.preRequisites="c++";
+      Skill2.type="Framework";
+
 
       OBJECTS.push(Skill1);
 
