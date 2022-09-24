@@ -867,6 +867,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("getInviteCode", () => {
+    it('should return the invite code of a company', async () => {
+      let test = new UserCompany();
+      try {
+        test = await service.GetInviteCode('ABC');
+      } catch (err) { return }
+      expect(test.invite_code).toEqual("ABC123");
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
