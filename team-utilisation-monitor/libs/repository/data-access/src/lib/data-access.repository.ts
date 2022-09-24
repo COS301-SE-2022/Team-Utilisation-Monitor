@@ -4285,24 +4285,34 @@ export class DataAccessRepository {
       Skill1.description=" JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. "
                             +"It is used as a client-side programming language by 97.8 percent of all websites. "
                             +"JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well. "
-                            +"Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java. 
+                            +"\n Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java. 
                             +"As it evolved over time, JavaScript became a fully independent language. "
                             +"Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.";
-
       Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
       Skill1.type="Programming language";
       Skill1.level="Beginner to Intermediate";
       Skill1.benefits=" 1. Easy to learn and implement"
-                      +" 2. Used everywhere on the web"
-                      +" 3. Can run immediately within the client-side browser"
-                      +" 4. Reduces the demand on the website server";
+                      +"\n 2. Used everywhere on the web"
+                      +"\n 3. Can run immediately within the client-side browser"
+                      +"\n 4. Reduces the demand on the website server";
 
-                      
+
       let Skill2=new trendingSkill();
       Skill2.name="Python";
-      Skill2.description="backend";
-      Skill2.skillsNeeded="";
-      Skill2.type="Framework";
+      Skill2.description="Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language"
+                         +"\n with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming"
+                          +"\n language for machine learning and deep learning applications. "
+                          +"\n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,"
+                          +"\n including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,"
+                          +"\n and Instagram. Python developers earn";
+      Skill2.benefits=" 1. Flexible"
+                      +"\n 2. Naturally/Intuitively readable"
+                      +"\n 3. Highly regarded official tutorials and documentation"
+                      +"\n 4. Scripted as opposed to compiled";
+      Skill2.level="Beginner";
+      Skill2.skillsNeeded="Problem-solving, abstract thinking";
+      Skill2.type="Programming language";
+      
 
       let Skill3=new trendingSkill();
       Skill3.name="Go";
