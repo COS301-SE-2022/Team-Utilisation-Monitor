@@ -761,6 +761,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("GetAllProjectsOrTeamsOfCompany", () => {
+    it('should return all projects and teams of a compnay', async () => {
+      let test = new TeamEntity();
+      try {
+        test = await service.getAllProjectsAndTeamsOfCompany('Soccer', 1);
+      } catch (err) { return }
+      expect(test.team_name).toEqual('East Ham');
+      });
+  });
+
   // commandsBus
 
   describe("createUser", () => {
