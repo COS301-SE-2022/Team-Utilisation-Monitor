@@ -4275,9 +4275,23 @@ export class DataAccessRepository {
       }
     }
 
-    async trendSkill():Promise<trendingSkill>
+    async trendSkill():Promise<trendingSkill[]>
     {
       //
+      let OBJECTS:trendingSkill[]=[];
+
+      let Skill1=new trendingSkill();
+      Skill1.name="angular";
+      Skill1.description="Frontend framework";
+      Skill1.preRequisites="c++";
+      Skill1.type="Framework";
+
+      OBJECTS.push(Skill1);
+
+      return OBJECTS
+
+
+    
     }
 
 
