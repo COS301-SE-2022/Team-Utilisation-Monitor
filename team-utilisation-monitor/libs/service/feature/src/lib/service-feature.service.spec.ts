@@ -50,6 +50,7 @@ import { GetAllocatedTeamsQuery } from './queries/impl/getAllocatedTeams.query';
 import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams-working-on-project.query';
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
 import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
+import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -585,6 +586,27 @@ describe('ServiceFeatureService', () => {
           user_stats.numberOfSkills = 9;
 
           return user_stats;
+        }
+
+      } else if (query instanceof GetAllTeamsOfACompany) {
+        if (query.companyName === 'UP' ) {
+
+          const all_teams = [];
+
+          const team_entity = new TeamEntity();
+
+          team_entity.id = 409;
+          team_entity.team_name = "COS301"
+          team_entity.members = null;
+          team_entity.company_id = 19;
+          team_entity.project_name = "UP";
+          team_entity.projects = null;
+          team_entity.project_id = 401;
+          team_entity.completed = 0;
+
+          all_teams[0] = team_entity;
+
+          return all_teams;
         }
 
       }
