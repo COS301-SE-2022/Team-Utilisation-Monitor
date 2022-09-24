@@ -347,7 +347,38 @@ describe('ServiceFeatureService', () => {
 
           return all_teams;
         }
+
+      } else if (query instanceof GetUserIDQuery) {
+        if (query.email === 'test@test.com') {
+
+          const user_person = new UserPerson();
+
+          const positions = new PositionEntity();
+  
+          positions[0] = "team lead";
+  
+          user_person.id = 123;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = query.email;
+          user_person.role = "intern";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = "icreatesoftware";
+          user_person.utilisation = 9;
+          user_person.positions = positions[0];
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+          
+          return user_person;
+
+        }
       }
+
+
 
       return undefined;
     })
