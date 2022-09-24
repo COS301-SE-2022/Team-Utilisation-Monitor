@@ -4281,37 +4281,37 @@ export class DataAccessRepository {
       let OBJECTS:trendingSkill[]=[];
 
       let Skill1=new trendingSkill();
-      Skill1.name="Angular";
+      Skill1.name="JavaScript";
       Skill1.description="Frontend framework";
       Skill1.preRequisites="";
       Skill1.type="Framework";
 
       let Skill2=new trendingSkill();
-      Skill2.name="JavaScript";
+      Skill2.name="Python";
       Skill2.description="backend";
       Skill2.preRequisites="c++";
       Skill2.type="Framework";
 
       let Skill3=new trendingSkill();
-      Skill3.name="Java";
+      Skill3.name="Go";
       Skill3.description=" ";
       Skill3.preRequisites="c++";
       Skill3.type="programming language";
 
       let Skill4=new trendingSkill();
-      Skill4.name="C++";
+      Skill4.name="java";
       Skill4.description=" ";
       Skill4.preRequisites="";
       Skill4.type="programming language";
 
       let Skill5=new trendingSkill();
-      Skill5.name="R";
+      Skill5.name="Kotlin";
       Skill5.description=" ";
       Skill5.preRequisites="python";
       Skill5.type="programming language";
 
       let Skill6=new trendingSkill();
-      Skill6.name="Python";
+      Skill6.name="PHP";
       Skill6.description=" ";
       Skill6.preRequisites=" ";
       Skill6.type="programming language";
@@ -4321,7 +4321,7 @@ export class DataAccessRepository {
       OBJECTS.push(Skill1); OBJECTS.push(Skill2); OBJECTS.push(Skill3);
       OBJECTS.push(Skill4); OBJECTS.push(Skill5); OBJECTS.push(Skill6);
 
-      return OBJECTS
+      return OBJECTS;
 
     }
 
