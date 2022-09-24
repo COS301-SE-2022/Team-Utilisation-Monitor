@@ -4299,16 +4299,16 @@ export class DataAccessRepository {
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
-      Skill2.description="Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language"
-                         +"\n with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming"
-                          +"\n language for machine learning and deep learning applications. "
-                          +"\n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,"
-                          +"\n including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,"
-                          +"\n and Instagram. Python developers earn";
-      Skill2.benefits=" 1. Flexible"
-                      +"\n 2. Naturally/Intuitively readable"
-                      +"\n 3. Highly regarded official tutorials and documentation"
-                      +"\n 4. Scripted as opposed to compiled";
+      Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
+                          with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming
+                          language for machine learning and deep learning applications.
+                           \n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,
+                          including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,
+                          and Instagram. Python developers earn`;
+      Skill2.benefits=` 1. Flexible
+                      \n 2. Naturally/Intuitively readable
+                      \n 3. Highly regarded official tutorials and documentation
+                      \n 4. Scripted as opposed to compiled`;
       Skill2.level="Beginner";
       Skill2.skillsNeeded="Problem-solving, abstract thinking";
       Skill2.type="Programming language";
@@ -4316,15 +4316,15 @@ export class DataAccessRepository {
 
       let Skill3=new trendingSkill();
       Skill3.name="Go";
-      Skill3.description=" Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore "
-                          +"and networked systems and massive codebases."
-                          +"\n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity."
-                          +"\n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.";
-      Skill3.benefits=" 1. Widely considered a “minimalist” language "
-                      +"\n 2. Easy to learn"
-                      +"\n 3. Transparent code"
-                      +"\n 4. Compatible"
-                      +"\n 5. Fast"
+      Skill3.description=`Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
+                          and networked systems and massive codebases.
+                          \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
+                          \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
+      Skill3.benefits= `1. Widely considered a “minimalist” language
+                      \n 2. Easy to learn
+                      \n 3. Transparent code
+                      \n 4. Compatible
+                      \n 5. Fast`
       Skill3.skillsNeeded="At least one other programming language; ";
       Skill3.type="programming language";
       Skill3.level="Beginner to intermediate";
@@ -4332,18 +4332,18 @@ export class DataAccessRepository {
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
-      Skill4.description="Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its"
-                        + "object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result, "
-                        +"Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java."
-                        +"\n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in "
-                        +"\n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an"
-                       +"\n  extensive online community and support each other to solve problems.";
+      Skill4.description=`Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its
+                          object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result,
+                          Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java.
+                          \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in 
+                          \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
+                        \n  extensive online community and support each other to solve problems.`;
       Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
-      Skill4.benefits=" 1. Widely considered a “minimalist” language "
-                      +"\n 2. Easy to learn";
-                      +"\n 3. Transparent code";
-                      +"\n 4. Compatible";
-                      +"\n 5. Fast";
+      Skill4.benefits=` 1. Widely considered a “minimalist” language "
+                        \n 2. Easy to learn
+                        \n 3. Transparent code
+                        \n 4. Compatible
+                        \n 5. Fast`
       Skill4.level="Intermediate";
       Skill4.type="programming language";
 
