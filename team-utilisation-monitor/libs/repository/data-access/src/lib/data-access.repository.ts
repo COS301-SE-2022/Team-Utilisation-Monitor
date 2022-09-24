@@ -4275,7 +4275,7 @@ export class DataAccessRepository {
       }
     }
 
-    async trendSkill():Promise<trendingSkill[]>
+    async getTrendSkill():Promise<trendingSkill[]>
     {
       //
       let OBJECTS:trendingSkill[]=[];
@@ -4332,8 +4332,19 @@ export class DataAccessRepository {
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
-      Skill4.description=" ";
-      Skill4.skillsNeeded="";
+      Skill4.description="Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its"
+                        + "object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result, "
+                        +"Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java."
+                        +"\n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in "
+                        +"\n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an"
+                       +"\n  extensive online community and support each other to solve problems.";
+      Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
+      Skill4.benefits=" 1. Widely considered a “minimalist” language "
+                      +"\n 2. Easy to learn";
+                      +"\n 3. Transparent code";
+                      +"\n 4. Compatible";
+                      +"\n 5. Fast";
+      Skill4.level="Intermediate";
       Skill4.type="programming language";
 
       let Skill5=new trendingSkill();

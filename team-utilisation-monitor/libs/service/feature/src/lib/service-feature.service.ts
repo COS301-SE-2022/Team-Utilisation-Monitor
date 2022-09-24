@@ -68,6 +68,11 @@ export class ServiceFeatureService {
         return this.queryBus.execute(new GetAllPersonsQuery);
     }
 
+    /*async getTrendSkill():Promise<trendingSkill>
+    {
+      return this.queryBus.execute(new getTrendSkillQuery);
+    }*/
+
     async getOnePersonVEmailService(email:string):Promise<UserPerson|null>
     {
         return this.queryBus.execute(new GetOnePersonQuery(email));
