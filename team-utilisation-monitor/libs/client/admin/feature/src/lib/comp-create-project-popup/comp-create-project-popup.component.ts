@@ -205,27 +205,22 @@ export class CompCreateProjectPopupComponent implements OnInit {
     }
   }
 
-  async CreateTeam()
+  CreateTeam()
   {
     if(this.SuggestedForm.valid)
     {
       const TeamName=this.SuggestedForm.get('TeamName')?.value!;
-      this.adminService.createTeam(TeamName,this.companyName).subscribe(data4=>
+      this.adminService.createTeam(TeamName,this.companyName).subscribe(async data4=>
         {
           //
           console.log("The number of memebers selected is "+this.MembersNames.length)
-          for(let i=0;i<this.MembersNames.length;i++)
-          {
-            //
-
-          }
+          console.log(await this.AddTeamMembers(this.MembersNames.length-1,TeamName))
         })
     }
   }
 
   async AddTeamMembers(i:number,TeamName:string):Promise<any>
   {
-    //
     if(i>=0)
     {
       console.log(this.MembersNames[i].Email)
@@ -237,7 +232,17 @@ export class CompCreateProjectPopupComponent implements OnInit {
     }
     else
     {
-      this.adminService.assignProjectToTeams
+      const projectName=this.TeamForm.get('project_Name')?.value!;
+      this.adminService.assignProjectToTeams(TeamName,projectName).subscribe(data=>
+        {
+          this.snackBar.open("Project "+projectName+" has been created ")
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 5000)
+
+          return "done"
+        })
+
     }
   }
 
