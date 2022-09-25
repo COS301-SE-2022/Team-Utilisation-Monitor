@@ -56,16 +56,10 @@ export class AdminTeamProjectViewComponent implements OnInit {
         obj.Hours=requests.man_hours; //this is not working
         obj.Complete=requests.completed
 
-        if(obj.Complete)
-        {
-          this.CompletedProjects.push(obj)
+        if(obj.Complete){
           this.store.dispatch(new AddCompletProject({projectName:requests.project_name,manHours:requests.man_hours}))
-          //console.log(obj.Name)
         }
-        else
-        {
-
-          this.OutProject.push(obj); //object passed down
+        else{
           this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
         }
 
