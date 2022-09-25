@@ -590,7 +590,7 @@ describe('ServiceFeatureService', () => {
 
       } else if (query instanceof GetAllTeamsOfACompany) {
         if (query.companyName === 'UP' ) {
-
+          
           const all_teams = [];
 
           const team_entity = new TeamEntity();
@@ -1010,6 +1010,16 @@ describe('ServiceFeatureService', () => {
         test = await service.GetUserStats('test@test.com');
       } catch (err) { return }
       expect(test.assignedHours).toEqual(30);
+      });
+  });
+
+  describe("GetAllTeamsOfACompany", () => {
+    it('should return the teams of a company', async () => {
+      let all_teams = [];
+      try {
+        all_teams = await service.getAllTeamsOfACompanyService('UP');
+      } catch (err) { return }
+      expect(all_teams[0].team_name).toEqual('COS301');
       });
   });
 
