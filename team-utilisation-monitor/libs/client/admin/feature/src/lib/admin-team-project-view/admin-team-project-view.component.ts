@@ -25,7 +25,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
   @Select(AddCompletProjectState.getCompleteProjecs)completedProjects$!:Observable<Project[]>
 
   constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
-  
+
   boolshow = true;
   panelOpenState = false;
   companyName='';
@@ -33,7 +33,8 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
   OutTeamNames:any[]=[];
   OutProject:any[]=[]; //an array of projects displayed on the view.
-  
+  CompletedProjects:any[]=[];
+
 
   ngOnInit(): void {
     this.companyName=this.cookie.get("CompanyName");
@@ -45,7 +46,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
       type nameObject={
         Name:string
         Hours:string
-        completed:boolean
+        Complete:boolean
       }
 
       for(const requests of this.companyData.data.GetCompanyQuery.projects)
@@ -53,17 +54,21 @@ export class AdminTeamProjectViewComponent implements OnInit {
         const  obj={} as nameObject; //obj stores the project names
         obj.Name=requests.project_name;
         obj.Hours=requests.man_hours; //this is not working
-        obj.completed=requests.completed;
-        this.OutProject.push(obj); //object passed down
+        obj.Complete=requests.completed
 
-        //Initialise the ngxs state with the projects
-        if(obj.completed){
+        if(obj.Complete)
+        {
+          this.CompletedProjects.push(obj)
           this.store.dispatch(new AddCompletProject({projectName:requests.project_name,manHours:requests.man_hours}))
+          //console.log(obj.Name)
         }
-        else{
+        else
+        {
+
+          this.OutProject.push(obj); //object passed down
           this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
         }
-        
+
       }
 
       if(this.companyData.data.GetCompanyQuery!=null)
@@ -91,8 +96,8 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
       this.projects$.subscribe(data=>{
         //get the latest update of the state Model <Add Model>
-      })  
-      
+      })
+
       this.completedProjects$.subscribe(data=>{
         //
       })
