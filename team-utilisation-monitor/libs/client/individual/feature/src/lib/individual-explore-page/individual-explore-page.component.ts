@@ -16,6 +16,8 @@ export class IndividualExplorePageComponent implements OnInit {
   boolshow = true;
   teams: string[]=['Java','c++','angular', 'prisma'];
   projects: string[]=[]; 
+  trendingSkills: any[]=[];
+  
 
   //constructor() { }
 
@@ -37,6 +39,27 @@ export class IndividualExplorePageComponent implements OnInit {
         for(const req of Data.data.GetAllocatedTeams)
         {
           this.teams.push(req.team_name)
+        }
+      })
+
+    this.service.getTrendingSkill(Email).subscribe(Data=>
+      {
+        type skillObj=
+        {
+          name:string,
+          description: string,
+          type:string,
+          level:string,
+          skillsNeeded:string,
+          benefits:string
+        }
+        for(const currSkill of Data.data.getTrendingSkill)
+        {
+          const obj={} as skillObj;
+          obj.name= currSkill.name;
+          obj.description=currSkill.description;
+
+          this.trendingSkills.push(obj);
         }
       })
   }
