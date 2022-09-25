@@ -21,7 +21,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
   ObservableMembers$:any[]=[];
   TeamNames: string[] = [];
-  selectedTeams:string[]=[]; //all the teams selected will be here
+  selectedTeams:any[]=[]; //all the teams selected will be here
   MembersNames:any[]=[];
   SkillsList: string[] = [];
   selectedSkills:string[]=[];
@@ -90,7 +90,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  onGroupsChange(f_selectedTeams: string[]) {
+  onGroupsChange(f_selectedTeams: any[]) {
     console.log(f_selectedTeams);
   }
 
@@ -155,13 +155,8 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
 
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
-        data=>{
-
-          /*for(let i=0;i<this.selectedSkills.length;i++)
-          {
-
-          }*/
-          this.CallAddMembers(this.selectedSkills.length-1,Number(projectMemNumber))
+        async data=>{
+          console.log(await this.CallAddMembers(this.selectedSkills.length-1,Number(projectMemNumber)))
 
         }
       )
@@ -206,6 +201,44 @@ export class CompCreateProjectPopupComponent implements OnInit {
         //
         this.MembersNames.push(UniqueArray[i]);
       }
+      return "Im done"
     }
   }
+
+  async CreateTeam()
+  {
+    if(this.SuggestedForm.valid)
+    {
+      const TeamName=this.SuggestedForm.get('TeamName')?.value!;
+      this.adminService.createTeam(TeamName,this.companyName).subscribe(data4=>
+        {
+          //
+          console.log("The number of memebers selected is "+this.MembersNames.length)
+          for(let i=0;i<this.MembersNames.length;i++)
+          {
+            //
+
+          }
+        })
+    }
+  }
+
+  async AddTeamMembers(i:number,TeamName:string):Promise<any>
+  {
+    //
+    if(i>=0)
+    {
+      console.log(this.MembersNames[i].Email)
+      this.adminService.AddTeamMember(TeamName,this.MembersNames[i].Email).subscribe(data5=>
+      {
+        console.log("Team created");
+        this.AddTeamMembers(--i,TeamName);
+      })
+    }
+    else
+    {
+      this.adminService.assignProjectToTeams
+    }
+  }
+
 }
