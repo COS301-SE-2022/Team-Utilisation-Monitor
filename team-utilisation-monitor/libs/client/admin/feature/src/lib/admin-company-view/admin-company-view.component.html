@@ -23,10 +23,12 @@
                         <mat-card-content class="InvdividualBox">
                                 <p class="InvdividualName">{{admin.Name}} {{admin.Surname}}<span id="emailText"> {{admin.Email}} </span></p>
                                 <span class="example-spacer"></span>
+                                <form class="hours-form" [formGroup]="AssignHoursForm">
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <input id="hours_value" type="number" min="10" max="200" matInput placeholder="{{admin.WeeklyHours}}" matTooltip="Total Hours per week" formControlName="weeklyHours">
                                     </mat-form-field>
                                     <button class="InvdividualButton" (click)="updateWeeklyHours(admin.Email)" type="submit" mat-raised-button color="primary" matTooltip="Submit Hours"><mat-icon>done</mat-icon></button>
+                                </form>
                                 <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(admin.Email)" matTooltip="Remove Employee form Company">
                                     <mat-icon>delete_forever</mat-icon>
                                 </button>
