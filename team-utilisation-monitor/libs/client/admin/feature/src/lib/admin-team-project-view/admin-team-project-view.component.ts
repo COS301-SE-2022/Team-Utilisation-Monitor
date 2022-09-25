@@ -9,6 +9,8 @@ import { Project } from '../models/admin-project';
 import { AddTeam } from '../actions/mutate-add-team.action';
 import { AddTeamState } from '../states/team.state';
 import { Team } from '../models/admin-team';
+import { AddCompletProjectState } from '../states/completed-projects.state';
+import { AddCompletProject } from '../actions/mutate-add-complete-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-team-project-view',
@@ -20,6 +22,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
   @Select(AddTeamState.getTeams)teams$!:Observable<Team[]>;
   @Select(AddProjectState.getProjects)projects$!:Observable<Project[]>;
+  @Select(AddCompletProjectState.getCompleteProjecs)completedProjects$!:Observable<Project[]>
 
   constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
 
@@ -56,6 +59,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
         if(obj.Complete)
         {
           this.CompletedProjects.push(obj)
+          this.store.dispatch(new AddCompletProject({projectName:requests.project_name,manHours:requests.man_hours}))
           //console.log(obj.Name)
         }
         else
@@ -64,7 +68,6 @@ export class AdminTeamProjectViewComponent implements OnInit {
           this.OutProject.push(obj); //object passed down
           this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
         }
-
 
       }
 
@@ -93,6 +96,10 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
       this.projects$.subscribe(data=>{
         //get the latest update of the state Model <Add Model>
+      })
+
+      this.completedProjects$.subscribe(data=>{
+        //
       })
 
     })
