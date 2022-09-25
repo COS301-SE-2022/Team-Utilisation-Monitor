@@ -9,6 +9,8 @@ import { Project } from '../models/admin-project';
 import { AddTeam } from '../actions/mutate-add-team.action';
 import { AddTeamState } from '../states/team.state';
 import { Team } from '../models/admin-team';
+import { AddCompletProjectState } from '../states/completed-projects.state';
+import { AddCompletProject } from '../actions/mutate-add-complete-project.action';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-team-project-view',
@@ -20,9 +22,10 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
   @Select(AddTeamState.getTeams)teams$!:Observable<Team[]>;
   @Select(AddProjectState.getProjects)projects$!:Observable<Project[]>;
+  @Select(AddCompletProjectState.getCompleteProjecs)completedProjects$!:Observable<Project[]>
 
   constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
-  
+
   boolshow = true;
   panelOpenState = false;
   companyName='';
@@ -30,7 +33,8 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
   OutTeamNames:any[]=[];
   OutProject:any[]=[]; //an array of projects displayed on the view.
-  
+  CompletedProjects:any[]=[];
+
 
   ngOnInit(): void {
     this.companyName=this.cookie.get("CompanyName");
@@ -42,6 +46,7 @@ export class AdminTeamProjectViewComponent implements OnInit {
       type nameObject={
         Name:string
         Hours:string
+        Complete:boolean
       }
 
       for(const requests of this.companyData.data.GetCompanyQuery.projects)
@@ -49,10 +54,15 @@ export class AdminTeamProjectViewComponent implements OnInit {
         const  obj={} as nameObject; //obj stores the project names
         obj.Name=requests.project_name;
         obj.Hours=requests.man_hours; //this is not working
-        this.OutProject.push(obj); //object passed down
+        obj.Complete=requests.completed
 
-        //Initialise the ngxs state with the projects
-        this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
+        if(obj.Complete){
+          this.store.dispatch(new AddCompletProject({projectName:requests.project_name,manHours:requests.man_hours}))
+        }
+        else{
+          this.store.dispatch(new AddProject({projectName:requests.project_name,manHours:requests.man_hours}));
+        }
+
       }
 
       if(this.companyData.data.GetCompanyQuery!=null)
@@ -80,7 +90,11 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
       this.projects$.subscribe(data=>{
         //get the latest update of the state Model <Add Model>
-      })     
+      })
+
+      this.completedProjects$.subscribe(data=>{
+        //
+      })
 
     })
   }

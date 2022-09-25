@@ -69,7 +69,7 @@
                             </mat-select>
                           </mat-form-field-->
 
-                        <button type="submit" mat-raised-button color="primary" [disabled]="!SuggestedProjectForm.valid">Generate Custom Team</button>
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!TeamForm.valid">Generate Custom Team</button>
                     </form>
                 </div>
             </mat-grid-tile>
@@ -82,10 +82,10 @@
                         </mat-form-field>
                         <mat-selection-list id="MemberName" #MemberName [(ngModel)]="selectedMembers" (ngModelChange)="onGroupsChange($event)" [ngModelOptions]="{standalone: true}">
                             <mat-list-option *ngFor="let MemberName of MembersNames" [value]="MemberName" [selected]="true">
-                                {{MemberName.Name}}
+                                {{MemberName.Name}} {{MemberName.Surname}}
                             </mat-list-option>
                         </mat-selection-list>
-                        <button type="submit" mat-raised-button color="primary" [disabled]="!TeamForm.valid">Save Team and add to new Project</button>
+                        <button type="submit" mat-raised-button color="primary" [disabled]="!SuggestedForm.valid">Save Team and add to new Project</button>
                     </form>
                 </div>
             </mat-grid-tile>
