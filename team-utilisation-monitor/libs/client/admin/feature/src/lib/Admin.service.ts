@@ -23,7 +23,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='query{GetCompanyQuery(name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours,completed}}}';
 
     const options = {
       headers: new HttpHeaders({
