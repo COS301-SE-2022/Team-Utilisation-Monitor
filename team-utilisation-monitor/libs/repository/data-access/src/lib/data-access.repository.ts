@@ -4260,6 +4260,7 @@ export class DataAccessRepository {
                 person.surname=people[i].surname;
                 person.email=people[i].email;
                 person.utilisation=people[i].utilisation;
+                person.project_points=people[i].Project_Points;
 
                 Peeps.push(person);
                 if(j==numberOfPeople)
