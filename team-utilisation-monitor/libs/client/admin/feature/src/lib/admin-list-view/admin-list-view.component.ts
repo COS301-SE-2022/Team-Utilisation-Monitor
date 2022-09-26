@@ -1,4 +1,3 @@
-import { Role } from '@prisma/client';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
@@ -16,7 +15,7 @@ export class AdminListViewComponent implements OnInit {
   company:any;
   companyName=''
   employeeData:any
-  OutEmployeeName:any[]=[] ; 
+  OutEmployeeName:any[]=[] ;
 
   @ViewChild('sidenav') sidenav: MatSidenav | undefined;
 
@@ -39,7 +38,7 @@ export class AdminListViewComponent implements OnInit {
     console.log();
     this.companyName=this.cookie.get("CompanyName");
 
-    
+
 
     this.service.getAllPersons().subscribe(item=>{
 
@@ -66,7 +65,7 @@ export class AdminListViewComponent implements OnInit {
           obj.Utilization=item.data.getAllPeople[i].utilisation;
           obj.positions=[];
           obj.skills=[];
-          
+
           if(item.data.getAllPeople[i].skill.length>0){
 
             for(let k=0;k<item.data.getAllPeople[i].skill.length;++k)
@@ -83,6 +82,7 @@ export class AdminListViewComponent implements OnInit {
           }
 
           this.OutEmployeeName.push(obj);
+          this.OutEmployeeName=(this.OutEmployeeName.sort((a,b)=>(a.Utilization>b.Utilization)? 1:-1)).reverse();  //Sorts the Users based on Utilization,Descending order
 
         }
 
