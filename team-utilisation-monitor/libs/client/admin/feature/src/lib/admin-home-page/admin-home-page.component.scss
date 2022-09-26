@@ -31,13 +31,29 @@ mat-icon{
 	transform: scale(2.2);
 }
 
-h1{
-	margin-bottom: 50px;
-	transform: scale(1.3);
+p{
+	font-size: xx-large;
+	padding-bottom: 30px;
 }
 
 @media (max-width: 1325px) {
 	mat-sidenav{
 		width: 350px;
+	}
+}
+
+@media (max-width: 500px) {
+	mat-card-title{
+		font-size: medium;
+	}
+
+	p{
+		font-size: x-large;
+		padding-bottom: 30px;
+	}
+
+	mat-icon{
+		margin-bottom: 50px;
+		transform: scale(1.2);
 	}
 }
