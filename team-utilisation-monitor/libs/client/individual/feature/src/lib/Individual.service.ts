@@ -183,4 +183,21 @@ export class IndividualService {
     return obj;
   }
 
+  getTrendingSkill(email:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+
+   const Query= 'query{getTrendSkill(token:"'+token+'",email:"'+email+'"){name,icon,type,level,description,skillsNeeded,benefits}}'
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+
+
 }
