@@ -534,14 +534,13 @@ export class DataAccessRepository {
             }
 
           }
+
           return "Team  Deleted"
 
       }
       catch(e)
       {
-        console.log("Get In")
         return "Team Deletion Failed";
-
       }
     }
 
