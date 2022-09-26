@@ -40,11 +40,13 @@ export class AdminHomePageComponent implements OnInit {
   onResize(event : Event): void{
     console.log(window.innerWidth);
     if (this.sidenav != null) {
-      if (window.innerWidth < 1150) {
+      if (window.innerWidth < 1200) {
         this.sidenav.mode = "over";
+        this.sidenav.opened = false;
       }
       else{
         this.sidenav.mode = "side";
+        this.sidenav.opened = true;
       }
     }
     if (this.Grid != null) {
