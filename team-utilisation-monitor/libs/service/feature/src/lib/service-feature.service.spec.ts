@@ -643,7 +643,7 @@ describe('ServiceFeatureService', () => {
 
       } else if (query instanceof GetRecomendedTeamQuery) {
         if (query.numPeople === 3 && query.SkillName === 'Java') {
-          
+
           const all_users = [];
 
           let user_person = new UserPerson();
@@ -1135,6 +1135,17 @@ describe('ServiceFeatureService', () => {
       expect(util).toEqual(89);
       });
   });
+
+  describe("GetRecomendedTeam", () => {
+    it('should return list of users', async () => {
+      let team = [];
+      try {
+        team = await service.GetRecomendedTeam(3, "Java");
+      } catch (err) { return }
+      expect(test.length).toEqual(3);
+      });
+  });
+
 
   // commandsBus
 
