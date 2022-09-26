@@ -17,6 +17,7 @@ export class CompListViewIndividualComponent implements OnInit {
 
     //changes the ID of the div to allow multiple graphs
     const thing = document.getElementById("ChartUtilization");
+
     if(thing != null){
       thing.id = ChartName;
     }
@@ -95,6 +96,7 @@ export class CompListViewIndividualComponent implements OnInit {
         plugins: [ChartDataLabels],
         options: {
             responsive:true,
+            maintainAspectRatio: false,
             indexAxis:'y',
             scales: {
                   y: {
@@ -127,3 +129,7 @@ export class CompListViewIndividualComponent implements OnInit {
     const myChart = new Chart(ChartName, conf);
   }
 }
+function floor(arg0: number): any {
+  throw new Error('Function not implemented.');
+}
+
