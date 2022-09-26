@@ -33,6 +33,8 @@ export class AdminHomePageComponent implements OnInit {
 
   //frontend responsivness to all devices
   nrOfCols:number = 4;
+  graphColSpan:number = 4;
+  graphRowSpan:number = 4;
   sideNavMode:MatDrawerMode = 'side';
 
   onResize(event : Event): void{
@@ -119,6 +121,16 @@ export class AdminHomePageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log();
+
+    //responsiveness
+    if(window.innerWidth < 1150){
+      this.sideNavMode = 'over';
+    }
+    if(window.innerWidth < 1000){
+      this.nrOfCols = 2;
+      this.graphColSpan = 2;
+      this.graphRowSpan = 2;
+    }
 
     this.companyName=this.cookie.get("CompanyName");
 
