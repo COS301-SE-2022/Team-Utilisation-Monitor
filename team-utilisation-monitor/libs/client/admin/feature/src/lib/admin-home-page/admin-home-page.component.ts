@@ -13,7 +13,8 @@ import { IncreaseNumberOfTeamsState } from '../states/number-of-teams.state';
 import { AddSkill } from '../actions/mutate-add-skill.action';
 import { IncreaseNumberOfClosedProjectsState } from '../states/number-of-closed-projects.state';
 import { IncreaseNumberOfClosedProjects } from '../actions/mutate-number-of-closed-projects.action';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-home-page',
@@ -27,20 +28,43 @@ export class AdminHomePageComponent implements OnInit {
   @Select(IncreaseNumberOfTeamsState.getNumberOfTeams)teams$!:Observable<number>;
   @Select(IncreaseNumberOfClosedProjectsState.getNumberOfClosedProjects)closedProjects$!:Observable<number>;
   @ViewChild('sidenav') sidenav: MatSidenav | undefined;
+  @ViewChild('Gridlist') Grid: MatGridList | undefined;
+  @ViewChild('GraphTile') graphTile: MatGridTile | undefined;
+
+  //frontend responsivness to all devices
+  nrOfCols:number = 4;
+  sideNavMode:MatDrawerMode = 'side';
 
   onResize(event : Event): void{
     console.log(window.innerWidth);
-    if (window.innerWidth < 1150) {
-      if (this.sidenav != null) {
+    if (this.sidenav != null) {
+      if (window.innerWidth < 1150) {
         this.sidenav.mode = "over";
       }
-    }
-    else{
-      if (this.sidenav != null) {
+      else{
         this.sidenav.mode = "side";
       }
     }
+    if (this.Grid != null) {
+      if(this.graphTile != null){
+        console.log(this.Grid.cols);
+        if (window.innerWidth < 1000) {
+          this.graphTile.colspan = 2;
+          this.graphTile.rowspan = 2;
+          this.Grid.cols = 2;
+        }
+        else {
+          this.graphTile.colspan = 4;
+          this.graphTile.rowspan = 4;
+          this.Grid.cols = 4;
+        } 
+      }
+    }
   }
+
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
   constructor(private adminService:AdminService,private cookie:CookieService,private store:Store) {
 

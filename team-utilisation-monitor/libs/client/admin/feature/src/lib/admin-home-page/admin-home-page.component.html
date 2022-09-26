@@ -1,5 +1,5 @@
 <mat-sidenav-container color="primary">
-    <mat-sidenav (window:resize)="onResize($event)" #sidenav mode="side" [(opened)]="boolshow" opened>
+    <mat-sidenav (window:resize)="onResize($event)" #sidenav [mode]="sideNavMode" [(opened)]="boolshow" opened>
         <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
     </mat-sidenav>
 
@@ -7,7 +7,7 @@
         <!-- boolshow is a var used for toggeling navbar open and closed -->
         <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-        <mat-grid-list cols="4" rowHeight="2:1">
+        <mat-grid-list #Gridlist [cols]="4" rowHeight="2:1">
             <mat-grid-tile>
                 <mat-card>
                     <mat-card-title># of Employees</mat-card-title>
@@ -57,7 +57,7 @@
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>
-            <mat-grid-tile colspan="4" rowspan="4">
+            <mat-grid-tile #GraphTile colspan="4" rowspan="4">
                 <mat-card class="graphCard">
                     <mat-card-footer>
                         <team-utilisation-monitor-comp-graph-company-utilization></team-utilisation-monitor-comp-graph-company-utilization>
