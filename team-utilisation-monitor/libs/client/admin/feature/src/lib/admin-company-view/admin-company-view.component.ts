@@ -48,6 +48,10 @@ export class AdminCompanyViewComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit(): void {
+    //responsiveness
+    if(window.innerWidth < 1150){
+      this.sideNavMode = 'over';
+    }
 
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getCompany(this.companyName).subscribe(data=>{
