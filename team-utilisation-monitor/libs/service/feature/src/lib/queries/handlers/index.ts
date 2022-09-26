@@ -25,6 +25,7 @@ import { GetAllTeamsOfACompanyHandler } from './get-all-Teams-Of-A-Company.handl
 import { GetRecomendedTeamHandler } from './GetRecomendedTeam.handler';
 import { GetAllPositionsOfCompanyHandler } from './get-all-positions-of-company.handler';
 import { GetPositionsOfUserHandler } from './get-positions-of-user.handler';
+import { getTrendSkillQueryHandler } from './get-trend-skill.handler';
 
 
 export const QueryHandlers=[
@@ -55,5 +56,6 @@ export const QueryHandlers=[
     GetAllTeamsOfACompanyHandler,
     GetRecomendedTeamHandler,
     GetAllPositionsOfCompanyHandler,
-    GetPositionsOfUserHandler
+    GetPositionsOfUserHandler,
+    getTrendSkillQueryHandler
 ]

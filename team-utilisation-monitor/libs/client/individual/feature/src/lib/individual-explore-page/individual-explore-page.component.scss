@@ -62,6 +62,11 @@ mat-grid-tile {
 
 }
 
+.alignLeft{
+  display: flex;
+  justify-content: left; /* align horizontal */
+}
+
 .left{
   display:inline-block;
   width: 100%;
@@ -80,9 +85,9 @@ hr{
 .mat-card1{
   margin: auto;
   text-align: center;
-  width:40%;
+  width:65%;
   //min-width: fit-content;
-  height: 25em;
+  height: 35em;
   box-shadow: 0px 0px 10px black;
 }
 
@@ -107,9 +112,5 @@ mat-grid-tile {
    cursor: pointer;
  }
 
-
- .card-footer {
-  //background-color: black;
-}
 
 
