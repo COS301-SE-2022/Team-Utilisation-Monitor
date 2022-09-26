@@ -204,7 +204,13 @@ export class CompCreateProjectPopupComponent implements OnInit {
         this.MembersNames.push(UniqueArray[i]);
         if(i==UniqueArray.length-1) //Last element added
         {
-          this.MembersNames=this.MembersNames.sort((a,b)=>(a.Project_Points>b.Project_Points)? 1:-1)
+          const projectMemNumber=Number(this.TeamForm.get('projectMemberNumber')?.value!);
+          this.MembersNames=(this.MembersNames.sort((a,b)=>(a.Project_Points>b.Project_Points)? 1:-1).reverse())
+          if(this.MembersNames.length>projectMemNumber) //More people than we want so we filter based on Project_Points
+          {
+            this.MembersNames.splice(projectMemNumber)
+          }
+
         }
       }
       return "Im done"
