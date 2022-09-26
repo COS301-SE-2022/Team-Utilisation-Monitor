@@ -1176,6 +1176,16 @@ describe('ServiceFeatureService', () => {
       });
   });
 
+  describe("GetPositionsOfUserQuery", () => {
+    it('should return a users positions', async () => {
+      let pos = [];
+      try {
+        pos = await service.GetPositionsOfUser("test@example.com");
+      } catch (err) { return }
+      expect(pos).toEqual("team lead");
+      });
+  });
+
 
   // commandsBus
 
