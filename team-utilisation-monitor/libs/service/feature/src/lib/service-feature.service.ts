@@ -21,7 +21,7 @@ import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Company } from '@prisma/client';
-import { TeamEntity, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
+import { TeamEntity, trendingSkill, UserPerson } from '@team-utilisation-monitor/api/shared/data-access';
 import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
@@ -33,6 +33,7 @@ import { GetAllEmployeesOfCompany } from './queries/impl/get-all-employees-of-co
 import { GetNumberOfTeamsOfCompany } from './queries/impl/get-number-of-teams-of-company.query';
 import { GetAllMembersOfTeam } from './queries/impl/get-all-members-of-team.query'
 import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
+import { getTrendSkillQuery } from './queries/impl/get-trend-skill.query';
 import { GetAllProjectsOrTeamsOfCompany } from './queries/impl/get-all-projects-or-teams.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
@@ -57,6 +58,7 @@ import { AddPositionCommand } from './commands/impl/AddPosition.command';
 import { GetAllPositionsOfCompanyCommand } from './queries/impl/get-all-positions-of-company.query';
 import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
 import { AssignPositionToUserCommand } from './commands/impl/assign-position-to-user.command';
+import { RemovePositionCommand } from './commands/impl/remove-position.command';
 
 @Injectable()
 export class ServiceFeatureService {
@@ -66,6 +68,11 @@ export class ServiceFeatureService {
     async getAllUserPerson():Promise<UserPerson>
     {
         return this.queryBus.execute(new GetAllPersonsQuery);
+    }
+
+    async getTrendSkill():Promise<trendingSkill>
+    {
+      return this.queryBus.execute(new getTrendSkillQuery);
     }
 
     async getOnePersonVEmailService(email:string):Promise<UserPerson|null>
@@ -340,5 +347,9 @@ export class ServiceFeatureService {
     async AssignPositionToUser(email:string,position_name:string,team_name:string)
     {
       return this.commandBus.execute(new AssignPositionToUserCommand(email,position_name,team_name));
+    }
+
+    async RemovePosition(position_name:string){
+      return this.commandBus.execute(new RemovePositionCommand(position_name));
     }
 }

@@ -23,7 +23,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const Query='query{GetCompanyQuery(name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours}}}';
+    const Query='query{GetCompanyQuery(name:"'+companyName+'",token:"'+token+'",email:"'+email+'"){id,company_name,employees{name,surname,email,role,utilisation,weekly_Hours},admins{name,surname,email,role},teams{team_name},projects{project_name,man_hours,completed}}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -246,6 +246,24 @@ export class AdminService {
     }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
   }
+
+
+  GetRecomendedTeam(numberOfMembers:number,skillName:string):Observable<any>
+  {
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const query='query{GetRecomendedTeam(num_people:'+numberOfMembers+',skill_name:"'+skillName+'",token:"'+token+'",email:"'+email+'"){name,surname,email}}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+  }
+
+
 
   //MUTATIONS
 
@@ -502,11 +520,10 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options); 
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
   }
 
-  getAllPositions():Observable<any>
-  {
+  getAllPositions():Observable<any>{
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
@@ -517,7 +534,22 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+  }
+
+  removePosition(position_name:string):Observable<any>{
+    const token=this.cookie.get("token");
+    const email=this.cookie.get("Email");
+
+    const Query='mutation{removePosition(token:"'+token+'",email:"'+email+'",position_name:"'+position_name+'")}';
+
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
     return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options); 
+
   }
 
 }

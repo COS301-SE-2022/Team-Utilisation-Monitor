@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity, trendingSkill} from '@team-utilisation-monitor/api/shared/data-access'
 import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -27,14 +27,13 @@ export class DataAccessRepository {
         user_person.suspended=suspended;
         user_person.company_name=company;
         user_person.company_id=company_id;
-        
+
         user_person.positions=[];
-        
+
         const pos_obj=new PositionEntity();
         pos_obj.position=position;
 
         user_person.positions.push(pos_obj);
-
 
         return user_person;
 
@@ -58,11 +57,11 @@ export class DataAccessRepository {
 
     async returnUserID(id:number)
     {
-        const user_person=new UserPerson();
+      const user_person=new UserPerson();
 
-        user_person.id=id;
+      user_person.id=id;
 
-        return user_person;
+      return user_person;
 
     }
 
@@ -182,11 +181,11 @@ export class DataAccessRepository {
                             }
                           }
                         }
-                      }  
+                      }
                     },include:{
                       positions:true
                     }
-                })      
+                })
 
                 //return new admin
 
@@ -498,29 +497,55 @@ export class DataAccessRepository {
 
           for(let i=0;i<projects.length;i++)
           {
-            const projectName=await (await this.getProject(projects[i].project_id)).project_name;
+            const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-            await this.prisma.team.delete(
+
+            await this.prisma.teamsOnProjects.deleteMany(
               {
                 where:
                 {
-                  id:id
+                  team_id:id,
+                  project_id:projects[i].project_id
                 }
               }
             )
 
             this.CalculateUtilizationVProject(projectName);
 
+
+            if(i==(projects.length-1))
+            {
+              await this.prisma.personOnTeams.deleteMany(
+                {
+                  where:
+                  {
+                    team_id:id
+                  }
+                }
+              )
+
+              await this.prisma.team.delete(
+                  {
+                    where:
+                    {
+                      id:id
+                    }
+                  }
+                )
+            }
+
           }
-        }
+
+
+
+          return "Team  Deleted"
+
+      }
       catch(e)
       {
-          if(e instanceof Prisma.PrismaClientKnownRequestError)
-          {
+        return "Team Deletion Failed";
 
-            return "Team Deletion Failed";
-          }
       }
     }
 
@@ -1012,7 +1037,6 @@ export class DataAccessRepository {
 
         if(company_object)
         {
-            numProjects=company_object.projects.length;
             numTeams=company_object.teams.length;
             numEmployees=company_object.employees.length;
 
@@ -1024,11 +1048,13 @@ export class DataAccessRepository {
               }
             }
 
-
-
             for(let i=0;i<company_object.projects.length;++i){
               if(company_object.projects[i].completed==true){
                 ++numCompleteProjects;
+              }
+              else
+              {
+                ++numProjects;
               }
             }
 
@@ -1159,8 +1185,8 @@ export class DataAccessRepository {
         });
 
         const people_arr=[];
-        
-        
+
+
         if(people)
         {
           for(let i=0;i<people.length;++i)
@@ -1178,10 +1204,10 @@ export class DataAccessRepository {
             person.approved=people[i].approved;
             person.company_name=((await this.getCompanyVID(people[i].company_id)).company_name);
             person.utilisation=people[i].utilisation;
-            
+
             //positions
             if(people[i].positions)
-            {   
+            {
               for(let k=0;k<people[i].positions.length;++k){
                 const pos_obj=new PositionEntity();
 
@@ -1198,7 +1224,7 @@ export class DataAccessRepository {
               for(let k=0;k<people[i].skills.length;++k)
               {
                 const skills_obj=new Skill();
-  
+
                 skills_obj.id=people[i].skills[k].skill_id;
                 skills_obj.skill=((await this.GetSkillVID(people[i].skills[k].skill_id)).skill);
 
@@ -1206,7 +1232,7 @@ export class DataAccessRepository {
               }
             }
             people_arr.push(person);
-          } 
+          }
         }
         else
             console.log("Object people returned null");
@@ -1221,7 +1247,7 @@ export class DataAccessRepository {
      * it gets. Returns Unknown if it's unable to find the position.
     */
     async getPositionVID(pos_id:number):Promise<string>{
-      
+
       const position=await this.prisma.position.findUnique({
         where:{
           id:pos_id
@@ -1234,7 +1260,7 @@ export class DataAccessRepository {
       else{
         return "Unknown";
       }
-      
+
     }
 
     /***
@@ -1242,9 +1268,9 @@ export class DataAccessRepository {
      * position doesn't exist.
     */
 
-    async getOnePersonVEmail(arg_email:string):Promise<UserPerson|string>
+    async getOnePersonVEmail(arg_email:string):Promise<UserPerson>
     {
-      
+
 
       try
       {
@@ -1255,39 +1281,28 @@ export class DataAccessRepository {
             include:{
                 positions:true,
                 company:true,
-                project:true,
+                project:true
             }
         })
 
-          let local_project:string;
-          let local_company:string;
-          let title:string;
+        let ReturnPerson=new UserPerson();
+        ReturnPerson.id=person.id;
+        ReturnPerson.name=person.name;
+        ReturnPerson.surname=person.surname;
+        ReturnPerson.email=person.email;
+        ReturnPerson.approved=person.approved;
+        ReturnPerson.company_name=person.company.company_name;
+        ReturnPerson.role=person.role;
+        ReturnPerson.utilisation=person.utilisation
 
+        return ReturnPerson;
 
-          if(person.project==null)
-              local_project=null;
-          else
-              local_project=person.project.project_name
-
-          if(person.company==null)
-              local_company=null;
-          else
-              local_company=person.company.company_name;
-
-          if(person.positions!=null)
-            title=(await this.getPositionVID(person.positions[person.positions.length-1].id)); //latest position.
-
-          const return_user= await this.returnObject(person.id,person.name,person.surname,person.email,person.suspended,person.role,local_company,title,person.company_id);
-
-          return_user.utilisation=person.utilisation;
-          return_user.approved=person.approved;
-          return return_user;
       }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
         {
-          return "Email not found"
+          return null
         }
       }
     }
@@ -1983,13 +1998,13 @@ export class DataAccessRepository {
 
         const obj=new UserPerson()
         obj.positions=[];
-        
+
 
         obj.name=person.name;
         obj.surname=person.surname;
         obj.email=person.email;
         obj.utilisation=person.utilisation;
-        
+
         if(person.positions.length>0)
         {
           for(let k=0;k<person.positions.length;++k)
@@ -1999,13 +2014,13 @@ export class DataAccessRepository {
               const pos_object=new PositionEntity();
               pos_object.team_name=person.positions[k].team_name;
               pos_object.position=(await this.getPositionVID(person.positions[k].position_id));
-              
+
               obj.positions.push(pos_object);
             }
           }
 
           //if the user has positions, but not in this team.
-          if(obj.positions.length==0) 
+          if(obj.positions.length==0)
           {
             const pos_object=new PositionEntity();
             pos_object.team_name=teamName;
@@ -2236,14 +2251,14 @@ export class DataAccessRepository {
           })
 
           return new MessageObject("SUCCESS"); //ErrorString is NONE
-          
+
         } catch (err) {
           if(err instanceof Prisma.PrismaClientKnownRequestError){
             return new MessageObject("Unable to create a position",ErrorStrings.PRISMA_CREATE_FAIL);
           }
         }
 
-        
+
       }
     }
 
@@ -2255,7 +2270,7 @@ export class DataAccessRepository {
     */
 
     async assignPositionToUser(email:string, position_name:string,teamName:string):Promise<MessageObject>
-    { 
+    {
       const p_id=await this.getPersonIDVEmail(email);
       const pos_id=await this.getPositionIDVName(position_name);
 
@@ -2282,8 +2297,6 @@ export class DataAccessRepository {
         const msg= new MessageObject("Person doesn't exist",ErrorStrings.USER_DOESNT_EXIST);
         return msg;
       }
-
-
     }
 
     /***
@@ -2295,7 +2308,7 @@ export class DataAccessRepository {
 
       const positions=await this.prisma.position.findMany();
       let return_arr:PositionEntity[]=[];
-      
+
 
       if(positions!=null)
       {
@@ -2324,6 +2337,36 @@ export class DataAccessRepository {
 
       return return_arr;
     }
+
+    /***
+     * This function is used to remove the position from the company.
+     * Returns true if the removal was successful, false otherwise
+    */
+
+    async removePosition(position_name:string):Promise<boolean>
+    {
+      try {
+
+        await this.prisma.position.delete({
+          where:{
+            title:position_name,
+          }
+        })
+
+        return true;
+
+      }
+      catch(e)
+      {
+        if(e instanceof Prisma.PrismaClientKnownRequestError)
+        {
+          return false;
+        }
+      }
+    }
+
+
+
 
     async getAllocatedTeams(UserEmail:string):Promise<TeamEntity[]>
     {
@@ -2520,7 +2563,7 @@ export class DataAccessRepository {
         obj.error_string=ErrorStrings.EMAIL_DOESNT_EXISTS;
         return_arr.push(obj);
       }
-      
+
       return return_arr;
     }
 
@@ -4260,5 +4303,105 @@ export class DataAccessRepository {
         }
       }
     }
+
+    async getTrendSkill():Promise<trendingSkill[]>
+    {
+      //
+      let OBJECTS:trendingSkill[]=[];
+
+      let Skill1=new trendingSkill();
+      Skill1.name="JavaScript";
+      Skill1.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
+    
+      Skill1.description=
+      `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites. 
+      JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
+      Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java
+      As it evolved over time, JavaScript became a fully independent language. 
+                            Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
+      Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
+      Skill1.type="Programming language";
+      Skill1.level="Beginner to Intermediate";
+      Skill1.benefits=` 1. Easy to learn and implement\n2. Used everywhere on the web 3. Can run immediately within the client-side browser 4. Reduces the demand on the website server`;
+
+
+      let Skill2=new trendingSkill();
+      Skill2.name="Python";
+      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+    
+    
+      Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
+                          with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming
+                          language for machine learning and deep learning applications.
+                           \n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,
+                          including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,
+                          and Instagram. Python developers earn`;
+      Skill2.benefits=` 1. Flexible
+                      \n 2. Naturally/Intuitively readable
+                      \n 3. Highly regarded official tutorials and documentation
+                      \n 4. Scripted as opposed to compiled`;
+      Skill2.level="Beginner";
+      Skill2.skillsNeeded="Problem-solving, abstract thinking";
+      Skill2.type="Programming language";
+
+
+      let Skill3=new trendingSkill();
+      Skill3.name="Go";
+      Skill3.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg";
+    
+      Skill3.description=`Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
+                          and networked systems and massive codebases.
+                          \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
+                          \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
+      Skill3.benefits= `1. Widely considered a “minimalist” language
+                       2. Easy to learn
+                      \n 3. Transparent code
+                      \n 4. Compatible
+                      \n 5. Fast`
+      Skill3.skillsNeeded="At least one other programming language; ";
+      Skill3.type="programming language";
+      Skill3.level="Beginner to intermediate";
+      
+
+      let Skill4=new trendingSkill();
+      Skill4.name="java";
+      Skill4.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg";
+  
+      Skill4.description=`Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its
+                          object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result,
+                          Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java.
+                          \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in 
+                          \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
+                        \n  extensive online community and support each other to solve problems.`;
+      Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
+      Skill4.benefits=` 1. Widely considered a “minimalist” language "
+                        \n 2. Easy to learn
+                        \n 3. Transparent code
+                        \n 4. Compatible
+                        \n 5. Fast`
+      Skill4.level="Intermediate";
+      Skill4.type="programming language";
+
+      let Skill5=new trendingSkill();
+      Skill5.name="Kotlin";
+      Skill5.description=" ";
+      Skill5.skillsNeeded="python";
+      Skill5.type="programming language";
+
+      let Skill6=new trendingSkill();
+      Skill6.name="PHP";
+      Skill6.description=" ";
+      Skill6.skillsNeeded=" ";
+      Skill6.type="programming language";
+
+
+
+      OBJECTS.push(Skill1); OBJECTS.push(Skill2); OBJECTS.push(Skill3);
+      OBJECTS.push(Skill4); OBJECTS.push(Skill5); OBJECTS.push(Skill6);
+
+      return OBJECTS;
+
+    }
+
 
 }
