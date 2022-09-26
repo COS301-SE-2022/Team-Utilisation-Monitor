@@ -1,13 +1,11 @@
 <mat-card>
     <mat-card-header>
-        <div mat-card-avatar> 
-            <mat-icon>account_circle</mat-icon>
-        </div>
         <mat-card-title>{{Individual.Name}} {{Individual.Surname}}</mat-card-title>
         <mat-card-subtitle>{{Individual.Email}}</mat-card-subtitle>
     </mat-card-header>
-
-    <div class="Chart">
-        <canvas id="ChartUtilization" height="22"></canvas>
-    </div>
+    <mat-card-content>
+        <div class="Chart">
+            <canvas id="ChartUtilization" height="80"></canvas>
+        </div>
+    </mat-card-content>
 </mat-card>
