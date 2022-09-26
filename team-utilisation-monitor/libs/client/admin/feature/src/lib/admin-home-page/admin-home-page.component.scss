@@ -4,6 +4,7 @@ mat-sidenav-container{
 
 mat-sidenav{
 	width: 25%;
+	max-width: 350px;
 }
 
 button{
@@ -33,4 +34,10 @@ mat-icon{
 h1{
 	margin-bottom: 50px;
 	transform: scale(1.3);
+}
+
+@media (max-width: 1325px) {
+	mat-sidenav{
+		width: 350px;
+	}
 }
