@@ -53,6 +53,7 @@ import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
 import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
 import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
+import { GetRecomendedTeamQuery } from './queries/impl/GetRecomendedTeam.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -638,6 +639,77 @@ describe('ServiceFeatureService', () => {
           
           return user_person.utilisation;
 
+        }
+
+      } else if (query instanceof GetRecomendedTeamQuery) {
+        if (query.numPeople === 3 && query.SkillName === 'Java') {
+          
+          const all_users = [];
+
+          let user_person = new UserPerson();
+  
+          const positions = new PositionEntity();
+  
+          positions[0] = "team lead";
+  
+          positions[1] = "admin";
+  
+          positions[2] = "senior";
+  
+          user_person.id = 123;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = "rourke@gmail.com";
+          user_person.role = "intern";
+          user_person.suspended = false;
+          user_person.positions = positions[0];
+          user_person.company_name = "icreatesoftware";
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+  
+          all_users[0] = user_person;
+  
+          user_person = new UserPerson();
+  
+          user_person.id = 66;
+          user_person.name = "Sam";
+          user_person.surname = "Smith";
+          user_person.email = "ssmith@gmail.com";
+          user_person.role = "developer";
+          user_person.suspended = false;
+          user_person.positions = positions[1];
+          user_person.company_name = "icreatesoftware";
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+  
+          all_users[1] = user_person;
+  
+          user_person = new UserPerson();
+  
+          user_person.id = 7;
+          user_person.name = "james";
+          user_person.surname = "bond";
+          user_person.email = "fakeemail@gmail.com";
+          user_person.role = "back-end";
+          user_person.suspended = true;
+          user_person.positions = positions[2];
+          user_person.company_name = "MI6";
+          user_person.project_name = "QSS";
+          user_person.team_name = "00";
+          user_person.company_id = 99;
+          user_person.project_id = 62;
+          user_person.team_id = 3;
+  
+          all_users[2] = user_person;
+  
+          return all_users;
+  
         }
 
       }
