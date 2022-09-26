@@ -253,7 +253,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const query='query{GetRecomendedTeam(num_people:'+numberOfMembers+',skill_name:"'+skillName+'",token:"'+token+'",email:"'+email+'"){name,surname,email}}';
+    const query='query{GetRecomendedTeam(num_people:'+numberOfMembers+',skill_name:"'+skillName+'",token:"'+token+'",email:"'+email+'"){name,surname,email,project_points}}';
 
     const options = {
       headers: new HttpHeaders({
@@ -302,7 +302,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const query='mutation{createTeam(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'")'
+    const query='mutation{DeleteTeam(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'")'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -548,7 +548,7 @@ export class AdminService {
         'Content-Type': 'application/json'
       })
     }
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options); 
+    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
 
   }
 

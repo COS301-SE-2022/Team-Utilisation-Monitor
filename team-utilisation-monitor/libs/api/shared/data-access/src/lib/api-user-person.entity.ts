@@ -60,6 +60,9 @@ export class UserPerson{
     @Field({nullable:true})
     weekly_Hours?:number;
 
+    @Field({nullable:true})
+    project_points?:number
+
     @Field(()=>ErrorStrings,{defaultValue:ErrorStrings.NONE})
     error_string?:ErrorStrings;
 
