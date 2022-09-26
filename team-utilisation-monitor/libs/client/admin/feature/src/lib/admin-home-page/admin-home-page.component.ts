@@ -38,7 +38,7 @@ export class AdminHomePageComponent implements OnInit {
   sideNavMode:MatDrawerMode = 'side';
 
   onResize(event : Event): void{
-    console.log(window.innerWidth);
+    //console.log(window.innerWidth);
     if (this.sidenav != null) {
       if (window.innerWidth < 1200) {
         this.sidenav.mode = "over";
@@ -51,7 +51,7 @@ export class AdminHomePageComponent implements OnInit {
     }
     if (this.Grid != null) {
       if(this.graphTile != null){
-        console.log(this.Grid.cols);
+        //console.log(this.Grid.cols);
         if (window.innerWidth < 1000) {
           this.graphTile.colspan = 2;
           this.graphTile.rowspan = 2;
