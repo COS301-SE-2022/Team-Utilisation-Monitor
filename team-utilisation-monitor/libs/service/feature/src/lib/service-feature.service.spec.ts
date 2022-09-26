@@ -612,7 +612,7 @@ describe('ServiceFeatureService', () => {
         }
 
       } else if (query instanceof GetMonthlyUtilizationQuery) {
-        if (query.Email === 'test@test.com') {
+        if (query.Email === 'test@gmail.com') {
 
           const user_person = new UserPerson();
 
@@ -1051,6 +1051,16 @@ describe('ServiceFeatureService', () => {
         all_teams = await service.getAllTeamsOfACompanyService('UP');
       } catch (err) { return }
       expect(all_teams[0].team_name).toEqual('COS301');
+      });
+  });
+
+  describe("GetMonthlyUtilization", () => {
+    it('should return the utilization of a user', async () => {
+      let util = 0;
+      try {
+        util = await service.GetMonthlyUtilization('test@gmail.com');
+      } catch (err) { return }
+      expect(util).toEqual(89);
       });
   });
 
