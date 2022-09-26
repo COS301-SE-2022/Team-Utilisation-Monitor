@@ -23,10 +23,10 @@ export class CompTeamListComponent implements OnInit {
 
   @Select(AddTeamMemberState.getTeamMembers)teamMembers$!:Observable<TeamMember[]>;
   @Select(AddPositionState.getPositions)positions$!:Observable<Position[]>;
-  
+
   constructor(private matDialog: MatDialog,private service:AdminService,private cookie:CookieService,private snackBar:MatSnackBar,private store:Store) {}
 
-  
+
   @Input() Teams!:{teamName:string};
 
   requestOpenState = false;
@@ -49,7 +49,7 @@ export class CompTeamListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+
 
     type nameObject=
     {
@@ -82,7 +82,7 @@ export class CompTeamListComponent implements OnInit {
         {
           obj.position=requests.positions[requests.positions.length-1].position; //will always use the last position added
         }
-        
+
         this.OutEmployeeName.push(obj);
       }
 
@@ -136,7 +136,7 @@ export class CompTeamListComponent implements OnInit {
 
     //popoulate the positionList
     this.service.getAllPositions().subscribe(item=>{
-      
+
       if(item!=null){
         for(let i=0;i<item.data.getAllPositions.length;++i){
           const pos_obj={} as positionObject;
@@ -155,7 +155,7 @@ export class CompTeamListComponent implements OnInit {
 
     this.positions$.subscribe(data=>{
       if(data && data.length>0){
-        
+
         for(let i=0;i<data.length;++i){
           const pos_obj={} as positionObject;
           pos_obj.position_name=data[i].position_name;
@@ -169,12 +169,12 @@ export class CompTeamListComponent implements OnInit {
       }
     })
 
-    
+
   }
 
   assignPosition(assignee_email:string,Name:string)
   {
-    
+
     this.service.assignPositionToUser(this.selectedPositon,this.Teams.teamName,assignee_email).subscribe(item=>{
 
       if(item!=null){
@@ -213,7 +213,7 @@ export class CompTeamListComponent implements OnInit {
       }
 
     })
-    
+
   }
 
   changePosition(value:any){
@@ -250,7 +250,6 @@ export class CompTeamListComponent implements OnInit {
     //console.log(teamToDelete);
 
     this.service.deleteTeam(teamToDelete).subscribe(Data=>{
-      //teamData?
       console.log(teamToDelete);
 
       this.snackBar.open(teamToDelete +" has been removed from Teams")
