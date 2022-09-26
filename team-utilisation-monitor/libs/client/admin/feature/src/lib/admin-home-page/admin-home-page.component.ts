@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 import { IncreaseNumberOfEmployees } from '../actions/mutate-number-of-employees.action';
@@ -13,6 +13,7 @@ import { IncreaseNumberOfTeamsState } from '../states/number-of-teams.state';
 import { AddSkill } from '../actions/mutate-add-skill.action';
 import { IncreaseNumberOfClosedProjectsState } from '../states/number-of-closed-projects.state';
 import { IncreaseNumberOfClosedProjects } from '../actions/mutate-number-of-closed-projects.action';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-home-page',
@@ -25,6 +26,21 @@ export class AdminHomePageComponent implements OnInit {
   @Select(IncreaseNumberOfProjectsState.getNumberOfProjects)projects$!:Observable<number>;
   @Select(IncreaseNumberOfTeamsState.getNumberOfTeams)teams$!:Observable<number>;
   @Select(IncreaseNumberOfClosedProjectsState.getNumberOfClosedProjects)closedProjects$!:Observable<number>;
+  @ViewChild('sidenav') sidenav: MatSidenav | undefined;
+
+  onResize(event : Event): void{
+    console.log(window.innerWidth);
+    if (window.innerWidth < 1150) {
+      if (this.sidenav != null) {
+        this.sidenav.mode = "over";
+      }
+    }
+    else{
+      if (this.sidenav != null) {
+        this.sidenav.mode = "side";
+      }
+    }
+  }
 
   constructor(private adminService:AdminService,private cookie:CookieService,private store:Store) {
 
