@@ -54,6 +54,7 @@ import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.q
 import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
 import { GetRecomendedTeamQuery } from './queries/impl/GetRecomendedTeam.query';
+import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
 
 describe('ServiceFeatureService', () => {
 
@@ -710,6 +711,35 @@ describe('ServiceFeatureService', () => {
   
           return all_users;
   
+        }
+
+      } else if (query instanceof GetPositionsOfUserQuery) {
+        if (query.email === 'test@example.com') {
+
+          const user_person = new UserPerson();
+
+          const positions = new PositionEntity();
+  
+          positions[0] = "team lead";
+  
+          user_person.id = 129;
+          user_person.name = "Rourke";
+          user_person.surname = "Amiss";
+          user_person.email = query.email;
+          user_person.role = "intern";
+          user_person.suspended = false;
+          user_person.approved = true;
+          user_person.company_name = "icreatesoftware";
+          user_person.utilisation = 89;
+          user_person.positions = positions[0];
+          user_person.project_name = "tum";
+          user_person.team_name = "team";
+          user_person.company_id = 2;
+          user_person.project_id = 6;
+          user_person.team_id = 21;
+          
+          return user_person.positions;
+
         }
 
       }
