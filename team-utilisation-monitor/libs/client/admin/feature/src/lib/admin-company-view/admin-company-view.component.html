@@ -1,5 +1,5 @@
 <mat-sidenav-container color="primary">
-    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+    <mat-sidenav (window:resize)="onResize($event)" #sidenav [mode]="sideNavMode" [(opened)]="boolshow" opened>
         <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
     </mat-sidenav>
 
