@@ -1,4 +1,7 @@
 <body xmlns:width="http://www.w3.org/1999/xhtml">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  
 <mat-sidenav-container color="primary">
   <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
     <team-utilisation-monitor-comp-sidenav></team-utilisation-monitor-comp-sidenav>
@@ -20,28 +23,26 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="left">
-          <div class="inline" *ngFor ="let recSkill of teams; index as NoOfskills">
+          <div class="inline" *ngFor ="let recSkill of trendingSkills; index as NoOfskills">
             <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
-              <mat-card-header>
-                <mat-card-title>{{recSkill}}</mat-card-title>
-                <mat-card-subtitle style="align-content:left">some info</mat-card-subtitle>
+              <mat-card-header class="alignLeft">
+                <mat-card-title class="alignLeft">
+                  
+            <img src={{recSkill.icon}}/>
+          
+            {{recSkill.name}}</mat-card-title>
+                <mat-card-subtitle style="align-content:left">{{recSkill.type}}</mat-card-subtitle>
               </mat-card-header>
           
               <mat-card-content class="mid">
-                <p>Short description about how the element, somethimng like recSkill.info that will
-                  give information about or brief description about the technology/
-                  Short description about how the element, somethimng like recSkill.info that will
-                  give information about or brief 
-                  Short description about how the element, somethimng like recSkill.info that will
-                  give information about or brief description about the technology/
-                  Short description about how the element, somethimng like recSkill.info that will
-                  give information about or briefShort description about how the element, somethimng like recSkill.info that will
-                  give information about or brief description about the technology/
-                  Short description about how the element, somethimng like recSkill.info that will
-                  give information about or briefShort description about how the element, somethimng like recSkill.info that will
-                  give information about or brief description about the technology/
-                  Short description about how the element, somethimng like recSkill.info that will
-                  give information about or brief
+                <p>
+                  {{recSkill.description}}
+                </p>
+                <br>
+                <li>Skills needed:  {{recSkill.skillsNeeded}}</li>
+
+                <p>
+                  {{recSkill.benefits}}
                 </p>
               </mat-card-content>
               <mat-card-footer class="card-footer">

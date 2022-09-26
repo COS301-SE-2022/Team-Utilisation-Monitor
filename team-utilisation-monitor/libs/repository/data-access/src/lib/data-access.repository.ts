@@ -4310,6 +4310,8 @@ export class DataAccessRepository {
 
       let Skill1=new trendingSkill();
       Skill1.name="JavaScript";
+      Skill1.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
+    
       Skill1.description=
       `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites. 
       JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
@@ -4324,6 +4326,9 @@ export class DataAccessRepository {
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
+      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+    
+    
       Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
                           with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming
                           language for machine learning and deep learning applications.
@@ -4341,12 +4346,14 @@ export class DataAccessRepository {
 
       let Skill3=new trendingSkill();
       Skill3.name="Go";
+      Skill3.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg";
+    
       Skill3.description=`Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
                           and networked systems and massive codebases.
                           \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
                           \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
       Skill3.benefits= `1. Widely considered a “minimalist” language
-                      \n 2. Easy to learn
+                       2. Easy to learn
                       \n 3. Transparent code
                       \n 4. Compatible
                       \n 5. Fast`
@@ -4357,6 +4364,8 @@ export class DataAccessRepository {
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
+      Skill4.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg";
+  
       Skill4.description=`Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its
                           object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result,
                           Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java.

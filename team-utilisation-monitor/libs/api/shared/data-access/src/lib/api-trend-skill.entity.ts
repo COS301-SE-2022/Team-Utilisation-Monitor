@@ -11,6 +11,9 @@ export class trendingSkill{
     name?:string;
 
     @Field({nullable:true})
+    icon?:string;
+
+    @Field({nullable:true})
     description?:string;
 
     @Field({nullable:true})

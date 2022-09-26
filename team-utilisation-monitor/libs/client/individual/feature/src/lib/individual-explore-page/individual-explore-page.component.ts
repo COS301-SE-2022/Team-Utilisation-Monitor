@@ -52,12 +52,20 @@ export class IndividualExplorePageComponent implements OnInit {
           level:string,
           skillsNeeded:string,
           benefits:string
+          icon:string;
         }
-        for(const currSkill of Data.data.getTrendingSkill)
+        for(const currSkill of Data.data.getTrendSkill)
         {
           const obj={} as skillObj;
+          obj.icon=currSkill.icon;
           obj.name= currSkill.name;
           obj.description=currSkill.description;
+          obj.benefits=currSkill.benefits;
+          obj.level=currSkill.level;
+          obj.skillsNeeded=currSkill.skillsNeeded;
+          obj.type=currSkill.type;
+
+          console.log(obj.name);
 
           this.trendingSkills.push(obj);
         }

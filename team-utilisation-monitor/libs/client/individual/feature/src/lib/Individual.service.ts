@@ -187,7 +187,7 @@ export class IndividualService {
   {
     const token=this.cookie.get("token");
 
-   const Query= 'query{getTrendSkill(token:"'+token+'",email:"'+email+'"){name,type,level,description,skillsNeeded,benefits}}'
+   const Query= 'query{getTrendSkill(token:"'+token+'",email:"'+email+'"){name,icon,type,level,description,skillsNeeded,benefits}}'
 
     const options = {
       headers: new HttpHeaders({
