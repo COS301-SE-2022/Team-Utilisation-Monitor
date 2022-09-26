@@ -1,8 +1,9 @@
 import { Role } from '@prisma/client';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-list-view',
@@ -17,6 +18,22 @@ export class AdminListViewComponent implements OnInit {
   employeeData:any
   OutEmployeeName:any[]=[] ; 
 
+  @ViewChild('sidenav') sidenav: MatSidenav | undefined;
+
+  sideNavMode:MatDrawerMode = 'side';
+
+  onResize(event : Event): void{
+    if (this.sidenav != null) {
+      if (window.innerWidth < 1200) {
+        this.sidenav.mode = "over";
+        this.sidenav.opened = false;
+      }
+      else{
+        this.sidenav.mode = "side";
+        this.sidenav.opened = true;
+      }
+    }
+  }
 
   ngOnInit(): void {
     console.log();

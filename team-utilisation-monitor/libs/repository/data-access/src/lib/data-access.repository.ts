@@ -2,7 +2,7 @@ import { Person, Status } from '@prisma/client';
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { Role,Prisma } from '@prisma/client';
-import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson,UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill,UserStatsEntity,CompanyUtilization, PositionEntity, trendingSkill} from '@team-utilisation-monitor/api/shared/data-access'
 import { ErrorStrings, MessageObject, NullException, PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services'
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
@@ -4298,6 +4298,105 @@ export class DataAccessRepository {
             return null;
         }
       }
+    }
+
+    async getTrendSkill():Promise<trendingSkill[]>
+    {
+      //
+      let OBJECTS:trendingSkill[]=[];
+
+      let Skill1=new trendingSkill();
+      Skill1.name="JavaScript";
+      Skill1.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
+    
+      Skill1.description=
+      `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites. 
+      JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
+      Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java
+      As it evolved over time, JavaScript became a fully independent language. 
+                            Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
+      Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
+      Skill1.type="Programming language";
+      Skill1.level="Beginner to Intermediate";
+      Skill1.benefits=` 1. Easy to learn and implement\n2. Used everywhere on the web 3. Can run immediately within the client-side browser 4. Reduces the demand on the website server`;
+
+
+      let Skill2=new trendingSkill();
+      Skill2.name="Python";
+      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+    
+    
+      Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
+                          with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming
+                          language for machine learning and deep learning applications.
+                           \n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,
+                          including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,
+                          and Instagram. Python developers earn`;
+      Skill2.benefits=` 1. Flexible
+                      \n 2. Naturally/Intuitively readable
+                      \n 3. Highly regarded official tutorials and documentation
+                      \n 4. Scripted as opposed to compiled`;
+      Skill2.level="Beginner";
+      Skill2.skillsNeeded="Problem-solving, abstract thinking";
+      Skill2.type="Programming language";
+
+
+      let Skill3=new trendingSkill();
+      Skill3.name="Go";
+      Skill3.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg";
+    
+      Skill3.description=`Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
+                          and networked systems and massive codebases.
+                          \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
+                          \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
+      Skill3.benefits= `1. Widely considered a “minimalist” language
+                       2. Easy to learn
+                      \n 3. Transparent code
+                      \n 4. Compatible
+                      \n 5. Fast`
+      Skill3.skillsNeeded="At least one other programming language; ";
+      Skill3.type="programming language";
+      Skill3.level="Beginner to intermediate";
+      
+
+      let Skill4=new trendingSkill();
+      Skill4.name="java";
+      Skill4.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg";
+  
+      Skill4.description=`Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its
+                          object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result,
+                          Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java.
+                          \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in 
+                          \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
+                        \n  extensive online community and support each other to solve problems.`;
+      Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
+      Skill4.benefits=` 1. Widely considered a “minimalist” language "
+                        \n 2. Easy to learn
+                        \n 3. Transparent code
+                        \n 4. Compatible
+                        \n 5. Fast`
+      Skill4.level="Intermediate";
+      Skill4.type="programming language";
+
+      let Skill5=new trendingSkill();
+      Skill5.name="Kotlin";
+      Skill5.description=" ";
+      Skill5.skillsNeeded="python";
+      Skill5.type="programming language";
+
+      let Skill6=new trendingSkill();
+      Skill6.name="PHP";
+      Skill6.description=" ";
+      Skill6.skillsNeeded=" ";
+      Skill6.type="programming language";
+
+
+
+      OBJECTS.push(Skill1); OBJECTS.push(Skill2); OBJECTS.push(Skill3);
+      OBJECTS.push(Skill4); OBJECTS.push(Skill5); OBJECTS.push(Skill6);
+
+      return OBJECTS;
+
     }
 
 
