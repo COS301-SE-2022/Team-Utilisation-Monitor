@@ -818,6 +818,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@addPosition', () => {
+
+    const position_name = "admin"
+
+    it('should add a position', async () =>{
+      try {
+        const position = repository.addPosition(position_name);
+        expect(await position).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
