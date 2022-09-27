@@ -749,6 +749,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@deleteEmployee', () => {
+
+    const email = "charlie@chocolate.com"
+
+    it('should delete a memeber', async () =>{
+      try {
+        const member = repository.deleteEmployee(email);
+        expect(await member).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
