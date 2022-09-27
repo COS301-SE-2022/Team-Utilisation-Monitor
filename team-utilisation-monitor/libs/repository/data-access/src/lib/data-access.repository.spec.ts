@@ -860,6 +860,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@removePosition', () => {
+
+    const position_name = "tutor"
+
+    it('should remove a position', async () =>{
+      try {
+        const position = repository.removePosition(position_name);
+        expect(await position).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
