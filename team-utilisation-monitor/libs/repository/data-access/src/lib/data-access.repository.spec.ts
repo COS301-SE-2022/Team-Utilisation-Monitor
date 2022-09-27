@@ -1060,6 +1060,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@resetAssignedHoursVID', () => {
+
+    const person_id = 101;
+
+    it('should reset assigned hours to 0 given user id', async () =>{
+      try {
+        const user = repository.resetAssignedHoursVID(person_id);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
