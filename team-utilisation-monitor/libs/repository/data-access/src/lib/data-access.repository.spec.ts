@@ -620,6 +620,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getTeamIDVName', () => {
+
+    const t_name = "team green"
+
+    it('should return the team id with the team name', async () =>{
+      try {
+        const user = repository.getTeamIDVName(t_name);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
