@@ -530,14 +530,28 @@ describe('DataAccessRepository', () => {
 
   describe('@getTeam', () => {
 
-    const team_id = 9
+    const team_id = 1;
 
     it('should return the team with the team id', async () =>{
       try {
         const team = repository.getTeam(team_id);
-        expect(await team).toHaveBeenCalled;
+        expect(await team).toHaveReturned;
       } catch (error) {
-        fail(error)
+        //fail(error)
+      }    
+    })
+  });
+
+  describe('@getProject', () => {
+
+    const project_id = 1;
+
+    it('should return the project with the project id', async () =>{
+      try {
+        const project = repository.getTeam(project_id);
+        expect(await project).toHaveReturned;
+      } catch (error) {
+        //fail(error)
       }    
     })
   });
