@@ -734,6 +734,21 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@deleteMember', () => {
+
+    const teamName = "charlie";
+    const email = "wonka@chocolate.com"
+
+    it('should delete a memeber from the team ', async () =>{
+      try {
+        const team = repository.deleteMember(teamName, email);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
