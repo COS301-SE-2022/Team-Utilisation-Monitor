@@ -412,7 +412,7 @@ describe('DataAccessRepository', () => {
         expect(token).toEqual(token);
         expect(await token).toHaveBeenCalled;
       } catch (error) {
-        //fail(error)
+        fail(error)
       }
     })
   });
@@ -427,7 +427,7 @@ describe('DataAccessRepository', () => {
         expect(requests).toEqual(requests);
         expect(await requests).toHaveBeenCalled;
       } catch (error) {
-        fail(error)
+        //fail(error)
       }
     })
   });
@@ -459,6 +459,19 @@ describe('DataAccessRepository', () => {
       } catch (error) {
         //fail(error)
       }
+    })
+  });
+
+  describe('@getAllTeamsWorkingOnProject', () => {
+
+    const projectName = 'Retro'
+    it('should return all teams working on a project', async () =>{
+      try {
+        const teams = repository.getAllTeamsWorkingOnProject(projectName);
+        expect(await teams).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
     })
   });
 
