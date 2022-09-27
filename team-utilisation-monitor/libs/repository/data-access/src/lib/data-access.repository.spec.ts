@@ -676,6 +676,36 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@addEmployeeToCompany', () => {
+
+    const companyName = "Mimos"
+
+    const user_person = new UserPerson();
+
+    const position = new PositionEntity();
+
+    position[0] = "programmer"
+
+    user_person.id = 2;
+    user_person.name = "Steff";
+    user_person.surname = "Curry";
+    user_person.email= "stef@curry.com";
+    user_person.role = "pen pal";
+    user_person.suspended = false;
+    user_person.positions = position[0];
+    user_person.company_name = "UP";
+    user_person.company_id = 11;
+
+    it('should add employee to company', async () =>{
+      try {
+        const emp = repository.addEmployeeToCompany(companyName, user_person);
+        expect(await emp).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
