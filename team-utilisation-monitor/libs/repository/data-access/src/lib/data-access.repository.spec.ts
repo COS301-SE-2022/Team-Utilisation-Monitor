@@ -587,13 +587,28 @@ describe('DataAccessRepository', () => {
   describe('@getCompanyVID', () => {
     it('should return the company with the company ID', async () =>{
       try {
-        const user = repository.getCompanyVID(1);
+        const company = repository.getCompanyVID(1);
+        expect(await company).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
+  describe('@getUserIDVEmail', () => {
+
+    const arg_email = "ob@odi.com";
+
+    it('should return the user with the user email', async () =>{
+      try {
+        const user = repository.getUserIDVEmail(arg_email);
         expect(await user).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }    
     })
   });
+  
 
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
