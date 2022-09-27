@@ -244,6 +244,22 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@createTeam', () => {
+
+    const teamName = "accounting"
+    const companyName = "kpmg"
+
+    it('should create a team', async () => {
+      try {
+        const team = repository.createTeam(teamName, companyName);
+        expect(team).toEqual(team);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
