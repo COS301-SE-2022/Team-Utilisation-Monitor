@@ -974,6 +974,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@GetIndividualsStats', () => {
+
+    const UserEmail = "mike@oneeye.com";
+
+    it('should return stats of a user', async () =>{
+      try {
+        const stats = repository.GetIndividualsStats(UserEmail);
+        expect(await stats).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
   
 });
