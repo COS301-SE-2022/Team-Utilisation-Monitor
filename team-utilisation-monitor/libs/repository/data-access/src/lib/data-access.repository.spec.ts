@@ -763,6 +763,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@addSkill', () => {
+
+    const skillType = "coding"
+
+    it('should add a skill', async () =>{
+      try {
+        const skill = repository.addSkill(skillType);
+        expect(await skill).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
