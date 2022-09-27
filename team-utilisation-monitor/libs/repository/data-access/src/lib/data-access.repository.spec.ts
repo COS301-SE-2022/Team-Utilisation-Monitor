@@ -6,9 +6,6 @@ import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-
 import { UserPerson, ProjectEntity, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill, UserStatsEntity, CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
 
 
-const userMock: jest.Mocked<UserPerson> = new UserPerson() as UserPerson;
-const projectMock: jest.Mocked<ProjectEntity> = new ProjectEntity() as ProjectEntity;
-
 describe('DataAccessRepository', () => {
 
   let repository: DataAccessRepository;
@@ -23,6 +20,7 @@ describe('DataAccessRepository', () => {
     repository = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
+  /*
   const userP: UserPerson = {
     id: 1,
     name: "Rob",
@@ -34,6 +32,7 @@ describe('DataAccessRepository', () => {
     company_id: 123,
     utilisation: 0
 };
+*/
 
   it('should be defined', () => {
     expect(prisma).toBeDefined();
@@ -133,6 +132,21 @@ describe('DataAccessRepository', () => {
       }
     })
   }); 
+
+  describe('@returnUserID', () => {
+
+    const id = 1;
+
+    it('should return user id', async () => {
+      try {
+        const user = repository.returnUserID(id);
+        expect(user).toEqual(user);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
 
   describe('@createUserAdmin', () => {
 

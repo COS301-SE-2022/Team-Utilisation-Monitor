@@ -4,25 +4,19 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { CommandBus, IQuery, QueryBus } from "@nestjs/cqrs";
 
 import { FunctionsModule } from './functions/functions.module';
-import { FunctionsService } from './functions/functions.service';
 
 import { UserPerson, UserCompany } from '@team-utilisation-monitor/api/shared/data-access';
 import { TeamEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { ProjectEntity } from '@team-utilisation-monitor/api/shared/data-access';
-import { Company } from '@prisma/client';
+
 import { UserStatsEntity } from '@team-utilisation-monitor/api/shared/data-access'
 import { CompanyStatsEntity } from '@team-utilisation-monitor/api/shared/data-access';
 import { Skill } from '@team-utilisation-monitor/api/shared/data-access';
 import { PositionEntity } from '@team-utilisation-monitor/api/shared/data-access';
 
-import { UpdateProfileCommand } from './commands/impl/UpdateProfile.command';
 import { GetSkillsQuery } from './queries/impl/GetSkills.query';
 import { GetUserSkillsQuery } from './queries/impl/GetUsersSkills.query';
-import { DeleteEmployeeCommand } from './commands/impl/DeleteEmployee.command';
-import { DeleteTeamMemberCommand } from './commands/impl/DeleteTeamMember.command';
 import { GetTeamMembersQuery } from './queries/impl/getTeamMembers.query';
-import { AddTeamMemberCommand } from './commands/impl/addTeamMember.command';
-import { ApproveRequestVEmailCommand } from './commands/impl/approve-request-v-email.command';
 import { CreateAdminCommand } from './commands/impl/create-admin.command';
 import { CreateCompanyCommand } from './commands/impl/create-company.command';
 import { CreateInviteCodeCommand } from './commands/impl/create-invite-code.command';
@@ -36,10 +30,8 @@ import { GetAllPersonsQuery } from './queries/impl/get-all-persons.query';
 import { GetAllProjectsOrTeamsOfCompany } from './queries/impl/get-all-projects-or-teams.query';
 import { GetCompanyStats } from './queries/impl/get-company-stats.query';
 import { GetOnePersonQuery } from './queries/impl/get-one-person.query';
-import { GetPendingRequests } from './queries/impl/get-pending-requests.query';
 import { GetUserIDQuery } from './queries/impl/get-user-id.query';
 import { GetCompanyQuery } from './queries/impl/getCompany.query';
-import { Login } from './queries/impl/login.query';
 import { getInviteCode } from './queries/impl/getInviteCode.query';
 import { AddSkillCommand } from './commands/impl/AddSkill.command';
 import { AssignHoursCommand } from './commands/impl/AssignHours.command';
@@ -51,7 +43,6 @@ import { GetAllTeamsWorkingOnProjectCommand } from './queries/impl/get-all-teams
 import { GetAllProjectsOfTeamsQuery } from './queries/impl/get-all-projects-of-teams.query';
 import { GetUserStatsQuery } from './queries/impl/GetUserStats.query';
 import { GetAllTeamsOfACompany } from './queries/impl/get-all-teams-of-company.query';
-import { GetCompanyUtilizationQuery } from './queries/impl/GetCompanyUtilization.query';
 import { GetMonthlyUtilizationQuery } from './queries/impl/GetMonthlyUtilization.query';
 import { GetRecomendedTeamQuery } from './queries/impl/GetRecomendedTeam.query';
 import { GetPositionsOfUserQuery } from './queries/impl/get-positions-of-user.query';
