@@ -579,6 +579,17 @@ describe('DataAccessRepository', () => {
         const company = repository.getEmployeesOfCompany(companyName);
         expect(await company).toHaveBeenCalled;
       } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+
+  describe('@getCompanyVID', () => {
+    it('should return the company with the company ID', async () =>{
+      try {
+        const user = repository.getCompanyVID(1);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
         fail(error)
       }    
     })
