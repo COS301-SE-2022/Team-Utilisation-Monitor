@@ -500,18 +500,16 @@ export class DataAccessRepository {
             const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-
-            await this.prisma.teamsOnProjects.deleteMany(
+            await this.prisma.teamsOnProjects.delete(
               {
                 where:
                 {
-                  team_id:id,
-                  project_id:projects[i].project_id
+                  id:projects[i].id
                 }
               }
             )
 
-            this.CalculateUtilizationVProject(projectName);
+            await this.CalculateUtilizationVProject(projectName);
 
 
             if(i==(projects.length-1))
@@ -525,19 +523,17 @@ export class DataAccessRepository {
                 }
               )
 
-              await this.prisma.team.delete(
-                  {
-                    where:
-                    {
-                      id:id
-                    }
+             await this.prisma.team.delete(
+              {
+                where:
+                {
+                  id:id
                   }
-                )
+                }
+              )
             }
 
           }
-
-
 
           return "Team  Deleted"
 
@@ -545,7 +541,6 @@ export class DataAccessRepository {
       catch(e)
       {
         return "Team Deletion Failed";
-
       }
     }
 
@@ -2863,7 +2858,7 @@ export class DataAccessRepository {
       for(let i=0;i<Employees.length;i++)
       {
         const emp=new UserPerson;
-        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
+        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED" || Employees[i].weekly_hours<=0)
         {
             //
             //console.log("I got in")
@@ -4265,6 +4260,7 @@ export class DataAccessRepository {
                 person.surname=people[i].surname;
                 person.email=people[i].email;
                 person.utilisation=people[i].utilisation;
+                person.project_points=people[i].Project_Points;
 
                 Peeps.push(person);
                 if(j==numberOfPeople)

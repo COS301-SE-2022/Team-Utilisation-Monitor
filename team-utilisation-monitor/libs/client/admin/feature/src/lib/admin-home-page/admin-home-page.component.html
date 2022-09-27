@@ -1,5 +1,5 @@
 <mat-sidenav-container color="primary">
-    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+    <mat-sidenav (window:resize)="onResize($event)" #sidenav [mode]="sideNavMode" [(opened)]="boolshow" opened>
         <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
     </mat-sidenav>
 
@@ -7,7 +7,7 @@
         <!-- boolshow is a var used for toggeling navbar open and closed -->
         <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-        <mat-grid-list cols="4" rowHeight="2:1">
+        <mat-grid-list #Gridlist [cols]="nrOfCols" rowHeight="2:1">
             <mat-grid-tile>
                 <mat-card>
                     <mat-card-title># of Employees</mat-card-title>
@@ -16,7 +16,7 @@
                         <hr>
                         <mat-grid-list cols="2" matTooltip="Number of Emplyees">
                             <mat-grid-tile><mat-icon>account_box</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{tempData}}</h1></mat-grid-tile>
+                            <mat-grid-tile><p>{{tempData}}</p></mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>
                 </mat-card>
@@ -28,7 +28,7 @@
                         <hr>
                         <mat-grid-list cols="2" matTooltip="Utilization of the Company">
                             <mat-grid-tile><mat-icon>rocket_launch</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{utilizationPersentage}}%</h1></mat-grid-tile>
+                            <mat-grid-tile><p>{{utilizationPersentage}}%</p></mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>
                 </mat-card>
@@ -40,7 +40,7 @@
                         <hr>
                         <mat-grid-list cols="2" matTooltip="Open Projects/ Completed Projects" (click)="someFunc()">
                             <mat-grid-tile><mat-icon>done_all</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{dynamicProjects}}/{{dynamicClosedProjects}}</h1></mat-grid-tile>
+                            <mat-grid-tile><p>{{dynamicProjects}}/{{dynamicClosedProjects}}</p></mat-grid-tile>
                         </mat-grid-list>
                         </mat-card-content>
                 </mat-card>
@@ -52,12 +52,12 @@
                         <hr>
                         <mat-grid-list cols="2" matTooltip="Number of Teams">
                             <mat-grid-tile><mat-icon>supervisor_account</mat-icon></mat-grid-tile>
-                            <mat-grid-tile><h1>{{dynamicTeams}}</h1></mat-grid-tile>
+                            <mat-grid-tile><p>{{dynamicTeams}}</p></mat-grid-tile>
                         </mat-grid-list>
                     </mat-card-content>
                 </mat-card>
             </mat-grid-tile>
-            <mat-grid-tile colspan="4" rowspan="4">
+            <mat-grid-tile #GraphTile [colspan]="graphColSpan" [rowspan]="graphRowSpan">
                 <mat-card class="graphCard">
                     <mat-card-footer>
                         <team-utilisation-monitor-comp-graph-company-utilization></team-utilisation-monitor-comp-graph-company-utilization>

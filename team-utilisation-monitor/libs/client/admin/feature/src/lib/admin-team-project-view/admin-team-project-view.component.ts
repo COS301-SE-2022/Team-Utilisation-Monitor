@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AdminService } from '../Admin.service';
 import { Select, Store } from '@ngxs/store';
@@ -11,6 +11,7 @@ import { AddTeamState } from '../states/team.state';
 import { Team } from '../models/admin-team';
 import { AddCompletProjectState } from '../states/completed-projects.state';
 import { AddCompletProject } from '../actions/mutate-add-complete-project.action';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-team-project-view',
@@ -23,6 +24,23 @@ export class AdminTeamProjectViewComponent implements OnInit {
   @Select(AddTeamState.getTeams)teams$!:Observable<Team[]>;
   @Select(AddProjectState.getProjects)projects$!:Observable<Project[]>;
   @Select(AddCompletProjectState.getCompleteProjecs)completedProjects$!:Observable<Project[]>
+  @ViewChild('sidenav') sidenav: MatSidenav | undefined;
+
+  sideNavMode:MatDrawerMode = 'side';
+
+  onResize(event : Event): void{
+    //console.log(window.innerWidth)
+    if (this.sidenav != null) {
+      if (window.innerWidth < 1200) {
+        this.sidenav.mode = "over";
+        this.sidenav.opened = false;
+      }
+      else{
+        this.sidenav.mode = "side";
+        this.sidenav.opened = true;
+      }
+    }
+  }
 
   constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
 
@@ -37,6 +55,11 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    //responsiveness
+    if(window.innerWidth < 1150){
+      this.sideNavMode = 'over';
+    }
+    
     this.companyName=this.cookie.get("CompanyName");
 
     this.adminService.getCompany(this.companyName).subscribe(data=>
