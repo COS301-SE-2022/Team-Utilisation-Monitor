@@ -500,6 +500,20 @@ describe('DataAccessRepository', () => {
     })
   }); 
 
+  describe('@getPositionVID', () => {
+
+    const pos_id = "13"
+
+    it('should return the position based on id', async () =>{
+      try {
+        const position = repository.getOnePersonVEmail(pos_id);
+        expect(await position).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
   describe('@getOnePersonVEmail', () => {
 
     const arg_email = "max@min.com"
