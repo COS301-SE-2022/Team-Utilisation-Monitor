@@ -888,6 +888,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getPositionIDVName', () => {
+
+    const position_name = "CEO"
+
+    it('should return the postion ID given postion name', async () =>{
+      try {
+        const position = repository.getPositionIDVName(position_name);
+        expect(await position).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
