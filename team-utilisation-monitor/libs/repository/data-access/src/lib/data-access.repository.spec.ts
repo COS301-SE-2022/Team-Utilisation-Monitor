@@ -1039,15 +1039,27 @@ describe('DataAccessRepository', () => {
 
     it('should return number of members in a team', async () =>{
       try {
-        const user = repository.getNumberOfMembersInATeam(team_name);
-        expect(await user).toHaveBeenCalled;
+        const count = repository.getNumberOfMembersInATeam(team_name);
+        expect(await count).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }    
     })
   });
   
-  
+  describe('@getNumberOfTeamsWorkingOnAProject', () => {
+
+    const project_name = "grand finals"
+
+    it('should return number of teams in a project', async () =>{
+      try {
+        const count = repository.getNumberOfTeamsWorkingOnAProject(project_name);
+        expect(await count).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
