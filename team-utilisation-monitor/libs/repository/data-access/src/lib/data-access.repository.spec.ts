@@ -148,6 +148,24 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@addAdminToCompany', () => {
+
+    const f_name = "toby";
+    const f_surname = "flander";
+    const f_email= "test@example.com";
+    const f_company_name = "office";
+
+    it('should create a user admin', async () => {
+      try {
+        const userAdmin = repository.addAdminToCompany(f_name, f_surname, f_email, f_company_name);
+        expect(userAdmin).toEqual(userAdmin);
+        expect(await userAdmin).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
   describe('@createUserAdmin', () => {
 
     const f_name = "Rourke";
