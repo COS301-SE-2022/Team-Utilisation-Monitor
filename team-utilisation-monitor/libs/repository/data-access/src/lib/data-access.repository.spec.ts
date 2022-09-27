@@ -260,6 +260,21 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@DeleteTeam', () => {
+
+    const teamName = "soccer"
+
+    it('should delete a team', async () => {
+      try {
+        const team = repository.DeleteTeam(teamName);
+        expect(team).toEqual(team);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
