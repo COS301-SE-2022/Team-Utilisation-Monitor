@@ -325,6 +325,23 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@createCompnany', () => {
+
+    const company_name = "Dunder"
+
+    it('should create a company', async () => {
+      try {
+        const company = repository.createCompnany(company_name);
+        expect(company).toEqual(company);
+        expect(await company).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
+  
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
