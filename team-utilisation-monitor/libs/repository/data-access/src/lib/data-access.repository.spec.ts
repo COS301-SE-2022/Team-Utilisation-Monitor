@@ -916,6 +916,22 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@UpdateSkill', () => {
+
+    const userEmail = "plankton@chum.com"
+    const skillType = "stealing"
+
+    it('should update the skill', async () =>{
+      try {
+        const projects = repository.UpdateSkill(userEmail, skillType);
+        expect(await projects).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+  
   
 });
 
