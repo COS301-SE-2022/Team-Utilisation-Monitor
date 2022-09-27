@@ -627,8 +627,22 @@ describe('DataAccessRepository', () => {
 
     it('should return the team id with the team name', async () =>{
       try {
-        const user = repository.getTeamIDVName(t_name);
-        expect(await user).toHaveBeenCalled;
+        const team = repository.getTeamIDVName(t_name);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
+  describe('@getTeamsOnProjectVID', () => {
+
+    const projectId = 21;
+
+    it('should return the teams on a project with the project id', async () =>{
+      try {
+        const team = repository.getTeamsOnProjectVID(projectId);
+        expect(await team).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }    
