@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -9,9 +10,10 @@ export class CompCompletedProjectsListComponent implements OnInit {
 
   constructor() { }
 
-  @Input() Projects!:{projectName:string, manHours:number};
+  @Input() CompletedProjects!:{projectName:string, manHours:number};
 
   ngOnInit(): void {
+    console.log()
   }
 
 }

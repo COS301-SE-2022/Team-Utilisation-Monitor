@@ -1037,7 +1037,6 @@ export class DataAccessRepository {
 
         if(company_object)
         {
-            numProjects=company_object.projects.length;
             numTeams=company_object.teams.length;
             numEmployees=company_object.employees.length;
 
@@ -1049,11 +1048,13 @@ export class DataAccessRepository {
               }
             }
 
-
-
             for(let i=0;i<company_object.projects.length;++i){
               if(company_object.projects[i].completed==true){
                 ++numCompleteProjects;
+              }
+              else
+              {
+                ++numProjects;
               }
             }
 
@@ -2353,8 +2354,8 @@ export class DataAccessRepository {
         })
 
         return true;
-        
-      } 
+
+      }
       catch(e)
       {
         if(e instanceof Prisma.PrismaClientKnownRequestError)
