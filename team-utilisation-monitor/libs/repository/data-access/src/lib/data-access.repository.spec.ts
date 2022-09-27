@@ -298,9 +298,25 @@ describe('DataAccessRepository', () => {
     const projectName = "Buyers"
     const teamName = "WeBuy"
 
-    it('should assign a project to a team', async () => {
+    it('should assign a project to a team via names', async () => {
       try {
         const project = repository.AssignProjectToTeamVNames(projectName, teamName);
+        expect(project).toEqual(project);
+        expect(await project).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
+  describe('@AssignProjectToTeam', () => {
+
+    const project_id = 11
+    const team_id = 2
+
+    it('should assign a project to a team via id', async () => {
+      try {
+        const project = repository.AssignProjectToTeam(project_id, team_id);
         expect(project).toEqual(project);
         expect(await project).toHaveBeenCalled;
       } catch (error) {
