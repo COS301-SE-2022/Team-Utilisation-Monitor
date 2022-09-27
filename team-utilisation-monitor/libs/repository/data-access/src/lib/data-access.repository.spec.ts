@@ -284,7 +284,23 @@ describe('DataAccessRepository', () => {
 
     it('should create a project', async () => {
       try {
-        const project = repository.createTecreateProjectam(projectName, companyName, hoursToComplete, teamName);
+        const project = repository.createProject(projectName, companyName, hoursToComplete, teamName);
+        expect(project).toEqual(project);
+        expect(await project).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
+  describe('@AssignProjectToTeamVNames', () => {
+
+    const projectName = "Buyers"
+    const teamName = "WeBuy"
+
+    it('should assign a project to a team', async () => {
+      try {
+        const project = repository.AssignProjectToTeamVNames(projectName, teamName);
         expect(project).toEqual(project);
         expect(await project).toHaveBeenCalled;
       } catch (error) {
