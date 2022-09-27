@@ -941,6 +941,20 @@ describe('DataAccessRepository', () => {
         const skill = repository.GetSkillVID(skillID);
         expect(await skill).toHaveBeenCalled;
       } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+
+  describe('@GetUserSkills', () => {
+
+    const UserEmail = "ow@myleg.com";
+
+    it('should return skills of a user', async () =>{
+      try {
+        const skills = repository.GetUserSkills(UserEmail);
+        expect(await skills).toHaveBeenCalled;
+      } catch (error) {
         fail(error)
       }    
     })
