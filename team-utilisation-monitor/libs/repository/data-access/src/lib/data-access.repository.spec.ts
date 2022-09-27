@@ -832,6 +832,22 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@assignPositionToUser', () => {
+
+    const email = "sponge@bob.com"
+    const position_name = "admin"
+    const teamName = "fry cooks"
+
+    it('should add a position', async () =>{
+      try {
+        const user = repository.assignPositionToUser(email, position_name, teamName);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
