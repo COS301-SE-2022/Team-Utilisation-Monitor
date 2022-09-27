@@ -648,6 +648,34 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getCompanyID', () => {
+
+    const c_name = "beta";
+
+    it('should return the company id with the company name', async () =>{
+      try {
+        const team = repository.getCompanyID(c_name);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
+  describe('@getProjectID', () => {
+
+    const p_name = "alpha";
+
+    it('should return the project id with the project name', async () =>{
+      try {
+        const team = repository.getProjectID(p_name);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
