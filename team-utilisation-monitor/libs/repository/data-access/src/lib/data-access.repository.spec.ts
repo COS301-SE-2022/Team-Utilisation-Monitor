@@ -548,8 +548,8 @@ describe('DataAccessRepository', () => {
 
     it('should return the project with the project id', async () =>{
       try {
-        const project = repository.getTeam(project_id);
-        expect(await project).toHaveReturned;
+        const project = repository.getProject(project_id);
+        expect(await project).toHaveBeenCalled;
       } catch (error) {
         //fail(error)
       }    
