@@ -500,18 +500,16 @@ export class DataAccessRepository {
             const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-
-            await this.prisma.teamsOnProjects.deleteMany(
+            await this.prisma.teamsOnProjects.delete(
               {
                 where:
                 {
-                  team_id:id,
-                  project_id:projects[i].project_id
+                  id:projects[i].id
                 }
               }
             )
 
-            this.CalculateUtilizationVProject(projectName);
+            await this.CalculateUtilizationVProject(projectName);
 
 
             if(i==(projects.length-1))
@@ -525,19 +523,17 @@ export class DataAccessRepository {
                 }
               )
 
-              await this.prisma.team.delete(
-                  {
-                    where:
-                    {
-                      id:id
-                    }
+             await this.prisma.team.delete(
+              {
+                where:
+                {
+                  id:id
                   }
-                )
+                }
+              )
             }
 
           }
-
-
 
           return "Team  Deleted"
 
@@ -545,7 +541,6 @@ export class DataAccessRepository {
       catch(e)
       {
         return "Team Deletion Failed";
-
       }
     }
 
@@ -2863,7 +2858,7 @@ export class DataAccessRepository {
       for(let i=0;i<Employees.length;i++)
       {
         const emp=new UserPerson;
-        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED")
+        if((Employees[i].status=="OVER_UTILISED") || Employees[i].status=="FULLY_UTILISED" || Employees[i].weekly_hours<=0)
         {
             //
             //console.log("I got in")
@@ -4265,6 +4260,7 @@ export class DataAccessRepository {
                 person.surname=people[i].surname;
                 person.email=people[i].email;
                 person.utilisation=people[i].utilisation;
+                person.project_points=people[i].Project_Points;
 
                 Peeps.push(person);
                 if(j==numberOfPeople)
@@ -4321,13 +4317,16 @@ export class DataAccessRepository {
                             Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
       Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
       Skill1.type="Programming language";
-      Skill1.level="Beginner to Intermediate";
-      Skill1.benefits=` 1. Easy to learn and implement\n2. Used everywhere on the web 3. Can run immediately within the client-side browser 4. Reduces the demand on the website server`;
+      Skill1.level=" Beginner to Intermediate";
+      Skill1.benefits=`1. Easy to learn and implement
+                      \n2. Used everywhere on the web 
+                      \n3. Can run immediately within the client-side browser 
+                      \n4. Reduces the demand on the website server`;
 
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
-      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+      Skill2.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
     
     
       Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
@@ -4336,7 +4335,7 @@ export class DataAccessRepository {
                            \n Python is used to develop 2D imaging and 3D animation packages like Blender, Inkscape, and Autodesk. It has also been used to create popular video games,
                           including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,
                           and Instagram. Python developers earn`;
-      Skill2.benefits=` 1. Flexible
+      Skill2.benefits=`1. Flexible
                       \n 2. Naturally/Intuitively readable
                       \n 3. Highly regarded official tutorials and documentation
                       \n 4. Scripted as opposed to compiled`;
@@ -4374,7 +4373,7 @@ export class DataAccessRepository {
                           \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
                         \n  extensive online community and support each other to solve problems.`;
       Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
-      Skill4.benefits=` 1. Widely considered a “minimalist” language "
+      Skill4.benefits=`1. Widely considered a “minimalist” language "
                         \n 2. Easy to learn
                         \n 3. Transparent code
                         \n 4. Compatible
@@ -4384,15 +4383,32 @@ export class DataAccessRepository {
 
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
-      Skill5.description=" ";
-      Skill5.skillsNeeded="python";
+      Skill5.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg";
+      Skill5.description=`Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016. 
+                          It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application, 
+                          desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications 
+                          are based on Kotlin. Some companies using Kotlin as their programming language include Coursera, Pinterest, PostMates among many others.`;
+      Skill5.skillsNeeded=`Prior experience with programming languages, particularly Java`;
+      Skill5.benefits=`Less code-heavy than Java and other languages
+                        Relatively easy to adopt
+                        Fully compatible with Java`;
+      Skill5.level="Intermediate to advanced";
       Skill5.type="programming language";
 
       let Skill6=new trendingSkill();
       Skill6.name="PHP";
-      Skill6.description=" ";
-      Skill6.skillsNeeded=" ";
-      Skill6.type="programming language";
+      Skill6.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg";
+      Skill6.description=`PHP is an open-source programming language created in 1990. Many web developers find it essential to learn PHP, as this language is used to build more than 80% of websites on the
+                          Internet, including notable sites like Facebook and Yahoo. Programmers mainly use PHP mainly to write server-side scripts. But developers can also use this language to write command-line scripts, and
+                          programmers with high-level PHP coding skills can also use it to develop desktop applications. 
+                          PHP is considered a relatively easy language to learn for beginning developers. PHP professionals have access to several dedicated online communities, making it easy to get support and answers to questions.`;
+      Skill6.skillsNeeded=" Simple if you have a background in programming languages, but relatively easy to learn for newcomers";
+      Skill6.benefits=`Open-source
+                      Easy to develop and may be integrated with many different tools
+                       Cost effective
+                        Flexible with database connectivity`;
+      Skill6.level="Beginner to intermediate";
+      Skill6.type="server side programming language";
 
 
 

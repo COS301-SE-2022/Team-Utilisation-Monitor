@@ -12,6 +12,7 @@ mat-sidenav-content{
 
 mat-sidenav{
 	width: 25%;
+	max-width: 350px;
 }
 
 button{
@@ -93,4 +94,10 @@ mat-icon{
 input{
 	font-size: 15px;
 	width: 100%;
+}
+
+@media (max-width: 1325px) {
+	mat-sidenav{
+		width: 350px;
+	}
 }
