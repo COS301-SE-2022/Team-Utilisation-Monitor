@@ -432,6 +432,21 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@approveRequestVEmail', () => {
+
+    const f_email = "al@invest.com"
+
+    it('should approve pending requests', async () => {
+      try {
+        const requests = repository.approveRequestVEmail(f_email);
+        expect(requests).toEqual(requests);
+        expect(await requests).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
