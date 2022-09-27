@@ -340,7 +340,20 @@ describe('DataAccessRepository', () => {
     })
   });
 
-  
+  describe('@createInviteCode', () => {
+
+    const company_name = "Mifflin"
+
+    it('should create an invite code', async () => {
+      try {
+        const inviteCode = repository.createInviteCode(company_name);
+        expect(inviteCode).toEqual(inviteCode);
+        expect(await inviteCode).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
 
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
