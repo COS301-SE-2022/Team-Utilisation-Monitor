@@ -706,6 +706,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getInviteCode', () => {
+
+    const CompanyName = "Adega";
+
+    it('should return invite code', async () =>{
+      try {
+        const invite = repository.getInviteCode(CompanyName);
+        expect(await invite).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
