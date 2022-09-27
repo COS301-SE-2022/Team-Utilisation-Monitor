@@ -556,6 +556,20 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getCompanyVName', () => {
+
+    const f_company_name = "KFC";
+
+    it('should return the compnay with the company name', async () =>{
+      try {
+        const company = repository.getCompanyVName(f_company_name);
+        expect(await company).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
