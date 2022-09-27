@@ -839,10 +839,22 @@ describe('DataAccessRepository', () => {
     const position_name = "admin"
     const teamName = "fry cooks"
 
-    it('should add a position', async () =>{
+    it('should add a position to a user', async () =>{
       try {
         const user = repository.assignPositionToUser(email, position_name, teamName);
         expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
+  describe('@getAllPositions', () => {
+
+    it('should get all positions', async () =>{
+      try {
+        const position = repository.getAllPositions();
+        expect(await position).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }    
