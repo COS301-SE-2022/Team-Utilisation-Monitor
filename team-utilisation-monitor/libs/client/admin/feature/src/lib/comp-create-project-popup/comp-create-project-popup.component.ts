@@ -175,6 +175,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
             Name:string
             Surname:string
             Email:string
+            Project_Points:number
           }
 
           for(const requests of data2.data.GetRecomendedTeam)
@@ -183,23 +184,34 @@ export class CompCreateProjectPopupComponent implements OnInit {
             obj.Name=requests.name;
             obj.Surname=requests.surname;
             obj.Email=requests.email;
+            obj.Project_Points=requests.project_points
             console.log(obj.Name)
             this.MembersNames.push(obj)
           }
 
-          console.log("Less Go")
+          //console.log("Less Go")
           this.CallAddMembers(--i,projectMemNumber);
         }
       )
     }
     else
     {
-      const UniqueArray=[...new Map(this.MembersNames.map(v => [v.Email, v])).values()]
+      const UniqueArray=[...new Map(this.MembersNames.map(v => [v.Email, v])).values()]  //Removes duplicats
       this.MembersNames=[];
       for(let i=0;i<UniqueArray.length;i++)
       {
         //
         this.MembersNames.push(UniqueArray[i]);
+        if(i==UniqueArray.length-1) //Last element added
+        {
+          const projectMemNumber=Number(this.TeamForm.get('projectMemberNumber')?.value!);
+          this.MembersNames=(this.MembersNames.sort((a,b)=>(a.Project_Points>b.Project_Points)? 1:-1).reverse())
+          if(this.MembersNames.length>projectMemNumber) //More people than we want so we filter based on Project_Points
+          {
+            this.MembersNames.splice(projectMemNumber)
+          }
+
+        }
       }
       return "Im done"
     }

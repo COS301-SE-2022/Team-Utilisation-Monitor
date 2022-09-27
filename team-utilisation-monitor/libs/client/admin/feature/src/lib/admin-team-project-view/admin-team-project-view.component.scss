@@ -12,6 +12,7 @@ mat-sidenav-content{
 
 mat-sidenav{
 	width: 25%;
+	max-width: 350px;
 }
 
 button{
@@ -34,4 +35,10 @@ mat-expansion-panel{
 
 mat-accordion{
     margin: 16px;
+}
+
+@media (max-width: 1325px) {
+	mat-sidenav{
+		width: 350px;
+	}
 }

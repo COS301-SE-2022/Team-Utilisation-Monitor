@@ -1,8 +1,9 @@
 import { AdminService } from './../Admin.service';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'team-utilisation-monitor-admin-company-view',
@@ -10,6 +11,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./admin-company-view.component.scss'],
 })
 export class AdminCompanyViewComponent implements OnInit {
+
+  @ViewChild('sidenav') sidenav: MatSidenav | undefined;
+
+  sideNavMode:MatDrawerMode = 'side';
+
+  onResize(event : Event): void{
+    if (this.sidenav != null) {
+      if (window.innerWidth < 1200) {
+        this.sidenav.mode = "over";
+        this.sidenav.opened = false;
+      }
+      else{
+        this.sidenav.mode = "side";
+        this.sidenav.opened = true;
+      }
+    }
+  }
   
   AssignHoursForm=new FormGroup({
     weeklyHours:new FormControl('',[Validators.required])
@@ -30,6 +48,10 @@ export class AdminCompanyViewComponent implements OnInit {
   panelOpenState = false;
 
   ngOnInit(): void {
+    //responsiveness
+    if(window.innerWidth < 1150){
+      this.sideNavMode = 'over';
+    }
 
     this.companyName=this.cookie.get("CompanyName");
     this.adminService.getCompany(this.companyName).subscribe(data=>{
