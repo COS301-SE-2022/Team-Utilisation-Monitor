@@ -488,6 +488,18 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getAllPersons', () => {
+
+    it('should return all users', async () =>{
+      try {
+        const users = repository.getAllPersons();
+        expect(await users).toHaveReturned;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  }); 
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
