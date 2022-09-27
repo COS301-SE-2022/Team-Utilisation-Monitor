@@ -4326,7 +4326,7 @@ export class DataAccessRepository {
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
-      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+      Skill2.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
     
     
       Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
@@ -4383,12 +4383,21 @@ export class DataAccessRepository {
 
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
-      Skill5.description=" ";
-      Skill5.skillsNeeded="python";
+      Skill5.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg ";
+      Skill5.description=` Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016. 
+                          It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application, 
+                          desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications 
+                          are based on Kotlin. Some companies using Kotlin as their programming language include Coursera, Pinterest, PostMates among many others.`;
+      Skill5.skillsNeeded=`Prior experience with programming languages, particularly Java`;
+      Skill5.benefits=`Less code-heavy than Java and other languages
+                        Relatively easy to adopt
+                        Fully compatible with Java`;
+      Skill5.level="Intermediate to advanced";
       Skill5.type="programming language";
 
       let Skill6=new trendingSkill();
       Skill6.name="PHP";
+      Skill6.icon="";
       Skill6.description=" ";
       Skill6.skillsNeeded=" ";
       Skill6.type="programming language";

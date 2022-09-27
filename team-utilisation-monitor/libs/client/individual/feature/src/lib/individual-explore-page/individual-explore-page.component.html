@@ -25,13 +25,13 @@
       <mat-card-content class="left">
           <div class="inline" *ngFor ="let recSkill of trendingSkills; index as NoOfskills">
             <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
-              <mat-card-header class="alignLeft">
-                <mat-card-title class="alignLeft">
-                  
-            <img src={{recSkill.icon}}/>
-          
-            {{recSkill.name}}</mat-card-title>
-                <mat-card-subtitle style="align-content:left">{{recSkill.type}}</mat-card-subtitle>
+              <mat-card-header class="center">
+                <mat-card-title class="center">
+                  {{recSkill.name}} <br>
+                </mat-card-title>
+               
+                <mat-card-subtitle>
+                  <img class ="center" src={{recSkill.icon}}/><br> {{recSkill.type}}</mat-card-subtitle>
               </mat-card-header>
           
               <mat-card-content class="mid">
@@ -39,7 +39,10 @@
                   {{recSkill.description}}
                 </p>
                 <br>
-                <li>Skills needed:  {{recSkill.skillsNeeded}}</li>
+                <div class="skillsNeeded">
+                  <h3>Skills needed:</h3>
+                  <p>{{recSkill.skillsNeeded}}</p>
+                </div>
 
                 <p>
                   {{recSkill.benefits}}

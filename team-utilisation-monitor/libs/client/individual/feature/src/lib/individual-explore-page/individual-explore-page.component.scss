@@ -64,7 +64,7 @@ mat-grid-tile {
 
 .alignLeft{
   display: flex;
-  justify-content: left; /* align horizontal */
+  justify-content: center; /* align horizontal */
 }
 
 .left{
@@ -74,7 +74,7 @@ mat-grid-tile {
 }
 
 hr{
-  width: 90%;
+  //idth: 90%;
 }
 
 .inline{
@@ -86,8 +86,7 @@ hr{
   margin: auto;
   text-align: center;
   width:65%;
-  //min-width: fit-content;
-  height: 35em;
+  height: 45em;
   box-shadow: 0px 0px 10px black;
 }
 
@@ -98,7 +97,7 @@ mat-grid-tile {
   margin-top: 2%;
    float: left;
    width: 95%;
-   height: 70%;
+   height: 50%;
    overflow-y: auto;
 
    p{
