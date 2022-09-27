@@ -528,6 +528,20 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getTeam', () => {
+
+    const team_id = 9
+
+    it('should return the team with the team id', async () =>{
+      try {
+        const team = repository.getTeam(team_id);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
