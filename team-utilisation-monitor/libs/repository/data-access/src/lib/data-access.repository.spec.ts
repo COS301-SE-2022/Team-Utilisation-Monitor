@@ -802,6 +802,22 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@UpdatePersonProfile', () => {
+
+    const Email = "sam@singers.com"
+    const Name = "Smith Sam"
+    const Surname = "Sam"
+
+    it('should update a user profile', async () =>{
+      try {
+        const user = repository.UpdatePersonProfile(Email, Name, Surname);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
