@@ -475,6 +475,19 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getAllProjectsOfTheTeam', () => {
+
+    const team_name = 'Rabbit'
+    it('should return all teams working on a project', async () =>{
+      try {
+        const projects = repository.getAllProjectsOfTheTeam(team_name);
+        expect(await projects).toBeCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
