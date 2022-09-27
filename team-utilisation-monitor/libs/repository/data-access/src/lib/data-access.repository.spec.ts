@@ -20,20 +20,6 @@ describe('DataAccessRepository', () => {
     repository = module.get<DataAccessRepository>(DataAccessRepository);
   });
 
-  /*
-  const userP: UserPerson = {
-    id: 1,
-    name: "Rob",
-    surname: "Amiss",
-    email: "test@example.com",
-    role: "tester",
-    suspended: false,
-    company_name: "UP",
-    company_id: 123,
-    utilisation: 0
-};
-*/
-
   it('should be defined', () => {
     expect(prisma).toBeDefined();
     expect(repository).toBeDefined();
@@ -300,7 +286,7 @@ describe('DataAccessRepository', () => {
 
     it('should assign a project to a team via names', async () => {
       try {
-        const project = repository.AssignProjectToTeamVNames(projectName, teamName);
+        const project = repository.AssignProjectToTeamVNames(teamName, projectName);
         expect(project).toEqual(project);
         expect(await project).toHaveBeenCalled;
       } catch (error) {
@@ -316,7 +302,7 @@ describe('DataAccessRepository', () => {
 
     it('should assign a project to a team via id', async () => {
       try {
-        const project = repository.AssignProjectToTeam(project_id, team_id);
+        const project = repository.AssignProjectToTeam(team_id, project_id);
         expect(project).toEqual(project);
         expect(await project).toHaveBeenCalled;
       } catch (error) {
@@ -332,7 +318,6 @@ describe('DataAccessRepository', () => {
     it('should create a company', async () => {
       try {
         const company = repository.createCompnany(company_name);
-        //expect(company).toEqual(company);
         expect(await company).toHaveBeenCalled;
       } catch (error) {
         //fail(error)
