@@ -381,7 +381,7 @@ describe('DataAccessRepository', () => {
         expect(tokenR).toEqual(tokenR);
         expect(await tokenR).toHaveBeenCalled;
       } catch (error) {
-        //fail(error)
+        fail(error)
       }
     })
   });
@@ -391,13 +391,28 @@ describe('DataAccessRepository', () => {
     const f_email = "angela@dm.com"
     const token = "987654210"
 
-    it('should verify an invite code', async () => {
+    it('should verify the token', async () => {
       try {
         const tokenV = repository.verifyToken(f_email, token);
         expect(tokenV).toEqual(tokenV);
         expect(await tokenV).toHaveBeenCalled;
       } catch (error) {
-        //fail(error)
+        fail(error)
+      }
+    })
+  });
+
+  describe('@getToken', () => {
+
+    const f_email = "creed@dm.com"
+
+    it('should get the token', async () => {
+      try {
+        const tokenV = repository.getToken(f_email);
+        expect(tokenV).toEqual(tokenV);
+        expect(await tokenV).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
       }
     })
   });
