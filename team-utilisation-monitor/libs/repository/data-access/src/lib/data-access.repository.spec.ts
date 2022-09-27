@@ -1017,6 +1017,21 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@AssignWeeklyHours', () => {
+
+    const UserEmail = "sally@monsters.com"
+    const WeeklyHours = 25
+
+    it('should update weekly hours for a user', async () =>{
+      try {
+        const user = repository.AssignWeeklyHours(UserEmail, WeeklyHours);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
   
   
