@@ -1002,6 +1002,22 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@teamInProject', () => {
+
+    const teamId = 54
+    const projectID = 5
+
+    it('should return teams in a project', async () =>{
+      try {
+        const teams = repository.teamInProject(teamId, projectID);
+        expect(await teams).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+  
   
   
 });
