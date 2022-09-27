@@ -874,6 +874,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getAllocatedTeams', () => {
+
+    const UserEmail = "Crabs@Krappy.com"
+
+    it('should return allocated teams', async () =>{
+      try {
+        const position = repository.getAllocatedTeams(UserEmail);
+        expect(await position).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
