@@ -1032,6 +1032,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getNumberOfMembersInATeam', () => {
+
+    const team_name = "chess boys"
+
+    it('should return number of members in a team', async () =>{
+      try {
+        const user = repository.getNumberOfMembersInATeam(team_name);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
   
   
