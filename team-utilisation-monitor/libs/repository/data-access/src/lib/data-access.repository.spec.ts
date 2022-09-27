@@ -777,6 +777,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@RemoveSkill', () => {
+
+    const skillType = "killin"
+
+    it('should add a skill', async () =>{
+      try {
+        const skill = repository.RemoveSkill(skillType);
+        expect(await skill).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
 });
 
