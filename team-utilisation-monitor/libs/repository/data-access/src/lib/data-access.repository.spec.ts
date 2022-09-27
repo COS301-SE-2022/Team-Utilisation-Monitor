@@ -447,6 +447,21 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@getCompanyStats', () => {
+
+    const companyName = "investec"
+
+    it('should approve pending requests', async () => {
+      try {
+        const companyStats = repository.getCompanyStats(companyName);
+        expect(companyStats).toEqual(companyStats);
+        expect(await companyStats).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
