@@ -782,10 +782,21 @@ describe('DataAccessRepository', () => {
 
     const skillType = "killin"
 
-    it('should add a skill', async () =>{
+    it('should remove a skill', async () =>{
       try {
         const skill = repository.RemoveSkill(skillType);
         expect(await skill).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
+  describe('@getSkills', () => {
+    it('should return all skills', async () =>{
+      try {
+        const skills = repository.getSkills();
+        expect(await skills).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }    
