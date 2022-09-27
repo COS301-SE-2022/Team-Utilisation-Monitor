@@ -4384,7 +4384,7 @@ export class DataAccessRepository {
 
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
-      Skill5.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg ";
+      Skill5.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg";
       Skill5.description=` Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016. 
                           It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application, 
                           desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications 
@@ -4398,9 +4398,14 @@ export class DataAccessRepository {
 
       let Skill6=new trendingSkill();
       Skill6.name="PHP";
-      Skill6.icon="";
-      Skill6.description=" ";
-      Skill6.skillsNeeded=" ";
+      Skill6.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg";
+      Skill6.description=`PHP is an open-source programming language created in 1990. Many web developers find it essential to learn PHP, as this language is used to build more than 80% of websites on the
+       Internet, including notable sites like Facebook and Yahoo. Programmers mainly use PHP mainly to write server-side scripts. But developers can also use this language to write command-line scripts, and
+        programmers with high-level PHP coding skills can also use it to develop desktop applications. 
+      PHP is considered a relatively easy language to learn for beginning developers. PHP professionals have access to several dedicated online communities, making it easy to get support and answers to questions.`;
+      Skill6.skillsNeeded=" Simple if you have a background in programming languages, but relatively easy to learn for newcomers";
+      Skill6.benefits="";
+      Skill6.level="Beginner to intermediate";
       Skill6.type="programming language";
 
 
