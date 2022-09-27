@@ -902,6 +902,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@getAllocatedProjects', () => {
+
+    const userEmail = "squid@ward.com"
+
+    it('should return the aloocated projects', async () =>{
+      try {
+        const projects = repository.getAllocatedProjects(userEmail);
+        expect(await projects).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
   
 });
 
