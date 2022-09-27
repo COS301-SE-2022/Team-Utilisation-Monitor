@@ -716,6 +716,20 @@ describe('DataAccessRepository', () => {
         const invite = repository.getInviteCode(CompanyName);
         expect(await invite).toHaveBeenCalled;
       } catch (error) {
+        //fail(error)
+      }    
+    })
+  });
+
+  describe('@getTeamMembers', () => {
+
+    const teamName = "charlie";
+
+    it('should return the team members of a team', async () =>{
+      try {
+        const team = repository.getTeamMembers(teamName);
+        expect(await team).toHaveBeenCalled;
+      } catch (error) {
         fail(error)
       }    
     })
