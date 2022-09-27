@@ -924,10 +924,24 @@ describe('DataAccessRepository', () => {
 
     it('should update the skill', async () =>{
       try {
-        const projects = repository.UpdateSkill(userEmail, skillType);
-        expect(await projects).toHaveBeenCalled;
+        const skill = repository.UpdateSkill(userEmail, skillType);
+        expect(await skill).toHaveBeenCalled;
       } catch (error) {
         //fail(error)
+      }    
+    })
+  });
+
+  describe('@GetSkillVID', () => {
+
+    const skillID = 29;
+
+    it('should get skill given the skill id', async () =>{
+      try {
+        const skill = repository.GetSkillVID(skillID);
+        expect(await skill).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
       }    
     })
   });
