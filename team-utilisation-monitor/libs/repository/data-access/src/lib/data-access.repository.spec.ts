@@ -3,7 +3,7 @@ import { DataAccessRepository } from './data-access.repository';
 
 import { PrismaService } from '@team-utilisation-monitor/shared/services/prisma-services';
 
-import { UserPerson, ProjectEntity, UserCompany, InviteCodeEntity, CompanyStatsEntity ,Skill, UserStatsEntity, CompanyUtilization, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
+import { UserPerson, ProjectEntity, PositionEntity} from '@team-utilisation-monitor/api/shared/data-access'
 
 
 describe('DataAccessRepository', () => {
@@ -566,6 +566,20 @@ describe('DataAccessRepository', () => {
         expect(await company).toHaveBeenCalled;
       } catch (error) {
         //fail(error)
+      }    
+    })
+  });
+
+  describe('@getEmployeesOfCompany', () => {
+
+    const companyName = "Nandos";
+
+    it('should return the employees of a company', async () =>{
+      try {
+        const company = repository.getEmployeesOfCompany(companyName);
+        expect(await company).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
       }    
     })
   });
