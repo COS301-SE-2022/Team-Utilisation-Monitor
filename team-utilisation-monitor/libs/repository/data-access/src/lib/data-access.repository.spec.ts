@@ -959,6 +959,21 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  
+  describe('@getUserPositions', () => {
+
+    const UserEmail = "larry@gym.com";
+
+    it('should return postions of a user', async () =>{
+      try {
+        const postions = repository.getUserPositions(UserEmail);
+        expect(await postions).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
   
 });
