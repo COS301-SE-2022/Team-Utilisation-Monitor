@@ -408,9 +408,24 @@ describe('DataAccessRepository', () => {
 
     it('should get the token', async () => {
       try {
-        const tokenV = repository.getToken(f_email);
-        expect(tokenV).toEqual(tokenV);
-        expect(await tokenV).toHaveBeenCalled;
+        const token = repository.getToken(f_email);
+        expect(token).toEqual(token);
+        expect(await token).toHaveBeenCalled;
+      } catch (error) {
+        //fail(error)
+      }
+    })
+  });
+
+  describe('@getPendingRequests', () => {
+
+    const companyName = "McDonalds"
+
+    it('should get pending requests', async () => {
+      try {
+        const requests = repository.getPendingRequests(companyName);
+        expect(requests).toEqual(requests);
+        expect(await requests).toHaveBeenCalled;
       } catch (error) {
         fail(error)
       }
