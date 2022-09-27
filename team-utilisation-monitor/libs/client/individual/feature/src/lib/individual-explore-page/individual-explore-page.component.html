@@ -40,13 +40,18 @@
                 </p>
                 <br>
                 <div class="skillsNeeded">
-                  <h3>Skills needed:</h3>
-                  <p>{{recSkill.skillsNeeded}}</p>
+                    <h3 class="title">Level: </h3>
+                    <h3 class="h3">{{recSkill.level}}</h3>
                 </div>
-
-                <p>
-                  {{recSkill.benefits}}
-                </p>
+                <div class="skillsNeeded">
+                  <h3 class="title">Benefits: </h3>
+                  <h3 class="h3"> {{recSkill.benefits}}</h3>
+              </div>
+              <div class="skillsNeeded">
+                <h3 class="title">Skills needed: </h3>
+                <h3 class="h3"> {{recSkill.skillsNeeded}}</h3>
+            </div>
+                
               </mat-card-content>
               <mat-card-footer class="card-footer">
                 <button mat-raised-button color="primary">UpSkill</button>

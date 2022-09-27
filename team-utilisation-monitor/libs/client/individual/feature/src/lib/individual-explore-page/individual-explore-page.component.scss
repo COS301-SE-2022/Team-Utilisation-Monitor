@@ -95,6 +95,7 @@ mat-grid-tile {
 }
 .mid{
   margin-top: 2%;
+  margin-left:2%;
    float: left;
    width: 95%;
    height: 50%;
@@ -103,8 +104,27 @@ mat-grid-tile {
    p{
     font-size:16px;
    }
+
+  
  }
+ .skillsNeeded{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr); // repeat 3 columns
+  grid-column-gap: -0.0px; // 2px gap between
+  align-items: start; // ensure items align at the bottom
+  justify-content: left;
+
+  .title{
+    display: flex;
+    align-content: right;
+    justify-content: left;
+  }
+}
  
+ .h3{
+  float: left;
+  justify-content: left;
+}
  .list{
    float: left;
    width: 90%;
