@@ -275,6 +275,24 @@ describe('DataAccessRepository', () => {
     })
   });
 
+  describe('@createProject', () => {
+
+    const projectName = "Sales"
+    const companyName = "BAC"
+    const hoursToComplete = 90;
+    const teamName = "WeSell"
+
+    it('should create a project', async () => {
+      try {
+        const project = repository.createTecreateProjectam(projectName, companyName, hoursToComplete, teamName);
+        expect(project).toEqual(project);
+        expect(await project).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
