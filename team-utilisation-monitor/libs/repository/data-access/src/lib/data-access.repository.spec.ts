@@ -500,6 +500,20 @@ describe('DataAccessRepository', () => {
     })
   }); 
 
+  describe('@getOnePersonVEmail', () => {
+
+    const arg_email = "max@min.com"
+
+    it('should return the user with the user email', async () =>{
+      try {
+        const user = repository.getOnePersonVEmail(arg_email);
+        expect(await user).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
+
   describe('@getPersonVID', () => {
     it('should return the user with the user ID', async () =>{
       try {
