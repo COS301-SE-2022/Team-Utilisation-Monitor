@@ -988,6 +988,20 @@ describe('DataAccessRepository', () => {
       }    
     })
   });
+
+  describe('@GetAvailableTeamsForProject', () => {
+
+    const projectName = "scaring";
+
+    it('should return available teams', async () =>{
+      try {
+        const teams = repository.GetAvailableTeamsForProject(projectName);
+        expect(await teams).toHaveBeenCalled;
+      } catch (error) {
+        fail(error)
+      }    
+    })
+  });
   
   
 });
