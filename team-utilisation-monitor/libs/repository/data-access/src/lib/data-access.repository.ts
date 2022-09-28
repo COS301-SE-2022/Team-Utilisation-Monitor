@@ -17,7 +17,7 @@ export class DataAccessRepository {
 
     async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,company_id:number)
     {
-        const user_person=new UserPerson();
+        const user_person = new UserPerson();
 
         user_person.id=id;
         user_person.name=name;
