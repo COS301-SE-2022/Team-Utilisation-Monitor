@@ -74,7 +74,7 @@ describe('client', () => {
 
 */
 
-/*
+
   it('should allow admin to navigate to home page',()=>{
    
     cy.contains("Account Sign In");
@@ -86,7 +86,7 @@ describe('client', () => {
     cy.visit('/AdminHome');
   })
   
-  */
+  
  
   /*
 
