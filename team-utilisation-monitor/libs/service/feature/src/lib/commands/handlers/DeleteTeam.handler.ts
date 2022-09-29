@@ -8,6 +8,6 @@ export class DeleteTeamHandler implements IQueryHandler<DeleteTeamCommand>
 {
   constructor(private readonly repo:DataAccessRepository){}
   async execute(query: DeleteTeamCommand): Promise<any> {
-      this.repo.DeleteTeam(query.teamName);
+      return this.repo.DeleteTeam(query.teamName);
   }
 }
