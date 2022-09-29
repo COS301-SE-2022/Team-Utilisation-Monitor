@@ -24,7 +24,7 @@
       </mat-card-header>
       <mat-card-content class="left">
           <div class="inline" *ngFor ="let recSkill of trendingSkills; index as NoOfskills">
-            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
+            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=4">
               <mat-card-header class="center">
                 <mat-card-title class="center">
                   {{recSkill.name}} <br>
@@ -34,22 +34,31 @@
                   <img class ="center" src={{recSkill.icon}} alt="an image of {{recSkill.name}}"/><br> {{recSkill.type}}</mat-card-subtitle>
               </mat-card-header>
           
-              <mat-card-content class="mid">
+              <mat-card-content class="mid" >
                 <p>
                   {{recSkill.description}}
                 </p>
                 <br>
                 <div class="skillsNeeded">
-                    <h3 class="title">Level: </h3>
-                    <h3 class="h3">{{recSkill.level}}</h3>
+                  <div class="title">
+                    <h3 >Level: &nbsp; </h3>
+                    <h3 > {{recSkill.level}}</h3>
+                  </div>
+                    
                 </div>
-                <div class="skillsNeeded">
-                  <h3 class="title">Benefits: </h3>
-                  <h3 class="h3"> {{recSkill.benefits}}</h3>
+                <div class="skillsNeeded" id="benefits">
+                  <div class="title" id="justifyBenefits">
+                    <h3>Benefits: &nbsp; </h3>
+                  <h3 id="justifyBenefits"> {{recSkill.benefits}}</h3>
+                  </div>
+                  
               </div>
               <div class="skillsNeeded">
-                <h3 class="title">Skills needed: </h3>
-                <h3 class="h3"> {{recSkill.skillsNeeded}}</h3>
+                <div class="title">
+                  <h3 >Skills needed: &nbsp; </h3>
+                <h3> {{recSkill.skillsNeeded}}</h3>
+                </div>
+                
             </div>
                 
               </mat-card-content>
