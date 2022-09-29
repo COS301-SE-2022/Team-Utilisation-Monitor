@@ -119,14 +119,13 @@ mat-grid-tile {
    //display: flex;
     align-content: left;
     justify-content: left;
-
-    .title{
-      display: inline-flex;
-      align-content: right;
-      justify-content: right;
-    }
   }
 
+  .title{
+    display: inline-flex;
+    align-content: right;
+    justify-content: right;
+  }
 }
 
 
