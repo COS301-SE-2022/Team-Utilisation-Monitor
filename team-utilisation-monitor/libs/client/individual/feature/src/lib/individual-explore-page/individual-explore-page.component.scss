@@ -107,27 +107,31 @@ mat-grid-tile {
 
  }
  .skillsNeeded{
+  //position: relative;
   display:grid;
   grid-column-gap: 2px; 
   align-items: start; 
   justify-content: left;
   column-width: fit-content;
   grid-auto-columns: repeat(2, 1fr); 
+
+  #justifyBenefits{
+   //display: flex;
+    align-content: left;
+    justify-content: left;
+
+    .title{
+      display: inline-flex;
+      align-content: right;
+      justify-content: right;
+    }
+  }
+
 }
-.title{
-  display: inline-flex;
-  align-content: right;
-  justify-content: right;
-}
+
 
 #benefits{
   white-space: pre-line;
-}
-
-#justifyBenefits{
-  display: flex;
-  align-content: left;
-  justify-content: left;
 }
 
  .list{
