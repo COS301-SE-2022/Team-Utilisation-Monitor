@@ -39,6 +39,7 @@ export class DataAccessRepository {
 
     }
 
+    //Pushed to main!
     async returnCompanyObject(id:number,company_name:string,admims:UserPerson[],employees:UserPerson[],projects:ProjectEntity[],teams:TeamEntity[],invite_code:string)
     {
         const user_company=new UserCompany();
@@ -1276,7 +1277,7 @@ export class DataAccessRepository {
             include:{
                 positions:true,
                 company:true,
-                project:true
+                project:true,
             }
         })
 
@@ -1288,7 +1289,8 @@ export class DataAccessRepository {
         ReturnPerson.approved=person.approved;
         ReturnPerson.company_name=person.company.company_name;
         ReturnPerson.role=person.role;
-        ReturnPerson.utilisation=person.utilisation
+        ReturnPerson.utilisation=person.utilisation;
+
 
         return ReturnPerson;
 
