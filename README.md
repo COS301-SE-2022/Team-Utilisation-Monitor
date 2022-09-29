@@ -168,7 +168,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 
 <br>
 <br>
-[<img src="https://camo.githubusercontent.com/79c4428f769808052c2e27e0c0cdf1a761795f577279495a275a77de1dc3401a/68747470733a2f2f6769746875622d726561646d652d73746174732e76657263656c2e6170702f6170693f757365726e616d653d4d69636861656c4475506c6573736973267468656d653d736c6174656f72616e6765">]
+[<img src="https://camo.githubusercontent.com/">]
 
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178901-539a058f-6444-41e3-8dc3-7b20d61f266b.jpg">
