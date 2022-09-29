@@ -28,6 +28,21 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
   sideNavMode:MatDrawerMode = 'side';
 
+  onResize(event : Event): void{
+    //console.log(window.innerWidth)
+    if (this.sidenav != null) {
+      if (window.innerWidth < 1200) {
+        this.sidenav.mode = "over";
+        this.sidenav.opened = false;
+      }
+      else{
+        this.sidenav.mode = "side";
+        this.sidenav.opened = true;
+      }
+    }
+  }
+
+  constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
 
   boolshow = true;
   panelOpenState = false;
@@ -37,8 +52,6 @@ export class AdminTeamProjectViewComponent implements OnInit {
   OutTeamNames:any[]=[];
   OutProject:any[]=[]; //an array of projects displayed on the view.
   CompletedProjects:any[]=[];
-
-  constructor(private adminService:AdminService,private cookie:CookieService,private readonly store:Store) {}
 
 
   ngOnInit(): void {
@@ -107,19 +120,5 @@ export class AdminTeamProjectViewComponent implements OnInit {
       })
 
     })
-  }
-
-  onResize(event : Event): void{
-    //console.log(window.innerWidth)
-    if (this.sidenav != null) {
-      if (window.innerWidth < 1200) {
-        this.sidenav.mode = "over";
-        this.sidenav.opened = false;
-      }
-      else{
-        this.sidenav.mode = "side";
-        this.sidenav.opened = true;
-      }
-    }
   }
 }
