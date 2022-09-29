@@ -57,18 +57,19 @@ Team utilisation monitor is an application that is used by administractors, or e
    -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
    -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
    -  [Technical Installation Manual](https://docs.google.com/document/d/10e_AY1tviN0QiDagzLFjgVrG0ETz9N0C6lEdTdWK7F4/edit?usp=sharing)
-   -  [Demo3 Pre-recording](https://drive.google.com/file/d/1uNaPcGjhigiGBMak7FmE-4eKE8qYfLdr/view?usp=sharing)
+   -  [Demo3 Pre-recording]
    -  [Demo3 Live recording Here]
     
   #### Demo 4
-   -  [SRS Document Version 4](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
-   -  [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
+   -  [SRS Document Version 3](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
+   -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
+   -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
+   -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
    -  [Technical Installation Manual](https://docs.google.com/document/d/10e_AY1tviN0QiDagzLFjgVrG0ETz9N0C6lEdTdWK7F4/edit?usp=sharing)
-   -  [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
-   -  [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
-   -  [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
    -  [Project management sprint1-4 discussion]
+   -  [Testing policy document]
    -  [Demo4 Pre-recording]
+   -  [Demo4 Live recording Here]
  
 
 <br>
@@ -118,77 +119,85 @@ Team utilisation monitor is an application that is used by administractors, or e
 
 ## Members
 
-### Mamphasa Agape - u18105883
-##### Bsc Computer Science
-##### Interests: Geopolitics, Business and finance, Media and journalism, Politics
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178087-d4cdae8f-2cef-408f-a779-90733cedc0f8.jpg">
 </p>
 
-  ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=theaman249&theme=algolia&show_icons=true)
-  <br>
-  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/agape-mamphasa-9675081b4/) [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/theaman249) 
+### Mamphasa Agape - u18105883
+##### Bsc Computer Science
+
+##### Interests: Geopolitics, Business and finance, Media and journalism, Politics
+
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/agape-mamphasa-9675081b4/) 
   
+[<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/theaman249) 
+
+
 <br>
 <br>
 
-
-### Cornel Coetzee - u20586737
- #### Bsc Computer Science
-##### Interests: Software Development
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178825-b5d77d99-ba4f-41f8-b325-8935c7239d39.jpg">
 </p>
 
- ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=L3m0nRoCk&theme=highcontrast&show_icons=true)
+### Cornel Coetzee - u20586737
+ #### Bsc Computer Science
+
+##### Interests: Software Development
+
+[<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/cornelcoetzee/)
+
+[<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/L3m0nRoCk)
+
+
+<br>
 <br>
 
-[<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/cornelcoetzee/) [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/L3m0nRoCk)
-
-<br>
-<br>
-
-### Faresa Thangeni - u18312374
-  #### Bsc Computer Science
-  ##### Interests: Software Development, Penetration Testing| Security
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178877-ee1ab2f6-866e-4bc1-824e-a87b448a7a3b.jpg">
 </p>
 
-  ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=thangeniFT&theme=chartreuse-dark&show_icons=true)
-  <br>
+### Faresa Thangeni - u18312374
+  #### Bsc Computer Science
 
-  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://linkedin.com/in/faresa-thangeni-878991211) [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/thangeniFT)
+  ##### Interests: Software Development, Penetration Testing| Security
+  
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://linkedin.com/in/faresa-thangeni-878991211)
+  
+  [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/thangeniFT)
  
-<br>
+
 <br>
 <br>
 
-### Gift Monwa - u18196366
-   #### Bsc Computer Science
-  ##### Interests: Software Development
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178901-539a058f-6444-41e3-8dc3-7b20d61f266b.jpg">
 </p>
 
- ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=GiftMonwa&theme=yeblu&show_icons=true)
-  <br>
+### Gift Monwa - u18196366
+   #### Bsc Computer Science
+
+  ##### Interests: Software Development
   
-  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/gift-monwa-856513196/) [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/GiftMonwa)
+  [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/gift-monwa-856513196/)
+
+ [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/GiftMonwa)
  
+
 <br>
 <br>
 
-### Rourke Amiss - u18098721
-   #### Bsc Computer Science
-   ##### Interests: Artifical Intelligence, Python Development
 <p>
   <img width="200" height="240" align='left' src="https://user-images.githubusercontent.com/94779890/168178927-1b4ac793-73d6-406c-aa5b-f755e61e36a9.jpg">
 </p>
 
- ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Rourke9001&theme=aura&show_icons=true)
-  <br>
+### Rourke Amiss - u18098721
+   #### Bsc Computer Science
+
+   ##### Interests: Artifical Intelligence, Python Development
    
-   [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/rourke-amiss-73b983a7/) [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/Rourke9001)
+   [<img src="https://camo.githubusercontent.com/a80d00f23720d0bc9f55481cfcd77ab79e141606829cf16ec43f8cacc7741e46/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c696e6b6564496e2d3030373742353f7374796c653d666f722d7468652d6261646765266c6f676f3d6c696e6b6564696e266c6f676f436f6c6f723d7768697465" data-canonical-src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&amp;logo=linkedin&amp;logoColor=white" style="max-width: 100%;">](https://www.linkedin.com/in/rourke-amiss-73b983a7/)
+   
+   [<img src="https://camo.githubusercontent.com/fbc3df79ffe1a99e482b154b29262ecbb10d6ee4ed22faa82683aa653d72c4e1/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4769744875622d3130303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465" data-canonical-src="https://github.com/theaman249" style="max-width: 100%;">](https://github.com/Rourke9001)
 
 
