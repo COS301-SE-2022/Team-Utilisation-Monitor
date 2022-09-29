@@ -73,7 +73,7 @@ describe('client', () => {
  
 
 */
-
+/*
 
   it('should allow admin to navigate to home page',()=>{
    
@@ -86,7 +86,7 @@ describe('client', () => {
     cy.visit('/AdminHome');
   })
   
-  
+  */
  
   /*
 
