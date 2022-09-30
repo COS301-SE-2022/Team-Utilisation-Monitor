@@ -22,7 +22,7 @@ describe('client', () => {
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
   })
 
-  /*
+/*
   it('should allow user to sign up as an individual',()=>{
     cy.get('#createAccountBtn').click();
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
@@ -35,9 +35,9 @@ describe('client', () => {
     cy.get('[formControlName="confirmPassword"]').type("password");
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
   })
-  */
-
-  /*
+*/
+/*
+  
   it('should allow user to sign up as an admin',()=>{
     cy.get('#createAccountBtn').click();
     cy.visit('/signup_as_page'); //it acts as an extention off the base URL.
@@ -51,6 +51,7 @@ describe('client', () => {
     cy.get('button[type="submit"]').visit('/'); //go to root after registering
     
   })
+  
   */
 
   //please make sure that the api is running.
@@ -73,7 +74,7 @@ describe('client', () => {
  
 
 */
-/*
+
 
   it('should allow admin to navigate to home page',()=>{
    
@@ -86,7 +87,7 @@ describe('client', () => {
     cy.visit('/AdminHome');
   })
   
-  */
+  
  
   /*
 
