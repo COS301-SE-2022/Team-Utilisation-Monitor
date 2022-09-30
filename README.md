@@ -36,6 +36,10 @@ Team utilisation monitor is an application that is used by administractors, or e
 <hr>
 
 ## Team's Demos
+
+  #### Deployed version
+   -   [Team utilisation Monitor](http://ec2-100-24-63-68.compute-1.amazonaws.com/)
+  
   #### Demo 1
    -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
    -   [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
