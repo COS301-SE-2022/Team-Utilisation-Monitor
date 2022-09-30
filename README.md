@@ -63,7 +63,7 @@ Team utilisation monitor is an application that is used by administractors, or e
   #### Demo 4
    -  [SRS Document Version 4](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
    -  [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
-   -  [Technical Installation Manual](https://docs.google.com/document/d/10e_AY1tviN0QiDagzLFjgVrG0ETz9N0C6lEdTdWK7F4/edit?usp=sharing)
+   -  [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing)
    -  [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
    -  [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
    -  [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
