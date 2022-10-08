@@ -123,7 +123,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 
 ## Members
 
-### Mamphasa Agape - u18105883
+### Mamphasa Agape 
 ##### Bsc Computer Science
 ##### Interests: Geopolitics, Business and finance, Media and journalism, Politics
 <p>
@@ -138,7 +138,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 <br>
 
 
-### Cornel Coetzee - u20586737
+### Cornel Coetzee 
  #### Bsc Computer Science
 ##### Interests: Software Development
 <p>
@@ -153,7 +153,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 <br>
 <br>
 
-### Faresa Thangeni - u18312374
+### Faresa Thangeni 
   #### Bsc Computer Science
   ##### Interests: Software Development, Penetration Testing| Security
 <p>
@@ -169,7 +169,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 <br>
 <br>
 
-### Gift Monwa - u18196366
+### Gift Monwa 
    #### Bsc Computer Science
   ##### Interests: Software Development
 <p>
@@ -184,7 +184,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 <br>
 <br>
 
-### Rourke Amiss - u18098721
+### Rourke Amiss 
    #### Bsc Computer Science
    ##### Interests: Artifical Intelligence, Python Development
 <p>
