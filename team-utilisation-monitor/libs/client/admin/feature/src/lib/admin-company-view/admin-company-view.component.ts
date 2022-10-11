@@ -16,6 +16,24 @@ export class AdminCompanyViewComponent implements OnInit {
 
   sideNavMode:MatDrawerMode = 'side';
 
+  
+  
+  constructor(private adminService:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
+  
+  boolshow = true;
+  OutOwnerName=""
+  OutAdminNames:any[]=[];
+  OutEmployeeName:any[]=[];
+  companyName=''
+  companyData:any
+
+  AssignHoursForm=new FormGroup({
+    weeklyHours:new FormControl('',[Validators.required])
+  });
+
+
+  panelOpenState = false;
+
   onResize(event : Event): void{
     if (this.sidenav != null) {
       if (window.innerWidth < 1200) {
@@ -28,24 +46,6 @@ export class AdminCompanyViewComponent implements OnInit {
       }
     }
   }
-  
-  AssignHoursForm=new FormGroup({
-    weeklyHours:new FormControl('',[Validators.required])
-  });
-
-  
-  constructor(private adminService:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
-  
-  boolshow = true;
-  OutOwnerName=""
-  OutAdminNames:any[]=[];
-  OutEmployeeName:any[]=[];
-  companyName=''
-  companyData:any
-
-
-
-  panelOpenState = false;
 
   ngOnInit(): void {
     //responsiveness
