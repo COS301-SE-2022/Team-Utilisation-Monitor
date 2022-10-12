@@ -105,26 +105,34 @@ mat-grid-tile {
     font-size:16px;
    }
 
-  
  }
  .skillsNeeded{
+  //position: relative;
   display:grid;
-  grid-template-columns:repeat(2, 1fr); // repeat 3 columns
-  grid-column-gap: -0.0px; // 2px gap between
-  align-items: start; // ensure items align at the bottom
+  grid-column-gap: 2px; 
+  align-items: start; 
   justify-content: left;
+  column-width: fit-content;
+  grid-auto-columns: repeat(2, 1fr); 
 
-  .title{
-    display: flex;
-    align-content: right;
+  #justifyBenefits{
+   //display: flex;
+    align-content: left;
     justify-content: left;
   }
+
+  .title2{
+    display: inline-flex;
+    align-content: right;
+    justify-content: right;
+  }
 }
- 
- .h3{
-  float: left;
-  justify-content: left;
+
+
+#benefits{
+  white-space: pre-line;
 }
+
  .list{
    float: left;
    width: 90%;
