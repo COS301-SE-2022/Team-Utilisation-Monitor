@@ -35,9 +35,6 @@ export class AdminCompanyViewComponent implements OnInit {
 
   assignHoursArray=this.AssignHoursForm.get('assignHoursArray') as FormArray;
 
-
-  panelOpenState = false;
-
   onResize(event : Event): void{
     if (this.sidenav != null) {
       if (window.innerWidth < 1200) {
