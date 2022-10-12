@@ -1,7 +1,7 @@
 import { AdminService } from './../Admin.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 
@@ -16,20 +16,24 @@ export class AdminCompanyViewComponent implements OnInit {
 
   sideNavMode:MatDrawerMode = 'side';
 
-  
-  
-  constructor(private adminService:AdminService,private cookie:CookieService,private snackBar:MatSnackBar) {}
+  AssignHoursForm=new FormGroup({
+    assignHoursArray:this.formBuilder.array([])
+  });
+
+  constructor(private adminService:AdminService,private cookie:CookieService,private snackBar:MatSnackBar, private formBuilder:FormBuilder) {
+    
+  }
   
   boolshow = true;
   OutOwnerName=""
   OutAdminNames:any[]=[];
   OutEmployeeName:any[]=[];
-  companyName=''
-  companyData:any
+  weeklyHoursArr:any[]=[];
+  companyName='';
+  companyData:any;
+  hours:any;
 
-  AssignHoursForm=new FormGroup({
-    weeklyHours:new FormControl('',[Validators.required])
-  });
+  assignHoursArray=this.AssignHoursForm.get('assignHoursArray') as FormArray;
 
 
   panelOpenState = false;
@@ -85,33 +89,42 @@ export class AdminCompanyViewComponent implements OnInit {
           obj.Surname=requests.surname;
           obj.Email=requests.email;
           obj.WeeklyHours=requests.weekly_Hours;
-          this.OutEmployeeName.push(obj);
+          this.OutEmployeeName.push(obj);      
+
+          this.weeklyHoursArr.push(obj.WeeklyHours);
         }
       }
+
+      this.weeklyHoursArr.forEach(element => {
+        this.assignHoursArray.push(this.formBuilder.group({hours: element}))
+      });   
 
     }})
   }
 
-  updateWeeklyHours(email:string){
-    //console.log(email+" "+this.hours);
-    if(this.AssignHoursForm.get('weeklyHours')?.value)
-    {
-      const hours=this.AssignHoursForm.get('weeklyHours')?.value
-      this.adminService.updateWeeklyHoursForEmployee(email,hours as unknown as number).subscribe(
-        data=>{
+  updateWeeklyHours(email:string, index:number){
+    //console.log(this.AssignHoursForm.value);
+    //console.log(email+" "+index);
+    //console.log(this.AssignHoursForm.get('assignHoursArray')?.value[index]);
 
-          const employee_updated=this.getEmployeeObjectFromEmail(email);
+    const hours=this.assignHoursArray.at(index).value.hours;
+    
+    this.adminService.updateWeeklyHoursForEmployee(email,hours as unknown as number).subscribe(
+      data=>{
 
-          if(employee_updated!=null){
-            this.snackBar.open("Updated "+employee_updated.Name+" "+employee_updated.Surname+"'s hours" )
-            setTimeout(() => {
-            this.snackBar.dismiss();
-            }, 5000)
-          }
+        const employee_updated=this.getEmployeeObjectFromEmail(email);
 
+        if(employee_updated!=null){
+          this.snackBar.open("Updated "+employee_updated.Name+" "+employee_updated.Surname+"'s hours" )
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 1000)
         }
-      )
-    }
+
+      }
+    )
+    
+      
   }
 
   getEmployeeObjectFromEmail(email:string):any{
