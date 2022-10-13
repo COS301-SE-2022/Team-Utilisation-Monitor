@@ -30,7 +30,6 @@ export class AdminTeamProjectViewComponent implements OnInit {
 
 
   boolshow = true;
-  panelOpenState = false;
   companyName='';
   companyData:any;
 
