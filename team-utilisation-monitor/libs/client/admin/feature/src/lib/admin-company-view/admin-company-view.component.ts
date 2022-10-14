@@ -17,8 +17,12 @@ export class AdminCompanyViewComponent implements OnInit {
   sideNavMode:MatDrawerMode = 'side';
 
   AssignHoursForm=new FormGroup({
-    assignHoursArray:this.formBuilder.array([])
+    assignHoursArray:this.formBuilder.array([]),
   });
+
+  AssignHoursFormForAdmins=new FormGroup({
+    assignHoursArrayAdmin:this.formBuilder.array([]),
+  })
 
   constructor(private adminService:AdminService,private cookie:CookieService,private snackBar:MatSnackBar, private formBuilder:FormBuilder) {
     
@@ -29,12 +33,13 @@ export class AdminCompanyViewComponent implements OnInit {
   OutAdminNames:any[]=[];
   OutEmployeeName:any[]=[];
   weeklyHoursArr:any[]=[];
+  weeklyHoursArrAdmin:any[]=[];
   companyName='';
   companyData:any;
   hours:any;
 
   assignHoursArray=this.AssignHoursForm.get('assignHoursArray') as FormArray;
-
+  assignHoursArrayAdmins=this.AssignHoursFormForAdmins.get('assignHoursArrayAdmin') as FormArray;
 
   panelOpenState = false;
 
@@ -79,6 +84,8 @@ export class AdminCompanyViewComponent implements OnInit {
         obj.Surname=requests.surname;
         obj.Email=requests.email;
         this.OutAdminNames.push(obj);
+
+        this.weeklyHoursArrAdmin.push(requests.weekly_Hours);
       }
 
       for(const requests of this.companyData.data.GetCompanyQuery.employees)
@@ -97,7 +104,11 @@ export class AdminCompanyViewComponent implements OnInit {
 
       this.weeklyHoursArr.forEach(element => {
         this.assignHoursArray.push(this.formBuilder.group({hours: element}))
-      });   
+      });
+      
+      this.weeklyHoursArrAdmin.forEach(element=> { 
+        this.assignHoursArrayAdmins.push(this.formBuilder.group({hours: element}))
+      });
 
     }})
   }
@@ -122,9 +133,31 @@ export class AdminCompanyViewComponent implements OnInit {
         }
 
       }
-    )
+    )      
+  }
+
+  updateWeeklyHoursForAdmin(email:string,  index:number){
+
+    //console.log(email+" "+index);
+
+    const hours=this.assignHoursArrayAdmins.at(index).value.hours;
+
+    //console.log(hours);
     
-      
+    this.adminService.updateWeeklyHoursForEmployee(email,hours as unknown as number).subscribe(
+      data=>{
+
+        const employee_updated=this.getEmployeeObjectFromEmail(email);
+
+        if(employee_updated!=null){
+          this.snackBar.open("Updated "+employee_updated.Name+" "+employee_updated.Surname+"'s hours" )
+          setTimeout(() => {
+          this.snackBar.dismiss();
+          }, 1000)
+        }
+
+      }
+    )
   }
 
   getEmployeeObjectFromEmail(email:string):any{
