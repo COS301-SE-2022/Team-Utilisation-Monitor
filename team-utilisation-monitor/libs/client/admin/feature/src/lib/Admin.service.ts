@@ -302,7 +302,7 @@ export class AdminService {
     const token=this.cookie.get("token");
     const email=this.cookie.get("Email");
 
-    const query='mutation{DeleteTeam(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'")'
+    const query='mutation{DeleteTeam(team_name:"'+teamName+'",token:"'+token+'",email:"'+email+'")}'
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

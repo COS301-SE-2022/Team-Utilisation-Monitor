@@ -486,7 +486,14 @@ export class DataAccessRepository {
 
       try{
 
-        const id= await this.getTeamIDVName(teamName);
+        const id= (await this.prisma.team.findUnique(
+          {
+            where:
+            {
+              team_name:teamName
+            }
+          }
+        )).id;
         //Find all projects that this team is a part off
         const projects=await this.prisma.teamsOnProjects.findMany(
         {
@@ -501,7 +508,7 @@ export class DataAccessRepository {
             const projectName=(await this.getProject(projects[i].project_id)).project_name;
             await this.ResetAssignedHours(projectName);  //Reset the assigned hours for all teams on project
 
-            await this.prisma.teamsOnProjects.delete(
+            await this.prisma.teamsOnProjects.deleteMany(
               {
                 where:
                 {
@@ -512,30 +519,25 @@ export class DataAccessRepository {
 
             await this.CalculateUtilizationVProject(projectName);
 
-
-            if(i==(projects.length-1))
-            {
-              await this.prisma.personOnTeams.deleteMany(
-                {
-                  where:
-                  {
-                    team_id:id
-                  }
-                }
-              )
-
-             await this.prisma.team.delete(
-              {
-                where:
-                {
-                  id:id
-                  }
-                }
-              )
-            }
-
           }
 
+          await this.prisma.personOnTeams.deleteMany(
+            {
+              where:
+              {
+                team_id:id
+              }
+            }
+          )
+
+          await this.prisma.team.delete(
+          {
+            where:
+            {
+              id:id
+              }
+           }
+          )
           return "Team  Deleted"
 
       }
@@ -4310,27 +4312,27 @@ export class DataAccessRepository {
       let Skill1=new trendingSkill();
       Skill1.name="JavaScript";
       Skill1.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
-    
+
       Skill1.description=
       `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites.
       JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
       Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java
-      As it evolved over time, JavaScript became a fully independent language. 
+      As it evolved over time, JavaScript became a fully independent language.
                             Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
       Skill1.skillsNeeded=" HTML and CSS to define the content and layout of web pages";
       Skill1.type=" Programming language";
       Skill1.level=" Beginner to Intermediate";
       Skill1.benefits=` 1. Easy to learn and implement
-                        2. Used everywhere on the web 
-                        3. Can run immediately within the client-side browser 
+                        2. Used everywhere on the web
+                        3. Can run immediately within the client-side browser
                         4. Reduces the demand on the website server`;
 
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
       Skill2.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
-    
-    
+
+
       Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
                           with extensive support modules and community development, easy integration with web services, user-friendly data structures, and GUI-based desktop applications. It is a popular programming
                           language for machine learning and deep learning applications.
@@ -4349,8 +4351,8 @@ export class DataAccessRepository {
       let Skill3=new trendingSkill();
       Skill3.name="Go";
       Skill3.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg";
-    
-      Skill3.description=` Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
+
+      Skill3.description=` Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore
                           and networked systems and massive codebases.
                           \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
                           \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
@@ -4362,16 +4364,16 @@ export class DataAccessRepository {
       Skill3.skillsNeeded=" At least one other programming language; ";
       Skill3.type=" programming language";
       Skill3.level=" Beginner to intermediate";
-      
+
 
       let Skill4=new trendingSkill();
       Skill4.name="java";
       Skill4.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg";
-  
+
       Skill4.description=`Java is one of the most popular programming languages used today. Owned by Oracle Corporation, this general-purpose programming language with its
                           object-oriented structure has become a standard for applications that can be used regardless of platform (e.g., Mac, Windows, Android, iOS, etc.) because of its Write Once, Run Anywhere (WORA) capabilities. As a result,
                           Java is recognized for its portability across platforms, from mainframe data centers to smartphones. Today there are more than 3 billion devices running applications built with Java.
-                          \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in 
+                          \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in
                           \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
                         \n  extensive online community and support each other to solve problems.`;
       Skill4.skillsNeeded=" Problem-solving, knowledge of the object-oriented structure";
@@ -4386,9 +4388,9 @@ export class DataAccessRepository {
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
       Skill5.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg";
-      Skill5.description=`Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016. 
-                          It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application, 
-                          desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications 
+      Skill5.description=`Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016.
+                          It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application,
+                          desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications
                           are based on Kotlin. Some companies using Kotlin as their programming language include Coursera, Pinterest, PostMates among many others.`;
       Skill5.skillsNeeded=`Prior experience with programming languages, particularly Java`;
       Skill5.benefits=` Less code-heavy than Java and other languages
@@ -4402,7 +4404,7 @@ export class DataAccessRepository {
       Skill6.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg";
       Skill6.description=`PHP is an open-source programming language created in 1990. Many web developers find it essential to learn PHP, as this language is used to build more than 80% of websites on the
                           Internet, including notable sites like Facebook and Yahoo. Programmers mainly use PHP mainly to write server-side scripts. But developers can also use this language to write command-line scripts, and
-                          programmers with high-level PHP coding skills can also use it to develop desktop applications. 
+                          programmers with high-level PHP coding skills can also use it to develop desktop applications.
                           PHP is considered a relatively easy language to learn for beginning developers. PHP professionals have access to several dedicated online communities, making it easy to get support and answers to questions.`;
       Skill6.skillsNeeded=" Simple if you have a background in programming languages, but relatively easy to learn for newcomers";
       Skill6.benefits=` Open-source
