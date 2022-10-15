@@ -64,7 +64,7 @@ mat-grid-tile {
 
 .alignLeft{
   display: flex;
-  justify-content: left; /* align horizontal */
+  justify-content: center; /* align horizontal */
 }
 
 .left{
@@ -74,7 +74,7 @@ mat-grid-tile {
 }
 
 hr{
-  width: 90%;
+  //idth: 90%;
 }
 
 .inline{
@@ -86,8 +86,7 @@ hr{
   margin: auto;
   text-align: center;
   width:65%;
-  //min-width: fit-content;
-  height: 35em;
+  height: 45em;
   box-shadow: 0px 0px 10px black;
 }
 
@@ -96,16 +95,44 @@ mat-grid-tile {
 }
 .mid{
   margin-top: 2%;
+  margin-left:2%;
    float: left;
    width: 95%;
-   height: 70%;
+   height: 50%;
    overflow-y: auto;
 
    p{
     font-size:16px;
    }
+
  }
- 
+ .skillsNeeded{
+  //position: relative;
+  display:grid;
+  grid-column-gap: 2px; 
+  align-items: start; 
+  justify-content: left;
+  column-width: fit-content;
+  grid-auto-columns: repeat(2, 1fr); 
+
+  #justifyBenefits{
+   //display: flex;
+    align-content: left;
+    justify-content: left;
+  }
+
+  .title2{
+    display: inline-flex;
+    align-content: right;
+    justify-content: right;
+  }
+}
+
+
+#benefits{
+  white-space: pre-line;
+}
+
  .list{
    float: left;
    width: 90%;

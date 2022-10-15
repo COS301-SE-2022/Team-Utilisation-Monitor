@@ -1,5 +1,5 @@
 <mat-sidenav-container color="primary">
-    <mat-sidenav #sidenav mode="side" [(opened)]="boolshow" opened>
+    <mat-sidenav (window:resize)="onResize($event)" #sidenav [mode]="sideNavMode" [(opened)]="boolshow" opened>
         <team-utilisation-monitor-comp-navbar></team-utilisation-monitor-comp-navbar>
     </mat-sidenav>
 
@@ -7,67 +7,61 @@
         <!-- boolshow is a var used for toggeling navbar open and closed -->
         <team-utilisation-monitor-comp-admin-topnav [state]="boolshow"  (toggle)="boolshow=$event"></team-utilisation-monitor-comp-admin-topnav>
 
-        <mat-card>
-            <mat-card-title>Owner</mat-card-title>
-            <team-utilisation-monitor-comp-owner-individual [IndivName]="OutOwnerName"></team-utilisation-monitor-comp-owner-individual>
-        </mat-card>
-
         <mat-accordion multi>
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+            <mat-expansion-panel expanded>
                 <mat-expansion-panel-header><mat-panel-title>
                         Admins
                 </mat-panel-title></mat-expansion-panel-header>
 
-                <mat-card-content *ngFor="let admin of OutAdminNames" >
-                    <mat-card class="Mat-Individual">
-                        <mat-card-content class="InvdividualBox">
-                                <p class="InvdividualName">{{admin.Name}} {{admin.Surname}}<span id="emailText"> {{admin.Email}} </span></p>
-                                <span class="example-spacer"></span>
-                                <form class="hours-form" [formGroup]="AssignHoursForm">
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <input id="hours_value" type="number" min="10" max="200" matInput placeholder="{{admin.WeeklyHours}}" matTooltip="Total Hours per week" formControlName="weeklyHours">
+                <form [formGroup]="AssignHoursFormForAdmins">
+                    <mat-card-content [formArrayName]="'assignHoursArrayAdmin'">
+                        <mat-card class="Mat-Individual" *ngFor="let admin of OutAdminNames; index as i" >
+                            <mat-card-content class="InvdividualBox" [formGroupName]="i">
+                                    <p class="InvdividualName">{{admin.Name}} {{admin.Surname}}<span id="emailText"> {{admin.Email}} </span></p>
+                                    <span class="example-spacer"></span>
+                                    
+                                    <mat-form-field class="mat-form-assignHours" appearance="fill">
+                                        <input id="{{admin.Email}}" value="{{admin.WeeklyHours}}" formControlName="hours"  type="number" min="10" max="200" matInput placeholder="{{admin.WeeklyHours}}" matTooltip="Total Hours per week">
                                     </mat-form-field>
-                                    <button class="InvdividualButton" (click)="updateWeeklyHours(admin.Email)" type="submit" mat-raised-button color="primary" matTooltip="Submit Hours"><mat-icon>done</mat-icon></button>
-                                </form>
-                                <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(admin.Email)" matTooltip="Remove Employee form Company">
-                                    <mat-icon>delete_forever</mat-icon>
-                                </button>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-card-content>
+                                    <button class="InvdividualButton" (click)="updateWeeklyHoursForAdmin(admin.Email,i)" type="submit" mat-raised-button color="primary" matTooltip="Submit Hours" [(ngModel)]="hours" [ngModelOptions]="{standalone: true}" ><mat-icon>done</mat-icon></button>
+    
+                                    <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(admin.Email)" matTooltip="Remove Employee form Company">
+                                        <mat-icon>delete_forever</mat-icon>
+                                    </button>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </form>
 
             </mat-expansion-panel>
 
-            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" expanded>
+            <mat-expansion-panel expanded>
                 <mat-expansion-panel-header><mat-panel-title>
                         Employees
                 </mat-panel-title></mat-expansion-panel-header>
                 
-                <mat-card-content *ngFor="let employee of OutEmployeeName" >
-                    <mat-card class="Mat-Individual">
-                        <mat-card-content class="InvdividualBox">
+                
+                <form [formGroup]="AssignHoursForm" >
+                    <mat-card-content [formArrayName]="'assignHoursArray'">
+                        <mat-card class="Mat-Individual" *ngFor="let employee of OutEmployeeName; index as i">
+                            <mat-card-content class="InvdividualBox" [formGroupName]="i">
                                 <p class="InvdividualName">{{employee.Name}} {{employee.Surname}}<span id="emailText"> {{employee.Email}} </span></p>
                                 <span class="example-spacer"></span>
-                                <form class="hours-form" [formGroup]="AssignHoursForm">
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <input id="hours_value" type="number" min="10" max="200" matInput placeholder="{{employee.WeeklyHours}}" matTooltip="Total Hours per week" formControlName="weeklyHours">
-                                    </mat-form-field>
-                                    <button class="InvdividualButton" (click)="updateWeeklyHours(employee.Email)" type="submit" mat-raised-button color="primary" matTooltip="Submit Hours"><mat-icon>done</mat-icon></button>
-                                </form>
-                                <!-- to be implemented in sprint 4 -->
-                                <!-- <button mat-button class="InvdividualButton" [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-                                    <mat-menu #menu="matMenu">
-                                        <button mat-menu-item>{{menueOption}}</button>
-                                    </mat-menu> -->
+                                        
+                                <mat-form-field class="mat-form-assignHours" appearance="fill">
+                                    <input id="{{employee.Email}}" value="{{employee.WeeklyHours}}" type="number" formControlName="hours" min="10" max="200" matInput placeholder="{{employee.WeeklyHours}}" matTooltip="Total Hours per week">
+                                </mat-form-field>
+                                <button class="InvdividualButton" (click)="updateWeeklyHours(employee.Email,i)" type="submit" mat-raised-button color="primary" matTooltip="Submit Hours" [(ngModel)]="hours" [ngModelOptions]="{standalone: true}"><mat-icon>done</mat-icon></button>
+        
                                 <button mat-raised-button class="InvdividualButton" color="warn" (click)="DeleteEmployee(employee.Email)" matTooltip="Remove Employee form Company">
-                                    <mat-icon>delete_forever</mat-icon>
+                                <mat-icon>delete_forever</mat-icon>
                                 </button>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-card-content>
-
-
-
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </form>
+                
+                
             </mat-expansion-panel>
         </mat-accordion>
     </mat-sidenav-content>

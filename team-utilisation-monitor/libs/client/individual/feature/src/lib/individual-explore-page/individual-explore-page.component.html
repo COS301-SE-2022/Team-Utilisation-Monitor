@@ -24,26 +24,43 @@
       </mat-card-header>
       <mat-card-content class="left">
           <div class="inline" *ngFor ="let recSkill of trendingSkills; index as NoOfskills">
-            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=5">
-              <mat-card-header class="alignLeft">
-                <mat-card-title class="alignLeft">
-                  
-            <img src={{recSkill.icon}}/>
-          
-            {{recSkill.name}}</mat-card-title>
-                <mat-card-subtitle style="align-content:left">{{recSkill.type}}</mat-card-subtitle>
+            <mat-card class="mat-card1" id="size" *ngIf="NoOfskills<=4">
+              <mat-card-header class="center">
+                <mat-card-title class="center">
+                  {{recSkill.name}} <br>
+                </mat-card-title>
+               
+                <mat-card-subtitle>
+                  <img class ="center" src={{recSkill.icon}} alt="an image of {{recSkill.name}}"/><br> {{recSkill.type}}</mat-card-subtitle>
               </mat-card-header>
           
-              <mat-card-content class="mid">
+              <mat-card-content class="mid" >
                 <p>
                   {{recSkill.description}}
                 </p>
                 <br>
-                <li>Skills needed:  {{recSkill.skillsNeeded}}</li>
-
-                <p>
-                  {{recSkill.benefits}}
-                </p>
+                <div class="skillsNeeded">
+                  <div class="title2">
+                    <h3 class="sub">Level: &nbsp; </h3>
+                    <h3 > {{recSkill.level}}</h3>
+                  </div>
+                    
+                </div>
+                <div class="skillsNeeded" id="benefits">
+                  <div class="title2" id="justifyBenefits">
+                    <h3 class="sub">Benefits: &nbsp; </h3>
+                  <h3 id="justifyBenefits"> {{recSkill.benefits}}</h3>
+                  </div>
+                  
+              </div>
+              <div class="skillsNeeded">
+                <div class="title2">
+                  <h3 class="sub">Skills needed: &nbsp; </h3>
+                <h3> {{recSkill.skillsNeeded}}</h3>
+                </div>
+                
+            </div>
+                
               </mat-card-content>
               <mat-card-footer class="card-footer">
                 <button mat-raised-button color="primary">UpSkill</button>

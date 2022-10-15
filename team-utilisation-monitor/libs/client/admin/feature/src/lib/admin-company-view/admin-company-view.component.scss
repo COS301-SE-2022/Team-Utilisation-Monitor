@@ -12,6 +12,7 @@ mat-sidenav-content{
 
 mat-sidenav{
 	width: 25%;
+	max-width: 350px;
 }
 
 button{
@@ -31,6 +32,10 @@ mat-panel-title{
 
 mat-expansion-panel{
 	margin: 16px;
+}
+
+mat-accordion{
+    margin: 16px;
 }
 
 .example-spacer {
@@ -86,6 +91,11 @@ mat-icon{
 	width: 140px;
 }
 
+.mat-form-assignHours{
+	font-size: 5px;
+	width: 55px;
+}
+
 .example-full-width{
 	width: 50%;
 }
@@ -93,4 +103,10 @@ mat-icon{
 input{
 	font-size: 15px;
 	width: 100%;
+}
+
+@media (max-width: 1325px) {
+	mat-sidenav{
+		width: 350px;
+	}
 }

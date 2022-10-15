@@ -17,7 +17,7 @@ export class DataAccessRepository {
 
     async returnObject(id:number,name:string,surname:string,email:string,suspended:boolean,role:string,company:string,position:string,company_id:number)
     {
-        const user_person=new UserPerson();
+        const user_person = new UserPerson();
 
         user_person.id=id;
         user_person.name=name;
@@ -39,6 +39,7 @@ export class DataAccessRepository {
 
     }
 
+    //Pushed to main!
     async returnCompanyObject(id:number,company_name:string,admims:UserPerson[],employees:UserPerson[],projects:ProjectEntity[],teams:TeamEntity[],invite_code:string)
     {
         const user_company=new UserCompany();
@@ -1276,7 +1277,7 @@ export class DataAccessRepository {
             include:{
                 positions:true,
                 company:true,
-                project:true
+                project:true,
             }
         })
 
@@ -1288,7 +1289,8 @@ export class DataAccessRepository {
         ReturnPerson.approved=person.approved;
         ReturnPerson.company_name=person.company.company_name;
         ReturnPerson.role=person.role;
-        ReturnPerson.utilisation=person.utilisation
+        ReturnPerson.utilisation=person.utilisation;
+
 
         return ReturnPerson;
 
@@ -4310,20 +4312,23 @@ export class DataAccessRepository {
       Skill1.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
     
       Skill1.description=
-      `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites. 
+      `JavaScript is a high-level programming language that is one of the core technologies of the World Wide Web. It is used as a client-side programming language by 97.8 percent of all websites.
       JavaScript was originally used only to develop web browsers, but they are now used for server-side website deployments and non-web browser applications as well
       Javascript was created in 1995 and was initially known as LiveScript. However, Java was a very popular language at that time, so it was advertised as a “younger brother” of Java
       As it evolved over time, JavaScript became a fully independent language. 
                             Nowadays, JavaScript is often confused with Java, and although there are some similarities between them, the two languages are distinct.`;
-      Skill1.skillsNeeded="HTML and CSS to define the content and layout of web pages";
-      Skill1.type="Programming language";
-      Skill1.level="Beginner to Intermediate";
-      Skill1.benefits=` 1. Easy to learn and implement\n2. Used everywhere on the web 3. Can run immediately within the client-side browser 4. Reduces the demand on the website server`;
+      Skill1.skillsNeeded=" HTML and CSS to define the content and layout of web pages";
+      Skill1.type=" Programming language";
+      Skill1.level=" Beginner to Intermediate";
+      Skill1.benefits=` 1. Easy to learn and implement
+                        2. Used everywhere on the web 
+                        3. Can run immediately within the client-side browser 
+                        4. Reduces the demand on the website server`;
 
 
       let Skill2=new trendingSkill();
       Skill2.name="Python";
-      Skill2.icon=" https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
+      Skill2.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg";
     
     
       Skill2.description=`Python is one of the most popular programming languages today and is easy for beginners to learn because of its readability. It is a free, open-source programming language
@@ -4333,11 +4338,11 @@ export class DataAccessRepository {
                           including Civilization IV, Vegas Trike, and Toontown. Python is used for scientific and computational applications like FreeCAD and Abacus and by popular websites like YouTube, Quora, Pinterest,
                           and Instagram. Python developers earn`;
       Skill2.benefits=` 1. Flexible
-                      \n 2. Naturally/Intuitively readable
-                      \n 3. Highly regarded official tutorials and documentation
-                      \n 4. Scripted as opposed to compiled`;
-      Skill2.level="Beginner";
-      Skill2.skillsNeeded="Problem-solving, abstract thinking";
+                        2. Naturally/Intuitively readable
+                        3. Highly regarded official tutorials and documentation
+                        4. Scripted as opposed to compiled`;
+      Skill2.level=" Beginner";
+      Skill2.skillsNeeded=" Problem-solving, abstract thinking";
       Skill2.type="Programming language";
 
 
@@ -4345,18 +4350,18 @@ export class DataAccessRepository {
       Skill3.name="Go";
       Skill3.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg";
     
-      Skill3.description=`Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
+      Skill3.description=` Go was developed by Google in 2007 for APIs and web applications. Go has recently become one of the fastest-growing programming languages due to its simplicity, as well as its ability to handle multicore 
                           and networked systems and massive codebases.
                           \n Go, also known as Golang, was created to meet the needs of programmers working on large projects. It has gained popularity among many large IT companies thanks to its simple and modern structure and syntax familiarity.
                           \n Companies using Go as their programming language include Google, Uber, Twitch, Dropbox, among many others. Go is also gaining in popularity among data scientists because of its agility and performance.`;
-      Skill3.benefits= `1. Widely considered a “minimalist” language
+      Skill3.benefits=` 1.Widely considered a “minimalist” language
                        2. Easy to learn
-                      \n 3. Transparent code
-                      \n 4. Compatible
-                      \n 5. Fast`
-      Skill3.skillsNeeded="At least one other programming language; ";
-      Skill3.type="programming language";
-      Skill3.level="Beginner to intermediate";
+                       3. Transparent code
+                       4. Compatible
+                       5. Fast`
+      Skill3.skillsNeeded=" At least one other programming language; ";
+      Skill3.type=" programming language";
+      Skill3.level=" Beginner to intermediate";
       
 
       let Skill4=new trendingSkill();
@@ -4369,26 +4374,43 @@ export class DataAccessRepository {
                           \n Java is widely used in web and application development as well as big data. Java is also used on the backend of several popular websites, including Google, Amazon, Twitter, and YouTube. It is also extensively used in 
                           \n hundreds of applications. New Java frameworks like Spring, Struts, and Hibernate are also very popular. With millions of Java developers worldwide, there are hundreds of ways to learn Java. Also, Java programmers have an
                         \n  extensive online community and support each other to solve problems.`;
-      Skill4.skillsNeeded="Problem-solving, knowledge of the object-oriented structure";
+      Skill4.skillsNeeded=" Problem-solving, knowledge of the object-oriented structure";
       Skill4.benefits=` 1. Widely considered a “minimalist” language "
-                        \n 2. Easy to learn
-                        \n 3. Transparent code
-                        \n 4. Compatible
-                        \n 5. Fast`
-      Skill4.level="Intermediate";
+                        2. Easy to learn
+                        3. Transparent code
+                        4. Compatible
+                        5. Fast`
+      Skill4.level=" Intermediate";
       Skill4.type="programming language";
 
       let Skill5=new trendingSkill();
       Skill5.name="Kotlin";
-      Skill5.description=" ";
-      Skill5.skillsNeeded="python";
+      Skill5.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg";
+      Skill5.description=`Kotlin is a general-purpose programming language originally developed and unveiled as Project Kotlin by JetBrains in 2011. The first version was officially released in 2016. 
+                          It is interoperable with Java and supports functional programming languages. Kotlin is used extensively for Android apps, web application, 
+                          desktop application, and server-side application development. Kotlin was built to be better than Java, and people who use this language are convinced. Most of the Google applications 
+                          are based on Kotlin. Some companies using Kotlin as their programming language include Coursera, Pinterest, PostMates among many others.`;
+      Skill5.skillsNeeded=`Prior experience with programming languages, particularly Java`;
+      Skill5.benefits=` Less code-heavy than Java and other languages
+                        Relatively easy to adopt
+                        Fully compatible with Java`;
+      Skill5.level=" Intermediate to advanced";
       Skill5.type="programming language";
 
       let Skill6=new trendingSkill();
       Skill6.name="PHP";
-      Skill6.description=" ";
-      Skill6.skillsNeeded=" ";
-      Skill6.type="programming language";
+      Skill6.icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg";
+      Skill6.description=`PHP is an open-source programming language created in 1990. Many web developers find it essential to learn PHP, as this language is used to build more than 80% of websites on the
+                          Internet, including notable sites like Facebook and Yahoo. Programmers mainly use PHP mainly to write server-side scripts. But developers can also use this language to write command-line scripts, and
+                          programmers with high-level PHP coding skills can also use it to develop desktop applications. 
+                          PHP is considered a relatively easy language to learn for beginning developers. PHP professionals have access to several dedicated online communities, making it easy to get support and answers to questions.`;
+      Skill6.skillsNeeded=" Simple if you have a background in programming languages, but relatively easy to learn for newcomers";
+      Skill6.benefits=` Open-source
+                      Easy to develop and may be integrated with many different tools
+                       Cost effective
+                        Flexible with database connectivity`;
+      Skill6.level=" Beginner to intermediate";
+      Skill6.type=" server side programming language";
 
 
 
