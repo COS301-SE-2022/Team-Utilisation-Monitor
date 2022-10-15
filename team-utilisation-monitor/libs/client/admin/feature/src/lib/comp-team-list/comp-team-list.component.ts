@@ -247,7 +247,7 @@ export class CompTeamListComponent implements OnInit {
   }
 
   RemoveTeam(teamToDelete:string){
-    //console.log(teamToDelete);
+    console.log(teamToDelete);
 
     this.service.deleteTeam(teamToDelete).subscribe(Data=>{
       console.log(teamToDelete);
