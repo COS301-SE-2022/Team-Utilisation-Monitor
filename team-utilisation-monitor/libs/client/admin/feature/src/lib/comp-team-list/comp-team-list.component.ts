@@ -12,6 +12,7 @@ import { RemoveTeamMember } from '../actions/mutate-remove-team-member.action';
 import { AddPositionState } from '../states/positions.state';
 import { Position } from '../models/admin-positions';
 import { RemovePosition } from '../actions/mutate-remove-position.action';
+import { RemoveTeam } from '../actions/mutate-remove-team.action';
 
 
 @Component({
@@ -250,7 +251,9 @@ export class CompTeamListComponent implements OnInit {
     console.log(teamToDelete);
 
     this.service.deleteTeam(teamToDelete).subscribe(Data=>{
-      console.log(teamToDelete);
+      //console.log(teamToDelete);
+
+      this.store.dispatch(new RemoveTeam({teamName:teamToDelete}));
 
       this.snackBar.open(teamToDelete +" has been removed from Teams")
       setTimeout(() => {
