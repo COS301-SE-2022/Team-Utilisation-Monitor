@@ -58,7 +58,12 @@ export class CompEmployeeIndividualComponent implements OnInit {
   {
     console.log(this.IndivName.Email);
     this.service.DeleteEmployee(email).subscribe(data=>{
-      alert(data.data.DeleteEmployee.name+" Removed from Company")
+
+      this.snackBar.open(data.data.DeleteEmployee.name+" Removed from Company")
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000)
+
     })
   }
 }
