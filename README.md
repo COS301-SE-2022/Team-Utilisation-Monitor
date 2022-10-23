@@ -82,7 +82,6 @@ Team utilisation monitor is an application that is used by administractors, or e
    - [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
    - [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
    - [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
-   - [Project management sprint1-4 discussion]
    - [Project Day Recording]
    - [Agile Process Adaption]
    - [SlideShow Summary]
