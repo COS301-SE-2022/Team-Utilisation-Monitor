@@ -74,6 +74,16 @@ Team utilisation monitor is an application that is used by administractors, or e
    -  [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
    -  [Project management sprint1-4 discussion]
    -  [Demo4 Pre-recording](https://drive.google.com/file/d/11fi3z3pXxCayBU4btOb1mI-KaWpZtszA/view?usp=sharing)
+   
+  #### Project Day
+   - [SRS Document final Version]
+   - [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
+   - [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing)
+   - [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
+   - [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
+   - [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
+   - [Project management sprint1-4 discussion]
+   - [Project Day Recording]
  
 
 <br>
