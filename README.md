@@ -42,52 +42,29 @@ Team utilisation monitor is an application that is used by administractors, or e
     
   
   #### Demo 1
-   -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf)
-   -   [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
-   -   [UI styled wireframe](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
+   -   [SRS Document Version 1](https://github.com/COS301-SE-2022/Team-Utilisation-Monitor/files/8683300/SRS.Document.V1.pdf) , [UI wireframe 1](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen) , [UI styled wireframe](https://xd.adobe.com/view/6e734af3-e9d6-4ab2-a94e-75f5821e9493-3b20/?fullscreen)
    -   [Demo1 video recording](https://drive.google.com/file/d/1RDZqKCu0oadAT7twVWJCBKLRoV0swMoo/view?usp=sharing)
   
   #### Demo 2
-   -  [SRS Document Version 2](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
-   -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
-   -  [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing)
-   -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
-   -  [Demo2 Pre-recording](https://drive.google.com/drive/u/2/folders/1pbA7qawV8k3V_pRlKZQ4F-XXfbLoiQis)
-   -  [Demo2 Live recording Here](https://drive.google.com/file/d/16UQkF0CtczHJZBEDU6JPxUwxIJnv859G/view?usp=sharing)
+   -  [SRS Document Version 2](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing) , [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing) , [User Manual](https://docs.google.com/document/d/1ELhiopoBABJzM40uTHuurwfC1B90BWjGLtQKRSedMQw/edit?usp=sharing), [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
+   -  [Demo2 Pre-recording](https://drive.google.com/drive/u/2/folders/1pbA7qawV8k3V_pRlKZQ4F-XXfbLoiQis), [Demo2 Live recording Here](https://drive.google.com/file/d/16UQkF0CtczHJZBEDU6JPxUwxIJnv859G/view?usp=sharing)
   
   
   #### Demo 3
-   -  [SRS Document Version 3](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing)
-   -  [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing)
-   -  [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing)
-   -  [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing)
-   -  [Technical Installation Manual](https://drive.google.com/file/d/1ToJeSZ2FJpKiKMqDycP5YFYvI7xXfBAD/view?usp=sharing)
-   -  [Demo3 Pre-recording](https://drive.google.com/file/d/1uNaPcGjhigiGBMak7FmE-4eKE8qYfLdr/view?usp=sharing)
-   -  [Demo3 Live recording Here]
+   -  [SRS Document Version 3](https://docs.google.com/document/d/1qziLfMdrk4VatidfoaDBBOwq6CvoaYXD0Wte4zY6O3g/edit?usp=sharing), [Architectural Requirements](https://docs.google.com/document/d/1xV9gZ5y9Ct9hHGoVjHCUG4ceb6t7wGcK-sygAzF3Jo4/edit?usp=sharing), [User Manual](https://docs.google.com/document/d/1JJWapqA3quRlBD_raNVpAJdCT08eg7afxxKUkqu3taw/edit?usp=sharing), [Coding Standard](https://docs.google.com/document/d/1Pshn27RrBNfauVTaAzfomOKP-7Fdt1zXmtBu8nctnMs/edit?usp=sharing), [Technical Installation Manual](https://drive.google.com/file/d/1ToJeSZ2FJpKiKMqDycP5YFYvI7xXfBAD/view?usp=sharing)
+   -  [Demo3 Pre-recording](https://drive.google.com/file/d/1uNaPcGjhigiGBMak7FmE-4eKE8qYfLdr/view?usp=sharing), [Demo3 Live recording Here]
     
   #### Demo 4
-   -  [SRS Document Version 4](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing)
-   -  [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
-   -  [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing)
-   -  [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
-   -  [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
-   -  [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
-   -  [Project management sprint1-4 discussion]
+   -  [SRS Document Version 4](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing), [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing), [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing), [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing), [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing), [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
    -  [Demo4 Pre-recording](https://drive.google.com/file/d/11fi3z3pXxCayBU4btOb1mI-KaWpZtszA/view?usp=sharing)
    
   #### Project Day
-   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing)
-   - [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
-   - [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing)
-   - [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
-   - [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
-   - [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
-   - [Project Day Recording](https://drive.google.com/file/d/1GsEydNjhkfueuy8AQYpIGKvxJfrOQdKA/view?usp=sharing)
+   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing), [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing), [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing), [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing), [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing), [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
+   - [Project Day Recording | Advertisement video](https://drive.google.com/file/d/1GsEydNjhkfueuy8AQYpIGKvxJfrOQdKA/view?usp=sharing)
    - [Agile Process Adaption video prize](https://drive.google.com/file/d/1Hasutl2oN6FqJfDOL5SiLI0IaTOg29ne/view?usp=sharing)
    - [Architectural Awareness video prize](https://drive.google.com/file/d/1Y-V-rpu93bLhMywuCN4iiZAWBLubva5G/view?usp=sharing)
    - [Fit for Purpose video prize](https://drive.google.com/file/d/1MiYUqfIIngCbamm9rmIvj3oNUcYJXt0c/view?usp=sharing)
    - [SlideShow Summary](https://docs.google.com/presentation/d/1euXBakfXCjX11Bnb-g0mlB30V2mPo7T1/edit?usp=sharing&ouid=114446962823002132172&rtpof=true&sd=true)
-   - [Video Advertisement]
    
 
  
