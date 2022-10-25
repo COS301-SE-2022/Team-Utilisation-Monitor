@@ -59,15 +59,20 @@ Team utilisation monitor is an application that is used by administractors, or e
    -  [Demo4 Pre-recording](https://drive.google.com/file/d/11fi3z3pXxCayBU4btOb1mI-KaWpZtszA/view?usp=sharing)
    
   #### Project Day
-   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing), [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing), [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing), [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing), [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing), [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
-   - [Project Day Recording | Advertisement video](https://drive.google.com/file/d/1GsEydNjhkfueuy8AQYpIGKvxJfrOQdKA/view?usp=sharing)
+   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing),  
+   - [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
+   - [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
+   - [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
+   - [User Manual](https://drive.google.com/file/d/1n3SYxL7qwJ2XAjlprhIiM3Qgd9ZCw0Wh/view?usp=sharing)
+   - [Project Day Recording](https://drive.google.com/file/d/1GsEydNjhkfueuy8AQYpIGKvxJfrOQdKA/view?usp=sharing)
+   - [SlideShow Summary](https://docs.google.com/presentation/d/1euXBakfXCjX11Bnb-g0mlB30V2mPo7T1/edit?usp=sharing&ouid=114446962823002132172&rtpof=true&sd=true)
+   - [Advertisement Video](https://drive.google.com/file/d/1R4UDJwP5kgje9CoDXhe6N3GlIuNOH8g_/view?usp=sharing)
+   - [Technical Installation Manual](https://drive.google.com/file/d/1XKYe5bpiBdsk98eGkd3lZsVyknOzTuB8/view?usp=sharing)
+   
    - [Agile Process Adaption video prize](https://drive.google.com/file/d/1Hasutl2oN6FqJfDOL5SiLI0IaTOg29ne/view?usp=sharing)
    - [Architectural Awareness video prize](https://drive.google.com/file/d/1Y-V-rpu93bLhMywuCN4iiZAWBLubva5G/view?usp=sharing)
    - [Fit for Purpose video prize](https://drive.google.com/file/d/1MiYUqfIIngCbamm9rmIvj3oNUcYJXt0c/view?usp=sharing)
-   - [SlideShow Summary](https://docs.google.com/presentation/d/1euXBakfXCjX11Bnb-g0mlB30V2mPo7T1/edit?usp=sharing&ouid=114446962823002132172&rtpof=true&sd=true)
-   
-
- 
+  
 
 <br>
 
