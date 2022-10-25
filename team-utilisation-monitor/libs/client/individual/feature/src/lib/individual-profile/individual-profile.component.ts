@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { IndividualService } from '../Individual.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-profile',
@@ -24,7 +25,7 @@ export class IndividualProfileComponent implements OnInit {
     }
   );
 
-  constructor(private readonly cookies:CookieService,private readonly service:IndividualService){}
+  constructor(private readonly cookies:CookieService,private readonly service:IndividualService,private readonly snackbar:MatSnackBar){}
 
   events: string[] = [];
   opened = true;
@@ -68,7 +69,10 @@ export class IndividualProfileComponent implements OnInit {
             this.team=item.data.getOnePerson.team_name;
         }
         else{
-          alert("Something went wrong. Failed to load content");
+          this.snackbar.open("Something went wrong. Failed to load content");
+          setTimeout(() => {
+          this.snackbar.dismiss();
+          }, 5000)
         }
       },
       error: (err) => { console.log(err); }
@@ -167,7 +171,11 @@ export class IndividualProfileComponent implements OnInit {
     for(let i=0;i<this.selectedSkill.length;++i) {
       this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
        {
-             alert(Result.data.UpdateUserSkill)
+          this.snackbar.open("Successfully updated skill(s)");
+          setTimeout(() => {
+          this.snackbar.dismiss();
+          }, 4000)
+
         });
      }
   }
