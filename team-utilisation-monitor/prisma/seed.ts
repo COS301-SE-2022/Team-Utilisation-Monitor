@@ -224,7 +224,7 @@ async function main()
       id:10 //change the id here to add the id of the target person
     }
   })
-
+/*
   const addHistoric11=await prisma.person.update({
     data:{
       utilisations:{
