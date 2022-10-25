@@ -116,7 +116,7 @@ Team utilisation monitor is an application that is used by administractors, or e
 </details>
    
   #### Project Day
-   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing),  
+   - [SRS Document final Version](https://drive.google.com/file/d/1K_6hd6BurE7Lsva04qHjYquaR8_0ar5B/view?usp=sharing)
    - [Architectural Requirements](https://drive.google.com/file/d/1eg4046zOxOtjMIhE0nood6IMuHeHV0IB/view?usp=sharing)
    - [Coding Standard](https://drive.google.com/file/d/1Ojf1Rfr_uMArl-BVFpXOO5bvHMD1fnmK/view?usp=sharing)
    - [Testing Policy](https://drive.google.com/file/d/1eRXzHZwvRdprWGTmaJSWvl2qZpVMPG6-/view?usp=sharing)
