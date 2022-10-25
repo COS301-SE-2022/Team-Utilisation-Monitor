@@ -131,7 +131,7 @@ export class IndividualProfileComponent implements OnInit {
     console.log()
   }
   onGroupsChange(f_selectedSkills: string[]) {
-    console.log(f_selectedSkills);
+    //console.log(f_selectedSkills);
   }
 
   UpdateProfile()
@@ -140,30 +140,26 @@ export class IndividualProfileComponent implements OnInit {
     const last_name=this.profileForm.get("last_name")?.value!;
 
     if(first_name=="" && last_name !==""){
-      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
-      {
-        console.log(Result.data)
+      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
     
     if(last_name=="" && first_name !==""){
-      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
-      {
-        console.log(Result.data)
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
 
     if(first_name=="" && last_name==""){
-      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
-        {
-          console.log(Result.data)
-        })
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>{
+          //console.log(Result.data)
+      })
     }
 
     if( first_name!="" && last_name!=""){
-      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
-      {
-        console.log(Result.data)
+      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
 
