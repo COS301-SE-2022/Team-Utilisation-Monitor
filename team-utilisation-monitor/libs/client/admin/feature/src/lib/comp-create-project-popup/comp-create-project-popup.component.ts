@@ -75,8 +75,7 @@ export class CompCreateProjectPopupComponent implements OnInit {
 
       this.adminService.getSkills().subscribe(data=>{
         //
-        for(const request of data.data.GetSkill)
-        {
+        for(const request of data.data.GetSkill){
           this.SkillsList.push(request.skill)
         }
       })
@@ -106,15 +105,14 @@ export class CompCreateProjectPopupComponent implements OnInit {
       this.adminService.createProject(projectName,this.companyName,"null",Number(projectHours)).subscribe(
         data1=>{
 
+          //add the project to the ngxs AddProjectState
+          this.store.dispatch(new AddProject({projectName:projectName,manHours:Number(projectHours)}));
+
           this.snackBar.open("Project "+projectName+" has been created ")
           setTimeout(() => {this.snackBar.dismiss();}, 5000)
 
-        this.AddTeamToProject(0,projectName); //Recursive call
-
+          this.AddTeamToProject(0,projectName); //Recursive call
       })
-
-
-
     }
   }
 
@@ -125,26 +123,21 @@ export class CompCreateProjectPopupComponent implements OnInit {
     {
       this.adminService.assignProjectToTeams(this.selectedTeams[i],projectName).subscribe(
         data2=>{
+          this.AddTeamToProject(++i,projectName);
+          if(i==0)
+          {
+            const projectHours=this.projectForm.get('manHours')?.value!;
+            this.adminService.CalculateUtilization(projectName).subscribe(Data=>{
+              this.snackBar.open(Data.data.CalculateUtilization)
+              setTimeout(() => {this.snackBar.dismiss();}, 5000)
 
-            this.AddTeamToProject(++i,projectName);
-            if(i==0)
-            {
-              const projectHours=this.projectForm.get('manHours')?.value!;
-              this.adminService.CalculateUtilization(projectName).subscribe(
-              Data=>{
-                this.snackBar.open(Data.data.CalculateUtilization)
-                setTimeout(() => {this.snackBar.dismiss();}, 5000)
-
-                this.adminService.getCompanyStats(this.companyName).subscribe(data2=>{
-                  console.log(data2.data.getCompanyStats.numProjects);
-                  this.store.dispatch(new IncreaseNumberOfProjects({value:data2.data.getCompanyStats.numProjects+1}));
-                })
-
-                //add the project to the ngxs AddProjectState
-                this.store.dispatch(new AddProject({projectName:projectName,manHours:Number(projectHours)}));
+              this.adminService.getCompanyStats(this.companyName).subscribe(data2=>{
+                console.log(data2.data.getCompanyStats.numProjects);
+                this.store.dispatch(new IncreaseNumberOfProjects({value:data2.data.getCompanyStats.numProjects+1}));
               })
-            }
-          });
+            })
+          }
+      });
     }
     else
     {
