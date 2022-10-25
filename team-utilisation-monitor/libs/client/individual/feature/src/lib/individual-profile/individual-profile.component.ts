@@ -139,22 +139,21 @@ export class IndividualProfileComponent implements OnInit {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
 
-    if(first_name=="" && last_name !=="")
-    {
+    if(first_name=="" && last_name !==""){
       this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-     if(last_name=="" && first_name !=="")
-    {
+    
+    if(last_name=="" && first_name !==""){
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
       {
         console.log(Result.data)
       })
     }
-   if(first_name=="" && last_name==""){
 
+    if(first_name=="" && last_name==""){
       this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
         {
           console.log(Result.data)
@@ -169,14 +168,14 @@ export class IndividualProfileComponent implements OnInit {
     }
 
     for(let i=0;i<this.selectedSkill.length;++i) {
-      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
-       {
-          this.snackbar.open("Successfully updated skill(s)");
-          setTimeout(() => {
-          this.snackbar.dismiss();
-          }, 4000)
-
-        });
+      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>{
+         //
+      });
      }
+
+    this.snackbar.open("Profile Update Successful. Added "+this.selectedSkill.length+" skill(s)");
+    setTimeout(() => {
+    this.snackbar.dismiss();
+    }, 4000) 
   }
 }
