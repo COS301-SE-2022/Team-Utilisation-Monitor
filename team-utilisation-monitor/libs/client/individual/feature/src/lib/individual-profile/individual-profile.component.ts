@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { IndividualService } from '../Individual.service';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'team-utilisation-monitor-individual-profile',
@@ -24,7 +25,7 @@ export class IndividualProfileComponent implements OnInit {
     }
   );
 
-  constructor(private readonly cookies:CookieService,private readonly service:IndividualService){}
+  constructor(private readonly cookies:CookieService,private readonly service:IndividualService,private readonly snackbar:MatSnackBar){}
 
   events: string[] = [];
   opened = true;
@@ -68,7 +69,10 @@ export class IndividualProfileComponent implements OnInit {
             this.team=item.data.getOnePerson.team_name;
         }
         else{
-          alert("Something went wrong. Failed to load content");
+          this.snackbar.open("Something went wrong. Failed to load content");
+          setTimeout(() => {
+          this.snackbar.dismiss();
+          }, 5000)
         }
       },
       error: (err) => { console.log(err); }
@@ -127,7 +131,7 @@ export class IndividualProfileComponent implements OnInit {
     console.log()
   }
   onGroupsChange(f_selectedSkills: string[]) {
-    console.log(f_selectedSkills);
+    //console.log(f_selectedSkills);
   }
 
   UpdateProfile()
@@ -135,40 +139,39 @@ export class IndividualProfileComponent implements OnInit {
     const first_name=this.profileForm.get('first_name')?.value!;
     const last_name=this.profileForm.get("last_name")?.value!;
 
-    if(first_name=="" && last_name !=="")
-    {
-      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>
-      {
-        console.log(Result.data)
+    if(first_name=="" && last_name !==""){
+      this.service.UpdateProfile(this.email,this.fName,last_name).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
-     if(last_name=="" && first_name !=="")
-    {
-      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
-      {
-        console.log(Result.data)
+    
+    if(last_name=="" && first_name !==""){
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
-   if(first_name=="" && last_name==""){
 
-      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>
-        {
-          console.log(Result.data)
-        })
+    if(first_name=="" && last_name==""){
+      this.service.UpdateProfile(this.email,this.fName,this.lastName).subscribe(Result=>{
+          //console.log(Result.data)
+      })
     }
 
     if( first_name!="" && last_name!=""){
-      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>
-      {
-        console.log(Result.data)
+      this.service.UpdateProfile(this.email,first_name,last_name).subscribe(Result=>{
+        //console.log(Result.data)
       })
     }
 
     for(let i=0;i<this.selectedSkill.length;++i) {
-      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>
-       {
-             alert(Result.data.UpdateUserSkill)
-        });
+      this.service.UpdateUserSkill(this.email,this.selectedSkill[i]).subscribe(Result=>{
+         //
+      });
      }
+
+    this.snackbar.open("Profile Update Successful. Added "+this.selectedSkill.length+" skill(s)");
+    setTimeout(() => {
+    this.snackbar.dismiss();
+    }, 4000) 
   }
 }
