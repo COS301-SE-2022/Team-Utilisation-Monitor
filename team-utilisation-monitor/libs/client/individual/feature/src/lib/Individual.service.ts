@@ -25,7 +25,7 @@ export class IndividualService {
       })
     }
 
-    const object= this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: query }), options);
+    const object= this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: query }), options);
 
     return object;
 
@@ -42,7 +42,7 @@ export class IndividualService {
       })
     }
     
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
 
   }
 
@@ -58,7 +58,7 @@ export class IndividualService {
       })
     }
 
-   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   getAllocatedProjects(email:string):Observable<any>
@@ -72,7 +72,7 @@ export class IndividualService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   getUserSkills(email:string):Observable<any>
@@ -86,7 +86,7 @@ export class IndividualService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   getUserStats(email:string):Observable<any>
@@ -101,7 +101,7 @@ export class IndividualService {
         'Content-Type': 'application/json'
       })
     }
-   return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+   return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
  
@@ -120,7 +120,7 @@ export class IndividualService {
       })
     }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   UpdateUserSkill(email:string,skill_name:string):Observable<any>
@@ -135,7 +135,7 @@ export class IndividualService {
       })
     }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   GetMonthlyUtilization(email:string):Observable<any>
@@ -150,7 +150,7 @@ export class IndividualService {
       })
     }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
   storeData(data:any)
@@ -195,7 +195,7 @@ export class IndividualService {
       })
     }
 
-    return this.client.post<any>('http://localhost:3333/graphql',JSON.stringify({ query: Query }), options);
+    return this.client.post<any>('http://ec2-3-84-217-153.compute-1.amazonaws.com:6517/graphql',JSON.stringify({ query: Query }), options);
   }
 
 

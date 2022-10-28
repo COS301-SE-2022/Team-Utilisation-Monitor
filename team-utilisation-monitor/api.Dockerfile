@@ -16,4 +16,4 @@ RUN yarn prisma generate
 
 RUN yarn build
 
-RUN yarn start api
+CMD yarn start api
